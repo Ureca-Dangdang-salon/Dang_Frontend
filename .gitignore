@@ -1,0 +1,52 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Build directories
+dist/
+build/
+out/
+
+# Temporary files
+.tmp/
+.temp/
+*.swp
+*.lock
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.*.local
+
+# Storybook build output
+storybook-static/
+
+# MacOS system files
+.DS_Store
+
+# Coverage reports
+coverage/
+
+# Prettier and ESLint caches
+*.cache/
+.vscode-test/
