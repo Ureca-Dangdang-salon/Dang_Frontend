@@ -1,7 +1,9 @@
 ---
 name: '🐞 Bug report'
-description: '버그가 생겼어요'
+about: '버그가 생겼어요'
 title: '🐞 '
+labels: []
+assignees: []
 ---
 
 ## 어떤 버그인가요?
