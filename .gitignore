@@ -50,3 +50,5 @@ coverage/
 # Prettier and ESLint caches
 *.cache/
 .vscode-test/
+
+*storybook.log
