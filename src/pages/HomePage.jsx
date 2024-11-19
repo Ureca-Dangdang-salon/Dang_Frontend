@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 
 const HomePage = () => {
+  const API_URL =
+    import.meta.env.MODE === 'production' ? 'http://3.36.131.224/api' : '/api';
+
   useEffect(() => {
     const testApi = async () => {
       try {
-        const response = await fetch(`/api/test`);
+        const response = await fetch(`${API_URL}/test`);
         const data = await response.json();
         console.log('API Response:', data);
       } catch (error) {
