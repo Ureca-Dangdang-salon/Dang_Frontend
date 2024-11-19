@@ -10,4 +10,12 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
     ],
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://3.36.131.224',
+        changeOrigin: true,
+      },
+    },
+  },
 });
