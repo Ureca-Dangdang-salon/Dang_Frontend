@@ -1,9 +1,7 @@
 ---
-name: "💡 Feature report"
-description: "해야 할 것이 생겼어요"
-title: "💡 "
-labels: []
-assignees: []
+name: '💡 Feature report'
+description: '해야 할 것이 생겼어요'
+title: '💡 '
 ---
 
 ## 어떤 기능인가요?
