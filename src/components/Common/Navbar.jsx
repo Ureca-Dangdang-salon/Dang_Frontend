@@ -10,10 +10,9 @@ export const Navbar = ({ page }) => (
   <footer>
     <Box
       sx={{
-        width: '100%',
+        width: '500px',
         position: 'fixed',
         bottom: 0,
-        px: 4,
       }}
     >
       <Box
@@ -22,6 +21,8 @@ export const Navbar = ({ page }) => (
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          boxShadow: '0px 0px 5px 0px rgba(51, 51, 51, 0.08)',
+          px: 3,
         }}
       >
         <Box
@@ -30,7 +31,7 @@ export const Navbar = ({ page }) => (
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          color={page == '홈' ? 'secondary.main' : 'n2.main'}
+          color={page == 'home' ? 'secondary.main' : 'n2.main'}
         >
           <HomeRoundedIcon fontSize="large" />
           <Typography fontSize={14} fontWeight={700}>
@@ -43,7 +44,7 @@ export const Navbar = ({ page }) => (
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          color={page == '콘테스트' ? 'secondary.main' : 'n2.main'}
+          color={page == 'contest' ? 'secondary.main' : 'n2.main'}
         >
           <EmojiEventsRoundedIcon fontSize="large" />
           <Typography fontSize={14} fontWeight={700}>
@@ -56,7 +57,7 @@ export const Navbar = ({ page }) => (
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          color={page == '견적요청' ? 'secondary.main' : 'n2.main'}
+          color={page == 'newrequest' ? 'secondary.main' : 'n2.main'}
         >
           <Box
             component="span"
@@ -82,7 +83,7 @@ export const Navbar = ({ page }) => (
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          color={page == '채팅' ? 'secondary.main' : 'n2.main'}
+          color={page == 'chat' ? 'secondary.main' : 'n2.main'}
         >
           <ChatRoundedIcon color="n2" fontSize="large" />
           <Typography fontSize={14} fontWeight={700}>
@@ -95,7 +96,7 @@ export const Navbar = ({ page }) => (
             flexDirection: 'column',
             alignItems: 'center',
           }}
-          color={page == '내 정보' ? 'secondary.main' : 'n2.main'}
+          color={page == 'mypage' ? 'secondary.main' : 'n2.main'}
         >
           <PersonRoundedIcon color="n2" fontSize="large" />
           <Typography fontSize={14} fontWeight={700}>

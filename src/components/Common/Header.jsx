@@ -6,9 +6,12 @@ import { IconButton, Badge } from '@mui/material';
 export const Header = ({ invisible }) => (
   <header>
     <div className="storybook-header" style={{ height: '80px' }}>
-      <img href="/" src="../headerLogo.png" width="150px" />
+      <a href="/home">
+        <img src="../headerLogo.png" width="150px" alt="header-logo" />
+      </a>
+
       <div>
-        <IconButton aria-label="notification" color="text">
+        <IconButton href="/notification" aria-label="notification" color="text">
           <Badge
             badgeContent={1}
             variant="dot"
