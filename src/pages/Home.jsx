@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header invisible={true} />
       <Container sx={{ my: 3 }}>HOME</Container>
     </div>
   );

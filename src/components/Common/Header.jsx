@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import './header.css';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import { IconButton, Badge } from '@mui/material';
+import paths from '@/routes/paths';
 
 export const Header = ({ invisible }) => (
   <header>
     <div className="storybook-header" style={{ height: '80px' }}>
-      <a href="/home">
+      <a href={paths.home}>
         <img src="../headerLogo.png" width="150px" alt="header-logo" />
       </a>
 

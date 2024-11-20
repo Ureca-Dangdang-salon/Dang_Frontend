@@ -5,7 +5,6 @@ import AppRoutes from './routes/AppRoutes';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material';
 import { mainTheme } from '@/themes';
-import { Navbar } from '@components/Common/Navbar';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -19,7 +18,6 @@ createRoot(document.getElementById('root')).render(
         borderColor="n4.main"
       >
         <AppRoutes />
-        <Navbar />
       </Box>
     </ThemeProvider>
   </StrictMode>

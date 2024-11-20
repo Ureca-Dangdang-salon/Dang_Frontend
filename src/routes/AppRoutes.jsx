@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import paths from './paths';
 
 import Home from '../pages/Home';
@@ -8,10 +8,24 @@ import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
 import Mypage from '@/pages/Mypage';
 import NewRequest from '@/pages/NewRequest';
+import { Navbar } from '@components/Common/Navbar';
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+};
+
+const AppContent = () => {
+  const location = useLocation();
+
+  return (
+    <>
+      {!location.pathname.endsWith(paths.login) && (
+        <Navbar page={location.pathname} />
+      )}
       <Routes>
         {/* Public Routes */}
         <Route path={paths.login} element={<Login />} />
@@ -24,7 +38,7 @@ const AppRoutes = () => {
 
         {/* Private Routes */}
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 
