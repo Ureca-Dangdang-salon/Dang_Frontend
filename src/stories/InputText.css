@@ -5,12 +5,12 @@
   border: none;
   border-radius: 12px;
   padding: 0 16px;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 16px;
-  line-height: 20px;
+  line-height: 60px;
   color: #b8b8b8;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 7px 1px;
 }
 
 .input-text:focus {
