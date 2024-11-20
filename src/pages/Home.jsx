@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const HomePage = () => {
+const Home = () => {
   const API_URL =
     import.meta.env.MODE === 'production' ? 'http://3.36.131.224/api' : '/api';
 
@@ -21,4 +21,4 @@ const HomePage = () => {
   return <div>HOME</div>;
 };
 
-export default HomePage;
+export default Home;
