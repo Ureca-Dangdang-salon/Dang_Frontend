@@ -1,0 +1,22 @@
+.input-text {
+  width: 326px;
+  height: 60px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 60px;
+  color: #b8b8b8;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 7px 1px;
+}
+
+.input-text:focus {
+  outline: none;
+}
+
+.input-text:disabled {
+  cursor: not-allowed;
+}

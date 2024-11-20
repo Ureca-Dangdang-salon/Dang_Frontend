@@ -1,8 +1,8 @@
-import { Header } from './Header';
+import { SurveyHeader } from './SurveyHeader';
 
 export default {
   title: 'Header',
-  component: Header,
+  component: SurveyHeader,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -11,8 +11,10 @@ export default {
   },
 };
 
-export const Main = {
+export const Survey = {
   args: {
-    invisible: false,
+    label: '회원가입',
+    totalPage: 5,
+    currPage: 2,
   },
 };

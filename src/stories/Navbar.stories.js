@@ -1,8 +1,8 @@
-import { Header } from './Header';
+import { Navbar } from './Navbar';
 
 export default {
-  title: 'Header',
-  component: Header,
+  title: 'Navbar',
+  component: Navbar,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -13,6 +13,6 @@ export default {
 
 export const Main = {
   args: {
-    invisible: false,
+    page: '콘테스트',
   },
 };
