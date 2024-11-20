@@ -11,7 +11,7 @@ const HomePage = () => {
         const data = await response.json();
         console.log('API Response:', data);
       } catch (error) {
-        console.error('Error connecting to API:', error);
+        console.error(error);
       }
     };
 
