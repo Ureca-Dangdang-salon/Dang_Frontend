@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types';
 import './header.css';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
-import { IconButton } from '@mui/material';
+import { IconButton, Badge } from '@mui/material';
 
-export const Header = () => (
+export const Header = ({ invisible }) => (
   <header>
     <div className="storybook-header" style={{ height: '80px' }}>
-      <img href="/" src="../public/headerLogo.png" width="150px" />
+      <img href="/" src="../headerLogo.png" width="150px" />
       <div>
         <IconButton aria-label="notification" color="text">
-          <NotificationsNoneRoundedIcon sx={{ fontSize: '30px' }} />
+          <Badge
+            badgeContent={1}
+            variant="dot"
+            overlap="circular"
+            color="error"
+            invisible={invisible}
+          >
+            <NotificationsNoneRoundedIcon sx={{ fontSize: '30px' }} />
+          </Badge>
         </IconButton>
       </div>
     </div>
@@ -17,7 +25,5 @@ export const Header = () => (
 );
 
 Header.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }),
+  invisible: PropTypes.bool.isRequired,
 };

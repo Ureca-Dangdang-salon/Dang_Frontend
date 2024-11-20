@@ -1,5 +1,3 @@
-import { fn } from '@storybook/test';
-
 import { Header } from './Header';
 
 export default {
@@ -11,17 +9,10 @@ export default {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-  args: {
-    onLogin: fn(),
-    onLogout: fn(),
-    onCreateAccount: fn(),
-  },
 };
 
-export const LoggedIn = {
+export const Notification = {
   args: {
-    user: {
-      name: 'Jane Doe',
-    },
+    invisible: false,
   },
 };
