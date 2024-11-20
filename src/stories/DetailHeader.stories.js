@@ -1,8 +1,8 @@
-import { Header } from './Header';
+import { DetailHeader } from './DetailHeader';
 
 export default {
   title: 'Header',
-  component: Header,
+  component: DetailHeader,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -11,8 +11,8 @@ export default {
   },
 };
 
-export const Main = {
+export const Detail = {
   args: {
-    invisible: false,
+    label: '회원가입',
   },
 };
