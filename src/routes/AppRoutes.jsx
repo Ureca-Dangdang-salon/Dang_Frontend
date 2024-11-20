@@ -1,8 +1,6 @@
-// Routes.js
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import paths from './paths';
 
-// Import your pages
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 
