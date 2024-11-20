@@ -34,7 +34,7 @@ export const mainTheme = createTheme({
     text: {
       main: '#3B3B3B',
     },
-    background: {
+    white: {
       main: '#FFFFFF',
     },
     delete: {
