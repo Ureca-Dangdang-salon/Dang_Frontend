@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Header } from '@components/Common/Header';
+import { Header } from '@components/Common/Header/Header';
 import { Container } from '@mui/material';
 
 const Home = () => {

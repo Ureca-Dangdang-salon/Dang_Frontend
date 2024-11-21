@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './header.css';
+import './Header.css';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import { IconButton, Badge } from '@mui/material';
 import paths from '@/routes/paths';
