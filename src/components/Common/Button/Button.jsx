@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './button.css';
+import './Button.css';
 
 const Button = ({ size, backgroundColor, onClick, label }) => {
   const className = `button ${size} ${backgroundColor === '#FDD94E' ? 'yellow' : 'gray'}`;
