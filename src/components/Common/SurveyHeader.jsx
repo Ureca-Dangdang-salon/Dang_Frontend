@@ -18,7 +18,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-export const SurveyHeader = ({ totalPage, currPage }) => (
+export const SurveyHeader = ({ label, totalPage, currPage }) => (
   <header>
     <div
       className="storybook-header"
@@ -32,7 +32,7 @@ export const SurveyHeader = ({ totalPage, currPage }) => (
     >
       <ArrowBackIosNewRoundedIcon color="n2" />
       <Typography color="text" fontWeight={700} fontSize={18}>
-        회원가입
+        {label}
       </Typography>
       <div></div>
     </div>
