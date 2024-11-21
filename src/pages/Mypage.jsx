@@ -6,12 +6,7 @@ const Mypage = () => {
   return (
     <Box>
       <Header invisible={true} />
-      <Box
-        sx={{
-          p: 4,
-          color: 'text.main',
-        }}
-      >
+      <Box p={4} color="text.main">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">
             <img src="/images/default-groomer-profile.png" width="60px" />
