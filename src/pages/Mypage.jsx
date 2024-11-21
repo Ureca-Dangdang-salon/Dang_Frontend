@@ -1,6 +1,5 @@
-import React from 'react';
-import { Header } from '@components/Common/Header';
-import { Container, Button, Typography, Box } from '@mui/material';
+import { Header } from '@components/Common/Header/Header';
+import { Typography, Box } from '@mui/material';
 import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
 
 const Mypage = () => {
