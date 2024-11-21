@@ -1,8 +1,8 @@
-import { MainModal } from './MainModal';
+import { Modal } from './Modal';
 
 export default {
   title: 'Modal',
-  component: MainModal,
+  component: Modal,
   parameters: {
     layout: 'centered',
   },
@@ -12,7 +12,7 @@ export default {
   },
 };
 
-export const Main = {
+export const MainModal = {
   args: {
     openLabel: '삭제',
     buttonColor: 'delete',

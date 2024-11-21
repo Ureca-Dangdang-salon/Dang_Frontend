@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
 
-export const MainModal = ({
+export const Modal = ({
   openLabel,
   buttonColor,
   title,
@@ -85,7 +85,7 @@ export const MainModal = ({
   );
 };
 
-MainModal.propTypes = {
+Modal.propTypes = {
   openLabel: PropTypes.string,
   buttonColor: PropTypes.string,
   title: PropTypes.string.isRequired,
