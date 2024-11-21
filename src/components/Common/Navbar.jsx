@@ -19,6 +19,10 @@ export const Navbar = ({ page }) => {
           width: '500px',
           position: 'fixed',
           bottom: 0,
+          left: 0,
+          right: 0,
+          margin: 'auto',
+          bgcolor: 'white.main',
         }}
       >
         <Box

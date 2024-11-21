@@ -5,30 +5,28 @@ import { IconButton, Badge } from '@mui/material';
 import paths from '@/routes/paths';
 
 export const Header = ({ invisible }) => (
-  <header>
-    <div className="storybook-header" style={{ height: '80px' }}>
-      <a href={paths.home}>
-        <img
-          src="../headerLogo.png"
-          width="150px"
-          alt="header-logo"
-          style={{ marginTop: '5px' }}
-        />
-      </a>
+  <header className="storybook-header">
+    <a href={paths.home}>
+      <img
+        src="../headerLogo.png"
+        width="150px"
+        alt="header-logo"
+        style={{ marginTop: '5px' }}
+      />
+    </a>
 
-      <div>
-        <IconButton href="/notification" aria-label="notification" color="text">
-          <Badge
-            badgeContent={1}
-            variant="dot"
-            overlap="circular"
-            color="error"
-            invisible={invisible}
-          >
-            <NotificationsNoneRoundedIcon sx={{ fontSize: '30px' }} />
-          </Badge>
-        </IconButton>
-      </div>
+    <div>
+      <IconButton href="/notification" aria-label="notification" color="text">
+        <Badge
+          badgeContent={1}
+          variant="dot"
+          overlap="circular"
+          color="error"
+          invisible={invisible}
+        >
+          <NotificationsNoneRoundedIcon sx={{ fontSize: '30px' }} />
+        </Badge>
+      </IconButton>
     </div>
   </header>
 );
