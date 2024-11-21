@@ -8,9 +8,8 @@ import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
 import Mypage from '@/pages/Mypage';
 import NewRequest from '@/pages/NewRequest';
-import { Navbar } from '@components/Common/Navbar';
+import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Box } from '@mui/material';
-import { Header } from '@components/Common/Header';
 
 const AppRoutes = () => {
   return (

@@ -5,7 +5,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import './navbar.css';
+import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
 
