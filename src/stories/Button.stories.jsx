@@ -1,54 +1,52 @@
-import { fn } from '@storybook/test';
+import Button from './Button';
 
-import { MainButton } from './Button';
-
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 export default {
-  title: 'Main Button',
-  component: MainButton,
-  parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: 'centered',
-  },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  title: 'Button',
+  component: Button,
   tags: ['autodocs'],
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
-  },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
-};
-
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = {
-  args: {
-    label: '다음으로',
-    size: 'large',
-    color: 'primary',
-  },
-};
-
-export const Secondary = {
-  args: {
-    label: '다음으로',
-    size: 'large',
-    color: 'n3',
+    size: {
+      control: 'radio',
+      options: ['large', 'medium'],
+    },
+    backgroundColor: {
+      control: 'color', // 색상을 직접 선택 가능
+    },
+    label: {
+      control: 'text', // 텍스트 입력 가능
+    },
+    onClick: {
+      action: 'clicked', // 클릭 이벤트를 Storybook 액션으로 시뮬레이션
+    },
   },
 };
 
-export const PrimarySmall = {
-  args: {
-    size: 'small',
-    label: '다음으로',
-    color: 'primary',
-  },
+const Template = (args) => <Button {...args} />;
+
+export const LargeYellow = Template.bind({});
+LargeYellow.args = {
+  size: 'large',
+  backgroundColor: '#FDD94E',
+  label: '다음으로',
 };
 
-export const SecondarySmall = {
-  args: {
-    size: 'small',
-    label: '다음으로',
-    color: 'n3',
-  },
+export const MediumGray = Template.bind({});
+MediumGray.args = {
+  size: 'medium',
+  backgroundColor: '#DCDBDC',
+  label: '다음으로',
+};
+
+export const LargeGray = Template.bind({});
+LargeGray.args = {
+  size: 'large',
+  backgroundColor: '#DCDBDC',
+  label: '다음으로',
+};
+
+export const MediumYellow = Template.bind({});
+MediumYellow.args = {
+  size: 'medium',
+  backgroundColor: '#FDD94E',
+  label: '다음으로',
 };
