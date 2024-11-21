@@ -13,6 +13,6 @@ export default {
 
 export const Main = {
   args: {
-    page: '콘테스트',
+    page: 'contest',
   },
 };

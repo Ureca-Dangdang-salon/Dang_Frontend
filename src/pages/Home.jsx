@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { Header } from '@components/Common/Header';
+import { Container } from '@mui/material';
 
 const Home = () => {
   const API_URL =
@@ -18,7 +20,12 @@ const Home = () => {
     testApi();
   }, []);
 
-  return <div>HOME</div>;
+  return (
+    <div>
+      <Header invisible={true} />
+      <Container sx={{ my: 3 }}>HOME</Container>
+    </div>
+  );
 };
 
 export default Home;
