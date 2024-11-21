@@ -8,7 +8,12 @@ export const Header = ({ invisible }) => (
   <header>
     <div className="storybook-header" style={{ height: '80px' }}>
       <a href={paths.home}>
-        <img src="../headerLogo.png" width="150px" alt="header-logo" />
+        <img
+          src="../headerLogo.png"
+          width="150px"
+          alt="header-logo"
+          style={{ marginTop: '5px' }}
+        />
       </a>
 
       <div>
