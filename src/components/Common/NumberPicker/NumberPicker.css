@@ -2,7 +2,6 @@
 .number-picker {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
   border-radius: 12px;
   background-color: #ffffff;
   width: 280px;
