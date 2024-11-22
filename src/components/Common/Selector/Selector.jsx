@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, FormControl, Select, MenuItem, Typography } from '@mui/material';
 
@@ -12,12 +12,13 @@ export const Selector = ({ label, choices }) => {
   return (
     <Box
       sx={{
-        minWidth: 200,
+        width: '326px',
+        backgroundColor: 'white.main',
         '.MuiOutlinedInput-notchedOutline': {
           borderRadius: '10px',
           border: 'none',
           borderColor: 'text.main',
-          boxShadow: '0px 0px 5px 0px rgba(51, 51, 51, 0.08)',
+          boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;',
         },
       }}
     >
@@ -27,6 +28,7 @@ export const Selector = ({ label, choices }) => {
           minHeight: '60px',
           height: '60px',
           justifyContent: 'center',
+          textAlign: 'left',
         }}
       >
         <Select
@@ -61,7 +63,7 @@ export const Selector = ({ label, choices }) => {
   );
 };
 
-Selector.PropTypes = {
+Selector.propTypes = {
   label: PropTypes.string,
   choices: PropTypes.array,
 };

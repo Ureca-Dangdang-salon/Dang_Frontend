@@ -30,9 +30,4 @@ RadioButton.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-RadioButton.defaultProps = {
-  size: 'large',
-  selected: false,
-};
-
 export default RadioButton;
