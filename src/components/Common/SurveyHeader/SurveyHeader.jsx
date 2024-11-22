@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, IconButton } from '@mui/material';
 import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
@@ -30,7 +30,9 @@ export const SurveyHeader = ({ label, totalPage, currPage }) => (
         justifyContent: 'space-between',
       }}
     >
-      <ArrowBackIosNewRoundedIcon color="n2" />
+      <IconButton onClick={() => window.history.back()}>
+        <ArrowBackIosNewRoundedIcon color="n2" />
+      </IconButton>
       <Typography color="text" fontWeight={700} fontSize={18}>
         {label}
       </Typography>

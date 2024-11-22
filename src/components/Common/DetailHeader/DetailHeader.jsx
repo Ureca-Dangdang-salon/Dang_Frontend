@@ -1,13 +1,13 @@
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 export const DetailHeader = ({ label }) => (
   <header>
     <div className="storybook-header" style={{ height: '80px' }}>
-      <div>
+      <IconButton onClick={() => window.history.back()}>
         <ArrowBackIosNewRoundedIcon color="n2" />
-      </div>
+      </IconButton>
       <Typography color="text" fontWeight={700} fontSize={18}>
         {label}
       </Typography>
@@ -16,6 +16,6 @@ export const DetailHeader = ({ label }) => (
   </header>
 );
 
-DetailHeader.PropTypes = {
+DetailHeader.propTypes = {
   label: PropTypes.string.isRequired,
 };
