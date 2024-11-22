@@ -7,7 +7,7 @@ import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import { Selector } from '@components/Common/Selector/Selector';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 
-const breed = ['골든 리트리버', '저먼 셰퍼드', '치와와', '푸들'];
+const breeds = ['골든 리트리버', '저먼 셰퍼드', '치와와', '푸들'];
 
 const DogProfile = () => {
   const [data, setData] = useState({
@@ -79,7 +79,7 @@ const DogProfile = () => {
         {/* 견종 */}
         <Box mt={3} display="flex" alignItems="center" justifyContent="center">
           <Typography mr={3}>견종</Typography>
-          <Selector label="견종을 선택해주세요" choices={breed} />
+          <Selector label="견종을 선택해주세요" choices={breeds} />
         </Box>
 
         <Box mt={3} display="flex" alignItems="center" justifyContent="center">
