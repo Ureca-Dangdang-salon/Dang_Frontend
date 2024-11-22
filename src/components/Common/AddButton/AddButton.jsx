@@ -20,9 +20,4 @@ AddButton.propTypes = {
   onClick: PropTypes.func,
 };
 
-AddButton.defaultProps = {
-  size: 'large',
-  onClick: () => {}, // 아직은 아무 동작 안 하게 만듦
-};
-
 export default AddButton;
