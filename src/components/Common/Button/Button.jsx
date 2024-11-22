@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import './Button.css';
 
 const Button = ({ size, backgroundColor, onClick, label }) => {
-  const className = `button ${size} ${backgroundColor === '#FDD94E' ? 'yellow' : 'gray'}`;
+  const className = `button ${size} ${backgroundColor === 'primary' ? 'yellow' : 'gray'}`;
 
   return (
     <button className={className} onClick={onClick}>

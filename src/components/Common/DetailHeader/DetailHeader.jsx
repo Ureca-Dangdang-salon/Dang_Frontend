@@ -2,19 +2,25 @@ import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRound
 import { IconButton, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-export const DetailHeader = ({ label }) => (
-  <header>
-    <div className="storybook-header" style={{ height: '80px' }}>
-      <IconButton onClick={() => window.history.back()}>
-        <ArrowBackIosNewRoundedIcon color="n2" />
-      </IconButton>
-      <Typography color="text" fontWeight={700} fontSize={18}>
-        {label}
-      </Typography>
-      <div></div>
-    </div>
-  </header>
-);
+import { useNavigate } from 'react-router-dom';
+
+export const DetailHeader = ({ label }) => {
+  const navigate = useNavigate();
+
+  return (
+    <header>
+      <div className="storybook-header" style={{ height: '80px' }}>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBackIosNewRoundedIcon color="n2" />
+        </IconButton>
+        <Typography color="text" fontWeight={700} fontSize={18}>
+          {label}
+        </Typography>
+        <div></div>
+      </div>
+    </header>
+  );
+};
 
 DetailHeader.propTypes = {
   label: PropTypes.string.isRequired,
