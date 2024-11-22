@@ -6,13 +6,13 @@ import Login from '../pages/Login';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
-import Mypage from '@/pages/Mypage';
+import Mypage from '@/pages/mypage/Mypage';
 import NewRequest from '@/pages/NewRequest';
 import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Box } from '@mui/material';
-import EditSocialProfile from '@/pages/EditSocialProfile';
-import DogProfile from '@/pages/DogProfile';
-import EditSalonProfile from '@/pages/EditSalonProfile';
+import EditSocialProfile from '@/pages/mypage/EditSocialProfile';
+import DogProfile from '@/pages/mypage/DogProfile';
+import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
 
 const AppRoutes = () => {
   return (
