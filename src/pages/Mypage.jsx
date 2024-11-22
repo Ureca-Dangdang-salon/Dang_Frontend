@@ -1,12 +1,9 @@
 import { Header } from '@components/Common/Header/Header';
-import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Typography, Box, Button } from '@mui/material';
 import MyUserPage from './MyUserPage';
 import MySalonPage from './MySalonPage';
 
 const Mypage = (props) => {
-  const navigate = useNavigate();
-
   return (
     <Box>
       <Header invisible={true} />

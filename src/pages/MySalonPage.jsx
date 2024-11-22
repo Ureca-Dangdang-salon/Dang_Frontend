@@ -1,11 +1,7 @@
-import { Header } from '@components/Common/Header/Header';
-import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
-import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
-import { useNavigate } from 'react-router-dom';
+import { Typography, Box, Button } from '@mui/material';
+import { Modal } from '@components/Common/Modal/Modal';
 
 const MySalonPage = () => {
-  const navigate = useNavigate();
-
   const data = {
     name: '홍길동',
     contactHours: '평일 오전 10시 ~ 오후 7시',
@@ -36,15 +32,17 @@ const MySalonPage = () => {
             <Button
               color="n2"
               sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
+              href="/mypage/editsalonprofile"
             >
               수정
             </Button>
-            <Button
-              color="delete"
-              sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
-            >
-              삭제
-            </Button>
+            <Modal
+              openLabel="삭제"
+              buttonColor="delete"
+              title="정말 삭제하시겠습니까? 이 과정은 돌이킬 수 없습니다."
+              leftLabel="취소"
+              rightLabel="삭제"
+            />
           </Box>
         </Box>
         <Box display="flex" gap={7} flexWrap="wrap" mt={1}>

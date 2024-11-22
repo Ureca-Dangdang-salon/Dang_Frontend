@@ -1,6 +1,6 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import InputText from '@components/Common/InputText/InputText';
-import { Box, Typography } from '@mui/material';
+import { Box, InputLabel, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
@@ -32,8 +32,8 @@ const DogProfile = () => {
   return (
     <Box>
       <DetailHeader label="반려견 프로필 수정" />
-      <Box p={4} color="text.main" textAlign="center">
-        <Box>
+      <Box p={4} color="text.main">
+        <Box textAlign="center">
           <img src="/images/default-dog-profile.png" width="150px" />
           <img
             src="/images/upload-picture.png"
@@ -42,109 +42,95 @@ const DogProfile = () => {
           />
         </Box>
 
-        {/* 이름 */}
-        <Box mt={3} display="flex" alignItems="center" justifyContent="center">
-          <Typography mr={3}>이름</Typography>
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
+          이름
+        </Typography>
+        <Box width="100%" display="flex" flexDirection="column">
           <InputText
             value={data.name}
             onChange={(e) => handleChange('name', e.target.value)}
           />
         </Box>
 
-        {/* 나이 */}
-        <Box
-          mt={3}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="left"
-        >
-          <Typography mr={3}>나이</Typography>
-          <NumberPicker
-            onChange={(e) => handleChange('ageYears', e.target.value)}
-            value={0}
-            placeholder={0}
-            label="년"
-          />
-        </Box>
-        <Box mt={3} ml={10} textAlign="left">
-          <NumberPicker
-            onChange={(e) => handleChange('ageMonths', e.target.value)}
-            value={0}
-            placeholder={0}
-            label="개월"
-          />
-        </Box>
-
-        {/* 견종 */}
-        <Box mt={3} display="flex" alignItems="center" justifyContent="center">
-          <Typography mr={3}>견종</Typography>
-          <Selector label="견종을 선택해주세요" choices={breeds} />
-        </Box>
-
-        <Box mt={3} display="flex" alignItems="center" justifyContent="center">
-          <Typography mr={3}>성별</Typography>
-          <RadioButton
-            label="남아"
-            size="small"
-            onChange={(e) => handleChange('gender', e.target.value)}
-          />
-          <RadioButton
-            label="여아"
-            size="small"
-            onChange={(e) => handleChange('gender', e.target.value)}
-          />
-        </Box>
-
-        <Box mt={3} display="flex" alignItems="center" justifyContent="center">
-          <Typography mr={3}>
-            중성화
-            <br />
-            여부
-          </Typography>
-          <RadioButton
-            label="했어요"
-            size="small"
-            onChange={(e) => handleChange('neutering', e.target.value)}
-          />
-          <RadioButton
-            label="안했어요"
-            size="small"
-            onChange={(e) => handleChange('neutering', e.target.value)}
-          />
-        </Box>
-
-        <Box
-          mt={3}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          textAlign="left"
-        >
-          <Typography mr={3}>몸무게</Typography>
-          <NumberPicker
-            onChange={(e) => handleChange('weight', e.target.value)}
-            value={0}
-            placeholder={0}
-            label="kg"
-          />
-        </Box>
-
-        <Box my={3} display="flex" alignItems="center" justifyContent="center">
-          <Typography mr={3}>특징</Typography>
-          <RadioButton
-            label="물을 무서워해요"
-            size="large"
-            onChange={(e) => handleChange('gender', e.target.value)}
-          />
-        </Box>
-
-        <Button
-          size="large"
-          backgroundColor="primary"
-          label="저장하기"
-          onClick={handleSubmit}
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+          나이
+        </Typography>
+        <NumberPicker
+          onChange={(e) => handleChange('ageYears', e.target.value)}
+          value={data.ageYears}
+          placeholder={0}
+          label="년"
         />
+        <Box mt={2}></Box>
+        <NumberPicker
+          onChange={(e) => handleChange('ageMonths', e.target.value)}
+          value={data.ageMonths}
+          placeholder={0}
+          label="개월"
+        />
+
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+          견종
+        </Typography>
+        <Selector label="견종을 선택해주세요" choices={breeds} />
+
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+          성별
+        </Typography>
+        <RadioButton
+          label="남아"
+          size="large"
+          onChange={(e) => handleChange('gender', e.target.value)}
+        />
+        <Box mt={1.5}></Box>
+        <RadioButton
+          label="여아"
+          size="large"
+          onChange={(e) => handleChange('gender', e.target.value)}
+        />
+
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+          중성화 여부
+        </Typography>
+        <RadioButton
+          label="했어요"
+          size="large"
+          onChange={(e) => handleChange('neutering', e.target.value)}
+        />
+        <Box mt={1.5}></Box>
+        <RadioButton
+          label="안했어요"
+          size="large"
+          onChange={(e) => handleChange('neutering', e.target.value)}
+        />
+
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+          몸무게
+        </Typography>
+        <NumberPicker
+          onChange={(e) => handleChange('weight', e.target.value)}
+          value={0}
+          placeholder={0}
+          label="kg"
+        />
+
+        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+          특징
+        </Typography>
+        <RadioButton
+          label="물을 무서워해요"
+          size="large"
+          onChange={(e) => handleChange('gender', e.target.value)}
+        />
+
+        <Box textAlign="center" mt={3}>
+          <Button
+            size="large"
+            backgroundColor="primary"
+            label="저장하기"
+            onClick={handleSubmit}
+          />
+        </Box>
       </Box>
     </Box>
   );

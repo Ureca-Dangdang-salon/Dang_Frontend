@@ -12,6 +12,7 @@ import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Box } from '@mui/material';
 import EditSocialProfile from '@/pages/EditSocialProfile';
 import DogProfile from '@/pages/DogProfile';
+import EditSalonProfile from '@/pages/EditSalonProfile';
 
 const AppRoutes = () => {
   return (
@@ -48,6 +49,7 @@ const AppContent = () => {
             path={paths.editSocialProfile}
             element={<EditSocialProfile />}
           />
+          <Route path={paths.editSalonProfile} element={<EditSalonProfile />} />
           <Route path={paths.dogProfile} element={<DogProfile />} />
         </Routes>
       </Box>

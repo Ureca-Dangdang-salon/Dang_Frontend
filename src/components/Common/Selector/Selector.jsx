@@ -12,7 +12,8 @@ export const Selector = ({ label, choices }) => {
   return (
     <Box
       sx={{
-        width: '326px',
+        width: '100%',
+        height: '60px',
         backgroundColor: 'white.main',
         '.MuiOutlinedInput-notchedOutline': {
           borderRadius: '10px',
@@ -33,8 +34,8 @@ export const Selector = ({ label, choices }) => {
             placeholder={label}
             sx={{
               '& .MuiInputBase-input': {
-                color: 'text.main', // Change text color to red
-                fontWeight: 'bold', // Make the font bold
+                color: 'text.main',
+                fontWeight: 'bold',
               },
             }}
           />
