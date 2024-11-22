@@ -41,7 +41,7 @@ const AppContent = () => {
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat />} />
-          <Route path={paths.mypage} element={<Mypage isTrue={true} />} />
+          <Route path={paths.mypage} element={<Mypage role="salon" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
 
           <Route
