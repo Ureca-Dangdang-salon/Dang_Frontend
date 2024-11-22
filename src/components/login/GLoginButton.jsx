@@ -1,7 +1,10 @@
 import Button from '@mui/material/Button';
 import GoogleIcon from '../Common/assets/googleicon.svg';
+import { useTheme } from '@mui/material/styles';
 
 const GoogleLoginButton = () => {
+  const theme = useTheme();
+
   const handleClick = () => {
     console.log('구글 로그인 버튼 클릭!');
   };
@@ -19,7 +22,7 @@ const GoogleLoginButton = () => {
       }
       sx={{
         backgroundColor: '#F2F2F2',
-        color: '#3B3B3B !important',
+        color: `${theme.palette.text.main} !important`,
         fontSize: '16px',
         fontWeight: 'bold',
         width: '326px',

@@ -1,7 +1,10 @@
 import Button from '@mui/material/Button';
 import KakaoIcon from '../Common/assets/kakaoicon.svg';
+import { useTheme } from '@mui/material/styles';
 
 const KakaoLoginButton = () => {
+  const theme = useTheme();
+
   const handleClick = () => {
     console.log('카카오 로그인 버튼 클릭!');
   };
@@ -19,7 +22,7 @@ const KakaoLoginButton = () => {
       }
       sx={{
         backgroundColor: '#FEE500',
-        color: '#3B3B3B !important',
+        color: `${theme.palette.text.main} !important`,
         fontSize: '16px',
         fontWeight: 'bold',
         width: '326px',

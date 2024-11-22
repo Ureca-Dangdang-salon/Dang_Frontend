@@ -1,7 +1,10 @@
 import NaverIcon from '../Common/assets/navericon.svg';
 import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
 
 const NaverLoginButton = () => {
+  const theme = useTheme();
+
   const handleClick = () => {
     console.log('네이버 로그인 버튼 클릭!');
   };
@@ -19,7 +22,7 @@ const NaverLoginButton = () => {
       }
       sx={{
         backgroundColor: '#03C75A',
-        color: 'white !important',
+        color: `${theme.palette.white.main} !important`,
         fontSize: '16px',
         fontWeight: 'bold',
         width: '326px',
