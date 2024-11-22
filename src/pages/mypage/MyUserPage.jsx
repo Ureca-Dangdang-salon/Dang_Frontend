@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const MyUserPage = () => {
   const navigate = useNavigate();
   const statButton = [
-    { label: '쿠폰함', value: 3 },
-    { label: '결제내역', value: 5 },
-    { label: '나의 리뷰', value: 2 },
+    { label: '쿠폰함', route: '/mypage/coupons', value: 3 },
+    { label: '결제내역', route: '/mypage/paymenthistory', value: 5 },
+    { label: '나의 리뷰', route: '/mypage/reviews', value: 2 },
   ];
 
   return (
@@ -62,6 +62,7 @@ const MyUserPage = () => {
                 cursor: 'pointer',
                 '&:hover': { color: 'secondary.main' },
               }}
+              onClick={() => navigate(stat.route)}
             >
               <Typography fontSize={14}>{stat.label}</Typography>
               <Typography fontSize={20} fontWeight={600} color="secondary.main">
