@@ -28,6 +28,7 @@ const AppContent = () => {
   return (
     <Box
       width="500px"
+      height="100vh"
       m="auto"
       borderColor="n4.main"
       sx={{
