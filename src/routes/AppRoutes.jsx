@@ -10,6 +10,8 @@ import Mypage from '@/pages/Mypage';
 import NewRequest from '@/pages/NewRequest';
 import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Box } from '@mui/material';
+import EditSocialProfile from '@/pages/EditSocialProfile';
+import DogProfile from '@/pages/DogProfile';
 
 const AppRoutes = () => {
   return (
@@ -33,14 +35,20 @@ const AppContent = () => {
     >
       <Box paddingBottom="80px">
         <Routes>
-          {/* Public Routes */}
           <Route path={paths.login} element={<Login />} />
+
           <Route path={paths.home} element={<Home />} />
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat />} />
-          <Route path={paths.mypage} element={<Mypage />} />
+          <Route path={paths.mypage} element={<Mypage isTrue={true} />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
+
+          <Route
+            path={paths.editSocialProfile}
+            element={<EditSocialProfile />}
+          />
+          <Route path={paths.dogProfile} element={<DogProfile />} />
         </Routes>
       </Box>
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import './Button.css';
 
 const Button = ({ size, backgroundColor, onClick, label }) => {
-  const className = `button ${size} ${backgroundColor === '#FDD94E' ? 'yellow' : 'gray'}`;
+  const className = `button ${size} ${backgroundColor === 'primary' ? 'yellow' : 'gray'}`;
 
   return (
     <button className={className} onClick={onClick}>
@@ -16,10 +16,6 @@ Button.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
-};
-
-Button.defaultProps = {
-  onClick: () => {},
 };
 
 export default Button;
