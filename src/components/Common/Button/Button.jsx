@@ -18,8 +18,4 @@ Button.propTypes = {
   label: PropTypes.string.isRequired,
 };
 
-Button.defaultProps = {
-  onClick: () => {},
-};
-
 export default Button;

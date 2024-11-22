@@ -1,8 +1,10 @@
 import { Header } from '@components/Common/Header/Header';
 import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
 import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
+import { useNavigate } from 'react-router-dom';
 
 const Mypage = (props) => {
+  const navigate = useNavigate();
   const statButton = [
     { label: '쿠폰함', value: 3 },
     { label: '결제내역', value: 5 },
@@ -41,8 +43,15 @@ const Mypage = (props) => {
           </Box>
           <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
             <Box justifyItems="center">
-              <img src="/images/default-dog-profile.png" width="100px" />
-              <Typography mt={1}>댕댕이</Typography>
+              <Box
+                justifyItems="center"
+                sx={{ cursor: 'pointer' }}
+                onClick={() => navigate('/mypage/dogprofile')}
+              >
+                <img src="/images/default-dog-profile.png" width="100px" />
+                <Typography mt={1}>댕댕이</Typography>
+              </Box>
+
               <Button
                 color="delete"
                 sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}

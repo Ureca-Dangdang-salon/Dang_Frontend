@@ -21,9 +21,4 @@ InputText.propTypes = {
   disabled: PropTypes.bool,
 };
 
-InputText.defaultProps = {
-  placeholder: '이름을 입력해주세요',
-  disabled: false,
-};
-
 export default InputText;

@@ -7,6 +7,7 @@ const paths = {
   notification: '/notification',
   newRequest: '/newrequest',
   editSocialProfile: '/mypage/editsocialprofile',
+  dogProfile: '/mypage/dogprofile',
 };
 
 export default paths;

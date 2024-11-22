@@ -9,7 +9,10 @@ export const DetailHeader = ({ label }) => {
 
   return (
     <header>
-      <div className="storybook-header" style={{ height: '80px' }}>
+      <div
+        className="storybook-header"
+        style={{ height: '80px', position: 'sticky', top: 0 }}
+      >
         <IconButton onClick={() => navigate(-1)}>
           <ArrowBackIosNewRoundedIcon color="n2" />
         </IconButton>

@@ -4,7 +4,7 @@
   align-items: center;
   border-radius: 12px;
   background-color: #ffffff;
-  width: 280px;
+  width: 326px;
   height: 60px;
   padding: 0 16px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;
@@ -74,5 +74,4 @@
 
 .number-picker-icon {
   color: #b8b8b8;
-  font-size: 16px;
 }

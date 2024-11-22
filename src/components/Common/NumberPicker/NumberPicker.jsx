@@ -50,10 +50,10 @@ const NumberPicker = ({
       <span className="number-picker-label">{label}</span>
       <div className="number-picker-controls">
         <div className="button-container" onClick={handleIncrease}>
-          <AddIcon className="number-picker-icon" />
+          <AddIcon fontSize="10px" className="number-picker-icon" />
         </div>
         <div className="button-container" onClick={handleDecrease}>
-          <RemoveIcon className="number-picker-icon" />
+          <RemoveIcon fontSize="10px" className="number-picker-icon" />
         </div>
       </div>
     </div>
@@ -67,13 +67,6 @@ NumberPicker.propTypes = {
   max: PropTypes.number,
   label: PropTypes.string,
   size: PropTypes.oneOf(['default', 'small']), // 크기 옵션 추가
-};
-
-NumberPicker.defaultProps = {
-  min: 0,
-  max: 100,
-  label: '',
-  size: 'default', // 기본값은 default
 };
 
 export default NumberPicker;
