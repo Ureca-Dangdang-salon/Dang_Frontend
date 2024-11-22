@@ -29,10 +29,10 @@ const AppContent = () => {
     <Box
       width="500px"
       m="auto"
-      minHeight="100vh"
-      borderLeft={1}
-      borderRight={1}
       borderColor="n4.main"
+      sx={{
+        boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.05)',
+      }}
     >
       <Box paddingBottom="80px">
         <Routes>
