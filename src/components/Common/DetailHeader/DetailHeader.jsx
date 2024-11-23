@@ -26,7 +26,7 @@ export const DetailHeader = ({ label }) => {
       <IconButton onClick={() => navigate(-1)}>
         <ArrowBackIosNewRoundedIcon color="n2" />
       </IconButton>
-      <Typography color="text.primary" fontWeight={700} fontSize={18}>
+      <Typography color="text.main" fontWeight={700} fontSize={18}>
         {label}
       </Typography>
       <Box width="40px" />

@@ -42,4 +42,9 @@ export const mainTheme = createTheme({
       light: '#FFAC8F', //coral
     },
   },
+  typography: {
+    allVariants: {
+      color: '#3B3B3B', // Default color for all typography variants
+    },
+  },
 });
