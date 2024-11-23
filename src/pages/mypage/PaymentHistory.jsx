@@ -63,7 +63,11 @@ const PaymentHistory = () => {
               </Box>
             </Box>
           </AccordionSummary>
+
           <AccordionDetails sx={{ paddingX: 3 }}>
+            <Typography fontWeight={700} fontSize={14}>
+              1. 댕댕이
+            </Typography>
             <Typography fontWeight={700} fontSize={14}>
               요청 서비스
             </Typography>
@@ -71,12 +75,17 @@ const PaymentHistory = () => {
               <Typography>목욕</Typography>
               <Typography>10,000 원</Typography>
             </Box>
+
             <Typography fontWeight={700} fontSize={14} mt={1}>
               추가비용
             </Typography>
             <Box display="flex" justifyContent="space-between" ml={3} mt={1}>
               <Typography>공격성</Typography>
               <Typography>3,000 원</Typography>
+            </Box>
+            <Box display="flex" justifyContent="space-between" ml={3} mt={1}>
+              <Typography>질병</Typography>
+              <Typography>0 원</Typography>
             </Box>
 
             <Divider sx={{ my: 2 }} />
