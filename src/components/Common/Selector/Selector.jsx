@@ -1,18 +1,12 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, FormControl, Select, MenuItem, Typography } from '@mui/material';
+import { Box, Autocomplete, TextField, Typography } from '@mui/material';
 
-export const Selector = ({ label, choices }) => {
-  const [choice, setChoice] = useState(label);
-
-  const handleChange = (event) => {
-    setChoice(event.target.value);
-  };
-
+export const Selector = ({ label, choices, value, onChange, field }) => {
   return (
     <Box
       sx={{
-        width: '326px',
+        width: '100%',
+        height: '60px',
         backgroundColor: 'white.main',
         '.MuiOutlinedInput-notchedOutline': {
           borderRadius: '10px',
@@ -22,48 +16,37 @@ export const Selector = ({ label, choices }) => {
         },
       }}
     >
-      <FormControl
-        fullWidth
-        sx={{
-          minHeight: '60px',
-          height: '60px',
-          justifyContent: 'center',
-          textAlign: 'left',
-        }}
-      >
-        <Select
-          labelId="demo-customized-select-native"
-          id="demo-simple-select"
-          value={choice}
-          label={label}
-          onChange={handleChange}
-        >
-          <MenuItem disabled value={label}>
-            <Typography color="n2.main" fontWeight={600}>
-              {label}
-            </Typography>
-          </MenuItem>
-          {choices.map((item) => (
-            <MenuItem
-              key={item}
-              value={item}
-              sx={{
+      <Autocomplete
+        value={value}
+        options={choices}
+        getOptionLabel={(option) => option}
+        onChange={(e, newValue) => onChange(field, newValue)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder={label}
+            sx={{
+              '& .MuiInputBase-input': {
                 color: 'text.main',
-                '&:hover': {
-                  backgroundColor: 'p3.main',
-                },
-              }}
-            >
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        )}
+        renderOption={(props, option) => (
+          <li {...props} style={{ padding: '8px 16px', cursor: 'pointer' }}>
+            <Typography>{option}</Typography>
+          </li>
+        )}
+      />
     </Box>
   );
 };
 
 Selector.propTypes = {
   label: PropTypes.string,
-  choices: PropTypes.array,
+  value: PropTypes.string.isRequired,
+  choices: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
 };

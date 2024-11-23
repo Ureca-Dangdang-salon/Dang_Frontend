@@ -31,7 +31,7 @@ export const Navbar = ({ page }) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            boxShadow: '0px 0px 5px 0px rgba(51, 51, 51, 0.08)',
+            boxShadow: '0px -4px 4px -2px rgba(0, 0, 0, 0.05)',
             px: 3,
           }}
         >
