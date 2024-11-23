@@ -8,6 +8,7 @@ import RadioButton from '@components/Common/RadioButton/RadioButton';
 import AddButton from '@components/Common/AddButton/AddButton';
 
 const EditSalonProfile = () => {
+  const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState({
     name: '홍길동',
     serviceName: '동길이네',
@@ -50,7 +51,7 @@ const EditSalonProfile = () => {
     <Box>
       <DetailHeader label={'미용사 프로필 수정'} />
       <Box p={4} color="text.main">
-        <Box textAlign="center">
+        <Box textAlign="center" sx={{ cursor: 'pointer' }}>
           <img src="/images/default-groomer-profile.png" width="150px" />
           <img
             src="/images/upload-picture.png"

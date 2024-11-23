@@ -28,7 +28,7 @@ const AppContent = () => {
   return (
     <Box
       width="500px"
-      height="100vh"
+      minHeight="100vh"
       m="auto"
       borderColor="n4.main"
       sx={{
@@ -43,7 +43,7 @@ const AppContent = () => {
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat />} />
-          <Route path={paths.mypage} element={<Mypage role="salon" />} />
+          <Route path={paths.mypage} element={<Mypage role="user" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
 
           <Route
