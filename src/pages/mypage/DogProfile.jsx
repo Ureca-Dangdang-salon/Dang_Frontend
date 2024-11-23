@@ -1,13 +1,12 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import InputText from '@components/Common/InputText/InputText';
-import { Box, InputLabel, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import { Selector } from '@components/Common/Selector/Selector';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
-
-const breeds = ['골든 리트리버', '저먼 셰퍼드', '치와와', '푸들'];
+import { breeds } from '@/constants/breeds';
 
 const DogProfile = () => {
   const [data, setData] = useState({
@@ -33,7 +32,7 @@ const DogProfile = () => {
     <Box>
       <DetailHeader label="반려견 프로필 수정" />
       <Box p={4} color="text.main">
-        <Box textAlign="center">
+        <Box textAlign="center" sx={{ cursor: 'pointer' }}>
           <img src="/images/default-dog-profile.png" width="150px" />
           <img
             src="/images/upload-picture.png"
@@ -72,7 +71,13 @@ const DogProfile = () => {
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           견종
         </Typography>
-        <Selector label="견종을 선택해주세요" choices={breeds} />
+        <Selector
+          label="견종을 선택해주세요"
+          value={data.species}
+          choices={breeds}
+          onChange={handleChange}
+          field="species"
+        />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           성별

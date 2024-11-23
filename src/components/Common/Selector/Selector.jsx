@@ -1,14 +1,7 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Autocomplete, TextField, Typography } from '@mui/material';
 
-export const Selector = ({ label, choices }) => {
-  const [choice, setChoice] = useState('');
-
-  const handleChange = (event, newValue) => {
-    setChoice(newValue);
-  };
-
+export const Selector = ({ label, choices, value, onChange, field }) => {
   return (
     <Box
       sx={{
@@ -24,10 +17,10 @@ export const Selector = ({ label, choices }) => {
       }}
     >
       <Autocomplete
-        value={choice}
-        onChange={handleChange}
+        value={value}
         options={choices}
         getOptionLabel={(option) => option}
+        onChange={(e, newValue) => onChange(field, newValue)}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -52,5 +45,8 @@ export const Selector = ({ label, choices }) => {
 
 Selector.propTypes = {
   label: PropTypes.string,
+  value: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
+  field: PropTypes.string.isRequired,
 };
