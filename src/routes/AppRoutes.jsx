@@ -13,6 +13,7 @@ import { Box } from '@mui/material';
 import EditSocialProfile from '@/pages/mypage/EditSocialProfile';
 import DogProfile from '@/pages/mypage/DogProfile';
 import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
+import PaymentHistory from '@/pages/mypage/PaymentHistory';
 
 const AppRoutes = () => {
   return (
@@ -52,6 +53,7 @@ const AppContent = () => {
           />
           <Route path={paths.editSalonProfile} element={<EditSalonProfile />} />
           <Route path={paths.dogProfile} element={<DogProfile />} />
+          <Route path={paths.paymentHistory} element={<PaymentHistory />} />
         </Routes>
       </Box>
 
