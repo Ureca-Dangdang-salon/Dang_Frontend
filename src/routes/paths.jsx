@@ -6,8 +6,12 @@ const paths = {
   mypage: '/mypage',
   notification: '/notification',
   newRequest: '/newrequest',
+
   editSocialProfile: '/mypage/editsocialprofile',
+  editSalonProfile: '/mypage/editsalonprofile',
   dogProfile: '/mypage/dogprofile',
+
+  paymentHistory: '/mypage/paymenthistory',
 };
 
 export default paths;

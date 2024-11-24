@@ -7,7 +7,7 @@ const InputText = ({ value, onChange, placeholder, disabled }) => {
       type="text"
       className="input-text"
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange}
       placeholder={placeholder || '이름을 입력해주세요'}
       disabled={disabled}
     />
