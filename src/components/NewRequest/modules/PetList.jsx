@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { Grid2 } from '@mui/material';
 import PetItem from '@components/NewRequest/atoms/PetItem';
-import * as S from './style';
 
 const PetList = () => {
   const [selectedItems, setSelectedItems] = useState([]);
-  const list = new Array(59).fill(0);
+  const list = new Array(40).fill(0);
 
   const handleSelect = (idx) => {
     setSelectedItems((prev) =>
@@ -13,7 +13,14 @@ const PetList = () => {
   };
 
   return (
-    <S.Layer>
+    <Grid2
+      container
+      spacing={7}
+      rowSpacing={4}
+      justifyContent="center"
+      py={4}
+      width="100%"
+    >
       {list.map((_, idx) => (
         <PetItem
           key={idx}
@@ -21,7 +28,7 @@ const PetList = () => {
           onSelect={() => handleSelect(idx)}
         />
       ))}
-    </S.Layer>
+    </Grid2>
   );
 };
 
