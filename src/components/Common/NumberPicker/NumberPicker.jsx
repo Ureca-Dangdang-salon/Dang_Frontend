@@ -10,7 +10,7 @@ const NumberPicker = ({
   min = 0,
   max = 100,
   label = '',
-  size = 'default', // 기본값은 default
+  size = 'default',
 }) => {
   const [value, setValue] = useState(initialValue);
   const [isInitial, setIsInitial] = useState(true);
@@ -38,15 +38,35 @@ const NumberPicker = ({
     }
   };
 
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+
+    if (newValue === '') {
+      // 빈 값 처리
+      setValue('');
+      setIsInitial(false);
+      onChange('');
+      return;
+    }
+
+    const numericValue = parseInt(newValue, 10);
+    if (!isNaN(numericValue) && numericValue >= min && numericValue <= max) {
+      setValue(numericValue);
+      setIsInitial(false);
+      onChange(numericValue);
+    }
+  };
+
   return (
     <div className={`number-picker number-picker--${size}`}>
-      <span
-        className={`number-picker-display ${
+      <input
+        type="number"
+        className={`number-picker-input ${
           isInitial ? 'initial-value' : 'modified-value'
         }`}
-      >
-        {value}
-      </span>
+        value={value}
+        onChange={handleInputChange}
+      />
       <span className="number-picker-label">{label}</span>
       <div className="number-picker-controls">
         <div className="button-container" onClick={handleIncrease}>
@@ -66,7 +86,7 @@ NumberPicker.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   label: PropTypes.string,
-  size: PropTypes.oneOf(['default', 'small']), // 크기 옵션 추가
+  size: PropTypes.oneOf(['default', 'small']),
 };
 
 export default NumberPicker;
