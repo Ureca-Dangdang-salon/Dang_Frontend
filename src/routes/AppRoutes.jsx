@@ -14,6 +14,8 @@ import EditSocialProfile from '@/pages/mypage/EditSocialProfile';
 import DogProfile from '@/pages/mypage/DogProfile';
 import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
 import PaymentHistory from '@/pages/mypage/PaymentHistory';
+import SalonProfile from '@/pages/SalonProfile';
+import MyCoupons from '@/pages/mypage/MyCoupons';
 
 const AppRoutes = () => {
   return (
@@ -53,7 +55,9 @@ const AppContent = () => {
           />
           <Route path={paths.editSalonProfile} element={<EditSalonProfile />} />
           <Route path={paths.dogProfile} element={<DogProfile />} />
+          <Route path={paths.salonProfile} element={<SalonProfile />} />
           <Route path={paths.paymentHistory} element={<PaymentHistory />} />
+          <Route path={paths.myCoupons} element={<MyCoupons />} />
         </Routes>
       </Box>
 

@@ -1,5 +1,6 @@
 import { Typography, Box, Button } from '@mui/material';
 import { Modal } from '@components/Common/Modal/Modal';
+import ReviewStars from '../../components/Features/ReviewStars';
 
 const MySalonPage = () => {
   const data = {
@@ -16,10 +17,6 @@ const MySalonPage = () => {
     faq: 'Question & Answer',
     averageReview: 2.5,
   };
-  const totalStars = 5;
-  const fullStars = Math.floor(data.averageReview);
-  const hasHalfStar = data.averageReview % 1 != 0;
-  const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
 
   return (
     <Box>
@@ -80,47 +77,14 @@ const MySalonPage = () => {
         </Box>
       </Box>
 
-      <Box display="flex" justifyContent="center" alignItems="center" mt={3}>
-        {Array(fullStars)
-          .fill(0)
-          .map((_, index) => (
-            <img
-              key={`full-${index}`}
-              src="/icons/StarRounded.png"
-              width="30px"
-            />
-          ))}
-        {hasHalfStar && <img src="/icons/StarHalfRounded.png" width="30px" />}
-        {Array(emptyStars)
-          .fill(0)
-          .map((_, index) => (
-            <img
-              key={`empty-${index}`}
-              src="/icons/StarBorderRounded.png"
-              width="30px"
-            />
-          ))}
-        <Typography fontWeight={700} fontSize={20} mx={1}>
-          {data.averageReview}
-        </Typography>
-        <Typography fontWeight={700} color="n3">
-          / 5
-        </Typography>
-      </Box>
-      <Box textAlign="center">
-        <Button color="n3" sx={{ p: 0, borderRadius: '10px' }}>
-          <Typography fontWeight={700} fontSize={14}>
-            (리뷰 10개)
-          </Typography>
-        </Button>
-      </Box>
+      <ReviewStars averageReview={data.averageReview} />
 
       <Box display="flex" justifyContent="center" textAlign="center" mt={3}>
         <Box
           flexDirection="column"
           sx={{
             cursor: 'pointer',
-            '&:hover': { color: 'secondary.main' },
+            '&:hover': { color: 'secondary' },
           }}
         >
           <Typography fontSize={14}>견적요청내역</Typography>
