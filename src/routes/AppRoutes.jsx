@@ -6,12 +6,16 @@ import Login from '../pages/Login';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
-import Mypage from '@/pages/Mypage';
+import Mypage from '@/pages/mypage/Mypage';
 import NewRequest from '@/pages/NewRequest';
 import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Box } from '@mui/material';
-import EditSocialProfile from '@/pages/EditSocialProfile';
-import DogProfile from '@/pages/DogProfile';
+import EditSocialProfile from '@/pages/mypage/EditSocialProfile';
+import DogProfile from '@/pages/mypage/DogProfile';
+import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
+import PaymentHistory from '@/pages/mypage/PaymentHistory';
+import SalonProfile from '@/pages/SalonProfile';
+import MyCoupons from '@/pages/mypage/MyCoupons';
 
 const AppRoutes = () => {
   return (
@@ -27,11 +31,12 @@ const AppContent = () => {
   return (
     <Box
       width="500px"
-      m="auto"
       minHeight="100vh"
-      borderLeft={1}
-      borderRight={1}
+      m="auto"
       borderColor="n4.main"
+      sx={{
+        boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.05)',
+      }}
     >
       <Box paddingBottom="80px">
         <Routes>
@@ -41,14 +46,18 @@ const AppContent = () => {
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat />} />
-          <Route path={paths.mypage} element={<Mypage isTrue={true} />} />
+          <Route path={paths.mypage} element={<Mypage role="user" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
 
           <Route
             path={paths.editSocialProfile}
             element={<EditSocialProfile />}
           />
+          <Route path={paths.editSalonProfile} element={<EditSalonProfile />} />
           <Route path={paths.dogProfile} element={<DogProfile />} />
+          <Route path={paths.salonProfile} element={<SalonProfile />} />
+          <Route path={paths.paymentHistory} element={<PaymentHistory />} />
+          <Route path={paths.myCoupons} element={<MyCoupons />} />
         </Routes>
       </Box>
 

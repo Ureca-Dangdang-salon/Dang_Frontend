@@ -31,7 +31,7 @@ export const Navbar = ({ page }) => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            boxShadow: '0px 0px 5px 0px rgba(51, 51, 51, 0.08)',
+            boxShadow: '0px -4px 4px -2px rgba(0, 0, 0, 0.05)',
             px: 3,
           }}
         >
@@ -41,7 +41,7 @@ export const Navbar = ({ page }) => {
             onClick={() => navigate(paths.home)}
           >
             <HomeRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700}>
+            <Typography fontSize={14} fontWeight={700} color="inherit">
               홈
             </Typography>
           </Box>
@@ -51,7 +51,7 @@ export const Navbar = ({ page }) => {
             onClick={() => navigate(paths.contest)}
           >
             <EmojiEventsRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700}>
+            <Typography fontSize={14} fontWeight={700} color="inherit">
               콘테스트
             </Typography>
           </Box>
@@ -74,7 +74,7 @@ export const Navbar = ({ page }) => {
                 sx={{ ml: 1.5, mt: 1.5 }}
               />
             </Box>
-            <Typography fontSize={14} fontWeight={700} mt={1}>
+            <Typography fontSize={14} fontWeight={700} mt={1} color="inherit">
               견적요청
             </Typography>
           </Box>
@@ -84,7 +84,7 @@ export const Navbar = ({ page }) => {
             onClick={() => navigate(paths.chat)}
           >
             <ChatRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700}>
+            <Typography fontSize={14} fontWeight={700} color="inherit">
               채팅
             </Typography>
           </Box>
@@ -94,7 +94,7 @@ export const Navbar = ({ page }) => {
             onClick={() => navigate(paths.mypage)}
           >
             <PersonRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700}>
+            <Typography fontSize={14} fontWeight={700} color="inherit">
               내 정보
             </Typography>
           </Box>

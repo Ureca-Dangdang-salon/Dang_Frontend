@@ -27,7 +27,11 @@ export const Modal = ({
 
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen} color={buttonColor}>
+      <Button
+        onClick={handleClickOpen}
+        color={buttonColor}
+        sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
+      >
         {openLabel}
       </Button>
       <Dialog
@@ -49,7 +53,7 @@ export const Modal = ({
           {title}
         </DialogTitle>
         <DialogActions>
-          <Box width="100%" textAlign="center" mb={2}>
+          <Box width="100%" textAlign="center" mb={2} mx={2}>
             <Button
               onClick={handleClose}
               sx={{
