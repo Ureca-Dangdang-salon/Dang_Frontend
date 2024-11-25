@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import paths from './paths';
+import paths from '@/routes/paths';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import Survey from '../pages/Survey/Survey';
+import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
+import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
@@ -27,7 +30,6 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-
   return (
     <Box
       width="500px"
@@ -41,7 +43,9 @@ const AppContent = () => {
       <Box paddingBottom="80px">
         <Routes>
           <Route path={paths.login} element={<Login />} />
-
+          <Route path="/Survey" element={<Survey />} />
+          <Route path="/Survey/groomer" element={<SurveyGroomer />} />
+          <Route path="/Survey/user" element={<SurveyUser />} />
           <Route path={paths.home} element={<Home />} />
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
@@ -61,9 +65,12 @@ const AppContent = () => {
         </Routes>
       </Box>
 
-      {!location.pathname.endsWith(paths.login) && (
-        <Navbar page={location.pathname} />
-      )}
+      {location.pathname !== paths.login &&
+        location.pathname !== paths.survey.root &&
+        location.pathname !== paths.survey.groomer &&
+        location.pathname !== paths.survey.user && (
+          <Navbar page={location.pathname} />
+        )}
     </Box>
   );
 };

@@ -1,6 +1,11 @@
 const paths = {
   home: '/home',
   login: '/',
+  survey: {
+    root: '/Survey',
+    groomer: '/Survey/groomer',
+    user: '/Survey/user',
+  },
   contest: '/contest',
   chat: '/chat',
   mypage: '/mypage',
