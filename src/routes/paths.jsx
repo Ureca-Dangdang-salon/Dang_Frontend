@@ -10,6 +10,7 @@ const paths = {
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
   dogProfile: '/mypage/dogprofile',
+  salonProfile: '/salonprofile',
 
   paymentHistory: '/mypage/paymenthistory',
 };
