@@ -97,9 +97,13 @@ const NewReview = () => {
           onChange={(e) => handleChange('text', e.target.value)}
         />
 
-        <Typography mt={3} fontWeight={700}>
-          사진 첨부 0 / 3 (선택)
-        </Typography>
+        <Box mt={3} display="flex" alignItems="center">
+          <Typography fontWeight={700} mr={1}>
+            사진 첨부 0 / 3
+          </Typography>
+          <Typography>(선택)</Typography>
+        </Box>
+
         <Box
           mt={1}
           width="120px"

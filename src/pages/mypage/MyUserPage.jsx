@@ -7,7 +7,7 @@ const MyUserPage = () => {
   const statButton = [
     { label: '쿠폰함', route: '/mypage/coupons', value: 3 },
     { label: '결제내역', route: '/mypage/paymenthistory', value: 5 },
-    { label: '나의 리뷰', route: '/mypage/reviews', value: 2 },
+    { label: '나의 리뷰', route: '/mypage/myreviews', value: 2 },
   ];
 
   return (
