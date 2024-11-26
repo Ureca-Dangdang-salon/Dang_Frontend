@@ -23,5 +23,9 @@
 
 .button.gray {
   background-color: #dcdbdc;
-  color: #b8b8b8;
+  opacity: 0.7;
+}
+
+.button:disabled {
+  cursor: not-allowed;
 }

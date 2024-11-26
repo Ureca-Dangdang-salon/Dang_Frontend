@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { Box, Typography, Container, TextField } from '@mui/material';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
-import { useLocation, useNavigate } from 'react-router-dom'; // useNavigate 추가
+import { useNavigate } from 'react-router-dom';
 import InputText from '@/components/Common/InputText/InputText';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import AddButton from '@/components/Common/AddButton/AddButton';
+import Button from '@/components/Common/Button/Button';
+import DeleteButton from '@/components/Common/DeleteButton/DeleteButton';
 
 function SurveyGroomer() {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
-  const { _city, _district } = location.state || {};
+  // const { _city, _district } = location.state || {};
   const [step, setStep] = useState(1);
   const [serviceName, setServiceName] = useState('');
   const [services, setServices] = useState({
@@ -35,20 +37,42 @@ function SurveyGroomer() {
       years: 0,
       months: 0,
     },
-    certification: '',
+    certifications: [''],
     description: '',
     recruitment: '',
     faq: '',
   });
+
+  const isStepValid = () => {
+    switch (step) {
+      case 1:
+        return serviceName.trim() !== '';
+      case 2:
+        return Object.values(services).some((value) => value);
+      case 3:
+        return phoneNumber.trim() !== '';
+      case 4:
+        return businessHours.start.hour > 0 || businessHours.end.hour > 0;
+      case 5:
+        return (
+          businessInfo.businessNumber.trim() !== '' &&
+          businessInfo.address.trim() !== '' &&
+          (businessInfo.experience.years > 0 ||
+            businessInfo.experience.months > 0)
+        );
+      default:
+        return false;
+    }
+  };
+
   const handleNextStep = () => {
     if (step === 5) {
-      // 마지막 단계에서는 홈으로 이동
       navigate('/home');
     } else {
-      // 다음 단계로 이동
       setStep((prev) => prev + 1);
     }
   };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -111,7 +135,9 @@ function SurveyGroomer() {
             <Typography variant="subtitle1" sx={{ mb: 2 }}>
               시작 시간
             </Typography>
-            <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+            <Box
+              sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}
+            >
               <NumberPicker
                 value={Number(businessHours.start.hour)}
                 onChange={(value) =>
@@ -120,7 +146,9 @@ function SurveyGroomer() {
                     start: { ...prev.start, hour: value },
                   }))
                 }
-                unit="시"
+                label="시"
+                max={23}
+                size="small"
               />
               <NumberPicker
                 value={Number(businessHours.start.minute)}
@@ -130,13 +158,15 @@ function SurveyGroomer() {
                     start: { ...prev.start, minute: value },
                   }))
                 }
-                unit="분"
+                label="분"
+                max={59}
+                size="small"
               />
             </Box>
             <Typography variant="subtitle1" sx={{ mb: 2 }}>
               종료 시간
             </Typography>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
               <NumberPicker
                 value={Number(businessHours.end.hour)}
                 onChange={(value) =>
@@ -145,7 +175,9 @@ function SurveyGroomer() {
                     end: { ...prev.end, hour: value },
                   }))
                 }
-                unit="시"
+                label="시"
+                max={23}
+                size="small"
               />
               <NumberPicker
                 value={Number(businessHours.end.minute)}
@@ -155,7 +187,9 @@ function SurveyGroomer() {
                     end: { ...prev.end, minute: value },
                   }))
                 }
-                unit="분"
+                label="분"
+                max={59}
+                size="small"
               />
             </Box>
           </Box>
@@ -211,7 +245,7 @@ function SurveyGroomer() {
                 >
                   경력
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 2 }}>
+                <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
                   <NumberPicker
                     value={Number(businessInfo.experience.years)}
                     onChange={(value) =>
@@ -220,7 +254,9 @@ function SurveyGroomer() {
                         experience: { ...prev.experience, years: value },
                       }))
                     }
-                    unit="년"
+                    label="년"
+                    size="small"
+                    max={50}
                   />
                   <NumberPicker
                     value={Number(businessInfo.experience.months)}
@@ -230,7 +266,9 @@ function SurveyGroomer() {
                         experience: { ...prev.experience, months: value },
                       }))
                     }
-                    unit="개월"
+                    label="개월"
+                    size="small"
+                    max={11}
                   />
                 </Box>
               </Box>
@@ -241,23 +279,59 @@ function SurveyGroomer() {
                 >
                   자격증
                 </Typography>
-                <InputText
-                  placeholder="자격증을 입력해주세요"
-                  value={businessInfo.certification}
-                  onChange={(e) =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      certification: e.target.value,
-                    }))
-                  }
-                />
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    mb: 2,
+                  }}
+                >
+                  {businessInfo.certifications.map((cert, index) => (
+                    <Box key={index} sx={{ display: 'flex', gap: '8px' }}>
+                      <InputText
+                        size="large"
+                        placeholder="자격증을 입력해주세요"
+                        value={cert}
+                        onChange={(e) => {
+                          const newCertifications = [
+                            ...businessInfo.certifications,
+                          ];
+                          newCertifications[index] = e.target.value;
+                          setBusinessInfo((prev) => ({
+                            ...prev,
+                            certifications: newCertifications,
+                          }));
+                        }}
+                      />
+                      {businessInfo.certifications.length > 1 && (
+                        <DeleteButton
+                          size="medium"
+                          label=""
+                          onClick={() => {
+                            const newCertifications =
+                              businessInfo.certifications.filter(
+                                (_, i) => i !== index
+                              );
+                            setBusinessInfo((prev) => ({
+                              ...prev,
+                              certifications: newCertifications,
+                            }));
+                          }}
+                        />
+                      )}
+                    </Box>
+                  ))}
+                </Box>
                 <AddButton
+                  size="large"
                   label="추가하기"
                   onClick={() => {
-                    // 자격증 추가 로직해야 됨
-                    console.log('자격증 추가');
+                    setBusinessInfo((prev) => ({
+                      ...prev,
+                      certifications: [...prev.certifications, ''],
+                    }));
                   }}
-                  sx={{ mt: 1 }}
                 />
               </Box>
               <Box>
@@ -346,26 +420,16 @@ function SurveyGroomer() {
             right: 0,
             p: 2,
             bgcolor: 'white',
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <button
-            onClick={handleNextStep} // onClick 핸들러 변경
-            style={{
-              width: '326px',
-              height: '60px',
-              margin: '0 auto',
-              display: 'block',
-              padding: '0',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: '#FFD600',
-              color: 'black',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-            }}
-          >
-            {step === 5 ? '프로필 저장하기' : '다음으로'}
-          </button>
+          <Button
+            size="large"
+            backgroundColor={isStepValid() ? 'primary' : 'secondary'}
+            onClick={isStepValid() ? handleNextStep : undefined}
+            label={step === 5 ? '프로필 저장하기' : '다음으로'}
+          />
         </Box>
       </Container>
     </>

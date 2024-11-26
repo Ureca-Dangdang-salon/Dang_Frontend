@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
+import {
+  Box,
+  Button as MuiButton,
+  DialogTitle,
+  Dialog,
+  DialogActions,
+} from '@mui/material';
+import Button from '@/components/Common/Button/Button';
 
 export const Modal = ({
   openLabel,
@@ -9,6 +16,7 @@ export const Modal = ({
   leftLabel,
   rightLabel,
   action,
+  onClose,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -18,6 +26,9 @@ export const Modal = ({
 
   const handleClose = () => {
     setOpen(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const handleAction = () => {
@@ -28,12 +39,11 @@ export const Modal = ({
   return (
     <React.Fragment>
       <Button
+        size="large"
+        backgroundColor="primary"
         onClick={handleClickOpen}
-        color={buttonColor}
-        sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
-      >
-        {openLabel}
-      </Button>
+        label={openLabel}
+      />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -54,7 +64,7 @@ export const Modal = ({
         </DialogTitle>
         <DialogActions>
           <Box width="100%" textAlign="center" mb={2} mx={2}>
-            <Button
+            <MuiButton
               onClick={handleClose}
               sx={{
                 borderRadius: '10px',
@@ -67,8 +77,8 @@ export const Modal = ({
               }}
             >
               {leftLabel}
-            </Button>
-            <Button
+            </MuiButton>
+            <MuiButton
               onClick={handleAction}
               autoFocus
               sx={{
@@ -81,7 +91,7 @@ export const Modal = ({
               }}
             >
               {rightLabel}
-            </Button>
+            </MuiButton>
           </Box>
         </DialogActions>
       </Dialog>
@@ -96,4 +106,5 @@ Modal.propTypes = {
   leftLabel: PropTypes.string,
   rightLabel: PropTypes.string,
   action: PropTypes.func,
+  onClose: PropTypes.func,
 };

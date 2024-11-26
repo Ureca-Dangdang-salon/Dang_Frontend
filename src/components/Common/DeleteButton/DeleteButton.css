@@ -1,0 +1,36 @@
+.delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid #ff9b9b;
+  background-color: #fff5f5;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #3b3b3b;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 7px 1px;
+  padding: 0 16px;
+}
+
+.delete-button-large {
+  width: 100%;
+  height: 60px;
+  font-size: 16px;
+}
+
+.delete-button-medium {
+  width: 48px;
+  height: 60px;
+  font-size: 14px;
+}
+
+.delete-icon {
+  color: #ff6b6b;
+  margin-right: 0;
+}
+
+.delete-button-medium .delete-icon + span {
+  margin-left: 8px;
+}

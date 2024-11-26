@@ -1,11 +1,33 @@
+// import PropTypes from 'prop-types';
+// import './Button.css';
+
+// const Button = ({ size, backgroundColor, onClick, label }) => {
+//   const className = `button ${size} ${backgroundColor === 'primary' ? 'yellow' : 'gray'}`;
+
+//   return (
+//     <button className={className} onClick={onClick}>
+//       {label}
+//     </button>
+//   );
+// };
+
+// Button.propTypes = {
+//   size: PropTypes.oneOf(['large', 'medium']).isRequired,
+//   backgroundColor: PropTypes.string.isRequired,
+//   onClick: PropTypes.func,
+//   label: PropTypes.string.isRequired,
+// };
+
+// export default Button;
 import PropTypes from 'prop-types';
 import './Button.css';
 
 const Button = ({ size, backgroundColor, onClick, label }) => {
+  const isDisabled = backgroundColor !== 'primary';
   const className = `button ${size} ${backgroundColor === 'primary' ? 'yellow' : 'gray'}`;
 
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} disabled={isDisabled}>
       {label}
     </button>
   );
@@ -13,7 +35,7 @@ const Button = ({ size, backgroundColor, onClick, label }) => {
 
 Button.propTypes = {
   size: PropTypes.oneOf(['large', 'medium']).isRequired,
-  backgroundColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.oneOf(['primary', 'secondary']).isRequired,
   onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
 };

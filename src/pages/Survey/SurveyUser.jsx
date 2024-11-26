@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { Box, Typography, Container } from '@mui/material';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import InputText from '@/components/Common/InputText/InputText';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
+import Button from '@/components/Common/Button/Button';
+import { Modal } from '@/components/Common/Modal/Modal';
 import uploadProfileButton from '@/components/Survey/uploadprofilebutton.svg';
 
 function SurveyUser() {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
-  const { city, district } = location.state || {};
+  // const { city, district } = location.state || {};
   const [step, setStep] = useState(1);
 
   const [petInfo, setPetInfo] = useState({
     name: '',
     age: 0,
+    ageMonth: 0,
     weight: 0,
     breed: '',
     gender: '',
@@ -31,6 +34,77 @@ function SurveyUser() {
     profileImage: null,
   });
 
+  const checkCharacteristicsValidity = () => {
+    const hasSelectedCharacteristic = Object.values(
+      petInfo.characteristics
+    ).some((value) => value);
+    const isOtherValid =
+      !petInfo.characteristics.기타 ||
+      (petInfo.characteristics.기타 &&
+        petInfo.otherCharacteristic.trim() !== '');
+    return hasSelectedCharacteristic && isOtherValid;
+  };
+
+  const isStepValid = () => {
+    switch (step) {
+      case 1:
+        return petInfo.name.trim() !== '';
+      case 2:
+        return petInfo.age > 0 || petInfo.ageMonth > 0;
+      case 3:
+        return petInfo.weight > 0;
+      case 4:
+        return petInfo.breed.trim() !== '';
+      case 5:
+        return petInfo.gender !== '';
+      case 6:
+        return checkCharacteristicsValidity();
+      case 7:
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const handleSaveProfile = () => {
+    // 여기서 프로필 저장 로직 수행
+    return true; // 저장 성공 시 true 반환
+  };
+
+  const handleAddAnotherPet = () => {
+    if (handleSaveProfile()) {
+      setPetInfo({
+        name: '',
+        age: 0,
+        ageMonth: 0,
+        weight: 0,
+        breed: '',
+        gender: '',
+        neutered: false,
+        characteristics: {
+          '물을 무서워해요.': false,
+          '사람을 좋아해요.': false,
+          '발을 만지는 걸 싫어해요.': false,
+          기타: false,
+          없음: false,
+        },
+        otherCharacteristic: '',
+        profileImage: null,
+      });
+      setStep(1);
+    }
+  };
+
+  const handleGoHome = () => {
+    if (handleSaveProfile()) {
+      navigate('/home');
+    }
+  };
+
+  const handleNextStep = () => {
+    setStep((prev) => prev + 1);
+  };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -40,6 +114,7 @@ function SurveyUser() {
               반려견의 이름을 입력해주세요.
             </Typography>
             <InputText
+              size="large"
               placeholder="이름을 입력해주세요"
               value={petInfo.name}
               onChange={(e) =>
@@ -53,15 +128,33 @@ function SurveyUser() {
         return (
           <Box sx={{ mt: 8 }}>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              반려견의 나이를 선택해주세요.
+              반려견의 나이를 입력해주세요.
             </Typography>
-            <NumberPicker
-              value={petInfo.age}
-              onChange={(value) =>
-                setPetInfo((prev) => ({ ...prev, age: value }))
-              }
-              unit="살"
-            />
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <NumberPicker
+                value={petInfo.age}
+                onChange={(value) =>
+                  setPetInfo((prev) => ({ ...prev, age: value }))
+                }
+                label="년"
+                max={20}
+              />
+              <NumberPicker
+                value={petInfo.ageMonth}
+                onChange={(value) =>
+                  setPetInfo((prev) => ({ ...prev, ageMonth: value }))
+                }
+                label="개월"
+                max={11}
+              />
+            </Box>
           </Box>
         );
 
@@ -71,13 +164,21 @@ function SurveyUser() {
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
               반려견의 몸무게를 선택해주세요.
             </Typography>
-            <NumberPicker
-              value={petInfo.weight}
-              onChange={(value) =>
-                setPetInfo((prev) => ({ ...prev, weight: value }))
-              }
-              unit="kg"
-            />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <NumberPicker
+                value={petInfo.weight}
+                onChange={(value) =>
+                  setPetInfo((prev) => ({ ...prev, weight: value }))
+                }
+                label="kg"
+                max={100}
+              />
+            </Box>
           </Box>
         );
 
@@ -88,6 +189,7 @@ function SurveyUser() {
               반려견의 견종을 입력해주세요.
             </Typography>
             <InputText
+              size="large"
               placeholder="견종을 입력해주세요"
               value={petInfo.breed}
               onChange={(e) =>
@@ -137,7 +239,6 @@ function SurveyUser() {
             </Box>
           </Box>
         );
-
       case 6:
         return (
           <Box sx={{ mt: 8 }}>
@@ -181,17 +282,21 @@ function SurveyUser() {
                       size="large"
                     />
                     {trait === '기타' && checked && (
-                      <InputText
-                        placeholder="기타 특징을 적어주세요. (최대30자)"
-                        value={petInfo.otherCharacteristic}
-                        onChange={(e) =>
-                          setPetInfo((prev) => ({
-                            ...prev,
-                            otherCharacteristic: e.target.value,
-                          }))
-                        }
-                        sx={{ mt: 1 }}
-                      />
+                      <Box sx={{ mt: 2, mb: 1 }}>
+                        {' '}
+                        {/* 여기에 margin 추가 */}
+                        <InputText
+                          size="large"
+                          placeholder="기타 특징을 적어주세요. (최대30자)"
+                          value={petInfo.otherCharacteristic}
+                          onChange={(e) =>
+                            setPetInfo((prev) => ({
+                              ...prev,
+                              otherCharacteristic: e.target.value,
+                            }))
+                          }
+                        />
+                      </Box>
                     )}
                   </Box>
                 )
@@ -199,7 +304,6 @@ function SurveyUser() {
             </Box>
           </Box>
         );
-
       case 7:
         return (
           <Box
@@ -214,22 +318,13 @@ function SurveyUser() {
               프로필 사진을 등록해주세요.
             </Typography>
             <Box sx={{ width: 200, height: 200 }}>
-              <img src={uploadProfileButton} alt="프로필 업로드" />{' '}
-              {/*아직 여기 기능구현 X*/}
+              <img src={uploadProfileButton} alt="프로필 업로드" />
             </Box>
           </Box>
         );
 
       default:
         return null;
-    }
-  };
-
-  const handleNextStep = () => {
-    if (step === 7) {
-      navigate('/home');
-    } else {
-      setStep((prev) => prev + 1);
     }
   };
 
@@ -248,26 +343,28 @@ function SurveyUser() {
             right: 0,
             p: 2,
             bgcolor: 'white',
+            display: 'flex',
+            justifyContent: 'center',
           }}
         >
-          <button
-            onClick={handleNextStep}
-            style={{
-              width: '326px',
-              height: '60px',
-              margin: '0 auto',
-              display: 'block',
-              padding: '0',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: '#FFD600',
-              color: 'black',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-            }}
-          >
-            {step === 7 ? '프로필 저장하기' : '다음으로'}
-          </button>
+          {step === 7 ? (
+            <Modal
+              openLabel="프로필 저장하기"
+              buttonColor="primary"
+              title="반려견 프로필이 저장되었습니다. 다른 반려견을 추가하시겠어요?"
+              leftLabel="홈으로 가기"
+              rightLabel="추가하기"
+              action={handleAddAnotherPet}
+              onClose={handleGoHome}
+            />
+          ) : (
+            <Button
+              size="large"
+              backgroundColor={isStepValid() ? 'primary' : 'secondary'}
+              onClick={isStepValid() ? handleNextStep : undefined}
+              label="다음으로"
+            />
+          )}
         </Box>
       </Container>
     </>
