@@ -4,7 +4,7 @@ import NumberPicker from './NumberPicker';
 export default {
   title: 'NumberPicker',
   component: NumberPicker,
-  tags: ['autodocs'], // 문서 자동 생성 활성화
+  tags: ['autodocs'],
   argTypes: {
     value: {
       control: 'number',
@@ -45,20 +45,18 @@ export default {
   },
 };
 
-// Decorators: 공통 상태 관리
 export const decorators = [
   (Story, context) => {
     const [value, setValue] = React.useState(context.args.value || 0);
 
     const handleChange = (newValue) => {
-      setValue(newValue); // 로컬 상태 업데이트
+      setValue(newValue);
       if (context.args.onChange) {
-        context.args.onChange(newValue); // Action Logger 호출
+        context.args.onChange(newValue);
       }
     };
 
     React.useEffect(() => {
-      // args.value가 변경될 때 상태 동기화
       setValue(context.args.value || 0);
     }, [context.args.value]);
 
@@ -66,10 +64,6 @@ export const decorators = [
   },
 ];
 
-/**
- * 스토리: 년
- * NumberPicker를 "년" 단위로 설정
- */
 export const Year = (args) => <NumberPicker {...args} />;
 Year.args = {
   value: 0,
@@ -78,7 +72,7 @@ Year.args = {
   placeholder: '0',
   label: '년',
 };
-Year.storyName = 'Year Picker'; // 스토리 이름 설정
+Year.storyName = 'Year Picker';
 Year.parameters = {
   docs: {
     description: {
@@ -87,10 +81,6 @@ Year.parameters = {
   },
 };
 
-/**
- * 스토리: 개월
- * NumberPicker를 "개월" 단위로 설정
- */
 export const Month = (args) => <NumberPicker {...args} />;
 Month.args = {
   value: 0,
@@ -108,10 +98,6 @@ Month.parameters = {
   },
 };
 
-/**
- * 스토리: kg
- * NumberPicker를 "kg" 단위로 설정
- */
 export const Weight = (args) => <NumberPicker {...args} />;
 Weight.args = {
   value: 0,
@@ -129,10 +115,6 @@ Weight.parameters = {
   },
 };
 
-/**
- * 스토리: 시
- * NumberPicker를 "시" 단위로 설정
- */
 export const Hour = (args) => <NumberPicker {...args} />;
 Hour.args = {
   value: 0,
@@ -150,10 +132,6 @@ Hour.parameters = {
   },
 };
 
-/**
- * 스토리: 분
- * NumberPicker를 "분" 단위로 설정
- */
 export const Minute = (args) => <NumberPicker {...args} />;
 Minute.args = {
   value: 0,

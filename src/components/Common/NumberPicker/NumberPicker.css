@@ -1,4 +1,3 @@
-/* 기본 크기 */
 .number-picker {
   display: flex;
   align-items: center;
@@ -12,9 +11,9 @@
 }
 
 .number-picker--small {
-  width: 196px; /* small 크기 */
-  height: 60px; /* 동일 높이 */
-  padding: 0 12px; /* 내부 여백 축소 */
+  width: 196px;
+  height: 60px;
+  padding: 0 12px;
 }
 
 .number-picker-display {
@@ -29,17 +28,18 @@
 }
 
 .number-picker-label {
-  margin-left: 8px;
+  margin-left: auto;
   margin-right: 20px;
   font-size: 16px;
   color: #3b3b3b;
   font-weight: bold;
+  text-align: right;
 }
 
 .number-picker-controls {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .button-container {
@@ -74,4 +74,28 @@
 
 .number-picker-icon {
   color: #b8b8b8;
+}
+.number-picker-input {
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 8px;
+  width: 60px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3b3b3b;
+}
+
+.number-picker-input::-webkit-inner-spin-button,
+.number-picker-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-picker-input:focus {
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  box-shadow: none;
+  outline: none;
 }

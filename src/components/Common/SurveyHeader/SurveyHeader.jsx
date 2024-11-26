@@ -7,7 +7,7 @@ import LinearProgress, {
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+const BorderLinearProgress = styled(LinearProgress)(() => ({
   height: 10,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
@@ -19,30 +19,53 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-export const SurveyHeader = ({ label, totalPage, currPage }) => {
+export const SurveyHeader = ({
+  label,
+  totalPage,
+  currPage,
+  delBack,
+  backHandler,
+}) => {
   const navigate = useNavigate();
   return (
-    <header>
-      <div
-        className="storybook-header"
-        style={{
-          height: '80px',
-          border: 'none',
+    <Box
+      className="storybook-header"
+      sx={{
+        zIndex: 100,
+        flexDirection: 'column',
+        px: 2,
+        pb: 0,
+        boxShadow: '0',
+      }}
+    >
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          height: '40px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
         }}
       >
-        <IconButton onClick={() => navigate(-1)}>
-          <ArrowBackIosNewRoundedIcon color="n2" />
-        </IconButton>
+        {delBack ? (
+          ''
+        ) : (
+          <IconButton
+            onClick={() => {
+              backHandler ? backHandler() : navigate(-1);
+            }}
+            sx={{ position: 'absolute', left: '0' }}
+          >
+            <ArrowBackIosNewRoundedIcon color="n2" />
+          </IconButton>
+        )}
         <Typography color="text" fontWeight={700} fontSize={18}>
           {label}
         </Typography>
-        <div></div>
-      </div>
+      </Box>
 
-      <Box display="flex" gap={1} mx={3}>
+      <Box display="flex" gap={1} mx={3} width="100%">
         {Array.from({ length: totalPage }).map((_, index) => (
           <BorderLinearProgress
             key={index}
@@ -52,7 +75,7 @@ export const SurveyHeader = ({ label, totalPage, currPage }) => {
           />
         ))}
       </Box>
-    </header>
+    </Box>
   );
 };
 
