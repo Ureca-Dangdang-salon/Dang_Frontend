@@ -17,14 +17,14 @@ const NumberPicker = ({
 
   useEffect(() => {
     setValue(initialValue);
-    setIsInitial(true); // 초기 상태로 리셋
+    setIsInitial(true);
   }, [initialValue]);
 
   const handleIncrease = () => {
     if (value < max) {
       const newValue = value + 1;
       setValue(newValue);
-      setIsInitial(false); // 값 변경
+      setIsInitial(false);
       onChange(newValue);
     }
   };
@@ -33,7 +33,7 @@ const NumberPicker = ({
     if (value > min) {
       const newValue = value - 1;
       setValue(newValue);
-      setIsInitial(false); // 값 변경
+      setIsInitial(false);
       onChange(newValue);
     }
   };
@@ -42,7 +42,6 @@ const NumberPicker = ({
     const newValue = e.target.value;
 
     if (newValue === '') {
-      // 빈 값 처리
       setValue('');
       setIsInitial(false);
       onChange('');

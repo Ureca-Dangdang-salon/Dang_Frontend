@@ -1,10 +1,9 @@
-/* 기본 크기 */
 .number-picker {
   display: flex;
   align-items: center;
   border-radius: 12px;
   background-color: #ffffff;
-  width: 326px;
+  width: 100%;
   height: 60px;
   padding: 0 16px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;
@@ -12,9 +11,9 @@
 }
 
 .number-picker--small {
-  width: 196px; /* small 크기 */
-  height: 60px; /* 동일 높이 */
-  padding: 0 12px; /* 내부 여백 축소 */
+  width: 196px;
+  height: 60px;
+  padding: 0 12px;
 }
 
 .number-picker-display {
@@ -79,7 +78,6 @@
 .number-picker-input {
   -webkit-appearance: none;
   background-color: #ffffff;
-  border: 1px solid #ffffff; /*border를 없앴더니 검은색 테두리가 생성되어서 배경색과 강제로 맞춤*/
   border-radius: 4px;
   padding: 8px;
   width: 60px;
