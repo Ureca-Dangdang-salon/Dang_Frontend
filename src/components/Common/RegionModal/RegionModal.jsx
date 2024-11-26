@@ -11,7 +11,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material';
-import { koreaRegions } from '../NewRequest/atoms/KoreaRegions';
+import { koreaRegions } from './KoreaRegions';
 
 export const RegionModal = ({ setLocation, open, setOpen }) => {
   const [selectedCity, setSelectedCity] = useState(null);

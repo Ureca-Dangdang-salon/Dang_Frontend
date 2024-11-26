@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SubTitle from '../atoms/SubTitle';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Selector2 } from '../atoms/Selector2';
-import { RegionModal } from '@components/Common/RegionModal';
+import { RegionModal } from '@components/Common/RegionModal/RegionModal';
 
 const SelectRegion = () => {
   const [location, setLocation] = useState(null);
