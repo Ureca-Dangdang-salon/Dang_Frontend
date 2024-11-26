@@ -3,7 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import dayjs from 'dayjs';
 import { Selector2 } from '../atoms/Selector2';
 import SubTitle from '../atoms/SubTitle';
-import DateModal from '../atoms/DateModal';
+import DateModal from '@components/Common/DateModal';
 
 const SelectDate = () => {
   const [open, setOpen] = useState(false);
