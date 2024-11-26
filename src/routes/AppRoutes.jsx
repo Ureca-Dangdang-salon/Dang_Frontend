@@ -15,7 +15,9 @@ import DogProfile from '@/pages/mypage/DogProfile';
 import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
 import PaymentHistory from '@/pages/mypage/PaymentHistory';
 import SalonProfile from '@/pages/SalonProfile';
+import NewReview from '@/pages/NewReview';
 import MyCoupons from '@/pages/mypage/MyCoupons';
+import MyReviews from '@/pages/mypage/MyReviews';
 
 const AppRoutes = () => {
   return (
@@ -46,8 +48,9 @@ const AppContent = () => {
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat />} />
-          <Route path={paths.mypage} element={<Mypage role="user" />} />
+          <Route path={paths.mypage} element={<Mypage role="salon" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
+          <Route path={paths.newReview} element={<NewReview />} />
 
           <Route
             path={paths.editSocialProfile}
@@ -58,6 +61,7 @@ const AppContent = () => {
           <Route path={paths.salonProfile} element={<SalonProfile />} />
           <Route path={paths.paymentHistory} element={<PaymentHistory />} />
           <Route path={paths.myCoupons} element={<MyCoupons />} />
+          <Route path={paths.myReviews} element={<MyReviews role="salon" />} />
         </Routes>
       </Box>
 

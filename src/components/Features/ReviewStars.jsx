@@ -36,7 +36,11 @@ const ReviewStars = (props) => {
         </Typography>
       </Box>
       <Box textAlign="center">
-        <Button color="n3" sx={{ p: 0, borderRadius: '10px' }}>
+        <Button
+          color="n3"
+          sx={{ p: 0, borderRadius: '10px' }}
+          href={props.link}
+        >
           <Typography fontWeight={700} fontSize={14} color="n2">
             (리뷰 10개)
           </Typography>
