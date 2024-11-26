@@ -15,6 +15,7 @@ import DogProfile from '@/pages/mypage/DogProfile';
 import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
 import PaymentHistory from '@/pages/mypage/PaymentHistory';
 import SalonProfile from '@/pages/SalonProfile';
+import NewReview from '@/pages/NewReview';
 
 const AppRoutes = () => {
   return (
@@ -47,6 +48,7 @@ const AppContent = () => {
           <Route path={paths.chat} element={<Chat />} />
           <Route path={paths.mypage} element={<Mypage role="salon" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
+          <Route path={paths.newReview} element={<NewReview />} />
 
           <Route
             path={paths.editSocialProfile}
