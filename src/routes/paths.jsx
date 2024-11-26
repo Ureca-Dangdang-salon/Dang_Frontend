@@ -11,6 +11,7 @@ const paths = {
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
   dogProfile: '/mypage/dogprofile',
+  myCoupons: '/mypage/coupons',
   salonProfile: '/salonprofile',
 
   paymentHistory: '/mypage/paymenthistory',
