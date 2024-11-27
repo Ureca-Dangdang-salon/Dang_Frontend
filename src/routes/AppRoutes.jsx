@@ -18,6 +18,8 @@ import SalonProfile from '@/pages/SalonProfile';
 import NewReview from '@/pages/NewReview';
 import MyCoupons from '@/pages/mypage/MyCoupons';
 import MyReviews from '@/pages/mypage/MyReviews';
+import EditEstimate from '@/pages/estimate/EditEstimate';
+import NewEstimate from '@/pages/estimate/NewEstimate';
 
 const AppRoutes = () => {
   return (
@@ -51,6 +53,8 @@ const AppContent = () => {
           <Route path={paths.mypage} element={<Mypage role="salon" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
           <Route path={paths.newReview} element={<NewReview />} />
+          <Route path={paths.estimate} element={<NewEstimate />} />
+          <Route path={paths.editEstimate} element={<EditEstimate />} />
 
           <Route
             path={paths.editSocialProfile}
