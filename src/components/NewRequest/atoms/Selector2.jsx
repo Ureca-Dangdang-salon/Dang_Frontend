@@ -5,7 +5,7 @@ export const Selector2 = ({ label, content, icon: Icon, setOpen }) => {
     <Box
       display="flex"
       alignItems="center"
-      px={2}
+      px={3}
       justifyContent="space-between"
       sx={{
         width: '100%',

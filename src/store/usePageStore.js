@@ -5,6 +5,8 @@ const usePageStore = create((set) => ({
   setNewRequestStep: (page) => set({ newRequestStep: page }),
   dogStep: 0,
   setDogStep: (page) => set({ dogStep: page }),
+  estimateStep: 1,
+  setEstimateStep: (page) => set({ estimateStep: page }),
 }));
 
 export default usePageStore;

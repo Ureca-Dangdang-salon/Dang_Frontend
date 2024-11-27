@@ -11,6 +11,9 @@ const paths = {
   mypage: '/mypage',
   notification: '/notification',
   newRequest: '/newrequest',
+  newReview: '/newreview',
+  estimate: '/estimate',
+  editEstimate: '/estimate/edit',
 
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
@@ -19,6 +22,7 @@ const paths = {
   salonProfile: '/salonprofile',
 
   paymentHistory: '/mypage/paymenthistory',
+  myReviews: '/mypage/myreviews',
 };
 
 export default paths;

@@ -77,7 +77,10 @@ const MySalonPage = () => {
         </Box>
       </Box>
 
-      <ReviewStars averageReview={data.averageReview} />
+      <ReviewStars
+        averageReview={data.averageReview}
+        link="/mypage/myreviews"
+      />
 
       <Box display="flex" justifyContent="center" textAlign="center" mt={3}>
         <Box
