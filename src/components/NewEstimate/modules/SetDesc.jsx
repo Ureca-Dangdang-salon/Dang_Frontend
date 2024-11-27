@@ -1,7 +1,7 @@
 import InputText from '@components/Common/InputText/InputText';
 import TextArea from '@components/Common/TextArea/TextArea';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
-import { Box, Icon, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
