@@ -3,9 +3,9 @@ import paths from '@/routes/paths';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import Survey from '../pages/survey/Survey';
-import SurveyGroomer from '@/pages/survey/SurveyGroomer';
-import SurveyUser from '@/pages/survey/SurveyUser';
+import Survey from '../pages/Survey/Survey';
+import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
+import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
