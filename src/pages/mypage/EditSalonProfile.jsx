@@ -6,6 +6,7 @@ import { useState } from 'react';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import AddButton from '@components/Common/AddButton/AddButton';
+import TextArea from '@components/Common/TextArea/TextArea';
 
 const EditSalonProfile = () => {
   const [data, setData] = useState({
@@ -169,63 +170,24 @@ const EditSalonProfile = () => {
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           서비스 설명
         </Typography>
-        <TextField
-          fullWidth
-          multiline
-          defaultValue={data.description}
-          sx={{
-            bgcolor: 'white.main',
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;',
-              minHeight: '60px',
-              '& fieldset': {
-                border: 'none',
-              },
-            },
-          }}
+        <TextArea
+          value={data.description}
           onChange={(e) => handleChange('description', e.target.value)}
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           채팅 시작 문구
         </Typography>
-        <TextField
-          fullWidth
-          multiline
-          defaultValue={data.chatStart}
-          sx={{
-            bgcolor: 'white.main',
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;',
-              minHeight: '60px',
-              '& fieldset': {
-                border: 'none',
-              },
-            },
-          }}
+        <TextArea
+          value={data.chatStart}
           onChange={(e) => handleChange('chatStart', e.target.value)}
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           FAQ
         </Typography>
-        <TextField
-          fullWidth
-          multiline
-          defaultValue={data.faq}
-          sx={{
-            bgcolor: 'white.main',
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;',
-              minHeight: '60px',
-              '& fieldset': {
-                border: 'none',
-              },
-            },
-          }}
+        <TextArea
+          value={data.faq}
           onChange={(e) => handleChange('faq', e.target.value)}
         />
 

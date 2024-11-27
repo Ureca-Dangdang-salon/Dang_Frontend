@@ -1,6 +1,6 @@
 import { Box, TextField } from '@mui/material';
 
-const TextArea = ({ placeholder, value, onChange, rows, disable }) => {
+const TextArea = ({ placeholder, value, onChange, rows, minRows, disable }) => {
   return (
     <Box
       sx={{
@@ -16,14 +16,12 @@ const TextArea = ({ placeholder, value, onChange, rows, disable }) => {
         fullWidth
         multiline
         rows={rows}
+        minRows={minRows}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
         disabled={disable}
         sx={{
-          '& .MuiInputBase-input': {
-            fontWeight: 'bold',
-          },
           '& .MuiOutlinedInput-root': {
             padding: '16px',
           },
