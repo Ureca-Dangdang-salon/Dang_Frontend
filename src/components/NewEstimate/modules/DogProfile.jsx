@@ -1,32 +1,6 @@
 import { Avatar, Box, Typography } from '@mui/material';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
-
-const DogImg = ({ text }) => {
-  return (
-    <Box width="43%">
-      <Box
-        sx={{
-          width: '100%',
-          aspectRatio: '1',
-          borderRadius: '12px',
-          backgroundColor: 'p4.main',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Avatar
-          src="/images/default-dog-profile.png"
-          alt="dog img"
-          sx={{ width: '100%', height: '100%' }}
-        />
-      </Box>
-      <Typography fontSize="14px" fontWeight="bold" textAlign="center" mt={1}>
-        {text}
-      </Typography>
-    </Box>
-  );
-};
+import DogCompareImg from '@components/Features/DogCompareImg';
 
 const DogProfile = () => {
   return (
@@ -68,8 +42,8 @@ const DogProfile = () => {
       <div>
         <SubTitle title="반려견 사진" />
         <Box display="flex" gap={4} justifyContent="center">
-          <DogImg text="현재 반려견 사진" />
-          <DogImg text="원하는 스타일(예시)" />
+          <DogCompareImg text="현재 반려견 사진" />
+          <DogCompareImg text="원하는 스타일(예시)" />
         </Box>
       </div>
     </Box>
