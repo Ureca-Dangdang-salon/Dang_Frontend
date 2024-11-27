@@ -1,7 +1,6 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Modal } from '@components/Common/Modal/Modal';
 import { Box, Button, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
 
 const RequestHistory = () => {
   const dataArray = [
@@ -53,20 +52,24 @@ const RequestHistory = () => {
                   />
                   <Box ml={2} fontSize={14}>
                     <Typography fontWeight={700}>{data.name}</Typography>
-                    <Grid container spacing={0.5}>
-                      <Grid size={4}>희망날짜:</Grid>
-                      <Grid size={8}>{data.date}</Grid>
-                      <Grid size={4}>지역:</Grid>
-                      <Grid size={8}>{data.region}</Grid>
-                      <Grid size={4}>서비스 형태:</Grid>
-                      <Grid size={8}>
-                        {data.serviceType == 'VISIT'
-                          ? '방문'
-                          : data.serviceType == 'SHOP'
-                            ? '매장'
-                            : '방문, 매장'}
-                      </Grid>
-                    </Grid>
+                    <Box display="flex">
+                      <Box container spacing={0.5}>
+                        <text>희망날짜:</text> <br />
+                        <text>지역:</text> <br />
+                        <text>서비스 형태:</text>
+                      </Box>
+                      <Box ml={2}>
+                        <text>{data.date}</text> <br />
+                        <text>{data.region}</text> <br />
+                        <text>
+                          {data.serviceType == 'VISIT'
+                            ? '방문'
+                            : data.serviceType == 'SHOP'
+                              ? '매장'
+                              : '방문, 매장'}
+                        </text>
+                      </Box>
+                    </Box>
                   </Box>
                 </Box>
 
