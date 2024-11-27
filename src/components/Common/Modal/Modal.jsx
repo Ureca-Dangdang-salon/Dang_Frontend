@@ -9,7 +9,6 @@ export const Modal = ({
   leftLabel,
   rightLabel,
   action,
-  sx = {},
 }) => {
   const [open, setOpen] = useState(false);
 
