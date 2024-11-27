@@ -16,7 +16,7 @@ const PaymentHistory = () => {
       <DetailHeader label="결제내역" />
       <Box p={4}>
         <Accordion
-          square={true}
+          square="true"
           sx={{
             borderRadius: '10px',
             boxShadow: 'rgba(0, 0, 0, 0.05) 0px 0px 7px 1px;',

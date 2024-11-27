@@ -5,12 +5,10 @@
   border-radius: 12px;
   border: 1px solid #ffe78b;
   background-color: #fffbef;
-  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
   color: #3b3b3b;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 7px 1px;
   padding: 0 16px;
 }
 

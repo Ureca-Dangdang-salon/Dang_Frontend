@@ -18,6 +18,8 @@ import SalonProfile from '@/pages/SalonProfile';
 import NewReview from '@/pages/NewReview';
 import MyCoupons from '@/pages/mypage/MyCoupons';
 import MyReviews from '@/pages/mypage/MyReviews';
+import RequestHistory from '@/pages/mypage/RequestHistory';
+import RequestHistoryDetail from '@/pages/mypage/RequestHistoryDetail';
 
 const AppRoutes = () => {
   return (
@@ -62,6 +64,11 @@ const AppContent = () => {
           <Route path={paths.paymentHistory} element={<PaymentHistory />} />
           <Route path={paths.myCoupons} element={<MyCoupons />} />
           <Route path={paths.myReviews} element={<MyReviews role="salon" />} />
+          <Route path={paths.requestHistory} element={<RequestHistory />} />
+          <Route
+            path={paths.requestHistoryDetail}
+            element={<RequestHistoryDetail />}
+          />
         </Routes>
       </Box>
 

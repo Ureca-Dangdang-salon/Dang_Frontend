@@ -1,8 +1,10 @@
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box, Button, Divider } from '@mui/material';
 import { Modal } from '@components/Common/Modal/Modal';
 import ReviewStars from '../../components/Features/ReviewStars';
+import { useNavigate } from 'react-router-dom';
 
 const MySalonPage = () => {
+  const navigate = useNavigate();
   const data = {
     name: '홍길동',
     contactHours: '평일 오전 10시 ~ 오후 7시',
@@ -82,17 +84,38 @@ const MySalonPage = () => {
         link="/mypage/myreviews"
       />
 
-      <Box display="flex" justifyContent="center" textAlign="center" mt={3}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        textAlign="center"
+        mt={3}
+        gap={3}
+      >
         <Box
           flexDirection="column"
           sx={{
             cursor: 'pointer',
-            '&:hover': { color: 'secondary' },
+            '&:hover': { color: 'secondary.main' },
           }}
+          onClick={() => navigate('/mypage/requesthistory')}
         >
-          <Typography fontSize={14}>견적요청내역</Typography>
+          <Box fontSize={14}>견적요청내역</Box>
           <Typography fontSize={20} fontWeight={600} color="secondary.main">
             5
+          </Typography>
+        </Box>
+        <Divider orientation="vertical" variant="middle" flexItem />
+        <Box
+          flexDirection="column"
+          sx={{
+            cursor: 'pointer',
+            '&:hover': { color: 'secondary.main' },
+          }}
+          onClick={() => navigate('/mypage/myreviews')}
+        >
+          <Box fontSize={14}>리뷰</Box>
+          <Typography fontSize={20} fontWeight={600} color="secondary.main">
+            10
           </Typography>
         </Box>
       </Box>
