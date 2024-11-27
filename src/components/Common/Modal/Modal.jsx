@@ -30,7 +30,7 @@ export const Modal = ({
       <Button
         onClick={handleClickOpen}
         color={buttonColor}
-        sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
+        sx={{ borderRadius: '10px', minWidth: '40px' }}
       >
         {openLabel}
       </Button>

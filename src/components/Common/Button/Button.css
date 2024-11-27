@@ -16,12 +16,17 @@
   height: 48px;
 }
 
-.button.yellow {
+.primary {
   background-color: #fdd94e;
   color: #3b3b3b;
 }
 
-.button.gray {
+.delete {
+  background-color: #ffac8f;
+  color: #3b3b3b;
+}
+
+.gray {
   background-color: #dcdbdc;
   color: #b8b8b8;
 }
