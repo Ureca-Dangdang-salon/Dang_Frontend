@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
 import { Box, Typography, Container } from '@mui/material';
-import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
+import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
 import { RegionModal } from '@/components/Common/RegionModal/RegionModal';
 import Button from '@/components/Common/Button/Button';
+import InputText from '@/components/Common/InputText/InputText';
 
 function Survey() {
   const [city, setCity] = useState('');
@@ -12,10 +13,14 @@ function Survey() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleHairstylistSignup = () => {
-    navigate(paths.survey.groomer, {
-      state: { city, district },
-    });
+  const handleSetLocation = (selectedCity, selectedDistrict) => {
+    setCity(selectedCity);
+    setDistrict(selectedDistrict);
+    setIsModalOpen(false);
+  };
+
+  const handleInputClick = () => {
+    setIsModalOpen(true);
   };
 
   const handleUserSignup = () => {
@@ -24,14 +29,15 @@ function Survey() {
     });
   };
 
-  const handleSetLocation = (selectedCity, selectedRegion) => {
-    setCity(selectedCity);
-    setDistrict(selectedRegion);
+  const handleHairstylistSignup = () => {
+    navigate(paths.survey.groomer, {
+      state: { city, district },
+    });
   };
 
   return (
     <>
-      <SurveyHeader label="회원가입" totalPage={2} currPage={1} />
+      <DetailHeader label="회원가입" totalPage={2} currPage={1} />
       <Container maxWidth="sm" sx={{ p: 4 }}>
         <Box sx={{ mt: 8 }}>
           <Typography
@@ -44,37 +50,19 @@ function Survey() {
             살고 있는 지역을 알려 주세요.
           </Typography>
 
-          <Box
-            onClick={() => setIsModalOpen(true)}
-            sx={{
-              p: 2,
-              border: '1px solid #E0E0E0',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              mb: 2,
-            }}
-          >
-            <Typography
-              color={city && district ? 'text.primary' : 'text.secondary'}
-            >
-              {city && district ? `${city} ${district}` : '지역을 선택해주세요'}
-            </Typography>
+          <Box onClick={handleInputClick} sx={{ cursor: 'pointer' }}>
+            <InputText
+              size="large"
+              placeholder="지역을 선택해주세요"
+              value={city && district ? `${city} ${district}` : ''}
+              readOnly
+              onChange={() => {}}
+            />
           </Box>
-
-          <RegionModal
-            open={isModalOpen}
-            setOpen={setIsModalOpen}
-            setLocation={handleSetLocation}
-          />
         </Box>
-
         <Box
           sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            p: 2,
+            mt: 41,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -97,6 +85,11 @@ function Survey() {
           />
         </Box>
       </Container>
+      <RegionModal
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
+        setLocation={handleSetLocation}
+      />
     </>
   );
 }

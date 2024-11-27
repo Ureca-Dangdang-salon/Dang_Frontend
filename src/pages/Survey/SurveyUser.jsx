@@ -10,11 +10,8 @@ import { Modal } from '@/components/Common/Modal/Modal';
 import uploadProfileButton from '/images/upload-dog-button.png';
 
 function SurveyUser() {
-  // const location = useLocation();
   const navigate = useNavigate();
-  // const { city, district } = location.state || {};
   const [step, setStep] = useState(1);
-
   const [petInfo, setPetInfo] = useState({
     name: '',
     age: 0,
@@ -103,6 +100,14 @@ function SurveyUser() {
 
   const handleNextStep = () => {
     setStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    } else {
+      navigate('/survey');
+    }
   };
 
   const renderStep = () => {
@@ -343,7 +348,12 @@ function SurveyUser() {
 
   return (
     <>
-      <SurveyHeader label="회원가입" totalPage={7} currPage={step} />
+      <SurveyHeader
+        label="회원가입"
+        totalPage={7}
+        currPage={step}
+        backHandler={handleBack}
+      />
 
       <Container maxWidth="sm" sx={{ px: 2, pb: 10 }}>
         {renderStep()}
@@ -363,7 +373,7 @@ function SurveyUser() {
           {step === 7 ? (
             <Modal
               openLabel="프로필 저장하기"
-              buttonColor="primary"
+              buttonColor="yellow"
               title="반려견 프로필이 저장되었습니다. 다른 반려견을 추가하시겠어요?"
               leftLabel="홈으로 가기"
               rightLabel="추가하기"

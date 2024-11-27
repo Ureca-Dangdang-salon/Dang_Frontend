@@ -10,6 +10,7 @@ import Button from '@/components/Common/Button/Button';
 import DeleteButton from '@/components/Common/DeleteButton/DeleteButton';
 import TextArea from '@/components/Common/TextArea/TextArea';
 import { RegionModal } from '@/components/Common/RegionModal/RegionModal';
+import uploadGroomerProfile from '/images/upload-groomer-profile.png';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ function SurveyGroomer() {
     end: { hour: 0, minute: 0 },
   });
   const [businessInfo, setBusinessInfo] = useState({
+    profileImage: null,
     businessNumber: '',
     address: '',
     serviceType: {
@@ -206,9 +208,32 @@ function SurveyGroomer() {
         return (
           <Box sx={{ mt: 8 }}>
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              사업자 정보를 입력해주세요.
+              상세 정보를 입력해주세요.
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <Box>
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
+                  프로필 등록하기
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '100%',
+                    mb: 2,
+                  }}
+                >
+                  <img
+                    src={uploadGroomerProfile}
+                    alt="프로필 업로드"
+                    style={{
+                      width: '200px',
+                      height: '200px',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </Box>
+              </Box>
               <Box>
                 <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   사업자 번호
@@ -256,18 +281,15 @@ function SurveyGroomer() {
                   {serviceAreas.map((area, index) => (
                     <Box
                       key={index}
-                      sx={{
-                        p: 2,
-                        border: '1px solid #E0E0E0',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
+                      sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
                     >
-                      <Typography>
-                        {area.city} {area.district}
-                      </Typography>
+                      <InputText
+                        size="large"
+                        placeholder="서비스 지역을 선택해주세요"
+                        value={`${area.city} ${area.district}`}
+                        readOnly
+                        onClick={() => setIsModalOpen(true)}
+                      />
                       <DeleteButton
                         size="medium"
                         label=""
@@ -291,6 +313,38 @@ function SurveyGroomer() {
                   setLocation={handleSetLocation}
                 />
               </Box>{' '}
+              <Box>
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
+                  서비스 유형
+                </Typography>
+                <Box
+                  sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
+                >
+                  {Object.entries(businessInfo.serviceType).map(
+                    ([type, checked]) => (
+                      <RadioButton
+                        key={type}
+                        label={type}
+                        selected={checked}
+                        size="large"
+                        onChange={() =>
+                          setBusinessInfo((prev) => ({
+                            ...prev,
+                            serviceType: Object.fromEntries(
+                              Object.entries(prev.serviceType).map(
+                                ([key, value]) => [
+                                  key,
+                                  key === type ? !value : false,
+                                ]
+                              )
+                            ),
+                          }))
+                        }
+                      />
+                    )
+                  )}
+                </Box>
+              </Box>
               <Box>
                 <Typography variant="subtitle1" sx={{ mb: 1 }}>
                   경력
@@ -400,7 +454,7 @@ function SurveyGroomer() {
                   채팅 시작 문구
                 </Typography>
                 <TextArea
-                  placeholder="채용 시작 문구를 입력해주세요"
+                  placeholder="채팅 시작 문구를 입력해주세요"
                   value={businessInfo.recruitment}
                   onChange={(e) =>
                     setBusinessInfo((prev) => ({
@@ -434,11 +488,22 @@ function SurveyGroomer() {
         return null;
     }
   };
-
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    } else {
+      navigate('/survey');
+    }
+  };
   return (
     <>
-      <SurveyHeader label="회원가입" totalPage={5} currPage={step} />
-      <Container maxWidth="sm" sx={{ px: 2, pb: 10 }}>
+      <SurveyHeader
+        label="회원가입"
+        totalPage={5}
+        currPage={step}
+        backHandler={handleBack}
+      />
+      <Container maxWidth="sm" sx={{ px: 2, pb: 4 }}>
         {renderStep()}
         <Box
           sx={{
@@ -471,7 +536,7 @@ function SurveyGroomer() {
                 size="large"
                 backgroundColor="n3"
                 onClick={() => setStep(5)}
-                label="계속 작성하기"
+                label="상세 정보 작성하기"
               />
             </Box>
           ) : (
