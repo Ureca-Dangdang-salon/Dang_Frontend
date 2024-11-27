@@ -2,12 +2,14 @@ import { Box } from '@mui/material';
 import SubTitle from '../atoms/SubTitle';
 import SelectDogItem from '../atoms/SelectDogItem';
 
-const SelectDog = () => {
+const SelectDog = ({ title, onClickHandler }) => {
   return (
     <div>
-      <SubTitle title="반려견별 세부사항" />
+      <SubTitle title={title} />
       <Box>
-        <SelectDogItem />
+        <Box onClick={onClickHandler}>
+          <SelectDogItem />
+        </Box>
       </Box>
     </div>
   );

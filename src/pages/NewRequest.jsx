@@ -22,7 +22,7 @@ const NewRequestPage = () => {
         delBack={newRequestStep === 1}
         backHandler={PrevStep}
       />
-      <Box p={4} color="text.main">
+      <Box p={4}>
         <NewRequest />
       </Box>
     </Box>

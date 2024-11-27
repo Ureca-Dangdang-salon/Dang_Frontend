@@ -1,12 +1,9 @@
 import { Box, Card, Typography, Avatar } from '@mui/material';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import usePageStore from '@/store/usePageStore';
 
 const SelectDogItem = () => {
-  const { setDogStep } = usePageStore();
-
   return (
-    <Box onClick={() => setDogStep(1)}>
+    <Box>
       <Card
         sx={{
           display: 'flex',
