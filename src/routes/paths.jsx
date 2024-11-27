@@ -7,6 +7,8 @@ const paths = {
   notification: '/notification',
   newRequest: '/newrequest',
   newReview: '/newreview',
+  estimate: '/estimate',
+  editEstimate: '/estimate/edit',
 
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
