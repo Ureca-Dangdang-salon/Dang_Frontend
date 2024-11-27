@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Typography, Container, TextField } from '@mui/material';
+import { Box, Typography, Container } from '@mui/material';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
 import { useNavigate } from 'react-router-dom';
 import InputText from '@/components/Common/InputText/InputText';
@@ -8,11 +8,10 @@ import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import AddButton from '@/components/Common/AddButton/AddButton';
 import Button from '@/components/Common/Button/Button';
 import DeleteButton from '@/components/Common/DeleteButton/DeleteButton';
+import ExpandableInputText from '@components/Common/ExpandableInputText/ExpandableInputText';
 
 function SurveyGroomer() {
-  // const location = useLocation();
   const navigate = useNavigate();
-  // const { _city, _district } = location.state || {};
   const [step, setStep] = useState(1);
   const [serviceName, setServiceName] = useState('');
   const [services, setServices] = useState({
@@ -33,6 +32,11 @@ function SurveyGroomer() {
   const [businessInfo, setBusinessInfo] = useState({
     businessNumber: '',
     address: '',
+    serviceType: {
+      방문: false,
+      매장: false,
+      둘다가능: false,
+    },
     experience: {
       years: 0,
       months: 0,
@@ -54,12 +58,7 @@ function SurveyGroomer() {
       case 4:
         return businessHours.start.hour > 0 || businessHours.end.hour > 0;
       case 5:
-        return (
-          businessInfo.businessNumber.trim() !== '' &&
-          businessInfo.address.trim() !== '' &&
-          (businessInfo.experience.years > 0 ||
-            businessInfo.experience.months > 0)
-        );
+        return true;
       default:
         return false;
     }
@@ -82,6 +81,7 @@ function SurveyGroomer() {
               서비스 이름을 적어주세요.
             </Typography>
             <InputText
+              size="large"
               placeholder="서비스 이름을 입력해주세요"
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
@@ -118,6 +118,7 @@ function SurveyGroomer() {
               전화번호를 입력해주세요.
             </Typography>
             <InputText
+              size="large"
               placeholder="전화번호를 입력해주세요"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -148,7 +149,6 @@ function SurveyGroomer() {
                 }
                 label="시"
                 max={23}
-                size="small"
               />
               <NumberPicker
                 value={Number(businessHours.start.minute)}
@@ -160,7 +160,6 @@ function SurveyGroomer() {
                 }
                 label="분"
                 max={59}
-                size="small"
               />
             </Box>
             <Typography variant="subtitle1" sx={{ mb: 2 }}>
@@ -177,7 +176,6 @@ function SurveyGroomer() {
                 }
                 label="시"
                 max={23}
-                size="small"
               />
               <NumberPicker
                 value={Number(businessHours.end.minute)}
@@ -189,7 +187,6 @@ function SurveyGroomer() {
                 }
                 label="분"
                 max={59}
-                size="small"
               />
             </Box>
           </Box>
@@ -210,6 +207,7 @@ function SurveyGroomer() {
                   사업자 번호
                 </Typography>
                 <InputText
+                  size="large"
                   placeholder="사업자 번호를 입력해주세요"
                   value={businessInfo.businessNumber}
                   onChange={(e) =>
@@ -228,6 +226,7 @@ function SurveyGroomer() {
                   가게 위치 정보
                 </Typography>
                 <InputText
+                  size="large"
                   placeholder="가게 위치 정보를 입력해주세요"
                   value={businessInfo.address}
                   onChange={(e) =>
@@ -238,6 +237,63 @@ function SurveyGroomer() {
                   }
                 />
               </Box>
+
+              <Box>
+                <Typography
+                  variant="caption"
+                  sx={{ color: '#666666', mb: 1, display: 'block' }}
+                >
+                  서비스 형태
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                  <RadioButton
+                    size="small"
+                    label="방문"
+                    selected={businessInfo.serviceType.방문}
+                    onChange={() =>
+                      setBusinessInfo((prev) => ({
+                        ...prev,
+                        serviceType: {
+                          방문: !prev.serviceType.방문,
+                          매장: false,
+                          둘다가능: false,
+                        },
+                      }))
+                    }
+                  />
+                  <RadioButton
+                    size="small"
+                    label="매장"
+                    selected={businessInfo.serviceType.매장}
+                    onChange={() =>
+                      setBusinessInfo((prev) => ({
+                        ...prev,
+                        serviceType: {
+                          방문: false,
+                          매장: !prev.serviceType.매장,
+                          둘다가능: false,
+                        },
+                      }))
+                    }
+                  />
+                </Box>
+                <RadioButton
+                  size="large"
+                  label="둘 다 가능"
+                  selected={businessInfo.serviceType.둘다가능}
+                  onChange={() =>
+                    setBusinessInfo((prev) => ({
+                      ...prev,
+                      serviceType: {
+                        방문: false,
+                        매장: false,
+                        둘다가능: !prev.serviceType.둘다가능,
+                      },
+                    }))
+                  }
+                />
+              </Box>
+
               <Box>
                 <Typography
                   variant="subtitle1"
@@ -255,7 +311,6 @@ function SurveyGroomer() {
                       }))
                     }
                     label="년"
-                    size="small"
                     max={50}
                   />
                   <NumberPicker
@@ -267,7 +322,6 @@ function SurveyGroomer() {
                       }))
                     }
                     label="개월"
-                    size="small"
                     max={11}
                   />
                 </Box>
@@ -341,10 +395,7 @@ function SurveyGroomer() {
                 >
                   서비스 설명
                 </Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
+                <ExpandableInputText
                   placeholder="서비스 설명을 입력해주세요"
                   value={businessInfo.description}
                   onChange={(e) =>
@@ -353,6 +404,7 @@ function SurveyGroomer() {
                       description: e.target.value,
                     }))
                   }
+                  rows={4}
                 />
               </Box>
               <Box>
@@ -362,10 +414,7 @@ function SurveyGroomer() {
                 >
                   채팅 시작 문구
                 </Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
+                <ExpandableInputText
                   placeholder="채용 시작 문구를 입력해주세요"
                   value={businessInfo.recruitment}
                   onChange={(e) =>
@@ -374,6 +423,7 @@ function SurveyGroomer() {
                       recruitment: e.target.value,
                     }))
                   }
+                  rows={4}
                 />
               </Box>
               <Box>
@@ -383,10 +433,7 @@ function SurveyGroomer() {
                 >
                   FAQ
                 </Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
+                <ExpandableInputText
                   placeholder="자주 묻는 질문과 답변을 입력해주세요"
                   value={businessInfo.faq}
                   onChange={(e) =>
@@ -395,6 +442,7 @@ function SurveyGroomer() {
                       faq: e.target.value,
                     }))
                   }
+                  rows={4}
                 />
               </Box>
             </Box>
@@ -408,7 +456,6 @@ function SurveyGroomer() {
   return (
     <>
       <SurveyHeader label="회원가입" totalPage={5} currPage={step} />
-
       <Container maxWidth="sm" sx={{ px: 2, pb: 10 }}>
         {renderStep()}
 
@@ -424,14 +471,38 @@ function SurveyGroomer() {
             justifyContent: 'center',
           }}
         >
-          <Button
-            size="large"
-            backgroundColor={isStepValid() ? 'primary' : 'secondary'}
-            onClick={isStepValid() ? handleNextStep : undefined}
-            label={step === 5 ? '프로필 저장하기' : '다음으로'}
-          />
+          {step === 4 ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                width: '326px',
+              }}
+            >
+              <Button
+                size="large"
+                backgroundColor="primary"
+                onClick={() => navigate('/home')}
+                label="프로필 저장하기"
+              />
+              <Button
+                size="large"
+                backgroundColor="primary"
+                onClick={() => setStep(5)}
+                label="계속 작성하기"
+              />
+            </Box>
+          ) : (
+            <Button
+              size="large"
+              backgroundColor={isStepValid() ? 'primary' : 'secondary'}
+              onClick={isStepValid() ? handleNextStep : undefined}
+              label={step === 5 ? '프로필 저장하기' : '다음으로'}
+            />
+          )}
         </Box>
-      </Container>
+      </Container>{' '}
     </>
   );
 }
