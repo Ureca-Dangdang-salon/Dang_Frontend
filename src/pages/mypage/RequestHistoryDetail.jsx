@@ -93,9 +93,9 @@ const RequestHistoryDetail = () => {
                 key={index}
                 onClick={() => handleDotClick(index)}
                 sx={{
-                  width: '10px',
+                  width: currentIndex === index ? '20px' : '10px',
                   height: '10px',
-                  borderRadius: '50%',
+                  borderRadius: currentIndex === index ? '10px' : '50%',
                   backgroundColor:
                     currentIndex === index ? 'primary.main' : 'n4.main',
                   cursor: 'pointer',

@@ -20,6 +20,7 @@ const paths = {
   requestHistoryDetail: '/mypage/requesthistorydetail',
 
   salonProfile: '/salonprofile',
+  contestResult: '/contestresult',
 };
 
 export default paths;

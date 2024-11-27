@@ -22,6 +22,7 @@ import EditEstimate from '@/pages/estimate/EditEstimate';
 import NewEstimate from '@/pages/estimate/NewEstimate';
 import RequestHistory from '@/pages/mypage/RequestHistory';
 import RequestHistoryDetail from '@/pages/mypage/RequestHistoryDetail';
+import ContestResult from '@/pages/ContestResult';
 
 const AppRoutes = () => {
   return (
@@ -57,6 +58,7 @@ const AppContent = () => {
           <Route path={paths.newReview} element={<NewReview />} />
           <Route path={paths.estimate} element={<NewEstimate />} />
           <Route path={paths.editEstimate} element={<EditEstimate />} />
+          <Route path={paths.contestResult} element={<ContestResult />} />
 
           <Route
             path={paths.editSocialProfile}
