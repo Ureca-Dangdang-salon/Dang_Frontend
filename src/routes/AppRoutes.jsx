@@ -3,9 +3,9 @@ import paths from '@/routes/paths';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import Survey from '../pages/Survey/Survey';
-import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
-import SurveyUser from '@/pages/Survey/SurveyUser';
+import Survey from '../pages/survey/Survey';
+import SurveyGroomer from '@/pages/survey/SurveyGroomer';
+import SurveyUser from '@/pages/survey/SurveyUser';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
 import Chat from '@/pages/Chat';
@@ -47,9 +47,9 @@ const AppContent = () => {
       <Box paddingBottom="80px">
         <Routes>
           <Route path={paths.login} element={<Login />} />
-          <Route path="/Survey" element={<Survey />} />
-          <Route path="/Survey/groomer" element={<SurveyGroomer />} />
-          <Route path="/Survey/user" element={<SurveyUser />} />
+          <Route path={paths.survey.root} element={<Survey />} />
+          <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
+          <Route path={paths.survey.user} element={<SurveyUser />} />
           <Route path={paths.home} element={<Home />} />
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />

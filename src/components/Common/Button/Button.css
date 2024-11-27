@@ -29,3 +29,8 @@
 .button:disabled {
   cursor: not-allowed;
 }
+
+.button.purple {
+  background-color: #9747ff;
+  color: white;
+}

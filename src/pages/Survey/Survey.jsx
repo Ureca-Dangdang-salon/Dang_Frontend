@@ -32,8 +32,7 @@ function Survey() {
   return (
     <>
       <SurveyHeader label="회원가입" totalPage={2} currPage={1} />
-
-      <Container maxWidth="sm" sx={{ px: 2 }}>
+      <Container maxWidth="sm" sx={{ p: 4 }}>
         <Box sx={{ mt: 8 }}>
           <Typography
             variant="h5"
@@ -78,47 +77,24 @@ function Survey() {
             p: 2,
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             gap: 1,
           }}
         >
-          <button
+          <Button
+            size="large"
+            backgroundColor={!city || !district ? 'n3' : 'yellow'}
             onClick={handleHairstylistSignup}
             disabled={!city || !district}
-            style={{
-              width: '326px',
-              height: '60px',
-              padding: '0',
-              margin: '0 auto',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: '#FFD600',
-              color: 'black',
-              fontWeight: 'bold',
-              cursor: !city || !district ? 'default' : 'pointer',
-              opacity: !city || !district ? 0.5 : 1,
-            }}
-          >
-            미용사로 가입하기
-          </button>
-          <button
+            label="미용사로 가입하기"
+          />
+          <Button
+            size="large"
+            backgroundColor={!city || !district ? 'n3' : 'secondary'}
             onClick={handleUserSignup}
             disabled={!city || !district}
-            style={{
-              width: '326px',
-              height: '60px',
-              padding: '0',
-              margin: '0 auto',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: '#8C4FF2',
-              color: 'white',
-              fontWeight: 'bold',
-              cursor: !city || !district ? 'default' : 'pointer',
-              opacity: !city || !district ? 0.5 : 1,
-            }}
-          >
-            사용자로 가입하기
-          </button>
+            label="사용자로 가입하기"
+          />
         </Box>
       </Container>
     </>

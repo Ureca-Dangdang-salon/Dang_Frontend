@@ -7,7 +7,7 @@ import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
 import Button from '@/components/Common/Button/Button';
 import { Modal } from '@/components/Common/Modal/Modal';
-import uploadProfileButton from '@/components/Survey/uploadprofilebutton.svg';
+import uploadProfileButton from '/images/upload-dog-button.png';
 
 function SurveyUser() {
   // const location = useLocation();
@@ -205,7 +205,7 @@ function SurveyUser() {
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
               반려견은 어떤 성별인가요?
             </Typography>
-            <Typography sx={{ color: '#666666', mb: 2 }}>성별</Typography>
+            <Typography sx={{ mb: 2 }}>성별</Typography>
             <Box sx={{ display: 'flex', gap: '12px', mb: 4 }}>
               <RadioButton
                 label="남아"
@@ -224,9 +224,7 @@ function SurveyUser() {
                 size="large"
               />
             </Box>
-            <Typography sx={{ color: '#666666', mb: 2 }}>
-              중성화 여부
-            </Typography>
+            <Typography sx={{ mb: 2 }}>중성화 여부</Typography>{' '}
             <Box sx={{ display: 'flex', gap: '12px' }}>
               <RadioButton
                 label="중성화 했어요."
@@ -245,7 +243,8 @@ function SurveyUser() {
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
               반려견은 어떤 특징을 가졌나요?
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <Box display="flex" flexDirection="column" gap={3}>
+              {' '}
               {Object.entries(petInfo.characteristics).map(
                 ([trait, checked]) => (
                   <Box key={trait}>
@@ -284,7 +283,6 @@ function SurveyUser() {
                     {trait === '기타' && checked && (
                       <Box sx={{ mt: 2, mb: 1 }}>
                         {' '}
-                        {/* 여기에 margin 추가 */}
                         <InputText
                           size="large"
                           placeholder="기타 특징을 적어주세요. (최대30자)"
@@ -317,12 +315,27 @@ function SurveyUser() {
             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
               프로필 사진을 등록해주세요.
             </Typography>
-            <Box sx={{ width: 200, height: 200 }}>
-              <img src={uploadProfileButton} alt="프로필 업로드" />
+            <Box
+              sx={{
+                width: '200px',
+                height: '200px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={uploadProfileButton}
+                alt="프로필 업로드"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
             </Box>
           </Box>
         );
-
       default:
         return null;
     }
@@ -360,7 +373,7 @@ function SurveyUser() {
           ) : (
             <Button
               size="large"
-              backgroundColor={isStepValid() ? 'primary' : 'secondary'}
+              backgroundColor={isStepValid() ? 'yellow' : 'n3'}
               onClick={isStepValid() ? handleNextStep : undefined}
               label="다음으로"
             />

@@ -8,12 +8,22 @@ import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import AddButton from '@/components/Common/AddButton/AddButton';
 import Button from '@/components/Common/Button/Button';
 import DeleteButton from '@/components/Common/DeleteButton/DeleteButton';
-import ExpandableInputText from '@components/Common/ExpandableInputText/ExpandableInputText';
+import TextArea from '@/components/Common/TextArea/TextArea';
+import { RegionModal } from '@/components/Common/RegionModal/RegionModal';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [serviceName, setServiceName] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [serviceAreas, setServiceAreas] = useState([]);
+  const handleSetLocation = (selectedCity, selectedDistrict) => {
+    setServiceAreas((prev) => [
+      ...prev,
+      { city: selectedCity, district: selectedDistrict },
+    ]);
+    setIsModalOpen(false);
+  };
   const [services, setServices] = useState({
     목욕: false,
     털미용: false,
@@ -200,10 +210,7 @@ function SurveyGroomer() {
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   사업자 번호
                 </Typography>
                 <InputText
@@ -219,10 +226,7 @@ function SurveyGroomer() {
                 />
               </Box>
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   가게 위치 정보
                 </Typography>
                 <InputText
@@ -237,68 +241,58 @@ function SurveyGroomer() {
                   }
                 />
               </Box>
-
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
-                  서비스 형태
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
+                  서비스 지역
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                  <RadioButton
-                    size="small"
-                    label="방문"
-                    selected={businessInfo.serviceType.방문}
-                    onChange={() =>
-                      setBusinessInfo((prev) => ({
-                        ...prev,
-                        serviceType: {
-                          방문: !prev.serviceType.방문,
-                          매장: false,
-                          둘다가능: false,
-                        },
-                      }))
-                    }
-                  />
-                  <RadioButton
-                    size="small"
-                    label="매장"
-                    selected={businessInfo.serviceType.매장}
-                    onChange={() =>
-                      setBusinessInfo((prev) => ({
-                        ...prev,
-                        serviceType: {
-                          방문: false,
-                          매장: !prev.serviceType.매장,
-                          둘다가능: false,
-                        },
-                      }))
-                    }
-                  />
-                </Box>
-                <RadioButton
-                  size="large"
-                  label="둘 다 가능"
-                  selected={businessInfo.serviceType.둘다가능}
-                  onChange={() =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      serviceType: {
-                        방문: false,
-                        매장: false,
-                        둘다가능: !prev.serviceType.둘다가능,
-                      },
-                    }))
-                  }
-                />
-              </Box>
-
-              <Box>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ color: '#666666', mb: 1 }}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    mb: 2,
+                  }}
                 >
+                  {serviceAreas.map((area, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        p: 2,
+                        border: '1px solid #E0E0E0',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Typography>
+                        {area.city} {area.district}
+                      </Typography>
+                      <DeleteButton
+                        size="medium"
+                        label=""
+                        onClick={() => {
+                          setServiceAreas((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+                <AddButton
+                  size="large"
+                  label="서비스 지역 추가하기"
+                  onClick={() => setIsModalOpen(true)}
+                />
+                <RegionModal
+                  open={isModalOpen}
+                  setOpen={setIsModalOpen}
+                  setLocation={handleSetLocation}
+                />
+              </Box>{' '}
+              <Box>
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>
                   경력
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
@@ -327,10 +321,7 @@ function SurveyGroomer() {
                 </Box>
               </Box>
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   자격증
                 </Typography>
                 <Box
@@ -387,15 +378,12 @@ function SurveyGroomer() {
                     }));
                   }}
                 />
-              </Box>
+              </Box>{' '}
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   서비스 설명
                 </Typography>
-                <ExpandableInputText
+                <TextArea
                   placeholder="서비스 설명을 입력해주세요"
                   value={businessInfo.description}
                   onChange={(e) =>
@@ -408,13 +396,10 @@ function SurveyGroomer() {
                 />
               </Box>
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   채팅 시작 문구
                 </Typography>
-                <ExpandableInputText
+                <TextArea
                   placeholder="채용 시작 문구를 입력해주세요"
                   value={businessInfo.recruitment}
                   onChange={(e) =>
@@ -427,13 +412,10 @@ function SurveyGroomer() {
                 />
               </Box>
               <Box>
-                <Typography
-                  variant="caption"
-                  sx={{ color: '#666666', mb: 1, display: 'block' }}
-                >
+                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   FAQ
                 </Typography>
-                <ExpandableInputText
+                <TextArea
                   placeholder="자주 묻는 질문과 답변을 입력해주세요"
                   value={businessInfo.faq}
                   onChange={(e) =>
@@ -458,7 +440,6 @@ function SurveyGroomer() {
       <SurveyHeader label="회원가입" totalPage={5} currPage={step} />
       <Container maxWidth="sm" sx={{ px: 2, pb: 10 }}>
         {renderStep()}
-
         <Box
           sx={{
             position: 'fixed',
@@ -482,13 +463,13 @@ function SurveyGroomer() {
             >
               <Button
                 size="large"
-                backgroundColor="primary"
+                backgroundColor="yellow"
                 onClick={() => navigate('/home')}
                 label="프로필 저장하기"
               />
               <Button
                 size="large"
-                backgroundColor="primary"
+                backgroundColor="n3"
                 onClick={() => setStep(5)}
                 label="계속 작성하기"
               />
@@ -496,13 +477,13 @@ function SurveyGroomer() {
           ) : (
             <Button
               size="large"
-              backgroundColor={isStepValid() ? 'primary' : 'secondary'}
+              backgroundColor={isStepValid() ? 'yellow' : 'n3'}
               onClick={isStepValid() ? handleNextStep : undefined}
               label={step === 5 ? '프로필 저장하기' : '다음으로'}
             />
           )}
         </Box>
-      </Container>{' '}
+      </Container>
     </>
   );
 }
