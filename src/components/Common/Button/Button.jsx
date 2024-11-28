@@ -2,20 +2,7 @@ import PropTypes from 'prop-types';
 import './Button.css';
 
 const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
-  const getButtonClass = () => {
-    switch (backgroundColor) {
-      case 'primary':
-        return 'yellow';
-      case 'secondary':
-        return 'purple';
-      case 'gray':
-        return 'gray';
-      case 'delete':
-        return 'delete';
-    }
-  };
-
-  const className = `button ${size} ${getButtonClass()}`;
+  const className = `button ${size} ${backgroundColor}`;
 
   return (
     <button className={className} onClick={onClick} disabled={disabled}>
