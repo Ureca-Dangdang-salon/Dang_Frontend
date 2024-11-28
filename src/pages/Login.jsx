@@ -7,25 +7,16 @@ import logo from '../components/Common/assets/logo.svg';
 const LoginPage = () => {
   return (
     <Box
-      className="login-container"
       sx={{
-        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'flex-start',
+        gap: 8,
       }}
     >
       {/* 로고 영역 */}
-      <Box
-        className="logo"
-        sx={{
-          position: 'absolute',
-          top: '319px',
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-        }}
-      >
+      <Box sx={{ mt: 20 }}>
         <img
           src={logo}
           alt="Logo"
@@ -36,13 +27,12 @@ const LoginPage = () => {
       {/* 버튼 그룹 */}
       <Box
         sx={{
-          position: 'absolute',
-          top: '620px',
+          mt: 20,
           display: 'flex',
           flexDirection: 'column',
           gap: 2,
           width: '326px',
-          left: '87px',
+          maxWidth: '90%',
         }}
       >
         <GoogleLoginButton />
@@ -52,5 +42,4 @@ const LoginPage = () => {
     </Box>
   );
 };
-
 export default LoginPage;
