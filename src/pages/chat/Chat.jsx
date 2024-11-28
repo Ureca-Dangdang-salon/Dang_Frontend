@@ -4,7 +4,7 @@ import EmptyContent from '@components/Chatting/templates/EmptyContent';
 import Chatmain from '@components/Chatting/templates/Chatmain';
 
 const Chat = () => {
-  const is = 0;
+  const is = 1;
   return (
     <Box>
       <Header invisible={true} />
