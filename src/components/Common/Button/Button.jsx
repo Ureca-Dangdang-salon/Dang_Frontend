@@ -10,6 +10,8 @@ const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
         return 'purple';
       case 'gray':
         return 'gray';
+      case 'delete':
+        return 'delete';
     }
   };
 
@@ -24,7 +26,8 @@ const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
 
 Button.propTypes = {
   size: PropTypes.oneOf(['large', 'medium']).isRequired,
-  backgroundColor: PropTypes.oneOf(['primary', 'secondary', 'gray']).isRequired,
+  backgroundColor: PropTypes.oneOf(['primary', 'secondary', 'gray', 'delete'])
+    .isRequired,
   onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
