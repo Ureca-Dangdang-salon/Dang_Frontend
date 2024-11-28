@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
-import KakaoLoginButton from '../components/Login/KLoginButton';
-import GoogleLoginButton from '../components/Login/GLoginButton';
-import NaverLoginButton from '../components/Login/NLoginButton';
+import KakaoLoginButton from '../components/login/KLoginButton';
+import GoogleLoginButton from '../components/login/GLoginButton';
+import NaverLoginButton from '../components/login/NLoginButton';
 import logo from '../components/Common/assets/logo.svg';
 
 const LoginPage = () => {

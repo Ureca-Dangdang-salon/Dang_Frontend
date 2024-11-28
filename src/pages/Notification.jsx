@@ -2,7 +2,7 @@ import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Box, Typography, Badge } from '@mui/material';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { useNavigate } from 'react-router-dom';
-import EmptyContent from '@components/Pages/EmptyContent';
+import EmptyContent from '@components/Layout/EmptyContent';
 
 const Notification = () => {
   const navigate = useNavigate();
