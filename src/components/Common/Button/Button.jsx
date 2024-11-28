@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
 import './Button.css';
 
-const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
+const Button = ({ size, backgroundColor, onClick, label, disabled, style }) => {
   const className = `button ${size} ${backgroundColor}`;
 
   return (
-    <button className={className} onClick={onClick} disabled={disabled}>
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+      style={style}
+    >
       {label}
     </button>
   );
