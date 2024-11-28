@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Card from '@components/Common/Card';
+import axios from 'axios';
 
 const Home = () => {
   const sliderSettings = {
@@ -25,17 +26,17 @@ const Home = () => {
     import.meta.env.MODE === 'production' ? 'http://3.36.131.224/api' : '/api';
 
   useEffect(() => {
-    const testApi = async () => {
-      try {
-        const response = await fetch(`${API_URL}/test`);
-        const data = await response.json();
-        console.log('API Response:', data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    testApi();
+    axios
+      .get(`${API_URL}/test`)
+      .then((response) => {
+        console.log('API Response:', response.data);
+      })
+      .catch((error) => {
+        console.error(
+          'Error fetching API:',
+          error.response ? error.response.data : error.message
+        );
+      });
   }, []);
 
   return (
