@@ -383,8 +383,8 @@ function SurveyUser() {
           ) : (
             <Button
               size="large"
-              backgroundColor={isStepValid() ? 'yellow' : 'n3'}
-              onClick={isStepValid() ? handleNextStep : undefined}
+              backgroundColor={isStepValid() ? 'primary' : 'gray'}
+              onClick={handleNextStep}
               label="다음으로"
             />
           )}

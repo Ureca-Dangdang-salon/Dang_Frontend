@@ -3,15 +3,12 @@ import './Button.css';
 
 const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
   const getButtonClass = () => {
-    if (disabled) return 'gray';
     switch (backgroundColor) {
-      case 'yellow':
+      case 'primary':
         return 'yellow';
       case 'secondary':
         return 'purple';
-      case 'n3':
-        return 'gray';
-      default:
+      case 'gray':
         return 'gray';
     }
   };
@@ -27,7 +24,7 @@ const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
 
 Button.propTypes = {
   size: PropTypes.oneOf(['large', 'medium']).isRequired,
-  backgroundColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.oneOf(['primary', 'secondary', 'gray']).isRequired,
   onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,

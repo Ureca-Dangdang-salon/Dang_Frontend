@@ -528,13 +528,13 @@ function SurveyGroomer() {
             >
               <Button
                 size="large"
-                backgroundColor="yellow"
+                backgroundColor="primary"
                 onClick={() => navigate('/home')}
                 label="프로필 저장하기"
               />
               <Button
                 size="large"
-                backgroundColor="n3"
+                backgroundColor="gray"
                 onClick={() => setStep(5)}
                 label="상세 정보 작성하기"
               />
@@ -542,8 +542,8 @@ function SurveyGroomer() {
           ) : (
             <Button
               size="large"
-              backgroundColor={isStepValid() ? 'yellow' : 'n3'}
-              onClick={isStepValid() ? handleNextStep : undefined}
+              backgroundColor={isStepValid() ? 'primary' : 'gray'}
+              onClick={handleNextStep}
               label={step === 5 ? '프로필 저장하기' : '다음으로'}
             />
           )}
