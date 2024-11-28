@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const EmptyContent = ({ title }) => {
   return (
@@ -12,12 +12,8 @@ const EmptyContent = ({ title }) => {
         justifyContent: 'center',
       }}
     >
-      <Avatar
-        src="/images/EmptyIcon.png"
-        alt="dog img"
-        sx={{ width: '142px', height: '180px' }}
-      />
-      <Typography>{title}</Typography>
+      <img src="/images/EmptyIcon.png" alt="dog img" />
+      <Typography ml={3}>{title}</Typography>
     </Box>
   );
 };
