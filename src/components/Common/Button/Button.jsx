@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { Button as MuiButton } from '@mui/material';
 
-const Button = ({ size, backgroundColor, onClick, label, disabled }) => {
+const Button = ({ size, backgroundColor, onClick, label, disabled, style }) => {
   return (
     <MuiButton
       onClick={onClick}
       disabled={disabled}
+      style={style}
       variant="contained"
       color={backgroundColor}
       sx={{
