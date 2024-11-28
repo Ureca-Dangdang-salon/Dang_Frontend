@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { Navbar } from '@components/Common/Navbar/Navbar';
 import paths from '@/routes/paths';
 
 import Home from '../pages/Home';
@@ -8,11 +10,11 @@ import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
 import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
-import Chat from '@/pages/Chat';
+import Chat from '@/pages/chat/Chat';
+import ChatRoom from '@/pages/chat/ChatRoom';
+import MyRequest from '@/pages/chat/MyRequest';
 import Mypage from '@/pages/mypage/Mypage';
 import NewRequest from '@/pages/NewRequest';
-import { Navbar } from '@components/Common/Navbar/Navbar';
-import { Box } from '@mui/material';
 import EditSocialProfile from '@/pages/mypage/EditSocialProfile';
 import DogProfile from '@/pages/mypage/DogProfile';
 import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
@@ -26,6 +28,7 @@ import NewEstimate from '@/pages/estimate/NewEstimate';
 import RequestHistory from '@/pages/mypage/RequestHistory';
 import RequestHistoryDetail from '@/pages/mypage/RequestHistoryDetail';
 import ContestResult from '@/pages/ContestResult';
+import MyRequestDetail from '@/pages/chat/MyRequestDetail';
 
 const AppRoutes = () => {
   return (
@@ -56,7 +59,10 @@ const AppContent = () => {
           <Route path={paths.home} element={<Home />} />
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.notification} element={<Notification />} />
-          <Route path={paths.chat} element={<Chat />} />
+          <Route path={paths.chat} element={<Chat role="user" />} />
+          <Route path={paths.chatRoom} element={<ChatRoom role="user" />} />
+          <Route path={paths.myRequest} element={<MyRequest />} />
+          <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
           <Route path={paths.mypage} element={<Mypage role="salon" />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
           <Route path={paths.newReview} element={<NewReview />} />
@@ -85,7 +91,8 @@ const AppContent = () => {
       {location.pathname !== paths.login &&
         location.pathname !== paths.survey.root &&
         location.pathname !== paths.survey.groomer &&
-        location.pathname !== paths.survey.user && (
+        location.pathname !== paths.survey.user &&
+        !/^\/chat\/\d+$/.test(location.pathname) && (
           <Navbar page={location.pathname} />
         )}
     </Box>
