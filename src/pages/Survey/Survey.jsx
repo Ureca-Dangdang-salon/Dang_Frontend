@@ -71,13 +71,13 @@ function Survey() {
         >
           <Button
             size="large"
-            backgroundColor={city && district ? 'primary' : 'gray'}
+            backgroundColor={city && district ? 'primary' : 'n3'}
             onClick={handleHairstylistSignup}
             label="미용사로 가입하기"
           />
           <Button
             size="large"
-            backgroundColor={city && district ? 'secondary' : 'gray'}
+            backgroundColor={city && district ? 'secondary' : 'n3'}
             onClick={handleUserSignup}
             label="사용자로 가입하기"
           />
