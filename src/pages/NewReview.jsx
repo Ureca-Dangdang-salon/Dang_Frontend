@@ -1,7 +1,8 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
-import { Box, Typography, TextField } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
+import TextArea from '@components/Common/TextArea/TextArea';
 
 const NewReview = () => {
   const [data, setData] = useState({
@@ -78,22 +79,9 @@ const NewReview = () => {
         <Typography mt={3} mb={1}>
           추가적인 코멘트가 있다면 적어주세요. (선택)
         </Typography>
-        <TextField
-          fullWidth
-          multiline
-          minRows={8}
+        <TextArea
           placeholder="내용을 작성해주세요"
-          sx={{
-            bgcolor: 'white.main',
-            '& .MuiOutlinedInput-root': {
-              borderRadius: '10px',
-              boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px;',
-              minHeight: '60px',
-              '& fieldset': {
-                border: 'none',
-              },
-            },
-          }}
+          minRows={8}
           onChange={(e) => handleChange('text', e.target.value)}
         />
 

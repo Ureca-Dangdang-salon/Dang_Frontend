@@ -33,7 +33,7 @@ const MyReviews = (props) => {
 
       <Box p={4} color="text.main" fontSize={14}>
         <Accordion
-          square={true}
+          square="true"
           sx={{
             borderRadius: '10px',
             boxShadow: 'rgba(0, 0, 0, 0.05) 0px 0px 7px 1px;',

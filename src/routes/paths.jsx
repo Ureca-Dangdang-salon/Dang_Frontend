@@ -19,10 +19,13 @@ const paths = {
   editSalonProfile: '/mypage/editsalonprofile',
   dogProfile: '/mypage/dogprofile',
   myCoupons: '/mypage/coupons',
-  salonProfile: '/salonprofile',
-
   paymentHistory: '/mypage/paymenthistory',
   myReviews: '/mypage/myreviews',
+  requestHistory: '/mypage/requesthistory',
+  requestHistoryDetail: '/mypage/requesthistorydetail',
+
+  salonProfile: '/salonprofile',
+  contestResult: '/contestresult',
 };
 
 export default paths;
