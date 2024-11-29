@@ -41,7 +41,7 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const role = 'salon';
+  const role = 'user';
 
   return (
     <Box

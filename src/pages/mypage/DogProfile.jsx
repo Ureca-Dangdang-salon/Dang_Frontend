@@ -7,8 +7,10 @@ import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import { Selector } from '@components/Common/Selector/Selector';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import { breeds } from '@/constants/breeds';
+import ProfileSelector from '@components/Features/ProfileSelector';
 
 const DogProfile = () => {
+  const [profileImage, setProfileImage] = useState(null);
   const [data, setData] = useState({
     name: '댕댕이',
     species: '골든 리트리버',
@@ -28,16 +30,19 @@ const DogProfile = () => {
     console.log('Form Submitted:', data);
   };
 
+  const handleImageChange = (image) => {
+    setProfileImage(image);
+  };
+
   return (
     <Box>
       <DetailHeader label="반려견 프로필 수정" />
       <Box p={4} color="text.main">
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>
-          <img src="/images/default-dog-profile.png" width="150px" />
-          <img
-            src="/images/upload-picture.png"
-            width="34px"
-            style={{ marginLeft: '-40px' }}
+          <ProfileSelector
+            defaultImage="dog"
+            image={profileImage}
+            onChange={handleImageChange}
           />
         </Box>
 

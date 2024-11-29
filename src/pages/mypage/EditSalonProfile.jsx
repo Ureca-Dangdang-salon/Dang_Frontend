@@ -8,6 +8,7 @@ import RadioButton from '@components/Common/RadioButton/RadioButton';
 import TextArea from '@components/Common/TextArea/TextArea';
 import ServiceRegionForm from '@components/Features/ServiceRegionForm';
 import CertificationsForm from '@components/Features/CertificationsForm';
+import ProfileSelector from '@components/Features/ProfileSelector';
 
 const EditSalonProfile = () => {
   const services = [
@@ -21,6 +22,7 @@ const EditSalonProfile = () => {
     '귀 세정',
   ];
   const [serviceAreas, setServiceAreas] = useState([]);
+  const [profileImage, setProfileImage] = useState(null);
   const [data, setData] = useState({
     name: '홍길동',
     serviceName: '동길이네',
@@ -50,13 +52,19 @@ const EditSalonProfile = () => {
     console.log('Form Submitted:', data);
   };
 
+  const handleImageChange = (image) => {
+    setProfileImage(image);
+  };
+
   return (
     <Box>
       <DetailHeader label={'미용사 프로필 수정'} />
       <Box p={4} color="text.main">
-        <Box textAlign="center" sx={{ cursor: 'pointer' }}>
-          <img src="/images/upload-groomer-profile.png" width="150px" />
-        </Box>
+        <ProfileSelector
+          defaultImage="human"
+          image={profileImage}
+          onChange={handleImageChange}
+        />
 
         {[
           { name: '서비스 이름', var: 'serviceName' },
@@ -65,12 +73,13 @@ const EditSalonProfile = () => {
         ].map((item, index) => (
           <Box mt={2} key={index}>
             <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
-              {item.name}
+              {item.name} *
             </Typography>
             <Box width="100%" display="flex" flexDirection="column">
               <InputText
                 value={data[item.var]}
                 onChange={(e) => handleChange(item.var, e.target.value)}
+                placeholder={item.name}
               />
             </Box>
           </Box>
@@ -85,7 +94,7 @@ const EditSalonProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          제공 서비스
+          제공 서비스 *
         </Typography>
         {services.map((service, index) => {
           return (
@@ -115,16 +124,18 @@ const EditSalonProfile = () => {
           <InputText
             value={data.businessNumber}
             onChange={(e) => handleChange('businessNumber', e.target.value)}
+            placeholder="사업자 번호"
           />
         </Box>
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          가게 위치 정보
+          가게 주소
         </Typography>
         <Box width="100%" display="flex" flexDirection="column">
           <InputText
             value={data.businessLocation}
             onChange={(e) => handleChange('businessLocation', e.target.value)}
+            placeholder="가게 주소"
           />
         </Box>
 
