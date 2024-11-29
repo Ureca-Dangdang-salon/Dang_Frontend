@@ -15,7 +15,7 @@ const Coupon = () => {
   return (
     <div>
       <DetailHeader label="쿠폰 이벤트" />
-      <Box p={3} textAlign="center">
+      <Box p={4} textAlign="center">
         <Typography
           color="secondary.main"
           fontSize={24}
