@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { Header } from '@components/Common/Header/Header';
-import EmptyContent from '@components/Chatting/templates/EmptyContent';
+import EmptyContent from '@components/Layout/EmptyContent';
 import Chatmain from '@components/Chatting/templates/Chatmain';
 
 const Chat = () => {
