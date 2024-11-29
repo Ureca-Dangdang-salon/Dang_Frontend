@@ -7,6 +7,7 @@ const paths = {
     user: '/survey/user',
   },
   contest: '/contest',
+  entry: '/contest/entry',
   coupon: '/coupon',
   chat: '/chat',
   chatRoom: '/chat/:id',

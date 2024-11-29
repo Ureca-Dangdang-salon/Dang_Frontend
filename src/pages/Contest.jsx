@@ -86,9 +86,14 @@ const Contest = () => {
               길동이네
             </Typography>
           </Box>
-          {/* 투표 버튼 */}
+          {/* 참여 버튼 */}
           <Box display="flex" justifyContent="center" mt={5} mb={5}>
-            <Button label="투표하기" backgroundColor="primary" size="large" />
+            <Button
+              label="참여하기"
+              backgroundColor="primary"
+              size="large"
+              onClick={() => navigate('/contest/entry')}
+            />
           </Box>
           {/* 참여 안내 */}
           <Box mt={3}>

@@ -11,6 +11,7 @@ import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
 import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';
 import Contest from '@/pages/Contest';
+import Entry from '@/pages/ContestEntry';
 import Chat from '@/pages/chat/Chat';
 import ChatRoom from '@/pages/chat/ChatRoom';
 import MyRequest from '@/pages/chat/MyRequest';
@@ -59,6 +60,7 @@ const AppContent = () => {
           <Route path={paths.survey.user} element={<SurveyUser />} />
           <Route path={paths.home} element={<Home />} />
           <Route path={paths.contest} element={<Contest />} />
+          <Route path={paths.entry} element={<Entry />} />
           <Route path={paths.coupon} element={<Coupon />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat role="user" />} />
