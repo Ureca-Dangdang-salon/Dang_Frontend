@@ -3,20 +3,25 @@ import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
 import TextArea from '@components/Common/TextArea/TextArea';
+import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import ImageSelector from '@components/Features/ImageSelector';
 
 const NewReview = () => {
   const [data, setData] = useState({
-    salonName: '댕댕미용사',
-    starScore: 0,
     text: '',
+    starScore: '',
+    imageKey: [],
   });
 
+  const MAX_IMAGES = 3;
   const totalStars = 5;
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleStarClick = (rating) => {
     setUserRating(rating);
+    handleChange('starScore', rating.toString());
   };
 
   const renderStars = () => {
@@ -45,15 +50,32 @@ const NewReview = () => {
   };
 
   const handleSubmit = () => {
-    console.log('Form Submitted:', data);
+    const userId = 2;
+    // const accessToken ='';
+
+    axios
+      .post(`http://localhost:8080/api/reviews/${userId}`, data, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          // Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log('Review submitted successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error submitting review:', error);
+      });
   };
 
   return (
     <Box>
+      <Toaster />
       <DetailHeader label="리뷰 작성" />
       <Box p={4}>
         <Box display="flex">
-          <Typography fontWeight={700}>{data.salonName}</Typography>
+          <Typography fontWeight={700}>댕댕살롱</Typography>
           <Typography>에 대한 리뷰를 작성해주세요.</Typography>
         </Box>
 
@@ -85,27 +107,14 @@ const NewReview = () => {
           onChange={(e) => handleChange('text', e.target.value)}
         />
 
-        <Box mt={3} display="flex" alignItems="center">
-          <Typography fontWeight={700} mr={1}>
-            사진 첨부 0 / 3
-          </Typography>
-          <Typography>(선택)</Typography>
-        </Box>
-
-        <Box
-          mt={1}
-          width="120px"
-          height="120px"
-          backgroundColor="n4.main"
-          borderRadius="10px"
-          fontSize={30}
-          fontWeight={700}
-          textAlign="center"
-          alignContent="center"
-          color="n2.main"
-          sx={{ '&:hover': { cursor: 'pointer' } }}
-        >
-          +
+        <Box mt={3}>
+          <ImageSelector
+            maxImages={MAX_IMAGES}
+            images={data.imageKey}
+            onChange={(updatedImages) =>
+              setData((prev) => ({ ...prev, imageKey: updatedImages }))
+            }
+          />
         </Box>
 
         <Box textAlign="center" mt={5}>
