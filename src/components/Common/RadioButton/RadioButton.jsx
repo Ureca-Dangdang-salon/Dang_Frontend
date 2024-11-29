@@ -7,6 +7,7 @@ const RadioButton = ({ size, selected, label, onChange }) => {
     <div
       className={`radio-button ${size} ${selected ? 'selected' : ''}`}
       onClick={onChange}
+      style={{ marginBottom: '12px' }}
     >
       <div className={`radio-circle ${selected ? 'checked' : ''}`}>
         {selected && (
