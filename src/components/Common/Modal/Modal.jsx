@@ -9,6 +9,8 @@ export const Modal = ({
   leftLabel,
   rightLabel,
   action,
+  variant,
+  buttonSx,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -30,7 +32,8 @@ export const Modal = ({
       <Button
         onClick={handleClickOpen}
         color={buttonColor}
-        sx={{ borderRadius: '10px', minWidth: '40px' }}
+        sx={{ borderRadius: '10px', minWidth: '40px', ...buttonSx }}
+        variant={variant}
       >
         {openLabel}
       </Button>
@@ -96,4 +99,6 @@ Modal.propTypes = {
   leftLabel: PropTypes.string,
   rightLabel: PropTypes.string,
   action: PropTypes.func,
+  variant: PropTypes.string,
+  buttonSx: PropTypes.object,
 };

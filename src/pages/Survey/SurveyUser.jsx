@@ -355,7 +355,7 @@ function SurveyUser() {
         backHandler={handleBack}
       />
 
-      <Container maxWidth="sm" sx={{ px: 2, pb: 10 }}>
+      <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
         {renderStep()}
 
         <Box
@@ -364,7 +364,7 @@ function SurveyUser() {
             bottom: 0,
             left: 0,
             right: 0,
-            p: 2,
+            pb: 5,
             bgcolor: 'white',
             display: 'flex',
             justifyContent: 'center',
@@ -373,12 +373,19 @@ function SurveyUser() {
           {step === 7 ? (
             <Modal
               openLabel="프로필 저장하기"
-              buttonColor="yellow"
+              buttonColor="primary"
+              variant="contained"
               title="반려견 프로필이 저장되었습니다. 다른 반려견을 추가하시겠어요?"
               leftLabel="홈으로 가기"
               rightLabel="추가하기"
               action={handleAddAnotherPet}
               onClose={handleGoHome}
+              buttonSx={{
+                width: '326px',
+                height: '60px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+              }}
             />
           ) : (
             <Button

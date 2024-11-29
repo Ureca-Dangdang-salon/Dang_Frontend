@@ -33,6 +33,7 @@ const NaverLoginButton = () => {
         textTransform: 'none',
         padding: '0',
         borderRadius: '12px',
+        mb: 2,
         '&:hover': {
           backgroundColor: '#029E4D',
         },

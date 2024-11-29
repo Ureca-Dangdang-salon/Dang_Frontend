@@ -33,6 +33,7 @@ const GoogleLoginButton = () => {
         textTransform: 'none',
         padding: '0',
         borderRadius: '12px',
+        mb: 2,
         '&:hover': {
           backgroundColor: '#E5E5E5',
         },

@@ -6,40 +6,27 @@ import logo from '../components/Common/assets/logo.svg';
 
 const LoginPage = () => {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        gap: 8,
-      }}
-    >
-      {/* 로고 영역 */}
-      <Box sx={{ mt: 20 }}>
-        <img
-          src={logo}
-          alt="Logo"
-          style={{ width: '200px', height: '200px' }}
-        />
-      </Box>
-
-      {/* 버튼 그룹 */}
+    <Box>
       <Box
         sx={{
-          mt: 20,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          width: '326px',
-          maxWidth: '90%',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
         }}
       >
-        <GoogleLoginButton />
-        <NaverLoginButton />
-        <KakaoLoginButton />
+        <Box textAlign="center">
+          <img src={logo} alt="Logo" width="300px" />
+        </Box>
+
+        <Box mt={5}>
+          <GoogleLoginButton />
+          <NaverLoginButton />
+          <KakaoLoginButton />
+        </Box>
       </Box>
     </Box>
   );
 };
+
 export default LoginPage;
