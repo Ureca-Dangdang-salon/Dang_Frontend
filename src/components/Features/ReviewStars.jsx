@@ -42,7 +42,7 @@ const ReviewStars = (props) => {
           href={props.link}
         >
           <Typography fontWeight={700} fontSize={14} color="n2">
-            (리뷰 10개)
+            (리뷰 {props.reviewCount}개)
           </Typography>
         </Button>
       </Box>

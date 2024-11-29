@@ -2,23 +2,58 @@ import { Typography, Box, Button, Divider } from '@mui/material';
 import { Modal } from '@components/Common/Modal/Modal';
 import ReviewStars from '../../components/Features/ReviewStars';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import Grid from '@mui/material/Grid2';
 
 const MySalonPage = () => {
   const navigate = useNavigate();
   const data = {
-    name: '홍길동',
-    contactHours: '평일 오전 10시 ~ 오후 7시',
-    phone: '010-1111-2222',
-    serviceType: 'ANY',
-    businessNumber: '123-45-67890',
-    description:
-      '펫살롱 포미는 강아지의 건강과 행복을 우선으로 생각하는 반려견 전문 미용실입니다. 오랜 경력과 다양한 자격을 갖춘 미용사가 고객님의 소중한 반려견에게 맞춤형 미용 서비스를 제공합니다. 피부 상태, 털의 특성, 기질 등을 고려하여 강아지의 스트레스를 최소화하며 편안한 미용 경험을 선사합니다. 기본 미용 외에도 건강 체크와 피부 관리, 맞춤형 스타일링까지 반려견에게 필요한 모든 서비스를 준비해 두었습니다.',
-    chatStart:
-      '안녕하세요, 펫살롱 포미입니다! 소중한 반려견의 스타일링과 관리를 도와드리겠습니다. 예약이나 상담을 원하시면 말씀해 주세요 😊 반려견의 종, 나이, 성격에 맞춘 세심한 미용을 약속드립니다!',
-    address: '서울특별시 강남구 역삼동 123-45',
-    faq: 'Question & Answer',
-    averageReview: 2.5,
+    profile_id: 1,
+    service_name: '홍길동 헤어샵',
+    contact: '010-1111-2222',
+    contact_hours: '오전 10시 - 오후 7시',
+    region: [
+      {
+        city: '서울특별시',
+        district: '성동구',
+      },
+      {
+        city: '서울특별시',
+        district: '강서구',
+      },
+    ],
+    star_score: 4.5,
+    estimate_request_count: 4,
+    reviewCount: 9,
+    store_address: '서울특별시 강남구 역삼동 123-45',
+    experience: '15년 경력 반려동물 미용사',
+    certifications: ['반려동물 자격증 1급', '반려동물 미용사 자격증'],
+    services_offered: ['목욕', '기본 미용', '발톱관리'],
+    service_description:
+      '고객님의 반려동물을 정성껏 미용해드립니다. 최상의 서비스 제공을 위해 노력하고 있으며, 예약은 필수입니다.',
+    start_message: '첫 예약 시 특별할인을 제공합니다.',
+    badges: [
+      {
+        badge_id: 1,
+        name: '콘테스트 우승자',
+        image: 'image.jpg',
+      },
+      {
+        badge_id: 2,
+        name: '자격증 소유자',
+        image: 'image.jpg',
+      },
+    ],
+    FAQ: 'Q. 강아지 털 뭉침이 심해도 괜찮나요? \n A. 길동이네는 전문적인 털 미용 관리로 걱정 없습니다. \n Q. 강아지 입질이 심해도 괜찮나요? \n A. 길동이네는 전문적인 미용사로 걱정하지 않으셔도 됩니다.',
   };
+
+  const info = [
+    { title: '경력', content: data.experience },
+    { title: '사업자번호', content: '1234' },
+    { title: '가게 위치 정보', content: data.store_address },
+    { title: '서비스 설명', content: data.service_description },
+    { title: '채팅 시작 문구', content: data.start_message },
+  ];
 
   return (
     <Box>
@@ -44,43 +79,50 @@ const MySalonPage = () => {
             />
           </Box>
         </Box>
-        <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
+        <Box mt={1}>
           <Box display="flex" alignItems="center">
-            <Box justifyItems="center">
-              <img src="/images/default-groomer-profile.png" width="100px" />
-              <Typography mt={1} fontWeight={700}>
-                {data.name}
-              </Typography>
-            </Box>
-            <Box fontSize={14} ml={3} mr={1} lineHeight={1.7}>
-              <text>서비스 이름: </text>
-              <br />
-              <text>전화번호: </text>
-              <br />
-              <text>연락 가능 시간: </text>
-              <br />
-              <text>서비스 지역: </text>
-              <br />
-              <text>제공 서비스: </text>
-              <br />
-            </Box>
-            <Box fontWeight={600} fontSize={14} lineHeight={1.7}>
-              <text>동길이네</text> <br />
-              <text>{data.phone}</text>
-              <br />
-              <text>{data.contactHours}</text>
-              <br />
-              <text>서울특별시 성동구</text>
-              <br />
-              <text>목욕, 기본 미용, 발톱관리</text>
-              <br />
+            <img src="/images/default-groomer-profile.png" width="120px" />
+
+            <Box flexGrow={1} ml={3} fontSize={14}>
+              <Grid container spacing={1}>
+                <Grid size={4}>서비스 이름:</Grid>
+                <Grid size={8} fontWeight={700}>
+                  {data.service_name}
+                </Grid>
+
+                <Grid size={4}>전화번호:</Grid>
+                <Grid size={8}>{data.contact}</Grid>
+
+                <Grid size={4}>연락 가능 시간:</Grid>
+                <Grid size={8}>{data.contact_hours}</Grid>
+
+                <Grid size={4}>서비스 지역:</Grid>
+                <Grid size={8}>
+                  {data.region.map((item, index) => (
+                    <Typography key={index} fontSize="inherit">
+                      {item.city} {item.district}
+                    </Typography>
+                  ))}
+                </Grid>
+
+                <Grid size={4}>제공 서비스:</Grid>
+                <Grid size={8}>
+                  {data.services_offered.map((item, index) => (
+                    <React.Fragment key={index}>
+                      {item}
+                      {index < data.services_offered.length - 1 && ', '}
+                    </React.Fragment>
+                  ))}
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </Box>
       </Box>
 
       <ReviewStars
-        averageReview={data.averageReview}
+        averageReview={data.star_score}
+        reviewCount={data.reviewCount}
         link="/mypage/myreviews"
       />
 
@@ -101,7 +143,7 @@ const MySalonPage = () => {
         >
           <Box fontSize={14}>견적요청내역</Box>
           <Typography fontSize={20} fontWeight={600} color="secondary.main">
-            5
+            {data.estimate_request_count}
           </Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -115,21 +157,13 @@ const MySalonPage = () => {
         >
           <Box fontSize={14}>리뷰</Box>
           <Typography fontSize={20} fontWeight={600} color="secondary.main">
-            10
+            {data.reviewCount}
           </Typography>
         </Box>
       </Box>
 
       <Box fontSize={14} mt={3} lineHeight={1.7}>
-        <text>사업자번호: {data.businessNumber}</text>
-        <br />
-        <text>가게 위치 정보: {data.address}</text>
-        <br />
-        <text>경력: 15년 경력 반려동물 전문 미용사</text>
-      </Box>
-
-      <Box fontSize={14} mt={3} lineHeight={1.7}>
-        <text>자격증:</text>
+        <Box fontWeight={600}>자격증:</Box>
         <ul style={{ marginLeft: '20px' }}>
           <li>애견미용사 자격증 1급</li>
           <li>반려동물 행동 상담사 2급</li>
@@ -137,16 +171,24 @@ const MySalonPage = () => {
         </ul>
       </Box>
 
-      <Box fontSize={14} mt={3} lineHeight={1.7}>
-        <text>서비스 설명:</text>
-        <br />
-        {data.description}
-      </Box>
-
-      <Box fontSize={14} mt={3} lineHeight={1.7}>
-        <text>채팅 시작 문구:</text>
-        <br />
-        {data.chatStart}
+      <Box mt={1}>
+        {info.map((item, index) => (
+          <Box key={item.name} fontSize={14} lineHeight={2} mb={1}>
+            {index > 2 ? (
+              <>
+                <Box fontWeight={600}>{item.title}:</Box>
+                {item.content}
+              </>
+            ) : (
+              <Box display="flex">
+                <Box fontWeight={600} mr={1}>
+                  {item.title}:
+                </Box>
+                {item.content}
+              </Box>
+            )}
+          </Box>
+        ))}
       </Box>
     </Box>
   );
