@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '@components/Common/Header/Header';
 import { Box, Typography, Button as MuiButton } from '@mui/material';
 import Button from '@components/Common/Button/Button';
@@ -9,6 +10,7 @@ import Card from '@components/Common/Card';
 import axios from 'axios';
 
 const Home = () => {
+  const navigate = useNavigate();
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -112,6 +114,7 @@ const Home = () => {
           </Box>
 
           <MuiButton
+            onClick={() => navigate('/coupon')}
             sx={{
               backgroundColor: 'primary.main',
               color: 'text.main',

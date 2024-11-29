@@ -6,6 +6,7 @@ import paths from '@/routes/paths';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Survey from '../pages/Survey/Survey';
+import Coupon from '@/pages/Coupon';
 import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
 import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';
@@ -58,6 +59,7 @@ const AppContent = () => {
           <Route path={paths.survey.user} element={<SurveyUser />} />
           <Route path={paths.home} element={<Home />} />
           <Route path={paths.contest} element={<Contest />} />
+          <Route path={paths.coupon} element={<Coupon />} />
           <Route path={paths.notification} element={<Notification />} />
           <Route path={paths.chat} element={<Chat role="user" />} />
           <Route path={paths.chatRoom} element={<ChatRoom role="user" />} />
