@@ -1,13 +1,42 @@
 import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
 import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
 import { useNavigate } from 'react-router-dom';
+import { Modal } from '@components/Common/Modal/Modal';
+import React from 'react';
 
 const MyUserPage = () => {
   const navigate = useNavigate();
+
+  const userData = {
+    dogProfiles: [
+      {
+        dogProfileId: 1,
+        name: '구름이',
+        profileImage: 'imageUrl',
+      },
+      {
+        dogProfileId: 2,
+        name: '구름이2',
+        profileImage: 'imageUrl2',
+      },
+    ],
+    couponCount: 3,
+    reviewCount: 2,
+    paymentCount: 5,
+  };
+
   const statButton = [
-    { label: '쿠폰함', route: '/mypage/coupons', value: 3 },
-    { label: '결제내역', route: '/mypage/paymenthistory', value: 5 },
-    { label: '나의 리뷰', route: '/mypage/myreviews', value: 2 },
+    { label: '쿠폰함', route: '/mypage/coupons', value: userData.couponCount },
+    {
+      label: '결제내역',
+      route: '/mypage/paymenthistory',
+      value: userData.paymentCount,
+    },
+    {
+      label: '나의 리뷰',
+      route: '/mypage/myreviews',
+      value: userData.reviewCount,
+    },
   ];
 
   return (
@@ -17,28 +46,33 @@ const MyUserPage = () => {
           <Typography fontWeight={700} mr={1}>
             댕댕이들
           </Typography>
-          <IconButton>
+          <IconButton onClick={() => navigate('/mypage/dogprofile')}>
             <ControlPointTwoToneIcon color="primary" />
           </IconButton>
         </Box>
         <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
-          <Box justifyItems="center">
-            <Box
-              justifyItems="center"
-              sx={{ cursor: 'pointer' }}
-              onClick={() => navigate('/mypage/dogprofile')}
-            >
-              <img src="/images/default-dog-profile.png" width="100px" />
-              <Typography mt={1}>댕댕이</Typography>
-            </Box>
+          {userData.dogProfiles.map((dog) => {
+            return (
+              <Box key={dog.name} justifyItems="center">
+                <Box
+                  justifyItems="center"
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => navigate('/mypage/dogprofile')}
+                >
+                  <img src="/images/default-dog-profile.png" width="100px" />
+                  <Typography mt={1}>{dog.name}</Typography>
+                </Box>
 
-            <Button
-              color="delete"
-              sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
-            >
-              삭제
-            </Button>
-          </Box>
+                <Modal
+                  openLabel="삭제"
+                  leftLabel="취소"
+                  rightLabel="삭제"
+                  buttonColor="delete"
+                  title="반려견을 삭제하시겠습니까?"
+                />
+              </Box>
+            );
+          })}
         </Box>
       </Box>
 
@@ -54,9 +88,8 @@ const MyUserPage = () => {
         py={3}
       >
         {statButton.map((stat, index) => (
-          <>
+          <React.Fragment key={stat.label}>
             <Box
-              key={stat.label}
               flexDirection="column"
               sx={{
                 cursor: 'pointer',
@@ -64,15 +97,17 @@ const MyUserPage = () => {
               }}
               onClick={() => navigate(stat.route)}
             >
-              <Typography fontSize={14}>{stat.label}</Typography>
+              <Typography fontSize={14} sx={{ color: 'inherit' }}>
+                {stat.label}
+              </Typography>
               <Typography fontSize={20} fontWeight={600} color="secondary.main">
                 {stat.value}
               </Typography>
             </Box>
             {index < statButton.length - 1 && (
-              <Divider orientation="vertical" variant="middle" flexItem />
+              <Divider orientation="vertical" flexItem />
             )}
-          </>
+          </React.Fragment>
         ))}
       </Box>
     </Box>

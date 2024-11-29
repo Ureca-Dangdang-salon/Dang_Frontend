@@ -11,7 +11,7 @@ export const Selector2 = ({ label, content, icon: Icon, setOpen }) => {
         width: '100%',
         minHeight: '60px',
         borderRadius: '10px',
-        boxShadow: '0px 0px 5px 0px rgba(51, 51, 51, 0.08)',
+        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px',
         cursor: 'pointer',
       }}
       onClick={() => setOpen((e) => !e)}

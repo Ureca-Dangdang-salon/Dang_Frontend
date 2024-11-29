@@ -41,6 +41,8 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
+  const role = 'salon';
+
   return (
     <Box
       width="500px"
@@ -61,11 +63,11 @@ const AppContent = () => {
           <Route path={paths.contest} element={<Contest />} />
           <Route path={paths.coupon} element={<Coupon />} />
           <Route path={paths.notification} element={<Notification />} />
-          <Route path={paths.chat} element={<Chat role="user" />} />
-          <Route path={paths.chatRoom} element={<ChatRoom role="user" />} />
+          <Route path={paths.chat} element={<Chat role={role} />} />
+          <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
           <Route path={paths.myRequest} element={<MyRequest />} />
           <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
-          <Route path={paths.mypage} element={<Mypage role="salon" />} />
+          <Route path={paths.mypage} element={<Mypage role={role} />} />
           <Route path={paths.newRequest} element={<NewRequest />} />
           <Route path={paths.newReview} element={<NewReview />} />
           <Route path={paths.estimate} element={<NewEstimate />} />
@@ -81,7 +83,7 @@ const AppContent = () => {
           <Route path={paths.salonProfile} element={<SalonProfile />} />
           <Route path={paths.paymentHistory} element={<PaymentHistory />} />
           <Route path={paths.myCoupons} element={<MyCoupons />} />
-          <Route path={paths.myReviews} element={<MyReviews role="salon" />} />
+          <Route path={paths.myReviews} element={<MyReviews role={role} />} />
           <Route path={paths.requestHistory} element={<RequestHistory />} />
           <Route
             path={paths.requestHistoryDetail}

@@ -5,10 +5,22 @@ import InputText from '@components/Common/InputText/InputText';
 import { useState } from 'react';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
-import AddButton from '@components/Common/AddButton/AddButton';
 import TextArea from '@components/Common/TextArea/TextArea';
+import ServiceRegionForm from '@components/Features/ServiceRegionForm';
+import CertificationsForm from '@components/Features/CertificationsForm';
 
 const EditSalonProfile = () => {
+  const services = [
+    '목욕',
+    '털 미용',
+    '전체 클리핑',
+    '부분 가위컷',
+    '발톱 정리',
+    '피부 미용 (머드팩)',
+    '양치',
+    '귀 세정',
+  ];
+  const [serviceAreas, setServiceAreas] = useState([]);
   const [data, setData] = useState({
     name: '홍길동',
     serviceName: '동길이네',
@@ -16,16 +28,7 @@ const EditSalonProfile = () => {
     businessLocation: '서울특별시 강남구 역삼동 123-45',
     phone: '010-1111-2222',
     serviceType: 'ANY',
-    services: [
-      '목욕',
-      '털 미용',
-      '전체 클리핑',
-      '부분 가위컷',
-      '발톱 정리',
-      '피부 미용 (머드팩)',
-      '양치',
-      '귀 세정',
-    ],
+    services_offered: ['목욕', '털 미용', '발톱 정리'],
     experienceYears: '2',
     experienceMonths: '6',
     businessNumber: '123-45-67890',
@@ -52,68 +55,56 @@ const EditSalonProfile = () => {
       <DetailHeader label={'미용사 프로필 수정'} />
       <Box p={4} color="text.main">
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>
-          <img src="/images/default-groomer-profile.png" width="150px" />
-          <img
-            src="/images/upload-picture.png"
-            width="34px"
-            style={{ marginLeft: '-40px' }}
-          />
+          <img src="/images/upload-groomer-profile.png" width="150px" />
         </Box>
 
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
-          이름
-        </Typography>
-        <Box width="100%" display="flex" flexDirection="column">
-          <InputText
-            value={data.name}
-            onChange={(e) => handleChange('name', e.target.value)}
-          />
-        </Box>
-
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          서비스 이름
-        </Typography>
-        <Box width="100%" display="flex" flexDirection="column">
-          <InputText
-            value={data.serviceName}
-            onChange={(e) => handleChange('serviceName', e.target.value)}
-          />
-        </Box>
-
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          전화번호
-        </Typography>
-        <Box width="100%" display="flex" flexDirection="column">
-          <InputText
-            value={data.phone}
-            onChange={(e) => handleChange('phone', e.target.value)}
-          />
-        </Box>
+        {[
+          { name: '서비스 이름', var: 'serviceName' },
+          { name: '전화번호', var: 'phone' },
+          { name: '연락 가능 시간', var: 'contactHours' },
+        ].map((item, index) => (
+          <Box mt={2} key={index}>
+            <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
+              {item.name}
+            </Typography>
+            <Box width="100%" display="flex" flexDirection="column">
+              <InputText
+                value={data[item.var]}
+                onChange={(e) => handleChange(item.var, e.target.value)}
+              />
+            </Box>
+          </Box>
+        ))}
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           서비스 지역
         </Typography>
-        <AddButton size="large" label="추가하기" />
-
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          연락 가능 시간
-        </Typography>
-        <Box width="100%" display="flex" flexDirection="column">
-          <InputText
-            value={data.contactHours}
-            onChange={(e) => handleChange('contactHours', e.target.value)}
-          />
-        </Box>
+        <ServiceRegionForm
+          regions={serviceAreas}
+          setServiceAreas={setServiceAreas}
+        />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           제공 서비스
         </Typography>
-        {data.services.map((service, index) => {
+        {services.map((service, index) => {
           return (
-            <>
-              <RadioButton key={index} label={service} size="large" />
+            <Box key={index}>
+              <RadioButton
+                label={service}
+                size="large"
+                selected={data.services_offered.includes(service)}
+                onChange={() => {
+                  const updatedServices = data.services_offered.includes(
+                    service
+                  )
+                    ? data.services_offered.filter((s) => s !== service) // Remove service if selected
+                    : [...data.services_offered, service]; // Add service if not selected
+                  handleChange('services_offered', updatedServices);
+                }}
+              />
               <Box mt={1.5}></Box>
-            </>
+            </Box>
           );
         })}
 
@@ -142,14 +133,14 @@ const EditSalonProfile = () => {
         </Typography>
         <NumberPicker
           onChange={(e) => handleChange('experienceYears', e.target.value)}
-          value={data.experienceYears}
+          value={parseInt(data.experienceYears)}
           placeholder={0}
           label="년"
         />
         <Box mt={1.5}></Box>
         <NumberPicker
           onChange={(e) => handleChange('experienceMonths', e.target.value)}
-          value={data.experienceMonths}
+          value={parseInt(data.experienceMonths)}
           placeholder={0}
           label="개월"
         />
@@ -157,39 +148,28 @@ const EditSalonProfile = () => {
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           자격증
         </Typography>
-        {data.certifications.map((cert, index) => {
-          return (
-            <Box key={index} width="100%" display="flex" flexDirection="column">
-              <InputText value={cert} />
-            </Box>
-          );
-        })}
-        <Box mt={1.5}></Box>
-        <AddButton size="large" label="추가하기" />
-
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          서비스 설명
-        </Typography>
-        <TextArea
-          value={data.description}
-          onChange={(e) => handleChange('description', e.target.value)}
+        <CertificationsForm
+          certs={data.certifications}
+          setCertifications={(newCertifications) =>
+            setData((prev) => ({ ...prev, certifications: newCertifications }))
+          }
         />
 
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          채팅 시작 문구
-        </Typography>
-        <TextArea
-          value={data.chatStart}
-          onChange={(e) => handleChange('chatStart', e.target.value)}
-        />
-
-        <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          FAQ
-        </Typography>
-        <TextArea
-          value={data.faq}
-          onChange={(e) => handleChange('faq', e.target.value)}
-        />
+        {[
+          { label: '서비스 설명', var: 'description' },
+          { label: '채팅 시작 문구', var: 'chatStart' },
+          { label: 'FAQ', var: 'faq' },
+        ].map((item, index) => (
+          <Box key={index} mb={2}>
+            <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+              {item.label}
+            </Typography>
+            <TextArea
+              value={data[item.var]}
+              onChange={(e) => handleChange(item.var, e.target.value)}
+            />
+          </Box>
+        ))}
 
         <Box textAlign="center" mt={3}>
           <Button
