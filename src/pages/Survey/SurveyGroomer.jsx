@@ -503,7 +503,7 @@ function SurveyGroomer() {
         currPage={step}
         backHandler={handleBack}
       />
-      <Container maxWidth="sm" sx={{ px: 2, pb: 4 }}>
+      <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
         {renderStep()}
         <Box
           sx={{
@@ -511,7 +511,7 @@ function SurveyGroomer() {
             bottom: 0,
             left: 0,
             right: 0,
-            p: 2,
+            pb: 5,
             bgcolor: 'white',
             display: 'flex',
             justifyContent: 'center',
@@ -523,7 +523,6 @@ function SurveyGroomer() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-                width: '326px',
               }}
             >
               <Button

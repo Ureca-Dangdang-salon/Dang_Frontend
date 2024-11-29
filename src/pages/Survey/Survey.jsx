@@ -38,8 +38,8 @@ function Survey() {
   return (
     <>
       <DetailHeader label="회원가입" totalPage={2} currPage={1} />
-      <Container maxWidth="sm" sx={{ p: 4 }}>
-        <Box sx={{ mt: 8 }}>
+      <Box px={4} py={8}>
+        <Box>
           <Typography
             variant="h5"
             sx={{
@@ -62,11 +62,13 @@ function Survey() {
         </Box>
         <Box
           sx={{
-            mt: 41,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             gap: 1,
+            position: 'fixed',
+            left: '50%',
+            bottom: '10%',
+            transform: ' translateX(-50%)',
           }}
         >
           <Button
@@ -82,7 +84,7 @@ function Survey() {
             label="사용자로 가입하기"
           />
         </Box>
-      </Container>
+      </Box>
       <RegionModal
         open={isModalOpen}
         setOpen={setIsModalOpen}
