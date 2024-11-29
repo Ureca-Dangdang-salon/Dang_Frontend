@@ -2,10 +2,27 @@ import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
 import { Box, Typography } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Feed from '@components/Contest/Feed';
+import { Modal } from '@/components/Common/Modal/Modal';
 
 const Contest = () => {
   const navigate = useNavigate();
+  const [participatedGroomers, setParticipatedGroomers] = useState([]);
+
+  useEffect(() => {
+    // localStorage에서 참여한 미용사 목록 가져오기
+    const participated = JSON.parse(
+      localStorage.getItem('participatedGroomers') || '[]'
+    );
+    setParticipatedGroomers(participated);
+  }, []);
+
+  const handleDelete = () => {
+    localStorage.setItem('participatedGroomers', JSON.stringify([]));
+    setParticipatedGroomers([]);
+  };
+
   // 예시 데이터
   const contestEntries = [
     {
@@ -88,12 +105,24 @@ const Contest = () => {
           </Box>
           {/* 참여 버튼 */}
           <Box display="flex" justifyContent="center" mt={5} mb={5}>
-            <Button
-              label="참여하기"
-              backgroundColor="primary"
-              size="large"
-              onClick={() => navigate('/contest/entry')}
-            />
+            {participatedGroomers.length > 0 ? (
+              <Modal
+                openLabel="삭제하기"
+                buttonColor="delete"
+                title="삭제하면 콘테스트에서 더 이상 볼 수 없어요. 그래도 진행할까요?"
+                leftLabel="뒤로 가기"
+                rightLabel="삭제하기"
+                action={handleDelete}
+                onClose={() => {}}
+              />
+            ) : (
+              <Button
+                label="참여하기"
+                backgroundColor="primary"
+                size="large"
+                onClick={() => navigate('/contest/entry')}
+              />
+            )}
           </Box>
           {/* 참여 안내 */}
           <Box mt={3}>
