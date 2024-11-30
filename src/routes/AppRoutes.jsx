@@ -31,6 +31,7 @@ import RequestHistory from '@/pages/mypage/RequestHistory';
 import RequestHistoryDetail from '@/pages/mypage/RequestHistoryDetail';
 import ContestResult from '@/pages/ContestResult';
 import MyRequestDetail from '@/pages/chat/MyRequestDetail';
+import NotFound from '@components/Layout/NotFound';
 
 const AppRoutes = () => {
   return (
@@ -56,6 +57,7 @@ const AppContent = () => {
     >
       <Box paddingBottom="80px" height="100%">
         <Routes>
+          <Route path="*" element={<NotFound />} />
           <Route path={paths.login} element={<Login />} />
           <Route path={paths.survey.root} element={<Survey />} />
           <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
