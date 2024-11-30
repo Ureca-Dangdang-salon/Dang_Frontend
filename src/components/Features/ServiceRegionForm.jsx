@@ -19,16 +19,15 @@ const ServiceRegionForm = ({ regions, setServiceAreas }) => {
     <>
       {regions.map((area, index) => (
         <Box
-          key={area}
+          key={area.district}
           mb={1.5}
           sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
         >
           <InputText
             size="large"
-            placeholder="서비스 지역을 선택해주세요"
             value={`${area.city} ${area.district}`}
             readOnly
-            onClick={() => setIsModalOpen(true)}
+            onChange={() => setIsModalOpen(true)}
           />
           <DeleteButton
             size="medium"

@@ -5,6 +5,7 @@ import SelectServiceType from '../modules/SelectServiceType';
 import SelectDog from '../modules/SelectDog';
 import Button from '@components/Common/Button/Button';
 import usePageStore from '@/store/usePageStore';
+import SubTitle from '../atoms/SubTitle';
 
 const SecondStep = () => {
   const { setDogStep } = usePageStore();
@@ -13,6 +14,7 @@ const SecondStep = () => {
     <>
       <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
         <SelectDate />
+        <SubTitle title="지역" />
         <SelectRegion />
         <SelectServiceType />
         <SelectDog

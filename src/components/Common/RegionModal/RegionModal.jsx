@@ -16,6 +16,7 @@ import { koreaRegions } from './KoreaRegions';
 export const RegionModal = ({ setLocation, open, setOpen }) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
+  const [regionId, setRegionId] = useState(-1);
 
   const handleClose = () => {
     setOpen(false);
@@ -82,7 +83,6 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
             ))}
           </List>
         </Box>
-
         <Divider
           orientation="vertical"
           flexItem
@@ -92,22 +92,24 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
             top: 0,
           }}
         />
-
         <Box width={200}>
           {selectedCity ? (
             <List>
               {koreaRegions[selectedCity].map((region) => (
                 <ListItem
-                  key={region}
-                  onClick={() => setSelectedRegion(region)}
+                  key={region.id}
+                  onClick={() => {
+                    setSelectedRegion(region.name);
+                    setRegionId(region.id);
+                  }}
                   sx={{
                     cursor: 'pointer',
                     borderRadius: '8px',
                     mb: 1,
-                    bgcolor: isSelected(region, selectedRegion),
+                    bgcolor: isSelected(region.name, selectedRegion),
                   }}
                 >
-                  <ListItemText primary={region} />
+                  <ListItemText primary={region.name} />
                 </ListItem>
               ))}
             </List>
@@ -117,7 +119,7 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
               textAlign="center"
               color="text.secondary"
             >
-              도시를 선택해주세요.
+              시/도를 먼저 선택해주세요.
             </Typography>
           )}
         </Box>
