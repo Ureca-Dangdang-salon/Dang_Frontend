@@ -2,7 +2,7 @@ const paths = {
   home: '/home',
   login: '/',
   survey: {
-    root: '/register',
+    root: '/survey',
     groomer: '/survey/groomer',
     user: '/survey/user',
   },

@@ -6,11 +6,14 @@ import { join } from '@/api/auth';
 import { RegionModal } from '@components/Common/RegionModal/RegionModal';
 import { Selector2 } from '@components/NewRequest/atoms/Selector2';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useNavigate } from 'react-router-dom';
+import paths from '@/routes/paths';
 
 function Survey() {
   const [location, setLocation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [id, setId] = useState(null);
+  const navigate = useNavigate();
 
   const handleAction = (selectedCity, selectedRegion, regionId) => {
     setLocation(selectedCity + ' ' + selectedRegion);
@@ -18,11 +21,11 @@ function Survey() {
   };
 
   const handleHairstylistSignup = () => {
-    join('ROLE_SALON', id);
+    if (join('ROLE_SALON', id)) navigate(paths.survey.groomer);
   };
 
-  const handleUserSignup = () => {
-    join('ROLE_USER', id);
+  const handleUserSignup = async () => {
+    if (join('ROLE_USER', id)) navigate(paths.survey.user);
   };
 
   return (

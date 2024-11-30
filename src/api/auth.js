@@ -3,13 +3,13 @@ import { AuthController } from './requestUrls';
 
 export const join = async (role, district_id) => {
   try {
-    const data = await apiClient.post(AuthController.join, {
+    await apiClient.post(AuthController.join, {
       role: role,
-      district_id: district_id,
+      districtId: district_id,
     });
-    console.log(data);
-    return data;
+    return true;
   } catch (e) {
     console.log(e);
+    return false;
   }
 };
