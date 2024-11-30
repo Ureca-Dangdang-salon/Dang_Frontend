@@ -1,23 +1,23 @@
 import { useState } from 'react';
-import SubTitle from '../atoms/SubTitle';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Selector2 } from '../atoms/Selector2';
 import { RegionModal } from '@components/Common/RegionModal/RegionModal';
 
-const SelectRegion = () => {
-  const [location, setLocation] = useState(null);
+const SelectRegion = ({ setLocation }) => {
+  const [thisLocation, setThisLocation] = useState(null);
   const [open, setOpen] = useState(false);
 
   const handleAction = (city, region) => {
-    setLocation(city + ' ' + region);
+    const newLocation = city + ' ' + region;
+    setThisLocation(newLocation);
+    if (setLocation) setLocation(newLocation);
   };
 
   return (
     <div>
-      <SubTitle title="지역" />
       <Selector2
         label="지역 선택"
-        content={location}
+        content={thisLocation}
         icon={LocationOnIcon}
         setOpen={setOpen}
       />
