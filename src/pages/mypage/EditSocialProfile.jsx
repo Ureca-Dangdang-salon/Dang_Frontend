@@ -7,6 +7,7 @@ import SelectRegion from '@components/NewRequest/modules/SelectRegion';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
 
 const EditSocialProfile = () => {
+  const [location, setLocation] = useState(null);
   const [data, setData] = useState({
     email: 'hong@gmail.com',
     city: '서울특별시',
@@ -37,7 +38,8 @@ const EditSocialProfile = () => {
         </Box>
 
         <Box mt={3}>
-          <SelectRegion />
+          <SubTitle title="지역" />
+          <SelectRegion setLocation={setLocation} />
         </Box>
 
         <Box mt={5} />
