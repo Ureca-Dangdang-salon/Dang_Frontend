@@ -173,7 +173,7 @@ const MySalonPage = () => {
 
       <Box mt={1}>
         {info.map((item, index) => (
-          <Box key={item.name} fontSize={14} lineHeight={2} mb={1}>
+          <Box key={index} fontSize={14} lineHeight={2} mb={1}>
             {index > 2 ? (
               <>
                 <Box fontWeight={600}>{item.title}:</Box>

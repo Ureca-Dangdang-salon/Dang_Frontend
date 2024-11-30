@@ -5,13 +5,14 @@ import MySalonPage from './MySalonPage';
 import { Modal } from '@components/Common/Modal/Modal';
 
 const Mypage = (props) => {
+  const defaultImgPath = '/images/default-groomer-profile.png';
+
   const userData = {
-    role: 'USER',
-    name: '이민수',
-    email: 'dsdas@gmail.com',
-    profileImage: 'imageUrl',
-    city: '서울특별시',
-    district: '성동구',
+    imageKey: '',
+    name: '한유성',
+    email: 'tkamo2005@gmail.com',
+    district: '종로구',
+    city: '서울시',
   };
 
   return (
@@ -21,9 +22,17 @@ const Mypage = (props) => {
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">
             <img
-              src="/images/default-groomer-profile.png"
+              src={userData.imageKey ? userData.imageKey : defaultImgPath}
               alt="profile_img"
               width="60px"
+              style={
+                userData.imageKey && {
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid',
+                  borderColor: '#9747FF',
+                }
+              }
             />
             <Box ml={2}>
               <Typography fontWeight={700}>{userData.name}</Typography>
