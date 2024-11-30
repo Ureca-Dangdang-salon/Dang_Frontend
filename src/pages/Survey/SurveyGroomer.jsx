@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import { Box, Typography, Container } from '@mui/material';
-import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
+import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import InputText from '@/components/Common/InputText/InputText';
-import RadioButton from '@/components/Common/RadioButton/RadioButton';
-import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
-import AddButton from '@/components/Common/AddButton/AddButton';
+import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
 import Button from '@/components/Common/Button/Button';
-import DeleteButton from '@/components/Common/DeleteButton/DeleteButton';
-import TextArea from '@/components/Common/TextArea/TextArea';
-import { RegionModal } from '@/components/Common/RegionModal/RegionModal';
-import uploadGroomerProfile from '/images/upload-groomer-profile.png';
+import Step1 from '@/components/Survey/GroomerSteps/Step1';
+import Step2 from '@/components/Survey/GroomerSteps/Step2';
+import Step3 from '@/components/Survey/GroomerSteps/Step3';
+import Step4 from '@/components/Survey/GroomerSteps/Step4';
+import Step5 from '@/components/Survey/GroomerSteps/Step5';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
@@ -18,13 +15,7 @@ function SurveyGroomer() {
   const [serviceName, setServiceName] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceAreas, setServiceAreas] = useState([]);
-  const handleSetLocation = (selectedCity, selectedDistrict) => {
-    setServiceAreas((prev) => [
-      ...prev,
-      { city: selectedCity, district: selectedDistrict },
-    ]);
-    setIsModalOpen(false);
-  };
+
   const [services, setServices] = useState({
     목욕: false,
     털미용: false,
@@ -35,11 +26,13 @@ function SurveyGroomer() {
     양치: false,
     귀세정: false,
   });
+
   const [phoneNumber, setPhoneNumber] = useState('');
   const [businessHours, setBusinessHours] = useState({
     start: { hour: 0, minute: 0 },
     end: { hour: 0, minute: 0 },
   });
+
   const [businessInfo, setBusinessInfo] = useState({
     profileImage: null,
     businessNumber: '',
@@ -58,6 +51,14 @@ function SurveyGroomer() {
     recruitment: '',
     faq: '',
   });
+
+  const handleSetLocation = (selectedCity, selectedDistrict) => {
+    setServiceAreas((prev) => [
+      ...prev,
+      { city: selectedCity, district: selectedDistrict },
+    ]);
+    setIsModalOpen(false);
+  };
 
   const isStepValid = () => {
     switch (step) {
@@ -84,421 +85,6 @@ function SurveyGroomer() {
     }
   };
 
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          <Box sx={{ mt: 8 }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              서비스 이름을 적어주세요.
-            </Typography>
-            <InputText
-              size="large"
-              placeholder="서비스 이름을 입력해주세요"
-              value={serviceName}
-              onChange={(e) => setServiceName(e.target.value)}
-            />
-          </Box>
-        );
-
-      case 2:
-        return (
-          <Box sx={{ mt: 8 }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              어떤 서비스를 제공하시나요?
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {Object.entries(services).map(([service, checked]) => (
-                <RadioButton
-                  key={service}
-                  label={service}
-                  selected={checked}
-                  size="large"
-                  onChange={() =>
-                    setServices((prev) => ({ ...prev, [service]: !checked }))
-                  }
-                />
-              ))}
-            </Box>
-          </Box>
-        );
-
-      case 3:
-        return (
-          <Box sx={{ mt: 8 }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              전화번호를 입력해주세요.
-            </Typography>
-            <InputText
-              size="large"
-              placeholder="전화번호를 입력해주세요"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              type="tel"
-            />
-          </Box>
-        );
-
-      case 4:
-        return (
-          <Box sx={{ mt: 8 }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              연락 가능한 시간을 알려 주세요.
-            </Typography>
-            <Typography variant="subtitle1" sx={{ mb: 2 }}>
-              시작 시간
-            </Typography>
-            <Box
-              sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}
-            >
-              <NumberPicker
-                value={Number(businessHours.start.hour)}
-                onChange={(value) =>
-                  setBusinessHours((prev) => ({
-                    ...prev,
-                    start: { ...prev.start, hour: value },
-                  }))
-                }
-                label="시"
-                max={23}
-              />
-              <NumberPicker
-                value={Number(businessHours.start.minute)}
-                onChange={(value) =>
-                  setBusinessHours((prev) => ({
-                    ...prev,
-                    start: { ...prev.start, minute: value },
-                  }))
-                }
-                label="분"
-                max={59}
-              />
-            </Box>
-            <Typography variant="subtitle1" sx={{ mb: 2 }}>
-              종료 시간
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-              <NumberPicker
-                value={Number(businessHours.end.hour)}
-                onChange={(value) =>
-                  setBusinessHours((prev) => ({
-                    ...prev,
-                    end: { ...prev.end, hour: value },
-                  }))
-                }
-                label="시"
-                max={23}
-              />
-              <NumberPicker
-                value={Number(businessHours.end.minute)}
-                onChange={(value) =>
-                  setBusinessHours((prev) => ({
-                    ...prev,
-                    end: { ...prev.end, minute: value },
-                  }))
-                }
-                label="분"
-                max={59}
-              />
-            </Box>
-          </Box>
-        );
-
-      case 5:
-        return (
-          <Box sx={{ mt: 8 }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-              상세 정보를 입력해주세요.
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  프로필 등록하기
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    mb: 2,
-                  }}
-                >
-                  <img
-                    src={uploadGroomerProfile}
-                    alt="프로필 업로드"
-                    style={{
-                      width: '200px',
-                      height: '200px',
-                      objectFit: 'contain',
-                    }}
-                  />
-                </Box>
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  사업자 번호
-                </Typography>
-                <InputText
-                  size="large"
-                  placeholder="사업자 번호를 입력해주세요"
-                  value={businessInfo.businessNumber}
-                  onChange={(e) =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      businessNumber: e.target.value,
-                    }))
-                  }
-                />
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  가게 위치 정보
-                </Typography>
-                <InputText
-                  size="large"
-                  placeholder="가게 위치 정보를 입력해주세요"
-                  value={businessInfo.address}
-                  onChange={(e) =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      address: e.target.value,
-                    }))
-                  }
-                />
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ display: 'block' }}>
-                  서비스 지역
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                    mb: 1,
-                  }}
-                >
-                  {serviceAreas.map((area, index) => (
-                    <Box
-                      key={index}
-                      sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-                    >
-                      <InputText
-                        size="large"
-                        placeholder="서비스 지역을 선택해주세요"
-                        value={`${area.city} ${area.district}`}
-                        readOnly
-                        onClick={() => setIsModalOpen(true)}
-                      />
-                      <DeleteButton
-                        size="medium"
-                        label=""
-                        onClick={() => {
-                          setServiceAreas((prev) =>
-                            prev.filter((_, i) => i !== index)
-                          );
-                        }}
-                      />
-                    </Box>
-                  ))}
-                </Box>
-                <AddButton
-                  size="large"
-                  label="서비스 지역 추가하기"
-                  onClick={() => setIsModalOpen(true)}
-                />
-                <RegionModal
-                  open={isModalOpen}
-                  setOpen={setIsModalOpen}
-                  setLocation={handleSetLocation}
-                />
-              </Box>{' '}
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  서비스 유형
-                </Typography>
-                <Box
-                  sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}
-                >
-                  {Object.entries(businessInfo.serviceType).map(
-                    ([type, checked]) => (
-                      <RadioButton
-                        key={type}
-                        label={type}
-                        selected={checked}
-                        size="large"
-                        onChange={() =>
-                          setBusinessInfo((prev) => ({
-                            ...prev,
-                            serviceType: Object.fromEntries(
-                              Object.entries(prev.serviceType).map(
-                                ([key, value]) => [
-                                  key,
-                                  key === type ? !value : false,
-                                ]
-                              )
-                            ),
-                          }))
-                        }
-                      />
-                    )
-                  )}
-                </Box>
-              </Box>
-              <Box>
-                <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                  경력
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-                  <NumberPicker
-                    value={Number(businessInfo.experience.years)}
-                    onChange={(value) =>
-                      setBusinessInfo((prev) => ({
-                        ...prev,
-                        experience: { ...prev.experience, years: value },
-                      }))
-                    }
-                    label="년"
-                    max={50}
-                  />
-                  <NumberPicker
-                    value={Number(businessInfo.experience.months)}
-                    onChange={(value) =>
-                      setBusinessInfo((prev) => ({
-                        ...prev,
-                        experience: { ...prev.experience, months: value },
-                      }))
-                    }
-                    label="개월"
-                    max={11}
-                  />
-                </Box>
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ display: 'block' }}>
-                  자격증
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px',
-                    mb: 1,
-                  }}
-                >
-                  {businessInfo.certifications.map((cert, index) => (
-                    <Box key={index} sx={{ display: 'flex', gap: '8px' }}>
-                      <InputText
-                        size="large"
-                        placeholder="자격증을 입력해주세요"
-                        value={cert}
-                        onChange={(e) => {
-                          const newCertifications = [
-                            ...businessInfo.certifications,
-                          ];
-                          newCertifications[index] = e.target.value;
-                          setBusinessInfo((prev) => ({
-                            ...prev,
-                            certifications: newCertifications,
-                          }));
-                        }}
-                      />
-                      <DeleteButton
-                        size="medium"
-                        label=""
-                        onClick={() => {
-                          const newCertifications =
-                            businessInfo.certifications.filter(
-                              (_, i) => i !== index
-                            );
-                          setBusinessInfo((prev) => ({
-                            ...prev,
-                            certifications: newCertifications,
-                          }));
-                        }}
-                      />
-                    </Box>
-                  ))}
-                </Box>
-                {businessInfo.certifications.length === 0 ? (
-                  <AddButton
-                    size="large"
-                    label="자격증 추가하기"
-                    onClick={() => {
-                      setBusinessInfo((prev) => ({
-                        ...prev,
-                        certifications: [...prev.certifications, ''],
-                      }));
-                    }}
-                  />
-                ) : (
-                  <AddButton
-                    size="large"
-                    label="추가하기"
-                    onClick={() => {
-                      setBusinessInfo((prev) => ({
-                        ...prev,
-                        certifications: [...prev.certifications, ''],
-                      }));
-                    }}
-                  />
-                )}
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  서비스 설명
-                </Typography>
-                <TextArea
-                  placeholder="서비스 설명을 입력해주세요"
-                  value={businessInfo.description}
-                  onChange={(e) =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }))
-                  }
-                  rows={4}
-                />
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  채팅 시작 문구
-                </Typography>
-                <TextArea
-                  placeholder="채팅 시작 문구를 입력해주세요"
-                  value={businessInfo.recruitment}
-                  onChange={(e) =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      recruitment: e.target.value,
-                    }))
-                  }
-                  rows={4}
-                />
-              </Box>
-              <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
-                  FAQ
-                </Typography>
-                <TextArea
-                  placeholder="자주 묻는 질문과 답변을 입력해주세요"
-                  value={businessInfo.faq}
-                  onChange={(e) =>
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      faq: e.target.value,
-                    }))
-                  }
-                  rows={4}
-                />
-              </Box>
-            </Box>
-          </Box>
-        );
-      default:
-        return null;
-    }
-  };
   const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
@@ -506,6 +92,43 @@ function SurveyGroomer() {
       navigate('/survey');
     }
   };
+
+  const renderStep = () => {
+    switch (step) {
+      case 1:
+        return (
+          <Step1 serviceName={serviceName} setServiceName={setServiceName} />
+        );
+      case 2:
+        return <Step2 services={services} setServices={setServices} />;
+      case 3:
+        return (
+          <Step3 phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} />
+        );
+      case 4:
+        return (
+          <Step4
+            businessHours={businessHours}
+            setBusinessHours={setBusinessHours}
+          />
+        );
+      case 5:
+        return (
+          <Step5
+            businessInfo={businessInfo}
+            setBusinessInfo={setBusinessInfo}
+            serviceAreas={serviceAreas}
+            setServiceAreas={setServiceAreas}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            handleSetLocation={handleSetLocation}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <SurveyHeader
@@ -529,13 +152,7 @@ function SurveyGroomer() {
           }}
         >
           {step === 4 ? (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-              }}
-            >
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Button
                 size="large"
                 backgroundColor="primary"
