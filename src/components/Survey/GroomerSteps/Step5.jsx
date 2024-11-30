@@ -6,6 +6,7 @@ import TextArea from '@/components/Common/TextArea/TextArea';
 import { RegionModal } from '@/components/Common/RegionModal/RegionModal';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
+import ProfileSelector from '@/components/Features/ProfileSelector';
 
 const Step5 = ({
   businessInfo,
@@ -16,15 +17,13 @@ const Step5 = ({
   setIsModalOpen,
   handleSetLocation,
 }) => {
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setBusinessInfo((prev) => ({
-        ...prev,
-        profileImage: file,
-      }));
-    }
+  const handleProfileChange = (imageData) => {
+    setBusinessInfo((prev) => ({
+      ...prev,
+      profileImage: imageData?.file || null,
+    }));
   };
+
   return (
     <Box sx={{ mt: 8 }}>
       <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
@@ -44,34 +43,18 @@ const Step5 = ({
               mb: 2,
             }}
           >
-            <Box
-              sx={{
-                width: '200px',
-                height: '200px',
-                cursor: 'pointer',
-              }}
-              component="label"
-            >
-              <input
-                type="file"
-                hidden
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
-              <img
-                src={
-                  businessInfo.profileImage
-                    ? URL.createObjectURL(businessInfo.profileImage)
-                    : '/images/upload-groomer-profile.png'
-                }
-                alt="프로필 업로드"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </Box>
+            <ProfileSelector
+              defaultImage="human"
+              image={
+                businessInfo.profileImage
+                  ? {
+                      file: businessInfo.profileImage,
+                      preview: URL.createObjectURL(businessInfo.profileImage),
+                    }
+                  : null
+              }
+              onChange={handleProfileChange}
+            />
           </Box>
         </Box>
 
