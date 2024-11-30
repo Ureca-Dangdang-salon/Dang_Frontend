@@ -53,7 +53,7 @@ function SurveyGroomer() {
       years: 0,
       months: 0,
     },
-    certifications: [''],
+    certifications: [],
     description: '',
     recruitment: '',
     faq: '',
@@ -267,7 +267,7 @@ function SurveyGroomer() {
                 />
               </Box>
               <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
+                <Typography variant="caption" sx={{ display: 'block' }}>
                   서비스 지역
                 </Typography>
                 <Box
@@ -275,7 +275,7 @@ function SurveyGroomer() {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 2,
-                    mb: 2,
+                    mb: 1,
                   }}
                 >
                   {serviceAreas.map((area, index) => (
@@ -375,7 +375,7 @@ function SurveyGroomer() {
                 </Box>
               </Box>
               <Box>
-                <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
+                <Typography variant="caption" sx={{ display: 'block' }}>
                   자격증
                 </Typography>
                 <Box
@@ -383,7 +383,7 @@ function SurveyGroomer() {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '8px',
-                    mb: 2,
+                    mb: 1,
                   }}
                 >
                   {businessInfo.certifications.map((cert, index) => (
@@ -403,36 +403,47 @@ function SurveyGroomer() {
                           }));
                         }}
                       />
-                      {businessInfo.certifications.length > 1 && (
-                        <DeleteButton
-                          size="medium"
-                          label=""
-                          onClick={() => {
-                            const newCertifications =
-                              businessInfo.certifications.filter(
-                                (_, i) => i !== index
-                              );
-                            setBusinessInfo((prev) => ({
-                              ...prev,
-                              certifications: newCertifications,
-                            }));
-                          }}
-                        />
-                      )}
+                      <DeleteButton
+                        size="medium"
+                        label=""
+                        onClick={() => {
+                          const newCertifications =
+                            businessInfo.certifications.filter(
+                              (_, i) => i !== index
+                            );
+                          setBusinessInfo((prev) => ({
+                            ...prev,
+                            certifications: newCertifications,
+                          }));
+                        }}
+                      />
                     </Box>
                   ))}
                 </Box>
-                <AddButton
-                  size="large"
-                  label="추가하기"
-                  onClick={() => {
-                    setBusinessInfo((prev) => ({
-                      ...prev,
-                      certifications: [...prev.certifications, ''],
-                    }));
-                  }}
-                />
-              </Box>{' '}
+                {businessInfo.certifications.length === 0 ? (
+                  <AddButton
+                    size="large"
+                    label="자격증 추가하기"
+                    onClick={() => {
+                      setBusinessInfo((prev) => ({
+                        ...prev,
+                        certifications: [...prev.certifications, ''],
+                      }));
+                    }}
+                  />
+                ) : (
+                  <AddButton
+                    size="large"
+                    label="추가하기"
+                    onClick={() => {
+                      setBusinessInfo((prev) => ({
+                        ...prev,
+                        certifications: [...prev.certifications, ''],
+                      }));
+                    }}
+                  />
+                )}
+              </Box>
               <Box>
                 <Typography variant="caption" sx={{ mb: 1, display: 'block' }}>
                   서비스 설명
