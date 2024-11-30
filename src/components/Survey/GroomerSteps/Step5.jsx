@@ -16,6 +16,15 @@ const Step5 = ({
   setIsModalOpen,
   handleSetLocation,
 }) => {
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setBusinessInfo((prev) => ({
+        ...prev,
+        profileImage: file,
+      }));
+    }
+  };
   return (
     <Box sx={{ mt: 8 }}>
       <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
@@ -35,15 +44,34 @@ const Step5 = ({
               mb: 2,
             }}
           >
-            <img
-              src="/images/upload-groomer-profile.png"
-              alt="프로필 업로드"
-              style={{
+            <Box
+              sx={{
                 width: '200px',
                 height: '200px',
-                objectFit: 'contain',
+                cursor: 'pointer',
               }}
-            />
+              component="label"
+            >
+              <input
+                type="file"
+                hidden
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+              <img
+                src={
+                  businessInfo.profileImage
+                    ? URL.createObjectURL(businessInfo.profileImage)
+                    : '/images/upload-groomer-profile.png'
+                }
+                alt="프로필 업로드"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </Box>
           </Box>
         </Box>
 
