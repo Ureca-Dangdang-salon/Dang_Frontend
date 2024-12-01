@@ -32,6 +32,7 @@ import RequestHistoryDetail from '@/pages/mypage/RequestHistoryDetail';
 import ContestResult from '@/pages/ContestResult';
 import MyRequestDetail from '@/pages/chat/MyRequestDetail';
 import NotFound from '@components/Layout/NotFound';
+import PrivateRoute from './PrivateRoute';
 
 const AppRoutes = () => {
   return (
@@ -57,42 +58,47 @@ const AppContent = () => {
     >
       <Box paddingBottom="80px" height="100%">
         <Routes>
-          <Route path="*" element={<NotFound />} />
           <Route path={paths.login} element={<Login />} />
-          <Route path={paths.survey.root} element={<Survey />} />
-          <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
-          <Route path={paths.survey.user} element={<SurveyUser />} />
-          <Route path={paths.home} element={<Home />} />
-          <Route path={paths.contest} element={<Contest />} />
-          <Route path={paths.entry} element={<Entry />} />
-          <Route path={paths.coupon} element={<Coupon />} />
-          <Route path={paths.notification} element={<Notification />} />
-          <Route path={paths.chat} element={<Chat role={role} />} />
-          <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
-          <Route path={paths.myRequest} element={<MyRequest />} />
-          <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
-          <Route path={paths.mypage} element={<Mypage role={role} />} />
-          <Route path={paths.newRequest} element={<NewRequest />} />
-          <Route path={paths.newReview} element={<NewReview />} />
-          <Route path={paths.estimate} element={<NewEstimate />} />
-          <Route path={paths.editEstimate} element={<EditEstimate />} />
-          <Route path={paths.contestResult} element={<ContestResult />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="*" element={<NotFound />} />
+            <Route path={paths.survey.root} element={<Survey />} />
+            <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
+            <Route path={paths.survey.user} element={<SurveyUser />} />
+            <Route path={paths.home} element={<Home />} />
+            <Route path={paths.contest} element={<Contest />} />
+            <Route path={paths.entry} element={<Entry />} />
+            <Route path={paths.coupon} element={<Coupon />} />
+            <Route path={paths.notification} element={<Notification />} />
+            <Route path={paths.chat} element={<Chat role={role} />} />
+            <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
+            <Route path={paths.myRequest} element={<MyRequest />} />
+            <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
+            <Route path={paths.mypage} element={<Mypage role={role} />} />
+            <Route path={paths.newRequest} element={<NewRequest />} />
+            <Route path={paths.newReview} element={<NewReview />} />
+            <Route path={paths.estimate} element={<NewEstimate />} />
+            <Route path={paths.editEstimate} element={<EditEstimate />} />
+            <Route path={paths.contestResult} element={<ContestResult />} />
 
-          <Route
-            path={paths.editSocialProfile}
-            element={<EditSocialProfile />}
-          />
-          <Route path={paths.editSalonProfile} element={<EditSalonProfile />} />
-          <Route path={paths.dogProfile} element={<DogProfile />} />
-          <Route path={paths.salonProfile} element={<SalonProfile />} />
-          <Route path={paths.paymentHistory} element={<PaymentHistory />} />
-          <Route path={paths.myCoupons} element={<MyCoupons />} />
-          <Route path={paths.myReviews} element={<MyReviews role={role} />} />
-          <Route path={paths.requestHistory} element={<RequestHistory />} />
-          <Route
-            path={paths.requestHistoryDetail}
-            element={<RequestHistoryDetail />}
-          />
+            <Route
+              path={paths.editSocialProfile}
+              element={<EditSocialProfile />}
+            />
+            <Route
+              path={paths.editSalonProfile}
+              element={<EditSalonProfile />}
+            />
+            <Route path={paths.dogProfile} element={<DogProfile />} />
+            <Route path={paths.salonProfile} element={<SalonProfile />} />
+            <Route path={paths.paymentHistory} element={<PaymentHistory />} />
+            <Route path={paths.myCoupons} element={<MyCoupons />} />
+            <Route path={paths.myReviews} element={<MyReviews role={role} />} />
+            <Route path={paths.requestHistory} element={<RequestHistory />} />
+            <Route
+              path={paths.requestHistoryDetail}
+              element={<RequestHistoryDetail />}
+            />
+          </Route>
         </Routes>
       </Box>
 
