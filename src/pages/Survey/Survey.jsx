@@ -20,12 +20,14 @@ function Survey() {
     setId(regionId);
   };
 
-  const handleHairstylistSignup = () => {
-    if (join('ROLE_SALON', id)) navigate(paths.survey.groomer);
+  const handleHairstylistSignup = async () => {
+    if (!location) return false;
+    if (await join('ROLE_SALON', id)) navigate(paths.survey.groomer);
   };
 
   const handleUserSignup = async () => {
-    if (join('ROLE_USER', id)) navigate(paths.survey.user);
+    if (!location) return false;
+    if (await join('ROLE_USER', id)) navigate(paths.survey.user);
   };
 
   return (
