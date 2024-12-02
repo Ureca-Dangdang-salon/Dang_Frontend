@@ -45,14 +45,6 @@ const Step5 = ({
           >
             <ProfileSelector
               defaultImage="human"
-              image={
-                businessInfo.profileImage
-                  ? {
-                      file: businessInfo.profileImage,
-                      preview: URL.createObjectURL(businessInfo.profileImage),
-                    }
-                  : null
-              }
               onChange={handleProfileChange}
             />
           </Box>

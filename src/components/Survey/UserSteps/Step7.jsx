@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import ProfileSelector from '@/components/Features/ProfileSelector';
 
-const Step7 = ({ petInfo, setPetInfo }) => {
+const Step7 = ({ setPetInfo }) => {
   const handleProfileChange = (imageData) => {
     setPetInfo((prev) => ({
       ...prev,
@@ -21,18 +21,7 @@ const Step7 = ({ petInfo, setPetInfo }) => {
       <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
         프로필 사진을 등록해주세요.
       </Typography>
-      <ProfileSelector
-        defaultImage="dog"
-        image={
-          petInfo.profileImage
-            ? {
-                file: petInfo.profileImage,
-                preview: URL.createObjectURL(petInfo.profileImage),
-              }
-            : null
-        }
-        onChange={handleProfileChange}
-      />
+      <ProfileSelector defaultImage="dog" onChange={handleProfileChange} />
     </Box>
   );
 };

@@ -2,36 +2,34 @@ import { Box, Typography } from '@mui/material';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 
 const Step4 = ({ businessHours, setBusinessHours }) => {
-  const renderNumberPicker = (label, value, onChange, max) => (
-    <NumberPicker value={value} onChange={onChange} label={label} max={max} />
-  );
-
   const renderTimeSection = (type, title) => (
     <>
       <Typography variant="subtitle1" sx={{ mb: 2 }}>
         {title}
       </Typography>
       <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}>
-        {renderNumberPicker(
-          '시',
-          businessHours[type].hour,
-          (value) =>
+        <NumberPicker
+          label="시"
+          value={businessHours[type].hour}
+          onChange={(value) =>
             setBusinessHours((prev) => ({
               ...prev,
               [type]: { ...prev[type], hour: value },
-            })),
-          23
-        )}
-        {renderNumberPicker(
-          '분',
-          businessHours[type].minute,
-          (value) =>
+            }))
+          }
+          max={23}
+        />
+        <NumberPicker
+          label="분"
+          value={businessHours[type].minute}
+          onChange={(value) =>
             setBusinessHours((prev) => ({
               ...prev,
               [type]: { ...prev[type], minute: value },
-            })),
-          59
-        )}
+            }))
+          }
+          max={59}
+        />
       </Box>
     </>
   );
