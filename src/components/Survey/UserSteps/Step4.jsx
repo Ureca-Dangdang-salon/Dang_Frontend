@@ -1,11 +1,8 @@
-import { Box, Typography } from '@mui/material';
 import InputText from '@/components/Common/InputText/InputText';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 
 const Step4 = ({ petInfo, setPetInfo }) => (
-  <Box sx={{ mt: 8 }}>
-    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-      반려견의 견종을 입력해주세요.
-    </Typography>
+  <SurveySection title="반려견의 견종을 입력해주세요">
     <InputText
       size="large"
       placeholder="견종을 입력해주세요"
@@ -14,7 +11,7 @@ const Step4 = ({ petInfo, setPetInfo }) => (
         setPetInfo((prev) => ({ ...prev, breed: e.target.value }))
       }
     />
-  </Box>
+  </SurveySection>
 );
 
 export default Step4;

@@ -1,11 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 
 const Step3 = ({ petInfo, setPetInfo }) => (
-  <Box sx={{ mt: 8 }}>
-    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-      반려견의 몸무게를 선택해주세요.
-    </Typography>
+  <SurveySection title="반려견의 몸무게를 선택해주세요">
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <NumberPicker
         value={petInfo.weight}
@@ -14,7 +12,7 @@ const Step3 = ({ petInfo, setPetInfo }) => (
         max={100}
       />
     </Box>
-  </Box>
+  </SurveySection>
 );
 
 export default Step3;

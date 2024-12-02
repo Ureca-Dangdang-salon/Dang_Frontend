@@ -1,12 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import InputText from '@/components/Common/InputText/InputText';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 
 const Step6 = ({ petInfo, setPetInfo }) => (
-  <Box sx={{ mt: 8 }}>
-    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-      반려견은 어떤 특징을 가졌나요?
-    </Typography>
+  <SurveySection title="반려견은 어떤 특징을 가졌나요?">
     <Box display="flex" flexDirection="column" gap={3}>
       {Object.entries(petInfo.characteristics).map(([trait, checked]) => (
         <Box key={trait}>
@@ -60,7 +58,7 @@ const Step6 = ({ petInfo, setPetInfo }) => (
         </Box>
       ))}
     </Box>
-  </Box>
+  </SurveySection>
 );
 
 export default Step6;

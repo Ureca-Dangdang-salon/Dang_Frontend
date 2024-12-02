@@ -1,11 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
 
 const Step2 = ({ services, setServices }) => (
-  <Box sx={{ mt: 8 }}>
-    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-      어떤 서비스를 제공하시나요?
-    </Typography>
+  <SurveySection title="어떤 서비스를 제공하시나요?">
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       {Object.entries(services).map(([service, checked]) => (
         <RadioButton
@@ -19,7 +17,7 @@ const Step2 = ({ services, setServices }) => (
         />
       ))}
     </Box>
-  </Box>
+  </SurveySection>
 );
 
 export default Step2;

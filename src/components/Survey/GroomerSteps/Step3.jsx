@@ -1,11 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 import InputText from '@/components/Common/InputText/InputText';
 
 const Step3 = ({ phoneNumber, setPhoneNumber }) => (
-  <Box sx={{ mt: 8 }}>
-    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-      전화번호를 입력해주세요.
-    </Typography>
+  <SurveySection title="전화번호를 입력해주세요">
     <InputText
       size="large"
       placeholder="전화번호를 입력해주세요"
@@ -13,7 +10,7 @@ const Step3 = ({ phoneNumber, setPhoneNumber }) => (
       onChange={(e) => setPhoneNumber(e.target.value)}
       type="tel"
     />
-  </Box>
+  </SurveySection>
 );
 
 export default Step3;

@@ -7,6 +7,7 @@ import { RegionModal } from '@/components/Common/RegionModal/RegionModal';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
 import ProfileSelector from '@/components/Features/ProfileSelector';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 
 const Step5 = ({
   businessInfo,
@@ -25,10 +26,7 @@ const Step5 = ({
   };
 
   return (
-    <Box sx={{ mt: 8 }}>
-      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-        상세 정보를 입력해주세요.
-      </Typography>
+    <SurveySection title="상세 정보를 입력해주세요">
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {/* 프로필 이미지 */}
         <Box>
@@ -299,7 +297,7 @@ const Step5 = ({
           />
         </Box>
       </Box>
-    </Box>
+    </SurveySection>
   );
 };
 

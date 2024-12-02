@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import ProfileSelector from '@/components/Features/ProfileSelector';
+import SurveySection from '@/components/Survey/Common/SurveySection';
 
 const Step7 = ({ setPetInfo }) => {
   const handleProfileChange = (imageData) => {
@@ -10,19 +11,11 @@ const Step7 = ({ setPetInfo }) => {
   };
 
   return (
-    <Box
-      sx={{
-        mt: 8,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-        프로필 사진을 등록해주세요.
-      </Typography>
-      <ProfileSelector defaultImage="dog" onChange={handleProfileChange} />
-    </Box>
+    <SurveySection title="프로필 사진을 등록해주세요">
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <ProfileSelector defaultImage="dog" onChange={handleProfileChange} />
+      </Box>
+    </SurveySection>
   );
 };
 
