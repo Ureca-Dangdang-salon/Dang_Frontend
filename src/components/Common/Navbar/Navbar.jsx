@@ -1,16 +1,36 @@
 import { Typography, Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
-import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import {
+  EmojiEventsRounded as ContestIcon,
+  HomeRounded as HomeIcon,
+  ReceiptLongRounded as RequestIcon,
+  ChatRounded as ChatIcon,
+  PersonRounded as ProfileIcon,
+} from '@mui/icons-material';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
 
 export const Navbar = ({ page }) => {
   const navigate = useNavigate();
+  const navItems = [
+    { key: 'home', label: '홈', icon: HomeIcon, path: paths.home },
+    {
+      key: 'contest',
+      label: '콘테스트',
+      icon: ContestIcon,
+      path: paths.contest,
+    },
+    {
+      key: 'newrequest',
+      label: '견적요청',
+      icon: RequestIcon,
+      path: paths.newRequest,
+      isRequest: true,
+    },
+    { key: 'chat', label: '채팅', icon: ChatIcon, path: paths.chat },
+    { key: 'mypage', label: '내 정보', icon: ProfileIcon, path: paths.mypage },
+  ];
 
   return (
     <footer>
@@ -35,69 +55,42 @@ export const Navbar = ({ page }) => {
             px: 3,
           }}
         >
-          <Box
-            className="nav-button"
-            color={page.includes('home') ? 'secondary.main' : 'n2.main'}
-            onClick={() => navigate(paths.home)}
-          >
-            <HomeRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700} color="inherit">
-              홈
-            </Typography>
-          </Box>
-          <Box
-            className="nav-button"
-            color={page.includes('contest') ? 'secondary.main' : 'n2.main'}
-            onClick={() => navigate(paths.contest)}
-          >
-            <EmojiEventsRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700} color="inherit">
-              콘테스트
-            </Typography>
-          </Box>
-          <Box
-            className="nav-button"
-            color={page.includes('newrequest') ? 'secondary.main' : 'n2.main'}
-            onClick={() => navigate(paths.newRequest)}
-          >
+          {navItems.map(({ key, label, icon: Icon, path, isRequest }) => (
             <Box
-              component="span"
-              width="60px"
-              height="60px"
-              borderRadius="50%"
-              bgcolor="secondary.main"
-              mt={-4}
+              key={key}
+              className="nav-button"
+              color={page.includes(key) ? 'secondary.main' : 'n2.main'}
+              onClick={() => navigate(path)}
             >
-              <ReceiptLongRoundedIcon
-                color="white"
-                fontSize="large"
-                sx={{ ml: 1.5, mt: 1.5 }}
-              />
+              {isRequest ? (
+                <Box
+                  component="span"
+                  width="60px"
+                  height="60px"
+                  borderRadius="50%"
+                  bgcolor="secondary.main"
+                  mt={-4}
+                >
+                  <Icon
+                    color="white"
+                    fontSize="large"
+                    sx={{ ml: 1.5, mt: 1.5 }}
+                  />
+                </Box>
+              ) : (
+                <Icon fontSize="large" />
+              )}
+
+              <Typography
+                fontSize={14}
+                fontWeight={700}
+                color="inherit"
+                mt={isRequest ? 1 : 0}
+              >
+                {label}
+              </Typography>
             </Box>
-            <Typography fontSize={14} fontWeight={700} mt={1} color="inherit">
-              견적요청
-            </Typography>
-          </Box>
-          <Box
-            className="nav-button"
-            color={page.includes('chat') ? 'secondary.main' : 'n2.main'}
-            onClick={() => navigate(paths.chat)}
-          >
-            <ChatRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700} color="inherit">
-              채팅
-            </Typography>
-          </Box>
-          <Box
-            className="nav-button"
-            color={page.includes('mypage') ? 'secondary.main' : 'n2.main'}
-            onClick={() => navigate(paths.mypage)}
-          >
-            <PersonRoundedIcon fontSize="large" />
-            <Typography fontSize={14} fontWeight={700} color="inherit">
-              내 정보
-            </Typography>
-          </Box>
+          ))}
         </Box>
       </Box>
     </footer>
