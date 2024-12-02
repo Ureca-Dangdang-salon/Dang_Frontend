@@ -8,16 +8,23 @@ import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
 import ProfileSelector from '@/components/Features/ProfileSelector';
 import SurveySection from '@/components/Survey/Common/SurveySection';
+import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
 
-const Step5 = ({
-  businessInfo,
-  setBusinessInfo,
-  serviceAreas,
-  setServiceAreas,
-  isModalOpen,
-  setIsModalOpen,
-  handleSetLocation,
-}) => {
+const Step5 = () => {
+  const businessInfo = useSurveyGroomerStore((state) => state.businessInfo);
+  const setBusinessInfo = useSurveyGroomerStore(
+    (state) => state.setBusinessInfo
+  );
+  const serviceAreas = useSurveyGroomerStore((state) => state.serviceAreas);
+  const setServiceAreas = useSurveyGroomerStore(
+    (state) => state.setServiceAreas
+  );
+  const isModalOpen = useSurveyGroomerStore((state) => state.isModalOpen);
+  const setIsModalOpen = useSurveyGroomerStore((state) => state.setIsModalOpen);
+  const handleSetLocation = useSurveyGroomerStore(
+    (state) => state.handleSetLocation
+  );
+
   const handleProfileChange = (imageData) => {
     setBusinessInfo((prev) => ({
       ...prev,
@@ -89,14 +96,7 @@ const Step5 = ({
           <Typography variant="caption" sx={{ display: 'block' }}>
             서비스 지역
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-              mb: 1,
-            }}
-          >
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 1 }}>
             {serviceAreas.map((area, index) => (
               <Box
                 key={index}
@@ -198,12 +198,7 @@ const Step5 = ({
             자격증
           </Typography>
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              mb: 1,
-            }}
+            sx={{ display: 'flex', flexDirection: 'column', gap: '8px', mb: 1 }}
           >
             {businessInfo.certifications.map((cert, index) => (
               <Box key={index} sx={{ display: 'flex', gap: '8px' }}>

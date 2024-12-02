@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
@@ -8,57 +7,29 @@ import Step2 from '@/components/Survey/GroomerSteps/Step2';
 import Step3 from '@/components/Survey/GroomerSteps/Step3';
 import Step4 from '@/components/Survey/GroomerSteps/Step4';
 import Step5 from '@/components/Survey/GroomerSteps/Step5';
+import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const [serviceName, setServiceName] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serviceAreas, setServiceAreas] = useState([]);
-
-  const [services, setServices] = useState({
-    목욕: false,
-    털미용: false,
-    전체클리핑: false,
-    부분가위컷: false,
-    발톱정리: false,
-    피부미용: false,
-    양치: false,
-    귀세정: false,
-  });
-
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [businessHours, setBusinessHours] = useState({
-    start: { hour: 0, minute: 0 },
-    end: { hour: 0, minute: 0 },
-  });
-
-  const [businessInfo, setBusinessInfo] = useState({
-    profileImage: null,
-    businessNumber: '',
-    address: '',
-    serviceType: {
-      방문: false,
-      매장: false,
-      둘다가능: false,
-    },
-    experience: {
-      years: 0,
-      months: 0,
-    },
-    certifications: [],
-    description: '',
-    recruitment: '',
-    faq: '',
-  });
-
-  const handleSetLocation = (selectedCity, selectedDistrict) => {
-    setServiceAreas((prev) => [
-      ...prev,
-      { city: selectedCity, district: selectedDistrict },
-    ]);
-    setIsModalOpen(false);
-  };
+  const {
+    step,
+    setStep,
+    serviceName,
+    setServiceName,
+    isModalOpen,
+    setIsModalOpen,
+    serviceAreas,
+    setServiceAreas,
+    services,
+    setServices,
+    phoneNumber,
+    setPhoneNumber,
+    businessHours,
+    setBusinessHours,
+    businessInfo,
+    setBusinessInfo,
+    handleSetLocation,
+  } = useSurveyGroomerStore();
 
   const isStepValid = () => {
     switch (step) {
@@ -81,7 +52,7 @@ function SurveyGroomer() {
     if (step === 5) {
       navigate('/home');
     } else {
-      setStep((prev) => prev + 1);
+      setStep(step + 1);
     }
   };
 

@@ -1,30 +1,39 @@
 import SurveySection from '@/components/Survey/Common/SurveySection';
 import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
 import { Box, Typography } from '@mui/material';
+import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
 
-const TimeSection = ({ type, title, value, onChange }) => (
-  <Box>
-    <Typography variant="subtitle1" sx={{ mb: 2 }}>
-      {title}
-    </Typography>
-    <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}>
-      <NumberPicker
-        label="시"
-        value={value.hour}
-        onChange={(newValue) => onChange(type, 'hour', newValue)}
-        max={23}
-      />
-      <NumberPicker
-        label="분"
-        value={value.minute}
-        onChange={(newValue) => onChange(type, 'minute', newValue)}
-        max={59}
-      />
+const TimeSection = ({ type, title, value, onChange }) => {
+  if (!value) return null;
+  return (
+    <Box>
+      <Typography variant="subtitle1" sx={{ mb: 2 }}>
+        {title}
+      </Typography>
+      <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}>
+        <NumberPicker
+          label="시"
+          value={value.hour}
+          onChange={(newValue) => onChange(type, 'hour', newValue)}
+          max={23}
+        />
+        <NumberPicker
+          label="분"
+          value={value.minute}
+          onChange={(newValue) => onChange(type, 'minute', newValue)}
+          max={59}
+        />
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
-const Step4 = ({ businessHours, setBusinessHours }) => {
+const Step4 = () => {
+  const businessHours = useSurveyGroomerStore((state) => state.businessHours);
+  const setBusinessHours = useSurveyGroomerStore(
+    (state) => state.setBusinessHours
+  );
+
   const handleTimeChange = (type, field, value) => {
     setBusinessHours((prev) => ({
       ...prev,
@@ -37,13 +46,13 @@ const Step4 = ({ businessHours, setBusinessHours }) => {
       <TimeSection
         type="start"
         title="시작 시간"
-        value={businessHours.start}
+        value={businessHours?.start}
         onChange={handleTimeChange}
       />
       <TimeSection
         type="end"
         title="종료 시간"
-        value={businessHours.end}
+        value={businessHours?.end}
         onChange={handleTimeChange}
       />
     </SurveySection>

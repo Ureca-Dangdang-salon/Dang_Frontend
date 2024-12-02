@@ -1,13 +1,13 @@
 import { Box } from '@mui/material';
 import ProfileSelector from '@/components/Features/ProfileSelector';
 import SurveySection from '@/components/Survey/Common/SurveySection';
+import useSurveyUserStore from '@/store/useSurveyUserStore';
 
-const Step7 = ({ setPetInfo }) => {
+const Step7 = () => {
+  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
+
   const handleProfileChange = (imageData) => {
-    setPetInfo((prev) => ({
-      ...prev,
-      profileImage: imageData?.file || null,
-    }));
+    setPetInfo({ profileImage: imageData?.file || null });
   };
 
   return (

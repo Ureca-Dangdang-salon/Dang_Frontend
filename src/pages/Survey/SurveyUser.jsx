@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Container, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
@@ -12,92 +11,25 @@ import Step5 from '@/components/Survey/UserSteps/Step5';
 import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
 import uploadProfileButton from '/images/upload-dog-button.png';
+import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const [petInfo, setPetInfo] = useState({
-    name: '',
-    age: 0,
-    ageMonth: 0,
-    weight: 0,
-    breed: '',
-    gender: '',
-    neutered: false,
-    characteristics: {
-      '물을 무서워해요.': false,
-      '사람을 좋아해요.': false,
-      '발을 만지는 걸 싫어해요.': false,
-      기타: false,
-      없음: false,
-    },
-    otherCharacteristic: '',
-    profileImage: null,
-  });
-
-  const checkCharacteristicsValidity = () => {
-    const hasSelectedCharacteristic = Object.values(
-      petInfo.characteristics
-    ).some((value) => value);
-    const isOtherValid =
-      !petInfo.characteristics.기타 ||
-      (petInfo.characteristics.기타 &&
-        petInfo.otherCharacteristic.trim() !== '');
-    return hasSelectedCharacteristic && isOtherValid;
-  };
-
-  const isStepValid = () => {
-    switch (step) {
-      case 1:
-        return petInfo.name.trim() !== '';
-      case 2:
-        return petInfo.age > 0 || petInfo.ageMonth > 0;
-      case 3:
-        return petInfo.weight > 0;
-      case 4:
-        return petInfo.breed.trim() !== '';
-      case 5:
-        return petInfo.gender !== '';
-      case 6:
-        return checkCharacteristicsValidity();
-      case 7:
-        return true;
-      default:
-        return false;
-    }
-  };
+  const { step, setStep, resetPetInfo } = useSurveyUserStore();
 
   const handleSaveProfile = () => {
     // 프로필 저장 로직
-    return true; // 저장 성공 시 true 반환
+    return true;
   };
 
   const handleAddAnotherPet = () => {
     if (handleSaveProfile()) {
-      setPetInfo({
-        name: '',
-        age: 0,
-        ageMonth: 0,
-        weight: 0,
-        breed: '',
-        gender: '',
-        neutered: false,
-        characteristics: {
-          '물을 무서워해요.': false,
-          '사람을 좋아해요.': false,
-          '발을 만지는 걸 싫어해요.': false,
-          기타: false,
-          없음: false,
-        },
-        otherCharacteristic: '',
-        profileImage: null,
-      });
-      setStep(1);
+      resetPetInfo();
     }
   };
 
   const handleNextStep = () => {
-    setStep((prev) => prev + 1);
+    setStep(step + 1);
   };
 
   const handleBack = () => {
@@ -107,6 +39,7 @@ const SurveyUser = () => {
       navigate('/survey');
     }
   };
+
   const handleGoHome = () => {
     handleSaveProfile();
     navigate('/home');
@@ -122,19 +55,13 @@ const SurveyUser = () => {
       />
 
       <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
-        {step === 1 && <Step1 petInfo={petInfo} setPetInfo={setPetInfo} />}
-        {step === 2 && <Step2 petInfo={petInfo} setPetInfo={setPetInfo} />}
-        {step === 3 && <Step3 petInfo={petInfo} setPetInfo={setPetInfo} />}
-        {step === 4 && <Step4 petInfo={petInfo} setPetInfo={setPetInfo} />}
-        {step === 5 && <Step5 petInfo={petInfo} setPetInfo={setPetInfo} />}
-        {step === 6 && <Step6 petInfo={petInfo} setPetInfo={setPetInfo} />}
-        {step === 7 && (
-          <Step7
-            petInfo={petInfo}
-            setPetInfo={setPetInfo}
-            uploadProfileButton={uploadProfileButton}
-          />
-        )}
+        {step === 1 && <Step1 />}
+        {step === 2 && <Step2 />}
+        {step === 3 && <Step3 />}
+        {step === 4 && <Step4 />}
+        {step === 5 && <Step5 />}
+        {step === 6 && <Step6 />}
+        {step === 7 && <Step7 uploadProfileButton={uploadProfileButton} />}
 
         <Box
           sx={{
@@ -168,7 +95,7 @@ const SurveyUser = () => {
           ) : (
             <Button
               size="large"
-              backgroundColor={isStepValid() ? 'primary' : 'n3'}
+              backgroundColor="primary"
               onClick={handleNextStep}
               label="다음으로"
             />
