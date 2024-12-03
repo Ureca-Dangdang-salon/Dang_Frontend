@@ -18,9 +18,9 @@ const LoginPage = () => {
         </Box>
 
         <Box mt={5}>
-          <LoginButton loginType={1} />
-          <LoginButton loginType={2} />
-          <LoginButton loginType={3} />
+          <LoginButton loginType={1} /> {/* google */}
+          <LoginButton loginType={2} /> {/* naver */}
+          <LoginButton loginType={3} /> {/* kakao */}
         </Box>
       </Box>
     </Box>
