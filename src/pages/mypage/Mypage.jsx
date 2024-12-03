@@ -6,7 +6,6 @@ import { Modal } from '@components/Common/Modal/Modal';
 
 const Mypage = (props) => {
   const defaultImgPath = '/images/default-groomer-profile.png';
-
   const userData = {
     imageKey: '',
     name: '한유성',
@@ -14,6 +13,15 @@ const Mypage = (props) => {
     district: '종로구',
     city: '서울시',
   };
+  const imageSrc = userData.imageKey ? userData.imageKey : defaultImgPath;
+  const imageStyle = userData.imageKey
+    ? {
+        borderRadius: '50%',
+        objectFit: 'cover',
+        border: '2px solid',
+        borderColor: '#9747FF',
+      }
+    : undefined;
 
   return (
     <Box>
@@ -22,17 +30,10 @@ const Mypage = (props) => {
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">
             <img
-              src={userData.imageKey ? userData.imageKey : defaultImgPath}
+              src={imageSrc}
               alt="profile_img"
               width="60px"
-              style={
-                userData.imageKey && {
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '2px solid',
-                  borderColor: '#9747FF',
-                }
-              }
+              style={imageStyle}
             />
             <Box ml={2}>
               <Typography fontWeight={700}>{userData.name}</Typography>
@@ -51,7 +52,7 @@ const Mypage = (props) => {
         </Box>
 
         {props.role === 'user' ? (
-          <MyUserPage dogProfiles={userData.dogProfiles} />
+          <MyUserPage dogProfiles={userData?.dogProfiles} />
         ) : (
           <MySalonPage />
         )}
