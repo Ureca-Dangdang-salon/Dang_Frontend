@@ -11,6 +11,8 @@ export const Modal = ({
   action,
   variant,
   buttonSx,
+  onClose,
+  onGoHome,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -19,6 +21,8 @@ export const Modal = ({
   };
 
   const handleClose = () => {
+    onClose?.();
+    onGoHome?.();
     setOpen(false);
   };
 
@@ -101,4 +105,6 @@ Modal.propTypes = {
   action: PropTypes.func,
   variant: PropTypes.string,
   buttonSx: PropTypes.object,
+  onClose: PropTypes.func,
+  onGoHome: PropTypes.func,
 };

@@ -84,7 +84,7 @@ const SurveyUser = () => {
               leftLabel="홈으로 가기"
               rightLabel="추가하기"
               action={handleAddAnotherPet}
-              onClose={handleGoHome}
+              onGoHome={handleGoHome}
               buttonSx={{
                 width: '326px',
                 height: '60px',
