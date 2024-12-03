@@ -1,8 +1,6 @@
 import { Box } from '@mui/material';
-import KakaoLoginButton from '../components/login/KLoginButton';
-import GoogleLoginButton from '../components/login/GLoginButton';
-import NaverLoginButton from '../components/login/NLoginButton';
 import logo from '../components/Common/assets/logo.svg';
+import LoginButton from '@components/login/LoginButton';
 
 const LoginPage = () => {
   return (
@@ -20,9 +18,9 @@ const LoginPage = () => {
         </Box>
 
         <Box mt={5}>
-          <GoogleLoginButton />
-          <NaverLoginButton />
-          <KakaoLoginButton />
+          <LoginButton loginType={1} /> {/* google */}
+          <LoginButton loginType={2} /> {/* naver */}
+          <LoginButton loginType={3} /> {/* kakao */}
         </Box>
       </Box>
     </Box>

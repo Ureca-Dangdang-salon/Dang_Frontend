@@ -23,7 +23,7 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
   };
 
   const handleAction = () => {
-    if (selectedRegion) setLocation(selectedCity, selectedRegion);
+    if (selectedRegion) setLocation(selectedCity, selectedRegion, regionId);
     handleClose();
   };
 
