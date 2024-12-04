@@ -14,12 +14,9 @@ const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const newImage = {
-        file,
-        preview: URL.createObjectURL(file),
-      };
-      setSelectedImage(newImage);
-      onChange(newImage);
+      const preview = URL.createObjectURL(file);
+      setSelectedImage(preview);
+      onChange(preview);
     }
     setOpen(false);
   };
@@ -42,7 +39,7 @@ const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
         onClick={() => setOpen(true)}
       >
         <img
-          src={selectedImage ? selectedImage.preview : defaultImgPath}
+          src={selectedImage ? selectedImage : defaultImgPath}
           width="150px"
           height="150px"
           alt={selectedImage ? 'Selected Profile' : 'Default Profile'}
