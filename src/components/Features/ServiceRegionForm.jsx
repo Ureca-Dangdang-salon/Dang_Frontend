@@ -7,10 +7,10 @@ import { RegionModal } from '@components/Common/RegionModal/RegionModal';
 
 const ServiceRegionForm = ({ regions, setServiceAreas }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleSetLocation = (selectedCity, selectedDistrict) => {
+  const handleSetLocation = (selectedCity, selectedDistrict, selectedId) => {
     setServiceAreas((prev) => [
       ...prev,
-      { city: selectedCity, district: selectedDistrict },
+      { city: selectedCity, district: selectedDistrict, id, selectedId },
     ]);
     setIsModalOpen(false);
   };

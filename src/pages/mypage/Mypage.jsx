@@ -3,25 +3,32 @@ import { Typography, Box, Button } from '@mui/material';
 import MyUserPage from './MyUserPage';
 import MySalonPage from './MySalonPage';
 import { Modal } from '@components/Common/Modal/Modal';
+import { socialProfile } from '@/api/socialProfile';
+import { useEffect, useState } from 'react';
+import useRoleStore from '@/store/useRoleStore';
 
-const Mypage = (props) => {
+const Mypage = () => {
   const defaultImgPath = '/images/default-groomer-profile.png';
-  const userData = {
-    imageKey: '',
-    name: '한유성',
-    email: 'tkamo2005@gmail.com',
-    district: '종로구',
-    city: '서울시',
-  };
-  const imageSrc = userData.imageKey ? userData.imageKey : defaultImgPath;
-  const imageStyle = userData.imageKey
+  const [data, setData] = useState({});
+  const { role } = useRoleStore();
+
+  useEffect(() => {
+    const getSocialProfile = async () => {
+      const res = await socialProfile();
+      setData(res);
+    };
+    getSocialProfile();
+  }, []);
+
+  const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
+  const imageStyle = data.imageKey
     ? {
         borderRadius: '50%',
         objectFit: 'cover',
         border: '2px solid',
         borderColor: '#9747FF',
       }
-    : undefined;
+    : {};
 
   return (
     <Box>
@@ -36,9 +43,9 @@ const Mypage = (props) => {
               style={imageStyle}
             />
             <Box ml={2}>
-              <Typography fontWeight={700}>{userData.name}</Typography>
+              <Typography fontWeight={700}>{data?.name}</Typography>
               <Typography>
-                {userData.city} {userData.district} | {userData.email}
+                {data?.city} {data?.district} | {data?.email}
               </Typography>
             </Box>
           </Box>
@@ -51,8 +58,8 @@ const Mypage = (props) => {
           </Button>
         </Box>
 
-        {props.role === 'user' ? (
-          <MyUserPage dogProfiles={userData?.dogProfiles} />
+        {role === 'ROLE_USER' ? (
+          <MyUserPage dogProfiles={data?.dogProfiles} />
         ) : (
           <MySalonPage />
         )}

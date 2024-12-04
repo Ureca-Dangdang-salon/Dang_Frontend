@@ -1,41 +1,33 @@
-import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
+import { Typography, Box, Divider, IconButton } from '@mui/material';
 import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from '@components/Common/Modal/Modal';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { userProfile } from '@/api/userProfile';
 
 const MyUserPage = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState(null);
 
-  const userData = {
-    dogProfiles: [
-      {
-        dogProfileId: 1,
-        name: '구름이',
-        profileImage: 'imageUrl',
-      },
-      {
-        dogProfileId: 2,
-        name: '구름이2',
-        profileImage: 'imageUrl2',
-      },
-    ],
-    couponCount: 3,
-    reviewCount: 2,
-    paymentCount: 5,
-  };
+  useEffect(() => {
+    const getUserProfile = async () => {
+      const res = await userProfile();
+      setData(res);
+    };
+    getUserProfile();
+  }, []);
 
   const statButton = [
-    { label: '쿠폰함', route: '/mypage/coupons', value: userData.couponCount },
+    { label: '쿠폰함', route: '/mypage/coupons', value: data?.couponCount },
     {
       label: '결제내역',
       route: '/mypage/paymenthistory',
-      value: userData.paymentCount,
+      value: data?.paymentCount,
     },
     {
       label: '나의 리뷰',
       route: '/mypage/myreviews',
-      value: userData.reviewCount,
+      value: data?.reviewCount,
     },
   ];
 
@@ -51,7 +43,7 @@ const MyUserPage = () => {
           </IconButton>
         </Box>
         <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
-          {userData.dogProfiles.map((dog) => {
+          {data?.dogProfiles.map((dog) => {
             return (
               <Box key={dog.name} justifyItems="center">
                 <Box
