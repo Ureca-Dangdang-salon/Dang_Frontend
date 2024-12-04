@@ -13,13 +13,26 @@ const ContestResult = () => {
     <Box>
       <Header />
       <Box p={4}>
-        <Box textAlign="center" mb={3}>
+        <Box textAlign="center" position="relative" mb={3}>
           <Box
             position="absolute"
             left="50%"
-            sx={{ transform: 'translate(-50%, 10%)' }}
+            sx={{
+              transform: 'translateX(-50%)',
+              top: '10%',
+              width: '230px',
+              display: 'flex',
+              justifyContent: 'center',
+              '@media (max-width: 600px)': {
+                top: '5%',
+              },
+            }}
           >
-            <img src="images/default-dog-profile.png" width="230px" />
+            <img
+              src="images/default-dog-profile.png"
+              width="230px"
+              style={{ maxWidth: '100%' }}
+            />
           </Box>
           <img src="images/winner.png" width="400px" />
           <Typography
@@ -28,7 +41,12 @@ const ContestResult = () => {
             color="black"
             position="absolute"
             left="50%"
-            sx={{ transform: 'translate(-50%, -185%)' }}
+            sx={{
+              transform: 'translate(-50%, -185%)',
+              '@media (max-width: 600px)': {
+                transform: 'translate(-50%, -185%)',
+              },
+            }}
           >
             뭉치
           </Typography>
