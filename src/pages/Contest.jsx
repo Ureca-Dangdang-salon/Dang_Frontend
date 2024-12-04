@@ -107,11 +107,11 @@ const Contest = () => {
           <Box display="flex" justifyContent="center" mt={5} mb={5}>
             {participatedGroomers.length > 0 ? (
               <Modal
-                openLabel="삭제하기"
+                openModalButton="삭제하기"
                 buttonColor="delete"
                 title="삭제하면 콘테스트에서 더 이상 볼 수 없어요. 그래도 진행할까요?"
-                leftLabel="뒤로 가기"
-                rightLabel="삭제하기"
+                secondaryButton="뒤로 가기"
+                primaryButton="삭제하기"
                 action={handleDelete}
                 onClose={() => {}}
               />

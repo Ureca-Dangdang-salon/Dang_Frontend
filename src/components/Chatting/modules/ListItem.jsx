@@ -82,9 +82,9 @@ const ListItem = ({ content }) => {
         </Typography>
         <Modal
           buttonColor="delete"
-          openLabel="거절하기"
-          leftLabel="취소"
-          rightLabel="거절"
+          openModalButton="거절하기"
+          secondaryButton="취소"
+          primaryButton="거절"
           title="견적을 거절하시겠습니까?"
         />
       </Box>

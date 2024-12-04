@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { Box, Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
 
 export const Modal = ({
-  openLabel,
+  openModalButton,
   buttonColor,
   title,
-  leftLabel,
-  rightLabel,
+  secondaryButton,
+  primaryButton,
   action,
   variant,
   buttonSx,
@@ -39,7 +39,7 @@ export const Modal = ({
         sx={{ borderRadius: '10px', minWidth: '40px', ...buttonSx }}
         variant={variant}
       >
-        {openLabel}
+        {openModalButton}
       </Button>
       <Dialog
         open={open}
@@ -73,7 +73,7 @@ export const Modal = ({
                 mr: 1,
               }}
             >
-              {leftLabel}
+              {secondaryButton}
             </Button>
             <Button
               onClick={handleAction}
@@ -87,7 +87,7 @@ export const Modal = ({
                 fontWeight: 700,
               }}
             >
-              {rightLabel}
+              {primaryButton}
             </Button>
           </Box>
         </DialogActions>
@@ -97,11 +97,11 @@ export const Modal = ({
 };
 
 Modal.propTypes = {
-  openLabel: PropTypes.string,
+  openModalButton: PropTypes.string,
   buttonColor: PropTypes.string,
   title: PropTypes.string.isRequired,
-  leftLabel: PropTypes.string,
-  rightLabel: PropTypes.string,
+  secondaryButton: PropTypes.string,
+  primaryButton: PropTypes.string,
   action: PropTypes.func,
   variant: PropTypes.string,
   buttonSx: PropTypes.object,

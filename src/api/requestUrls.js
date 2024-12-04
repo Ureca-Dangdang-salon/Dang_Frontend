@@ -8,4 +8,5 @@ export const UserController = {
   socialProfile: '/api/common',
   userProfile: '/api/userprofile',
   groomerProfile: '/api/groomerprofile',
+  dogProfile: '/api/dogprofile',
 };

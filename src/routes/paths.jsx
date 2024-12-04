@@ -23,6 +23,7 @@ const paths = {
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
   dogProfile: '/mypage/dogprofile',
+  editDogProfile: '/mypage/editDogProfile/:id',
   myCoupons: '/mypage/coupons',
   paymentHistory: '/mypage/paymenthistory',
   myReviews: '/mypage/myreviews',

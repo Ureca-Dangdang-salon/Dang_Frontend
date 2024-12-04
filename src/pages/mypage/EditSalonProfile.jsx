@@ -45,9 +45,9 @@ const EditSalonProfile = () => {
       imageKey: data.imageKey,
       name: data.name,
       phone: data.phone,
-      servicesDistrictIds: serviceAreas,
+      servicesDistrictIds: serviceAreas, //TODO: change to id
       contactHours: data.contactHours,
-      servicesOfferedId: [],
+      servicesOfferedId: servicesOffered, //TODO: change to id
       serviceType: data.serviceType,
       businessNumber: data.businessNumber,
       address: data.address,
@@ -57,7 +57,7 @@ const EditSalonProfile = () => {
       startMessage: data.startMessage,
       faq: data.faq,
     });
-  }, [data, certifications, serviceAreas]);
+  }, [data, certifications, serviceAreas, servicesOffered]);
 
   const handleChange = (field, value) => {
     setData((prev) => {
@@ -136,8 +136,10 @@ const EditSalonProfile = () => {
                   selected={servicesOffered.includes(service)}
                   onChange={() => {
                     const updatedServices = servicesOffered.includes(service)
-                      ? servicesOffered.filter((s) => s !== service)
-                      : [...servicesOffered, service];
+                      ? setServicesOffered(
+                          servicesOffered.filter((s) => s !== service)
+                        )
+                      : setServicesOffered([...servicesOffered, service]);
                     handleChange('servicesOffered', updatedServices);
                   }}
                 />

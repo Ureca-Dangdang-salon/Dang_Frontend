@@ -77,12 +77,12 @@ const SurveyUser = () => {
         >
           {step === 7 ? (
             <Modal
-              openLabel="프로필 저장하기"
+              openModalButton="프로필 저장하기"
               buttonColor="primary"
               variant="contained"
               title="반려견 프로필이 저장되었습니다. 다른 반려견을 추가하시겠어요?"
-              leftLabel="홈으로 가기"
-              rightLabel="추가하기"
+              secondaryButton="홈으로 가기"
+              primaryButton="추가하기"
               action={handleAddAnotherPet}
               onGoHome={handleGoHome}
               buttonSx={{

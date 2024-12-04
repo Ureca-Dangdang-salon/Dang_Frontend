@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Modal } from '@components/Common/Modal/Modal';
 import React, { useEffect, useState } from 'react';
 import { userProfile } from '@/api/userProfile';
+import paths from '@/routes/paths';
+import { deleteDogProfile } from '@/api/dogProfile';
 
 const MyUserPage = () => {
   const navigate = useNavigate();
@@ -18,15 +20,15 @@ const MyUserPage = () => {
   }, []);
 
   const statButton = [
-    { label: '쿠폰함', route: '/mypage/coupons', value: data?.couponCount },
+    { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
     {
       label: '결제내역',
-      route: '/mypage/paymenthistory',
+      route: paths.paymentHistory,
       value: data?.paymentCount,
     },
     {
       label: '나의 리뷰',
-      route: '/mypage/myreviews',
+      route: paths.myReviews,
       value: data?.reviewCount,
     },
   ];
@@ -49,18 +51,25 @@ const MyUserPage = () => {
                 <Box
                   justifyItems="center"
                   sx={{ cursor: 'pointer' }}
-                  onClick={() => navigate('/mypage/dogprofile')}
+                  onClick={() =>
+                    navigate(
+                      paths.editDogProfile.replace(':id', dog.dogProfileId)
+                    )
+                  }
                 >
-                  <img src="/images/default-dog-profile.png" width="100px" />
+                  <img src={dog.profileImage} width="100px" />
                   <Typography mt={1}>{dog.name}</Typography>
                 </Box>
 
                 <Modal
-                  openLabel="삭제"
-                  leftLabel="취소"
-                  rightLabel="삭제"
+                  openModalButton="삭제"
+                  secondaryButton="취소"
+                  primaryButton="삭제"
                   buttonColor="delete"
                   title="반려견을 삭제하시겠습니까?"
+                  action={() => {
+                    deleteDogProfile(dog.dogProfileId);
+                  }}
                 />
               </Box>
             );

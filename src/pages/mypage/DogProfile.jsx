@@ -8,6 +8,8 @@ import { Selector } from '@components/Common/Selector/Selector';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import { breeds } from '@/constants/breeds';
 import ProfileSelector from '@components/Features/ProfileSelector';
+import { useEffect } from 'react';
+import { dogProfile } from '@/api/dogProfile';
 
 const DogProfile = () => {
   const features = [
@@ -18,17 +20,21 @@ const DogProfile = () => {
   ];
   const [profileImage, setProfileImage] = useState(null);
   const [etc, setEtc] = useState(false);
-  const [data, setData] = useState({
-    name: '댕댕이',
-    species: '골든 리트리버',
-    ageYears: 1,
-    ageMonths: 2,
-    gender: 'female',
-    neutering: 'Y',
-    weight: 10,
-    additionalFeature: [],
-    customFeature: '',
-  });
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    const id = currentPath.split('/').pop();
+
+    const getDogProfile = async () => {
+      const res = await dogProfile(id);
+      setData(res);
+      setLoading(false);
+    };
+
+    getDogProfile();
+  }, []);
 
   const handleChange = (field, value) => {
     setData((prev) => ({ ...prev, [field]: value }));
@@ -66,6 +72,8 @@ const DogProfile = () => {
     console.log('Form Submitted:', data);
   };
 
+  if (loading) return <Typography>LOADING</Typography>;
+
   return (
     <Box>
       <DetailHeader label="반려견 프로필 수정" />
@@ -73,7 +81,7 @@ const DogProfile = () => {
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>
           <ProfileSelector
             defaultImage="dog"
-            image={profileImage}
+            image={data.profileImage}
             onChange={handleImageChange}
           />
         </Box>
@@ -93,14 +101,14 @@ const DogProfile = () => {
         </Typography>
         <NumberPicker
           onChange={(value) => handleChange('ageYears', value)}
-          value={data.ageYears}
+          value={data.ageYear}
           placeholder={0}
           label="년"
         />
         <Box mt={2}></Box>
         <NumberPicker
           onChange={(value) => handleChange('ageMonths', value)}
-          value={data.ageMonths}
+          value={data.ageMonth}
           placeholder={0}
           label="개월"
         />
@@ -168,7 +176,7 @@ const DogProfile = () => {
             key={feat}
             label={feat}
             size="large"
-            selected={data.additionalFeature.includes(feat)}
+            selected={data.features.includes(feat)}
             onChange={() => handleFeatureChange(feat)}
           />
         ))}

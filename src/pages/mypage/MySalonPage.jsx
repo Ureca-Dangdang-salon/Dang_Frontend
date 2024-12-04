@@ -1,10 +1,12 @@
-import { Typography, Box, Button, Divider } from '@mui/material';
+import { Typography, Box, Button, Divider, IconButton } from '@mui/material';
 import { Modal } from '@components/Common/Modal/Modal';
 import ReviewStars from '../../components/Features/ReviewStars';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid2';
-import { groomerProfile } from '@/api/groomerProfile';
+import { deleteGroomerProfile, groomerProfile } from '@/api/groomerProfile';
+import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
+import paths from '@/routes/paths';
 
 const MySalonPage = () => {
   const navigate = useNavigate();
@@ -21,6 +23,10 @@ const MySalonPage = () => {
     };
     getGroomerProfile();
   }, []);
+
+  const handleDeleteProfile = () => {
+    deleteGroomerProfile(data.profileId);
+  };
 
   const info = [
     { title: '경력', content: data?.experience },
@@ -41,39 +47,48 @@ const MySalonPage = () => {
       }
     : {};
 
+  if (loading) return <Typography>LOADING</Typography>;
+
   return (
     <Box>
       <Box mt={3}>
-        {loading ? (
-          <Typography>loading</Typography>
-        ) : (
-          <>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <Typography fontWeight={700} mr={1}>
-                미용사 프로필
-              </Typography>
-              <Box>
-                <Button
-                  color="n2"
-                  sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
-                  href="/mypage/editsalonprofile"
-                >
-                  수정
-                </Button>
-                <Modal
-                  openLabel="삭제"
-                  buttonColor="delete"
-                  title="정말 삭제하시겠습니까? 이 과정은 돌이킬 수 없습니다."
-                  leftLabel="취소"
-                  rightLabel="삭제"
-                />
-              </Box>
-            </Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Typography fontWeight={700} mr={1}>
+            미용사 프로필
+            {!data && (
+              <IconButton onClick={() => navigate(paths.survey.groomer)}>
+                <ControlPointTwoToneIcon color="primary" />
+              </IconButton>
+            )}
+          </Typography>
 
+          {data && (
+            <Box>
+              <Button
+                color="n2"
+                sx={{ padding: 0, borderRadius: '10px', minWidth: '40px' }}
+                href={paths.editSalonProfile}
+              >
+                수정
+              </Button>
+              <Modal
+                openModalButton="삭제"
+                buttonColor="delete"
+                title="정말 삭제하시겠습니까? 이 과정은 돌이킬 수 없습니다."
+                secondaryButton="취소"
+                primaryButton="삭제"
+                action={handleDeleteProfile}
+              />
+            </Box>
+          )}
+        </Box>
+
+        {!data && (
+          <Typography textAlign="center">프로필을 등록해주세요.</Typography>
+        )}
+
+        {data && (
+          <>
             <Box mt={1}>
               <Box display="flex" alignItems="center">
                 <img
@@ -98,7 +113,7 @@ const MySalonPage = () => {
 
                     <Grid size={4}>서비스 지역:</Grid>
                     <Grid size={8}>
-                      {detail.servicesDistricts?.map((item, index) => (
+                      {detail?.servicesDistricts?.map((item, index) => (
                         <Typography key={index} fontSize="inherit">
                           {item.city} {item.district}
                         </Typography>
@@ -107,7 +122,7 @@ const MySalonPage = () => {
 
                     <Grid size={4}>제공 서비스:</Grid>
                     <Grid size={8}>
-                      {detail.servicesOffered?.map((item, index) => (
+                      {detail?.servicesOffered?.map((item, index) => (
                         <React.Fragment key={index}>
                           {item.description}
                           {index < detail.servicesOffered.length - 1 && ', '}
@@ -171,7 +186,7 @@ const MySalonPage = () => {
             <Box fontSize={14} mt={3} lineHeight={1.7}>
               <Box fontWeight={600}>자격증:</Box>
               <ul style={{ marginLeft: '20px' }}>
-                {detail.certifications.map((item) => (
+                {detail?.certifications.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>

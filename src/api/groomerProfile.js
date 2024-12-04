@@ -1,11 +1,23 @@
-import { apiClient, apiClientWithHeaders } from './apiClient';
+import { apiClient } from './apiClient';
 import { UserController } from './requestUrls';
 
 export const groomerProfile = async () => {
   try {
     const { data } = await apiClient.get(UserController.groomerProfile);
-    console.log(data.response.groomerProfile);
+    console.log(data);
     return data.response.groomerProfile;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const groomerPublicProfile = async (id) => {
+  try {
+    const url = `${UserController.groomerProfile}/${id}`;
+    const { data } = await apiClient.get(url);
+    console.log(data);
+    return data.response;
   } catch (e) {
     console.log(e);
     return false;
@@ -15,7 +27,7 @@ export const groomerProfile = async () => {
 export const updateGroomerProfile = async (data) => {
   try {
     const url = `${UserController.groomerProfile}/${data.profileId}`;
-    const { newData } = await apiClientWithHeaders.put(url, {
+    const { newData } = await apiClient.put(url, {
       imageKey: data.image_key,
       name: data.name,
       phone: data.phone,
@@ -32,6 +44,17 @@ export const updateGroomerProfile = async (data) => {
       faq: data.faq,
     });
     return newData.reponse;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const deleteGroomerProfile = async (id) => {
+  try {
+    const url = `${UserController.groomerProfile}/${id}`;
+    const { data } = await apiClient.delete(url);
+    return data.response;
   } catch (e) {
     console.log(e);
     return false;

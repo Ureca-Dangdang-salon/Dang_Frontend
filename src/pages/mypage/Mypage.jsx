@@ -74,9 +74,9 @@ const Mypage = () => {
           <br />
           <Modal
             buttonColor="text"
-            openLabel="회원탈퇴"
-            leftLabel="취소"
-            rightLabel="탈퇴"
+            openModalButton="회원탈퇴"
+            secondaryButton="취소"
+            primaryButton="탈퇴"
             title="정말 계정을 지우시겠습니까? 이 과정은 돌이킬 수 없습니다."
           />
         </Box>

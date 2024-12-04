@@ -1,4 +1,4 @@
-import { apiClient, apiClientWithHeaders } from './apiClient';
+import { apiClient } from './apiClient';
 import { UserController } from './requestUrls';
 
 export const socialProfile = async () => {
@@ -13,12 +13,9 @@ export const socialProfile = async () => {
 
 export const updateSocialProfile = async (image_key, email, district_id) => {
   try {
-    const { data } = await apiClientWithHeaders.put(
-      UserController.socialProfile,
-      {
-        districtId: district_id,
-      }
-    );
+    const { data } = await apiClient.put(UserController.socialProfile, {
+      districtId: district_id,
+    });
     console.log(data);
     return data.response;
   } catch (e) {

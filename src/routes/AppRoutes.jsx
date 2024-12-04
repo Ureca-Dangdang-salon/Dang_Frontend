@@ -88,7 +88,7 @@ const AppContent = () => {
               path={paths.editSalonProfile}
               element={<EditSalonProfile />}
             />
-            <Route path={paths.dogProfile} element={<DogProfile />} />
+            <Route path={paths.editDogProfile} element={<DogProfile />} />
             <Route path={paths.salonProfile} element={<SalonProfile />} />
             <Route path={paths.paymentHistory} element={<PaymentHistory />} />
             <Route path={paths.myCoupons} element={<MyCoupons />} />
