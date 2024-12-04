@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Feed from '@components/Contest/Feed';
 import { Modal } from '@/components/Common/Modal/Modal';
+import WinnerProfile from '@components/Contest/WinnerProfile';
 
 const Contest = () => {
   const navigate = useNavigate();
@@ -82,45 +83,11 @@ const Contest = () => {
               프로필 보러 가기
             </Box>
           </Box>
-          {/* 우승자 프로필 섹션 */}
-          <Box textAlign="center" position="relative">
-            <Box
-              position="absolute"
-              left="50%"
-              sx={{
-                transform: 'translateX(-50%)',
-                top: '10%',
-                width: '230px',
-                display: 'flex',
-                justifyContent: 'center',
-                '@media (max-width: 600px)': {
-                  top: '5%',
-                },
-              }}
-            >
-              <img
-                src="images/default-groomer-profile.png"
-                width="230px"
-                style={{ maxWidth: '100%' }}
-              />
-            </Box>
-            <img src="images/winner.png" width="400px" />
-            <Typography
-              fontWeight={900}
-              fontSize={25}
-              color="black"
-              position="absolute"
-              left="50%"
-              sx={{
-                transform: 'translate(-50%, -185%)',
-                '@media (max-width: 600px)': {
-                  transform: 'translate(-50%, -185%)',
-                },
-              }}
-            >
-              길동이네
-            </Typography>
-          </Box>
+          <WinnerProfile
+            name="길동이네"
+            profileImage="images/default-groomer-profile.png"
+            showVotes={false}
+          />
           {/* 참여 버튼 */}
           <Box display="flex" justifyContent="center" mt={5} mb={5}>
             {participatedGroomers.length > 0 ? (

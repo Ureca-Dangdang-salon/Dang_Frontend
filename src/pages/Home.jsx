@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Card from '@components/Common/Card';
 import axios from 'axios';
+import WinnerProfile from '@components/Contest/WinnerProfile';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -50,43 +51,7 @@ const Home = () => {
             <Typography fontWeight={900} fontSize={20} mb={0.5}>
               11월 콘테스트 우승자
             </Typography>
-            <Box
-              position="absolute"
-              left="50%"
-              sx={{
-                transform: 'translateX(-50%)',
-                top: '10%',
-                width: '230px',
-                display: 'flex',
-                justifyContent: 'center',
-                '@media (max-width: 600px)': {
-                  top: '5%',
-                },
-              }}
-            >
-              <img
-                src="images/default-dog-profile.png"
-                width="230px"
-                style={{ maxWidth: '100%' }}
-              />
-            </Box>
-            <img src="images/winner.png" width="400px" />
-            <Typography
-              fontWeight={900}
-              fontSize={25}
-              color="black"
-              position="absolute"
-              left="50%"
-              sx={{
-                transform: 'translate(-50%, -185%)',
-                '@media (max-width: 600px)': {
-                  transform: 'translate(-50%, -185%)',
-                },
-              }}
-            >
-              뭉치
-            </Typography>
-            <Typography fontWeight="bold">총 득표수: 110표</Typography>
+            <WinnerProfile name="뭉치" votes={110} />
           </Box>
           <MuiButton
             fontSize={14}
