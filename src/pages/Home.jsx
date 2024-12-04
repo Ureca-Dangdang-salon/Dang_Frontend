@@ -46,28 +46,48 @@ const Home = () => {
       <Header invisible={true} />
       <Box p={4} mb={3}>
         <Box textAlign="center">
-          <Typography fontWeight={900} fontSize={20}>
-            11월 콘테스트 우승자
-          </Typography>
-          <Box
-            position="absolute"
-            left="50%"
-            sx={{ transform: 'translate(-50%, 10%)' }}
-          >
-            <img src="images/default-dog-profile.png" width="230px" />
+          <Box textAlign="center" position="relative">
+            <Typography fontWeight={900} fontSize={20} mb={0.5}>
+              11월 콘테스트 우승자
+            </Typography>
+            <Box
+              position="absolute"
+              left="50%"
+              sx={{
+                transform: 'translateX(-50%)',
+                top: '10%',
+                width: '230px',
+                display: 'flex',
+                justifyContent: 'center',
+                '@media (max-width: 600px)': {
+                  top: '5%',
+                },
+              }}
+            >
+              <img
+                src="images/default-dog-profile.png"
+                width="230px"
+                style={{ maxWidth: '100%' }}
+              />
+            </Box>
+            <img src="images/winner.png" width="400px" />
+            <Typography
+              fontWeight={900}
+              fontSize={25}
+              color="black"
+              position="absolute"
+              left="50%"
+              sx={{
+                transform: 'translate(-50%, -185%)',
+                '@media (max-width: 600px)': {
+                  transform: 'translate(-50%, -185%)',
+                },
+              }}
+            >
+              뭉치
+            </Typography>
+            <Typography fontWeight="bold">총 득표수: 110표</Typography>
           </Box>
-          <img src="images/winner.png" width="400px" />
-          <Typography
-            fontWeight={900}
-            fontSize={25}
-            color="black"
-            position="absolute"
-            left="50%"
-            sx={{ transform: 'translate(-50%, -185%)' }}
-          >
-            뭉치
-          </Typography>
-          <Typography fontWeight="bold">총 득표수: 110표</Typography>
           <MuiButton
             fontSize={14}
             mb={1}

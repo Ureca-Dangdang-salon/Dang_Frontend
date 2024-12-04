@@ -66,7 +66,7 @@ const Contest = () => {
       <DetailHeader label="콘테스트" />
       <Box p={4} mb={3}>
         <Box>
-          <Typography fontWeight={900} fontSize={16} mb={1}>
+          <Typography fontWeight={900} fontSize={16} mb={0.5}>
             이달의 최고의 작품은?
           </Typography>
           <Box component="div" fontSize={12} mb={3}>
@@ -83,13 +83,26 @@ const Contest = () => {
             </Box>
           </Box>
           {/* 우승자 프로필 섹션 */}
-          <Box textAlign="center">
+          <Box textAlign="center" position="relative">
             <Box
               position="absolute"
               left="50%"
-              sx={{ transform: 'translate(-50%, 10%)' }}
+              sx={{
+                transform: 'translateX(-50%)',
+                top: '10%',
+                width: '230px',
+                display: 'flex',
+                justifyContent: 'center',
+                '@media (max-width: 600px)': {
+                  top: '5%',
+                },
+              }}
             >
-              <img src="images/default-groomer-profile.png" width="230px" />
+              <img
+                src="images/default-groomer-profile.png"
+                width="230px"
+                style={{ maxWidth: '100%' }}
+              />
             </Box>
             <img src="images/winner.png" width="400px" />
             <Typography
@@ -98,7 +111,12 @@ const Contest = () => {
               color="black"
               position="absolute"
               left="50%"
-              sx={{ transform: 'translate(-50%, -185%)' }}
+              sx={{
+                transform: 'translate(-50%, -185%)',
+                '@media (max-width: 600px)': {
+                  transform: 'translate(-50%, -185%)',
+                },
+              }}
             >
               길동이네
             </Typography>
