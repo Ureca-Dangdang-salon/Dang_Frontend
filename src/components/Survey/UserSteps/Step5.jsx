@@ -4,9 +4,7 @@ import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const Step5 = () => {
-  const gender = useSurveyUserStore((state) => state.petInfo.gender);
-  const neutered = useSurveyUserStore((state) => state.petInfo.neutered);
-  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
+  const { petInfo, setPetInfo } = useSurveyUserStore();
 
   return (
     <SurveySection title="반려견은 어떤 성별인가요?">
@@ -16,14 +14,14 @@ const Step5 = () => {
           <Box sx={{ display: 'flex', gap: '12px' }}>
             <RadioButton
               label="남아"
-              selected={gender === '남아'}
-              onChange={() => setPetInfo({ gender: '남아' })}
+              selected={petInfo.gender === 'MALE'}
+              onChange={() => setPetInfo({ gender: 'MALE' })}
               size="large"
             />
             <RadioButton
               label="여아"
-              selected={gender === '여아'}
-              onChange={() => setPetInfo({ gender: '여아' })}
+              selected={petInfo.gender === 'FEMALE'}
+              onChange={() => setPetInfo({ gender: 'FEMALE' })}
               size="large"
             />
           </Box>
@@ -34,8 +32,10 @@ const Step5 = () => {
           <Box sx={{ display: 'flex', gap: '12px' }}>
             <RadioButton
               label="중성화 했어요."
-              selected={neutered}
-              onChange={() => setPetInfo({ neutered: true })}
+              selected={petInfo.neutered === 'Y'}
+              onChange={() =>
+                setPetInfo({ neutered: petInfo.neutered === 'Y' ? 'N' : 'Y' })
+              }
               size="large"
             />
           </Box>

@@ -4,10 +4,10 @@ import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const Step7 = () => {
-  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
+  const { setPetInfo } = useSurveyUserStore();
 
   const handleProfileChange = (imageData) => {
-    setPetInfo({ profileImage: imageData?.file || null });
+    setPetInfo({ profileImage: imageData || null });
   };
 
   return (

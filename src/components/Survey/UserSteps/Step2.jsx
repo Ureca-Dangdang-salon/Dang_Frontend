@@ -4,9 +4,7 @@ import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const Step2 = () => {
-  const age = useSurveyUserStore((state) => state.petInfo.age);
-  const ageMonth = useSurveyUserStore((state) => state.petInfo.ageMonth);
-  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
+  const { petInfo, setPetInfo } = useSurveyUserStore();
 
   return (
     <SurveySection title="반려견의 나이를 입력해주세요">
@@ -19,14 +17,14 @@ const Step2 = () => {
         }}
       >
         <NumberPicker
-          value={age}
-          onChange={(value) => setPetInfo({ age: value })}
+          value={petInfo.ageYear}
+          onChange={(e) => setPetInfo({ ageYear: e })}
           label="년"
           max={20}
         />
         <NumberPicker
-          value={ageMonth}
-          onChange={(value) => setPetInfo({ ageMonth: value })}
+          value={petInfo.ageMonth}
+          onChange={(e) => setPetInfo({ ageMonth: e })}
           label="개월"
           max={11}
         />
