@@ -10,7 +10,7 @@ const ServiceRegionForm = ({ regions, setServiceAreas }) => {
   const handleSetLocation = (selectedCity, selectedDistrict, selectedId) => {
     setServiceAreas((prev) => [
       ...prev,
-      { city: selectedCity, district: selectedDistrict, id, selectedId },
+      { city: selectedCity, district: selectedDistrict, id: selectedId },
     ]);
     setIsModalOpen(false);
   };

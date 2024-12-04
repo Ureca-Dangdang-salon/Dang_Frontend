@@ -12,26 +12,26 @@ export const groomerProfile = async () => {
   }
 };
 
-export const updateGroomerProfile = async (id, newData) => {
+export const updateGroomerProfile = async (data) => {
   try {
-    const url = `${UserController.groomerProfile}/${id}`;
-    const { data } = await apiClientWithHeaders.put(url, {
-      imageKey: newData.image_key,
-      name: newData.name,
-      phone: newData.phone,
-      servicesDistrictIds: newData.services_district_ids,
-      contactHours: newData.contact_hours,
-      servicesOfferedId: newData.services_offered_id,
-      serviceType: newData.service_type,
-      businessNumber: newData.business_number,
-      address: newData.address,
-      experience: newData.experience,
-      certifications: newData.certifications,
-      description: newData.description,
-      startMessage: newData.start_message,
-      faq: newData.faq,
+    const url = `${UserController.groomerProfile}/${data.profileId}`;
+    const { newData } = await apiClientWithHeaders.put(url, {
+      imageKey: data.image_key,
+      name: data.name,
+      phone: data.phone,
+      servicesDistrictIds: data.services_district_ids,
+      contactHours: data.contact_hours,
+      servicesOfferedId: data.services_offered_id,
+      serviceType: data.service_type,
+      businessNumber: data.business_number,
+      address: data.address,
+      experience: data.experience,
+      certifications: data.certifications,
+      description: data.description,
+      startMessage: data.start_message,
+      faq: data.faq,
     });
-    return data.reponse;
+    return newData.reponse;
   } catch (e) {
     console.log(e);
     return false;

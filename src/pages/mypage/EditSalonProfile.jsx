@@ -9,26 +9,55 @@ import TextArea from '@components/Common/TextArea/TextArea';
 import ServiceRegionForm from '@components/Features/ServiceRegionForm';
 import CertificationsForm from '@components/Features/CertificationsForm';
 import ProfileSelector from '@components/Features/ProfileSelector';
-import { groomerProfile } from '@/api/groomerProfile';
+import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
 import { services } from '@/constants/services';
 
 const EditSalonProfile = () => {
   const [data, setData] = useState({});
-  const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(true);
-  const [serviceAreas, setServiceAreas] = useState([]);
+  const [serviceAreas, setServiceAreas] = useState({});
+  const [certifications, setCertifications] = useState([]);
+  const [servicesOffered, setServicesOffered] = useState([]);
   const [profileImage, setProfileImage] = useState({});
+  const [putData, setPutData] = useState({});
 
   useEffect(() => {
     const getGroomerProfile = async () => {
       const res = await groomerProfile();
       setData(res);
-      setDetail(res.groomerProfileDetailsInfoResponseDto);
+      setServiceAreas(
+        res.groomerProfileDetailsInfoResponseDto.servicesDistricts
+      );
+      setCertifications(
+        res.groomerProfileDetailsInfoResponseDto.certifications
+      );
+      setServicesOffered(
+        res.groomerProfileDetailsInfoResponseDto.servicesOffered
+      );
       setProfileImage(res.imageKey);
       setLoading(false);
     };
     getGroomerProfile();
   }, []);
+
+  useEffect(() => {
+    setPutData({
+      imageKey: data.imageKey,
+      name: data.name,
+      phone: data.phone,
+      servicesDistrictIds: serviceAreas,
+      contactHours: data.contactHours,
+      servicesOfferedId: [],
+      serviceType: data.serviceType,
+      businessNumber: data.businessNumber,
+      address: data.address,
+      experience: data.experience,
+      certifications: certifications,
+      description: data.description,
+      startMessage: data.startMessage,
+      faq: data.faq,
+    });
+  }, [data, certifications, serviceAreas]);
 
   const handleChange = (field, value) => {
     setData((prev) => {
@@ -41,14 +70,18 @@ const EditSalonProfile = () => {
 
   const handleImageChange = (image) => {
     setProfileImage(image);
+    handleChange('imageKey', profileImage);
   };
 
   const handleSubmit = () => {
+    console.log(serviceAreas);
     const districts = serviceAreas.map((area) => area.id);
     handleChange('servicesDistrictIds', districts);
-    console.log('Form Submitted:', data);
-    console.log(detail);
-    console.log(profileImage);
+
+    // 제공 서비스
+
+    console.log('Form Submitted:', putData);
+    // updateGroomerProfile(data);
   };
 
   return (
@@ -95,27 +128,16 @@ const EditSalonProfile = () => {
             제공 서비스 *
           </Typography>
           {services.map((service, index) => {
-            const isSelected = detail.servicesOffered.some(
-              (item) => item.description === service
-            );
-
             return (
               <Box key={index}>
                 <RadioButton
                   label={service}
                   size="large"
-                  selected={isSelected}
+                  selected={servicesOffered.includes(service)}
                   onChange={() => {
-                    const updatedServices = isSelected
-                      ? detail.servicesOffered.filter(
-                          (offeredService) =>
-                            offeredService.description !== service
-                        )
-                      : [
-                          ...detail.servicesOffered,
-                          { description: service, isCustom: false },
-                        ];
-
+                    const updatedServices = servicesOffered.includes(service)
+                      ? servicesOffered.filter((s) => s !== service)
+                      : [...servicesOffered, service];
                     handleChange('servicesOffered', updatedServices);
                   }}
                 />
@@ -160,13 +182,11 @@ const EditSalonProfile = () => {
             자격증
           </Typography>
           <CertificationsForm
-            certs={detail.certifications}
-            setCertifications={(newCertifications) =>
-              setData((prev) => ({
-                ...prev,
-                certifications: newCertifications,
-              }))
-            }
+            certs={certifications}
+            setCertifications={(newCerts) => {
+              setCertifications(newCerts);
+              handleChange('certifications', newCerts);
+            }}
           />
 
           {[
