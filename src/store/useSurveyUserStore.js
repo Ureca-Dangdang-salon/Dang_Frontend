@@ -1,44 +1,48 @@
+import { characteristics } from '@/constants/lists';
 import { create } from 'zustand';
 
 const initialPetInfo = {
   name: '',
-  age: 0,
+  ageYear: 0,
   ageMonth: 0,
-  weight: 0,
-  breed: '',
+  species: '',
   gender: '',
-  neutered: false,
-  characteristics: {
-    '물을 무서워해요.': false,
-    '사람을 좋아해요.': false,
-    '발을 만지는 걸 싫어해요.': false,
-    기타: false,
-    없음: false,
-  },
-  otherCharacteristic: '',
+  neutering: 'N',
+  weight: 0,
+  featureIds: [],
+  additionalFeature: '',
   profileImage: null,
 };
 
 const useSurveyUserStore = create((set) => ({
   step: 1,
-  petInfo: initialPetInfo,
   setStep: (step) => set({ step }),
+
+  petInfo: initialPetInfo,
   setPetInfo: (updates) =>
     set((state) => ({
       petInfo: { ...state.petInfo, ...updates },
     })),
-  updateCharacteristic: (trait, value) =>
-    set((state) => ({
-      petInfo: {
-        ...state.petInfo,
-        characteristics: {
-          ...state.petInfo.characteristics,
-          [trait]: value,
-          없음: trait === '없음' ? value : false,
-        },
-      },
-    })),
+
   resetPetInfo: () => set({ petInfo: initialPetInfo, step: 1 }),
+
+  characteristics: characteristics,
+  updateCharacteristic: (trait, value) =>
+    set((state) => {
+      const featureIndex = Object.keys(characteristics).indexOf(trait) + 1;
+      const updatedFeatureIds =
+        value && featureIndex !== 4
+          ? [...state.petInfo.featureIds, featureIndex]
+          : state.petInfo.featureIds.filter((id) => id !== featureIndex);
+
+      return {
+        characteristics: {
+          ...state.characteristics,
+          [trait]: value,
+        },
+        petInfo: { ...state.petInfo, featureIds: updatedFeatureIds },
+      };
+    }),
 }));
 
 export default useSurveyUserStore;
