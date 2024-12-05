@@ -34,12 +34,17 @@ export const mainTheme = createTheme({
     text: {
       main: '#3B3B3B',
     },
-    background: {
+    white: {
       main: '#FFFFFF',
     },
     delete: {
       main: '#FF7D7D', //red2
       light: '#FFAC8F', //coral
+    },
+  },
+  typography: {
+    allVariants: {
+      color: '#3B3B3B', // Default color for all typography variants
     },
   },
 });
