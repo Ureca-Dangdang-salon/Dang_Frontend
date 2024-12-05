@@ -1,59 +1,16 @@
 import SurveySection from '@/components/Survey/Common/SurveySection';
-import NumberPicker from '@/components/Common/NumberPicker/NumberPicker';
-import { Box, Typography } from '@mui/material';
 import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
-
-const TimeSection = ({ type, title, value, onChange }) => {
-  if (!value) return null;
-  return (
-    <Box>
-      <Typography variant="subtitle1" sx={{ mb: 2 }}>
-        {title}
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}>
-        <NumberPicker
-          label="시"
-          value={value.hour}
-          onChange={(newValue) => onChange(type, 'hour', newValue)}
-          max={23}
-        />
-        <NumberPicker
-          label="분"
-          value={value.minute}
-          onChange={(newValue) => onChange(type, 'minute', newValue)}
-          max={59}
-        />
-      </Box>
-    </Box>
-  );
-};
+import InputText from '@components/Common/InputText/InputText';
 
 const Step4 = () => {
-  const businessHours = useSurveyGroomerStore((state) => state.businessHours);
-  const setBusinessHours = useSurveyGroomerStore(
-    (state) => state.setBusinessHours
-  );
-
-  const handleTimeChange = (type, field, value) => {
-    setBusinessHours((prev) => ({
-      ...prev,
-      [type]: { ...prev[type], [field]: value },
-    }));
-  };
+  const { groomerInfo, setGroomerInfo } = useSurveyGroomerStore();
 
   return (
     <SurveySection title="연락 가능한 시간을 알려 주세요">
-      <TimeSection
-        type="start"
-        title="시작 시간"
-        value={businessHours?.start}
-        onChange={handleTimeChange}
-      />
-      <TimeSection
-        type="end"
-        title="종료 시간"
-        value={businessHours?.end}
-        onChange={handleTimeChange}
+      <InputText
+        placeholder="평일 오전 9시 ~ 오후 6시"
+        value={groomerInfo.contactHours}
+        onChange={(e) => setGroomerInfo({ contactHours: e.target.value })}
       />
     </SurveySection>
   );

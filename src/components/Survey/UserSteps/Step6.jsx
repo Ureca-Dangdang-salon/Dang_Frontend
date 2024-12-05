@@ -5,16 +5,8 @@ import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const Step6 = () => {
-  const characteristics = useSurveyUserStore(
-    (state) => state.petInfo.characteristics
-  );
-  const otherCharacteristic = useSurveyUserStore(
-    (state) => state.petInfo.otherCharacteristic
-  );
-  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
-  const updateCharacteristic = useSurveyUserStore(
-    (state) => state.updateCharacteristic
-  );
+  const { petInfo, setPetInfo, characteristics, updateCharacteristic } =
+    useSurveyUserStore();
 
   return (
     <SurveySection title="반려견은 어떤 특징을 가졌나요?">
@@ -26,20 +18,12 @@ const Step6 = () => {
               selected={checked}
               onChange={() => {
                 if (trait === '없음') {
-                  const newCharacteristics = Object.keys(
-                    characteristics
-                  ).reduce(
-                    (acc, key) => ({
-                      ...acc,
-                      [key]: key === '없음',
-                    }),
-                    {}
+                  Object.keys(characteristics).forEach((key) =>
+                    updateCharacteristic(key, key === '없음')
                   );
-                  setPetInfo({
-                    characteristics: newCharacteristics,
-                    otherCharacteristic: '',
-                  });
+                  setPetInfo({ additionalFeature: '', featureIds: [] });
                 } else {
+                  updateCharacteristic('없음', false);
                   updateCharacteristic(trait, !checked);
                 }
               }}
@@ -50,9 +34,11 @@ const Step6 = () => {
                 <InputText
                   size="large"
                   placeholder="기타 특징을 적어주세요. (최대30자)"
-                  value={otherCharacteristic}
+                  value={petInfo.additionalFeature}
                   onChange={(e) =>
-                    setPetInfo({ otherCharacteristic: e.target.value })
+                    setPetInfo({
+                      additionalFeature: e.target.value,
+                    })
                   }
                 />
               </Box>

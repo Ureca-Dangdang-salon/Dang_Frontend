@@ -1,67 +1,103 @@
+import { services, serviceTypes } from '@/constants/services';
 import { create } from 'zustand';
+
+const initialGroomerInfo = {
+  name: '',
+  servicesOfferedId: [],
+  phone: '',
+  contactHours: '',
+  servicesDistrictIds: [],
+  serviceType: '',
+};
+
+const initialBusniessInfo = {
+  imageKey: null,
+  businessNumber: '',
+  address: '',
+  experience: '',
+  certifications: [],
+  description: '',
+  startMessage: '',
+  faq: '',
+};
 
 const useSurveyGroomerStore = create((set) => ({
   step: 1,
-  serviceName: '',
-  isModalOpen: false,
-  serviceAreas: [],
-  services: {
-    목욕: false,
-    털미용: false,
-    전체클리핑: false,
-    부분가위컷: false,
-    발톱정리: false,
-    피부미용: false,
-    양치: false,
-    귀세정: false,
-  },
-  phoneNumber: '',
-  businessHours: {
-    start: { hour: 0, minute: 0 },
-    end: { hour: 0, minute: 0 },
-  },
-  businessInfo: {
-    profileImage: null,
-    businessNumber: '',
-    address: '',
-    serviceType: {
-      방문: false,
-      매장: false,
-      둘다가능: false,
-    },
-    experience: {
-      years: 0,
-      months: 0,
-    },
-    certifications: [],
-    description: '',
-    recruitment: '',
-    faq: '',
-  },
   setStep: (step) => set({ step }),
-  setServiceName: (serviceName) => set({ serviceName }),
-  setIsModalOpen: (isModalOpen) => set({ isModalOpen }),
-  setServiceAreas: (serviceAreas) => set({ serviceAreas }),
-  setServices: (updater) =>
-    set((state) => ({
-      services:
-        typeof updater === 'function' ? updater(state.services) : updater,
-    })),
-  setPhoneNumber: (phoneNumber) => set({ phoneNumber }),
 
-  setBusinessHours: (updater) =>
+  btnActive: false,
+  setBtnActive: (value) => set({ btnActive: value }),
+
+  groomerInfo: initialGroomerInfo,
+  setGroomerInfo: (update) =>
     set((state) => ({
-      businessHours:
-        typeof updater === 'function' ? updater(state.businessHours) : updater,
+      groomerInfo:
+        typeof update === 'function'
+          ? update(state.groomerInfo)
+          : { ...state.groomerInfo, ...update },
     })),
-  setBusinessInfo: (businessInfo) => set({ businessInfo }),
-  handleSetLocation: (selectedCity, selectedDistrict) =>
+
+  serviceList: services,
+  updateService: (serviceName, value) =>
+    set((state) => {
+      const serviceIndex =
+        Object.keys(state.serviceList).indexOf(serviceName) + 1;
+      const updatedServicesOfferedId = value
+        ? [...state.groomerInfo.servicesOfferedId, serviceIndex]
+        : state.groomerInfo.servicesOfferedId.filter(
+            (id) => id !== serviceIndex
+          );
+
+      return {
+        serviceList: {
+          ...state.serviceList,
+          [serviceName]: value,
+        },
+        groomerInfo: {
+          ...state.groomerInfo,
+          servicesOfferedId: updatedServicesOfferedId,
+        },
+      };
+    }),
+  serviceAreas: [],
+  setServiceAreas: (update) =>
     set((state) => ({
-      serviceAreas: [
-        ...state.serviceAreas,
-        { city: selectedCity, district: selectedDistrict },
-      ],
-      isModalOpen: false,
+      serviceAreas:
+        typeof update === 'function'
+          ? update(state.serviceAreas)
+          : [...state.serviceAreas, update],
+    })),
+
+  serviceTypes: serviceTypes,
+  toggleServiceType: (selectKey) =>
+    set((state) => {
+      let activeServiceType = '';
+
+      const updatedServiceTypes = state.serviceTypes.map((type) => {
+        if (type.key === selectKey) {
+          activeServiceType = type.value;
+          return { ...type, selected: true };
+        } else {
+          return { ...type, selected: false };
+        }
+      });
+
+      return {
+        serviceTypes: updatedServiceTypes,
+        groomerInfo: {
+          ...state.groomerInfo,
+          serviceType: activeServiceType,
+        },
+      };
+    }),
+
+  businessInfo: initialBusniessInfo,
+  setBusinessInfo: (update) =>
+    set((state) => ({
+      businessInfo:
+        typeof update === 'function'
+          ? update(state.businessInfo)
+          : { ...state.businessInfo, ...update },
     })),
 }));
 

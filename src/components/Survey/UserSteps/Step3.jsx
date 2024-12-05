@@ -4,14 +4,13 @@ import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const Step3 = () => {
-  const weight = useSurveyUserStore((state) => state.petInfo.weight);
-  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
+  const { petInfo, setPetInfo } = useSurveyUserStore();
 
   return (
     <SurveySection title="반려견의 몸무게를 선택해주세요">
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <NumberPicker
-          value={weight}
+          value={petInfo.weight}
           onChange={(value) => setPetInfo({ weight: value })}
           label="kg"
           max={100}
