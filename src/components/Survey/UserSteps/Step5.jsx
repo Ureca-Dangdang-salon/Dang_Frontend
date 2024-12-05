@@ -35,14 +35,14 @@ const Step5 = () => {
           <Box sx={{ display: 'flex', gap: '12px' }}>
             <RadioButton
               label="예"
-              selected={petInfo.neutered === 'Y'}
-              onChange={() => setPetInfo({ neutered: 'Y' })}
+              selected={petInfo.neutering === 'Y'}
+              onChange={() => setPetInfo({ neutering: 'Y' })}
               size="large"
             />
             <RadioButton
               label="아니요"
-              selected={petInfo.neutered === 'N'}
-              onChange={() => setPetInfo({ neutered: 'N' })}
+              selected={petInfo.neutering === 'N'}
+              onChange={() => setPetInfo({ neutering: 'N' })}
               size="large"
             />
           </Box>

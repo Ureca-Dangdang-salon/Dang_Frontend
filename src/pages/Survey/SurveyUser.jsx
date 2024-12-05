@@ -29,7 +29,10 @@ const SurveyUser = () => {
       case 4:
         return petInfo.species !== '' && petInfo.species !== null;
       case 5:
-        return petInfo.gender === 'MALE' || petInfo.gender === 'FEMALE';
+        return (
+          ['MALE', 'FEMALE'].includes(petInfo.gender) &&
+          ['Y', 'N'].includes(petInfo.neutering)
+        );
       case 6:
         return (
           petInfo.featureIds.length !== 0 ||
