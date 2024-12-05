@@ -33,11 +33,18 @@ export const Selector = ({ label, choices, value, onChange, field }) => {
             }}
           />
         )}
-        renderOption={(props, option) => (
-          <li {...props} style={{ padding: '8px 16px', cursor: 'pointer' }}>
-            <Typography>{option}</Typography>
-          </li>
-        )}
+        renderOption={(props, option) => {
+          const { key, ...rest } = props;
+          return (
+            <li
+              key={key}
+              {...rest}
+              style={{ padding: '8px 16px', cursor: 'pointer' }}
+            >
+              <Typography>{option}</Typography>
+            </li>
+          );
+        }}
       />
     </Box>
   );
