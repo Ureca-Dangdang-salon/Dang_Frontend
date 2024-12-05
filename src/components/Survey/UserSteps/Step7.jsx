@@ -12,7 +12,14 @@ const Step7 = () => {
 
   return (
     <SurveySection title="프로필 사진을 등록해주세요">
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          height: '45vh',
+          alignItems: 'center',
+        }}
+      >
         <ProfileSelector defaultImage="dog" onChange={handleProfileChange} />
       </Box>
     </SurveySection>
