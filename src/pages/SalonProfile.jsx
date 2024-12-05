@@ -89,7 +89,7 @@ const SalonProfile = () => {
               결제
             </Typography>
             <Typography fontSize={20} fontWeight={600} color="secondary.main">
-              11
+              {detail?.estimateRequestCount}
             </Typography>
           </Box>
 
