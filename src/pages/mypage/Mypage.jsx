@@ -6,6 +6,7 @@ import { Modal } from '@components/Common/Modal/Modal';
 import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
 import useRoleStore from '@/store/useRoleStore';
+import { logout, deleteAccount } from '@/api/auth';
 
 const Mypage = () => {
   const defaultImgPath = '/images/default-groomer-profile.png';
@@ -68,6 +69,7 @@ const Mypage = () => {
           <Button
             color="text.main"
             sx={{ borderRadius: '10px', minWidth: '40px' }}
+            onClick={() => logout()}
           >
             로그아웃
           </Button>
@@ -78,6 +80,7 @@ const Mypage = () => {
             secondaryButton="취소"
             primaryButton="탈퇴"
             title="정말 계정을 지우시겠습니까? 이 과정은 돌이킬 수 없습니다."
+            action={() => deleteAccount()}
           />
         </Box>
       </Box>

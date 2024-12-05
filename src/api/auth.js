@@ -25,3 +25,24 @@ export const loginCheck = async () => {
     return false;
   }
 };
+
+export const logout = async () => {
+  try {
+    const { data } = await apiClient.post(AuthController.logout);
+    if (data.response === '로그아웃에 성공했습니다.') return true;
+    else return false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const deleteAccount = async () => {
+  try {
+    const { data } = await apiClient.delete(AuthController.deleteAccount);
+    console.log(data);
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
