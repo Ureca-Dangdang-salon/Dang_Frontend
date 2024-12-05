@@ -4,7 +4,7 @@ import { ProfileController } from './requestUrls';
 export const groomerProfile = async () => {
   try {
     const { data } = await apiClient.get(ProfileController.groomerProfile);
-    console.log(data.response);
+    // console.log(data.response);
     return data.response.groomerProfile;
   } catch (e) {
     console.log(e);

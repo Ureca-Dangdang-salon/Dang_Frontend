@@ -9,27 +9,27 @@ import RadioButton from '@components/Common/RadioButton/RadioButton';
 import { breeds } from '@/constants/breeds';
 import ProfileSelector from '@components/Features/ProfileSelector';
 import { useEffect } from 'react';
-import { dogProfile } from '@/api/dogProfile';
+import { dogProfile, updateDogProfile } from '@/api/dogProfile';
+import { characteristics } from '@/constants/features';
 
 const DogProfile = () => {
-  const features = [
-    '물을 무서워해요',
-    '사람을 좋아해요',
-    '발을 만지는 걸 싫어해요',
-    '없음',
-  ];
+  const [id, setId] = useState(0);
   const [profileImage, setProfileImage] = useState(null);
-  const [etc, setEtc] = useState(false);
   const [data, setData] = useState({});
+  const [features, setFeatures] = useState([]);
+  const [additionalFeature, setAdditionalFeature] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const currentPath = window.location.pathname;
     const id = currentPath.split('/').pop();
+    setId(id);
 
     const getDogProfile = async () => {
       const res = await dogProfile(id);
       setData(res);
+      setFeatures(res.features.map((item) => item.description));
+      setProfileImage(res.profileImage);
       setLoading(false);
     };
 
@@ -40,36 +40,16 @@ const DogProfile = () => {
     setData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleFeatureChange = (feature) => {
-    if (data.additionalFeature.includes(feature)) {
-      handleChange(
-        'additionalFeature',
-        data.additionalFeature.filter((f) => f !== feature)
-      );
-    } else if (feature === '없음') {
-      handleChange('additionalFeature', ['없음']);
-      setEtc(false);
-    } else {
-      setData((prev) => {
-        const updatedFeatures = prev.additionalFeature.includes('없음')
-          ? prev.additionalFeature.filter((f) => f !== '없음')
-          : [...prev.additionalFeature];
-
-        if (!updatedFeatures.includes(feature)) {
-          updatedFeatures.push(feature);
-        }
-
-        return { ...prev, additionalFeature: updatedFeatures };
-      });
-    }
-  };
-
   const handleImageChange = (image) => {
     setProfileImage(image);
   };
 
   const handleSubmit = () => {
-    console.log('Form Submitted:', data);
+    const featureIds = features
+      .filter((feat) => feat !== '기타' && feat !== '없음')
+      .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
+
+    updateDogProfile(data, id, featureIds, additionalFeature);
   };
 
   if (loading) return <Typography>LOADING</Typography>;
@@ -81,7 +61,7 @@ const DogProfile = () => {
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>
           <ProfileSelector
             defaultImage="dog"
-            image={data.profileImage}
+            image={profileImage}
             onChange={handleImageChange}
           />
         </Box>
@@ -100,14 +80,14 @@ const DogProfile = () => {
           나이
         </Typography>
         <NumberPicker
-          onChange={(value) => handleChange('ageYears', value)}
+          onChange={(value) => handleChange('ageYear', value)}
           value={data.ageYear}
           placeholder={0}
           label="년"
         />
         <Box mt={2}></Box>
         <NumberPicker
-          onChange={(value) => handleChange('ageMonths', value)}
+          onChange={(value) => handleChange('ageMonth', value)}
           value={data.ageMonth}
           placeholder={0}
           label="개월"
@@ -130,15 +110,15 @@ const DogProfile = () => {
         <RadioButton
           label="남아"
           size="large"
-          selected={data.gender === 'male'}
-          onChange={() => handleChange('gender', 'male')}
+          selected={data.gender === 'MALE'}
+          onChange={() => handleChange('gender', 'MALE')}
         />
         <Box mt={1.5}></Box>
         <RadioButton
           label="여아"
           size="large"
-          selected={data.gender === 'female'}
-          onChange={() => handleChange('gender', 'female')}
+          selected={data.gender === 'FEMALE'}
+          onChange={() => handleChange('gender', 'FEMALE')}
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
@@ -171,35 +151,38 @@ const DogProfile = () => {
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           특징
         </Typography>
-        {features.map((feat) => (
-          <RadioButton
-            key={feat}
-            label={feat}
-            size="large"
-            selected={data.features.includes(feat)}
-            onChange={() => handleFeatureChange(feat)}
-          />
+        {Object.entries(characteristics).map(([trait, checked]) => (
+          <Box key={trait}>
+            <RadioButton
+              size="large"
+              label={trait}
+              selected={features.includes(trait)}
+              onChange={() => {
+                setFeatures((prevFeatures) => {
+                  if (trait === '없음') return ['없음'];
+                  if (trait === '기타') setAdditionalFeature('');
+                  if (prevFeatures.includes(trait))
+                    return prevFeatures.filter((item) => item !== trait);
+
+                  return [
+                    ...prevFeatures.filter((item) => item !== '없음'),
+                    trait,
+                  ];
+                });
+              }}
+            />
+            {trait === '기타' && features.includes(trait) && (
+              <Box sx={{ mt: 2, mb: 2 }}>
+                <InputText
+                  size="large"
+                  placeholder="기타 특징을 적어주세요. (최대30자)"
+                  value={additionalFeature}
+                  onChange={(e) => setAdditionalFeature(e.target.value)}
+                />
+              </Box>
+            )}
+          </Box>
         ))}
-        <RadioButton
-          label="기타"
-          size="large"
-          selected={etc}
-          onChange={() => {
-            setEtc(!etc);
-            handleChange(
-              'additionalFeature',
-              data.additionalFeature.filter((f) => f !== '없음')
-            );
-            if (etc) handleChange('customFeature', '');
-          }}
-        />
-        {etc && (
-          <InputText
-            value={data.customFeature}
-            placeholder="특징을 작성해주세요"
-            onChange={(e) => handleChange('customFeature', e.target.value)}
-          />
-        )}
 
         <Box textAlign="center" mt={3}>
           <Button

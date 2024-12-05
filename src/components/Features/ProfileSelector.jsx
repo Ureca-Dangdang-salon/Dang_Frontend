@@ -32,12 +32,8 @@ const ProfileSelector = ({ defaultImage, image, onChange }) => {
       : '/images/default-dog-profile.png';
 
   return (
-    <Box>
-      <Box
-        textAlign="center"
-        sx={{ cursor: 'pointer' }}
-        onClick={() => setOpen(true)}
-      >
+    <Box width="150px" margin="auto">
+      <Box sx={{ cursor: 'pointer' }} onClick={() => setOpen(true)}>
         <img
           src={
             image
@@ -50,12 +46,14 @@ const ProfileSelector = ({ defaultImage, image, onChange }) => {
           height="150px"
           alt={selectedImage ? 'Selected Profile' : 'Default Profile'}
           style={
-            selectedImage && {
-              borderRadius: '50%',
-              objectFit: 'cover',
-              border: '2px solid',
-              borderColor: '#9747FF',
-            }
+            selectedImage
+              ? {
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid',
+                  borderColor: '#9747FF',
+                }
+              : { borderRadius: '50%' }
           }
         />
 

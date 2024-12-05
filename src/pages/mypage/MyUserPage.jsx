@@ -40,7 +40,7 @@ const MyUserPage = () => {
           <Typography fontWeight={700} mr={1}>
             댕댕이들
           </Typography>
-          <IconButton onClick={() => navigate('/mypage/dogprofile')}>
+          <IconButton onClick={() => navigate(paths.survey.user)}>
             <ControlPointTwoToneIcon color="primary" />
           </IconButton>
         </Box>
@@ -57,7 +57,11 @@ const MyUserPage = () => {
                     )
                   }
                 >
-                  <img src={dog.profileImage} width="100px" />
+                  <img
+                    src={dog.profileImage}
+                    width="100px"
+                    style={{ borderRadius: '50%' }}
+                  />
                   <Typography mt={1}>{dog.name}</Typography>
                 </Box>
 

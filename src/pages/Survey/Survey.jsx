@@ -13,7 +13,7 @@ import useRoleStore from '@/store/useRoleStore';
 function Survey() {
   const [location, setLocation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { setRole } = useRoleStore();
+  const { role, setRole } = useRoleStore();
   const [id, setId] = useState(null);
   const navigate = useNavigate();
 

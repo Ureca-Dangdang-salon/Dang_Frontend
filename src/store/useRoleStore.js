@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 const useRoleStore = create((set) => ({
-  role: 'ROLE_PENDING',
+  role: 'ROLE_USER',
   setRole: (newRole) => set({ role: newRole }),
 }));
 
