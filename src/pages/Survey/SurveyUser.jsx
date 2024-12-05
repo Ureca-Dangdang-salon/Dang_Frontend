@@ -11,7 +11,7 @@ import Step5 from '@/components/Survey/UserSteps/Step5';
 import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
-import { postDogProfile } from '@/api/profile';
+import { postDogProfile } from '@/api/dogProfile';
 
 const SurveyUser = () => {
   const navigate = useNavigate();

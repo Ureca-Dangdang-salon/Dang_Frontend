@@ -95,6 +95,7 @@ const MySalonPage = () => {
                   src={imageSrc}
                   alt="profile_img"
                   width="120px"
+                  height="120px"
                   style={imageStyle}
                 />
 

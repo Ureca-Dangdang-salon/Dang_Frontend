@@ -1,9 +1,9 @@
 import { apiClient } from './apiClient';
-import { UserController } from './requestUrls';
+import { ProfileController } from './requestUrls';
 
 export const userProfile = async () => {
   try {
-    const { data } = await apiClient.get(UserController.userProfile);
+    const { data } = await apiClient.get(ProfileController.userProfile);
     return data.response;
   } catch (e) {
     console.log(e);

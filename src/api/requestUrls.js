@@ -6,14 +6,9 @@ export const AuthController = {
   deleteAccount: '/api/auth/delete',
 };
 
-export const UserController = {
+export const ProfileController = {
   socialProfile: '/api/common',
   userProfile: '/api/userprofile',
   groomerProfile: '/api/groomerprofile',
   dogProfile: '/api/dogprofile',
-};
-
-export const MyController = {
-  dogProfile: '/api/dogprofile',
-  groomerProfile: '/api/groomerprofile',
 };
