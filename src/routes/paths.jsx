@@ -31,7 +31,7 @@ const paths = {
   requestHistory: '/mypage/requesthistory',
   requestHistoryDetail: '/mypage/requesthistorydetail',
 
-  salonProfile: '/salonprofile',
+  salonProfile: '/salonprofile/:id',
   contestResult: '/contestresult',
 };
 
