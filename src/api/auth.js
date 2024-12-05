@@ -15,6 +15,17 @@ export const join = async (role, district_id) => {
   }
 };
 
+export const tokenRefresh = async () => {
+  try {
+    const { data } = await apiClient.post(AuthController.refresh);
+    if (data.response === '액세스 토큰 갱신에 성공했습니다.') return true;
+    else return false;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
 export const loginCheck = async () => {
   try {
     const { data } = await apiClient.get(AuthController.checkLogin);
