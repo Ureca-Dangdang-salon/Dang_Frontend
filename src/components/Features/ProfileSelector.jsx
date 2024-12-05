@@ -39,13 +39,7 @@ const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
         onClick={() => setOpen(true)}
       >
         <img
-          src={
-            image
-              ? selectedImage
-              : selectedImage
-                ? selectedImage.preview
-                : defaultImgPath
-          }
+          src={selectedImage ? selectedImage.preview : defaultImgPath}
           width="150px"
           height="150px"
           alt={selectedImage ? 'Selected Profile' : 'Default Profile'}

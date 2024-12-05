@@ -12,3 +12,8 @@ export const UserController = {
   groomerProfile: '/api/groomerprofile',
   dogProfile: '/api/dogprofile',
 };
+
+export const MyController = {
+  dogProfile: '/api/dogprofile',
+  groomerProfile: '/api/groomerprofile',
+};
