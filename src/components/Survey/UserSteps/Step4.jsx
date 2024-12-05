@@ -1,18 +1,23 @@
-import InputText from '@/components/Common/InputText/InputText';
 import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
+import { Selector } from '@components/Common/Selector/Selector';
+import { breeds } from '@/constants/breeds';
 
 const Step4 = () => {
-  const breed = useSurveyUserStore((state) => state.petInfo.breed);
-  const setPetInfo = useSurveyUserStore((state) => state.setPetInfo);
+  const { petInfo, setPetInfo } = useSurveyUserStore();
+
+  const handleChange = (field, value) => {
+    setPetInfo({ [field]: value });
+  };
 
   return (
     <SurveySection title="반려견의 견종을 입력해주세요">
-      <InputText
-        size="large"
-        placeholder="견종을 입력해주세요"
-        value={breed}
-        onChange={(e) => setPetInfo({ breed: e.target.value })}
+      <Selector
+        label="견종을 선택해주세요"
+        value={petInfo.species}
+        choices={breeds}
+        onChange={handleChange}
+        field="species"
       />
     </SurveySection>
   );
