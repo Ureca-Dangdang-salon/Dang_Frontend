@@ -6,110 +6,70 @@ import Step1 from '@/components/Survey/GroomerSteps/Step1';
 import Step2 from '@/components/Survey/GroomerSteps/Step2';
 import Step3 from '@/components/Survey/GroomerSteps/Step3';
 import Step4 from '@/components/Survey/GroomerSteps/Step4';
-import Step5 from '@/components/Survey/GroomerSteps/Step5';
+import Step5 from '@components/Survey/GroomerSteps/Step5';
+import Step6 from '@components/Survey/GroomerSteps/Step6';
+import Step7 from '@components/Survey/GroomerSteps/Step7';
 import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
+import { postAddGroomerProfile, postGroomerProfile } from '@/api/my';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
-  const {
-    step,
-    setStep,
-    serviceName,
-    setServiceName,
-    isModalOpen,
-    setIsModalOpen,
-    serviceAreas,
-    setServiceAreas,
-    services,
-    setServices,
-    phoneNumber,
-    setPhoneNumber,
-    businessHours,
-    setBusinessHours,
-    businessInfo,
-    setBusinessInfo,
-    handleSetLocation,
-  } = useSurveyGroomerStore();
+  const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
 
   const isStepValid = () => {
     switch (step) {
       case 1:
-        return serviceName.trim() !== '';
+        return groomerInfo.name.trim() !== '';
       case 2:
-        return Object.values(services).some((value) => value);
+        return groomerInfo.servicesOfferedId.length > 0;
       case 3:
-        return phoneNumber.trim() !== '';
+        return groomerInfo.phone.trim() !== '';
       case 4:
-        return businessHours.start.hour > 0 || businessHours.end.hour > 0;
+        return groomerInfo.contactHours.trim() !== '';
       case 5:
+        return groomerInfo.servicesDistrictIds.length > 0;
+      case 6:
+        return groomerInfo.serviceType !== '';
+      case 7:
         return true;
       default:
         return false;
     }
   };
 
-  const handleNextStep = () => {
-    if (step === 5) {
-      navigate('/home');
-    } else {
-      setStep(step + 1);
-    }
+  const handleNextStep = async () => {
+    if (!isStepValid()) return '';
+    if (step === 7) {
+      if (await postAddGroomerProfile(businessInfo)) navigate('/home');
+    } else setStep(step + 1);
   };
 
   const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    } else {
-      navigate('/survey');
-    }
+    if (step > 1) setStep(step - 1);
+    else navigate('/survey');
   };
 
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          <Step1 serviceName={serviceName} setServiceName={setServiceName} />
-        );
-      case 2:
-        return <Step2 services={services} setServices={setServices} />;
-      case 3:
-        return (
-          <Step3 phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} />
-        );
-      case 4:
-        return (
-          <Step4
-            businessHours={businessHours}
-            setBusinessHours={setBusinessHours}
-          />
-        );
-      case 5:
-        return (
-          <Step5
-            businessInfo={businessInfo}
-            setBusinessInfo={setBusinessInfo}
-            serviceAreas={serviceAreas}
-            setServiceAreas={setServiceAreas}
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            handleSetLocation={handleSetLocation}
-          />
-        );
-      default:
-        return null;
-    }
+  const handleSaveProfile = async () => {
+    const res = await postGroomerProfile(groomerInfo);
+    return res;
   };
 
   return (
     <>
       <SurveyHeader
         label="회원가입"
-        totalPage={5}
+        totalPage={7}
         currPage={step}
         backHandler={handleBack}
       />
       <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
-        {renderStep()}
+        {step === 1 && <Step1 />}
+        {step === 2 && <Step2 />}
+        {step === 3 && <Step3 />}
+        {step === 4 && <Step4 />}
+        {step === 5 && <Step5 />}
+        {step === 6 && <Step6 />}
+        {step === 7 && <Step7 />}
         <Box
           sx={{
             position: 'fixed',
@@ -122,18 +82,24 @@ function SurveyGroomer() {
             justifyContent: 'center',
           }}
         >
-          {step === 4 ? (
+          {step === 6 ? (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Button
                 size="large"
-                backgroundColor="primary"
-                onClick={() => navigate('/home')}
+                backgroundColor={isStepValid() ? 'primary' : 'n3'}
+                onClick={async () => {
+                  if (!isStepValid()) return '';
+                  if (await handleSaveProfile()) navigate('/home');
+                }}
                 label="프로필 저장하기"
               />
               <Button
                 size="large"
-                backgroundColor="n3"
-                onClick={() => setStep(5)}
+                backgroundColor={'n3'}
+                onClick={async () => {
+                  if (!isStepValid()) return '';
+                  if (await handleSaveProfile()) handleNextStep();
+                }}
                 label="상세 정보 작성하기"
               />
             </Box>
@@ -142,7 +108,7 @@ function SurveyGroomer() {
               size="large"
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
-              label={step === 5 ? '프로필 저장하기' : '다음으로'}
+              label={step === 7 ? '프로필 저장하기' : '다음으로'}
             />
           )}
         </Box>

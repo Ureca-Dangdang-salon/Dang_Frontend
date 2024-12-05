@@ -10,39 +10,62 @@ import Step4 from '@/components/Survey/UserSteps/Step4';
 import Step5 from '@/components/Survey/UserSteps/Step5';
 import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
-import uploadProfileButton from '/images/upload-dog-button.png';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
+import { postDogProfile } from '@/api/my';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
-  const { step, setStep, resetPetInfo } = useSurveyUserStore();
+  const { step, setStep, resetPetInfo, petInfo, characteristics } =
+    useSurveyUserStore();
 
-  const handleSaveProfile = () => {
-    // 프로필 저장 로직
-    return true;
+  const isStepValid = () => {
+    switch (step) {
+      case 1:
+        return petInfo.name.trim() !== '';
+      case 2:
+        return petInfo.ageYear > 0 || petInfo.ageMonth > 0;
+      case 3:
+        return petInfo.weight > 0;
+      case 4:
+        return petInfo.species !== '';
+      case 5:
+        return petInfo.gender === 'MALE' || petInfo.gender === 'FEMALE';
+      case 6:
+        return (
+          petInfo.featureIds.length !== 0 ||
+          characteristics.없음 === true ||
+          petInfo.additionalFeature.trim() !== ''
+        );
+      case 7:
+        return true;
+      default:
+        return false;
+    }
   };
 
-  const handleAddAnotherPet = () => {
-    if (handleSaveProfile()) {
+  const handleSaveProfile = async () => {
+    const res = await postDogProfile(petInfo);
+    return res;
+  };
+
+  const handleAddAnotherPet = async () => {
+    if (await handleSaveProfile()) {
       resetPetInfo();
     }
   };
 
+  const handleGoHome = async () => {
+    if (await handleSaveProfile()) navigate('/home');
+  };
+
   const handleNextStep = () => {
+    if (!isStepValid()) return '';
     setStep(step + 1);
   };
 
   const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    } else {
-      navigate('/survey');
-    }
-  };
-
-  const handleGoHome = () => {
-    handleSaveProfile();
-    navigate('/home');
+    if (step > 1) setStep(step - 1);
+    else navigate('/survey');
   };
 
   return (
@@ -61,7 +84,7 @@ const SurveyUser = () => {
         {step === 4 && <Step4 />}
         {step === 5 && <Step5 />}
         {step === 6 && <Step6 />}
-        {step === 7 && <Step7 uploadProfileButton={uploadProfileButton} />}
+        {step === 7 && <Step7 />}
 
         <Box
           sx={{
@@ -95,7 +118,7 @@ const SurveyUser = () => {
           ) : (
             <Button
               size="large"
-              backgroundColor="primary"
+              backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label="다음으로"
             />
