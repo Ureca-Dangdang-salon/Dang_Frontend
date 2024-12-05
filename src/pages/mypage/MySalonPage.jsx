@@ -125,7 +125,7 @@ const MySalonPage = () => {
                     <Grid size={8}>
                       {detail?.servicesOffered?.map((item, index) => (
                         <React.Fragment key={index}>
-                          {item.description}
+                          {item}
                           {index < detail.servicesOffered.length - 1 && ', '}
                         </React.Fragment>
                       ))}

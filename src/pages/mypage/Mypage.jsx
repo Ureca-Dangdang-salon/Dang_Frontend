@@ -58,8 +58,8 @@ const Mypage = () => {
             수정
           </Button>
         </Box>
-
-        {role === 'ROLE_USER' ? (
+        {role}
+        {role == 'ROLE_USER' ? (
           <MyUserPage dogProfiles={data?.dogProfiles} />
         ) : (
           <MySalonPage />

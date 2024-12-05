@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Box, Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
 
-const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
+const ProfileSelector = ({ defaultImage, image, onChange }) => {
   const fileInputRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(image);
@@ -39,7 +39,13 @@ const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
         onClick={() => setOpen(true)}
       >
         <img
-          src={selectedImage ? selectedImage.preview : defaultImgPath}
+          src={
+            image
+              ? image
+              : selectedImage
+                ? selectedImage.preview
+                : defaultImgPath
+          }
           width="150px"
           height="150px"
           alt={selectedImage ? 'Selected Profile' : 'Default Profile'}

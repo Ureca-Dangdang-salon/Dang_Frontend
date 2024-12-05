@@ -3,23 +3,23 @@ import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import Button from '@components/Common/Button/Button';
 import InputText from '@components/Common/InputText/InputText';
 import { useState, useEffect } from 'react';
-import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import TextArea from '@components/Common/TextArea/TextArea';
 import ServiceRegionForm from '@components/Features/ServiceRegionForm';
 import CertificationsForm from '@components/Features/CertificationsForm';
 import ProfileSelector from '@components/Features/ProfileSelector';
 import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
-import { services } from '@/constants/services';
+import { services, serviceTypes } from '@/constants/services';
 
 const EditSalonProfile = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [serviceAreas, setServiceAreas] = useState({});
+  const [serviceAreas, setServiceAreas] = useState([]);
   const [certifications, setCertifications] = useState([]);
   const [servicesOffered, setServicesOffered] = useState([]);
   const [profileImage, setProfileImage] = useState({});
   const [putData, setPutData] = useState({});
+  const serviceKeys = Object.keys(services);
 
   useEffect(() => {
     const getGroomerProfile = async () => {
@@ -42,12 +42,15 @@ const EditSalonProfile = () => {
 
   useEffect(() => {
     setPutData({
+      profileId: data.profileId,
       imageKey: data.imageKey,
       name: data.name,
       phone: data.phone,
-      servicesDistrictIds: serviceAreas, //TODO: change to id
+      servicesDistrictIds: serviceAreas.map((item) => item.districtId),
       contactHours: data.contactHours,
-      servicesOfferedId: servicesOffered, //TODO: change to id
+      servicesOfferedId: servicesOffered.map(
+        (key) => serviceKeys.indexOf(key) + 1
+      ),
       serviceType: data.serviceType,
       businessNumber: data.businessNumber,
       address: data.address,
@@ -70,18 +73,13 @@ const EditSalonProfile = () => {
 
   const handleImageChange = (image) => {
     setProfileImage(image);
-    handleChange('imageKey', profileImage);
+    handleChange('imageKey', image);
   };
 
   const handleSubmit = () => {
     console.log(serviceAreas);
-    const districts = serviceAreas.map((area) => area.id);
-    handleChange('servicesDistrictIds', districts);
-
-    // 제공 서비스
-
-    console.log('Form Submitted:', putData);
-    // updateGroomerProfile(data);
+    console.log('edit: ' + putData.servicesDistrictIds);
+    updateGroomerProfile(putData);
   };
 
   return (
@@ -117,7 +115,7 @@ const EditSalonProfile = () => {
           ))}
 
           <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-            서비스 지역
+            서비스 지역 *
           </Typography>
           <ServiceRegionForm
             regions={serviceAreas}
@@ -125,9 +123,22 @@ const EditSalonProfile = () => {
           />
 
           <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
+            서비스 형태 *
+          </Typography>
+          {serviceTypes.map((item, idx) => (
+            <RadioButton
+              key={idx}
+              label={item.key}
+              selected={data.serviceType == item.value}
+              size="large"
+              onChange={() => handleChange('serviceType', item.value)}
+            />
+          ))}
+
+          <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
             제공 서비스 *
           </Typography>
-          {services.map((service, index) => {
+          {serviceKeys.map((service, index) => {
             return (
               <Box key={index}>
                 <RadioButton
@@ -135,12 +146,11 @@ const EditSalonProfile = () => {
                   size="large"
                   selected={servicesOffered.includes(service)}
                   onChange={() => {
-                    const updatedServices = servicesOffered.includes(service)
+                    servicesOffered.includes(service)
                       ? setServicesOffered(
                           servicesOffered.filter((s) => s !== service)
                         )
                       : setServicesOffered([...servicesOffered, service]);
-                    handleChange('servicesOffered', updatedServices);
                   }}
                 />
                 <Box mt={1.5}></Box>
@@ -173,10 +183,10 @@ const EditSalonProfile = () => {
           <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
             경력
           </Typography>
-          <NumberPicker
+          <InputText
             onChange={(e) => handleChange('experience', e.target.value)}
-            value={parseInt(data.experience)}
-            placeholder={0}
+            value={data.experience}
+            placeholder="15년 경력 반려동물 미용사"
             label="년"
           />
 
@@ -187,7 +197,6 @@ const EditSalonProfile = () => {
             certs={certifications}
             setCertifications={(newCerts) => {
               setCertifications(newCerts);
-              handleChange('certifications', newCerts);
             }}
           />
 

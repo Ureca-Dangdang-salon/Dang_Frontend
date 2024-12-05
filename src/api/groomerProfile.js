@@ -4,7 +4,7 @@ import { ProfileController } from './requestUrls';
 export const groomerProfile = async () => {
   try {
     const { data } = await apiClient.get(ProfileController.groomerProfile);
-    console.log(data);
+    console.log(data.response);
     return data.response.groomerProfile;
   } catch (e) {
     console.log(e);
@@ -33,7 +33,7 @@ export const postGroomerProfile = async (groomerInfo) => {
 export const postAddGroomerProfile = async (businessInfo) => {
   try {
     const { data } = await apiClient.post(
-      ProfileController.groomerProfile + '/detail',
+      ProfileController.detailGroomerProfile,
       {
         imageKey: businessInfo.imageKey,
         businessNumber: businessInfo.businessNumber,
@@ -66,26 +66,26 @@ export const groomerPublicProfile = async (id) => {
   }
 };
 
-export const updateGroomerProfile = async (data) => {
+export const updateGroomerProfile = async (newData) => {
   try {
-    const url = `${ProfileController.groomerProfile}/${data.profileId}`;
-    const { newData } = await apiClient.put(url, {
-      imageKey: data.image_key,
-      name: data.name,
-      phone: data.phone,
-      servicesDistrictIds: data.services_district_ids,
-      contactHours: data.contact_hours,
-      servicesOfferedId: data.services_offered_id,
-      serviceType: data.service_type,
-      businessNumber: data.business_number,
-      address: data.address,
-      experience: data.experience,
-      certifications: data.certifications,
-      description: data.description,
-      startMessage: data.start_message,
-      faq: data.faq,
+    const url = `${ProfileController.groomerProfile}/${newData.profileId}`;
+    const { data } = await apiClient.put(url, {
+      imageKey: newData.imageKey,
+      name: newData.name,
+      phone: newData.phone,
+      servicesDistrictIds: newData.servicesDistrictIds,
+      contactHours: newData.contactHours,
+      servicesOfferedId: newData.servicesOfferedId,
+      serviceType: newData.serviceType,
+      businessNumber: newData.businessNumber,
+      address: newData.address,
+      experience: newData.experience,
+      certifications: newData.certifications,
+      description: newData.description,
+      startMessage: newData.startMessage,
+      faq: newData.faq,
     });
-    return newData.reponse;
+    return data;
   } catch (e) {
     console.log(e);
     return false;

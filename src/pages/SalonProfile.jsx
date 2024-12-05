@@ -132,7 +132,7 @@ const SalonProfile = () => {
 
         <Box textAlign="left" mt={3}>
           <Typography mt={3} lineHeight={2}>
-            {data?.experience}년 경력
+            {data?.experience}
           </Typography>
           <Grid container spacing={1}>
             <Grid size={4}>📞전화번호:</Grid>
