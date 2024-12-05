@@ -1,4 +1,4 @@
-import { services, serviceTypes } from '@/constants/lists';
+import { services, serviceTypes } from '@/constants/services';
 import { create } from 'zustand';
 
 const initialGroomerInfo = {

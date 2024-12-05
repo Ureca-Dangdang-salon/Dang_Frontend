@@ -1,4 +1,4 @@
-import { characteristics } from '@/constants/lists';
+import { characteristics } from '@/constants/features';
 import { create } from 'zustand';
 
 const initialPetInfo = {
@@ -7,7 +7,7 @@ const initialPetInfo = {
   ageMonth: 0,
   species: '',
   gender: '',
-  neutering: 'N',
+  neutering: '',
   weight: 0,
   featureIds: [],
   additionalFeature: '',
