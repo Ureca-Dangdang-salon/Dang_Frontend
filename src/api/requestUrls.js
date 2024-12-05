@@ -3,3 +3,8 @@ export const AuthController = {
   refresh: '/api/auth/refresh',
   checkLogin: '/api/auth/check/login',
 };
+
+export const MyController = {
+  dogProfile: '/api/dogprofile',
+  groomerProfile: '/api/groomerprofile',
+};
