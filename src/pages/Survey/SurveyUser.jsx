@@ -11,7 +11,7 @@ import Step5 from '@/components/Survey/UserSteps/Step5';
 import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
-import { postDogProfile } from '@/api/my';
+import { postDogProfile } from '@/api/profile';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const SurveyUser = () => {
       case 3:
         return petInfo.weight > 0;
       case 4:
-        return petInfo.species !== '';
+        return petInfo.species !== '' && petInfo.species !== null;
       case 5:
         return petInfo.gender === 'MALE' || petInfo.gender === 'FEMALE';
       case 6:

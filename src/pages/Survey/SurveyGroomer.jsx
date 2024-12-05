@@ -10,7 +10,7 @@ import Step5 from '@components/Survey/GroomerSteps/Step5';
 import Step6 from '@components/Survey/GroomerSteps/Step6';
 import Step7 from '@components/Survey/GroomerSteps/Step7';
 import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
-import { postAddGroomerProfile, postGroomerProfile } from '@/api/my';
+import { postAddGroomerProfile, postGroomerProfile } from '@/api/profile';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
