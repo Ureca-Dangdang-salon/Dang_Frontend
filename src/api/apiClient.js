@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { handleError } from './handelError';
+import { handleError } from './handleError';
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
