@@ -4,6 +4,7 @@ import { ProfileController } from './requestUrls';
 export const socialProfile = async () => {
   try {
     const { data } = await apiClient.get(ProfileController.socialProfile);
+    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
@@ -11,7 +12,7 @@ export const socialProfile = async () => {
   }
 };
 
-export const updateSocialProfile = async (image_key, email, district_id) => {
+export const updateSocialProfile = async (district_id) => {
   try {
     const { data } = await apiClient.put(ProfileController.socialProfile, {
       districtId: district_id,

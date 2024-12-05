@@ -19,6 +19,10 @@ const MyUserPage = () => {
     getUserProfile();
   }, []);
 
+  const noDogs = () => {
+    data.dogProfiles.length();
+  };
+
   const statButton = [
     { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
     {
@@ -44,6 +48,11 @@ const MyUserPage = () => {
             <ControlPointTwoToneIcon color="primary" />
           </IconButton>
         </Box>
+
+        {noDogs && (
+          <Typography textAlign="center">반려견을 등록해주세요.</Typography>
+        )}
+
         <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
           {data?.dogProfiles.map((dog) => {
             return (

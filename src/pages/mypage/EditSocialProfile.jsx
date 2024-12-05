@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import Button from '@components/Common/Button/Button';
 import InputText from '@components/Common/InputText/InputText';
@@ -8,31 +8,26 @@ import SubTitle from '@components/NewRequest/atoms/SubTitle';
 import toast, { Toaster } from 'react-hot-toast';
 import { socialProfile, updateSocialProfile } from '@/api/socialProfile';
 
-const validateEmail = (email) => {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-  return emailRegex.test(email);
-};
-
 const EditSocialProfile = () => {
   const [location, setLocation] = useState(null);
   const [districtId, setDistrictId] = useState(0);
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getSocialProfile = async () => {
       const res = await socialProfile();
       setData(res);
+      setLoading(false);
     };
     getSocialProfile();
   }, []);
 
   const handleSubmit = () => {
-    if (!validateEmail(data.email)) {
-      toast.error('유효한 이메일 주소를 입력해주세요.');
-      return;
-    }
-    updateSocialProfile(data.imageKey, data.email, districtId);
+    updateSocialProfile(districtId);
   };
+
+  if (loading) return <Typography>LOADING</Typography>;
 
   return (
     <Box>
@@ -40,7 +35,7 @@ const EditSocialProfile = () => {
       <DetailHeader label={'소셜 로그인 계정 수정'} />
       <Box p={4} color="text.main" textAlign="center">
         <img
-          src={data.imageKey}
+          src={data?.imageKey}
           width="150px"
           style={{
             borderRadius: '50%',
@@ -52,7 +47,7 @@ const EditSocialProfile = () => {
 
         <Box mt={3}>
           <SubTitle title="이메일 *" />
-          <InputText disabled value={data.email} />
+          <InputText disabled value={data?.email || ''} />
         </Box>
 
         <Box mt={3}>
