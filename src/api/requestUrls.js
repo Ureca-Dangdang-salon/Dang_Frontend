@@ -3,3 +3,8 @@ export const AuthController = {
   refresh: '/api/auth/refresh',
   checkLogin: '/api/auth/check/login',
 };
+
+export const ContestController = {
+  winnerRank: '/winner/rank',
+  winner: '/winner/last',
+};
