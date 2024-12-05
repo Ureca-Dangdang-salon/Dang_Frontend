@@ -40,7 +40,7 @@ const MyUserPage = () => {
           <Typography fontWeight={700} mr={1}>
             댕댕이들
           </Typography>
-          <IconButton onClick={() => navigate(paths.survey.user)}>
+          <IconButton onClick={() => navigate(paths.survey.dogProfile)}>
             <ControlPointTwoToneIcon color="primary" />
           </IconButton>
         </Box>

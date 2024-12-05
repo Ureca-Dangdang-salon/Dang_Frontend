@@ -5,6 +5,7 @@ const paths = {
     root: '/survey',
     groomer: '/survey/groomer',
     user: '/survey/user',
+    dogProfile: '/survey/newdog',
   },
   contest: '/contest',
   entry: '/contest/entry',
@@ -22,7 +23,7 @@ const paths = {
 
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
-  dogProfile: '/mypage/dogprofile',
+  newDogProfile: '/newdogprofile',
   editDogProfile: '/mypage/editDogProfile/:id',
   myCoupons: '/mypage/coupons',
   paymentHistory: '/mypage/paymenthistory',

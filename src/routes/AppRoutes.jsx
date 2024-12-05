@@ -33,6 +33,7 @@ import ContestResult from '@/pages/Contest/ContestResult';
 import MyRequestDetail from '@/pages/chat/MyRequestDetail';
 import NotFound from '@components/Layout/NotFound';
 import PrivateRoute from './PrivateRoute';
+import AddDogProfile from '@/pages/Survey/AddDogProfile';
 
 const AppRoutes = () => {
   return (
@@ -89,6 +90,7 @@ const AppContent = () => {
               element={<EditSalonProfile />}
             />
             <Route path={paths.editDogProfile} element={<DogProfile />} />
+            <Route path={paths.survey.dogProfile} element={<AddDogProfile />} />
             <Route path={paths.salonProfile} element={<SalonProfile />} />
             <Route path={paths.paymentHistory} element={<PaymentHistory />} />
             <Route path={paths.myCoupons} element={<MyCoupons />} />

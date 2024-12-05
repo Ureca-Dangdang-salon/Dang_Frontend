@@ -10,7 +10,7 @@ const Step6 = () => {
 
   return (
     <SurveySection title="반려견은 어떤 특징을 가졌나요?">
-      <Box display="flex" flexDirection="column" gap={3}>
+      <Box display="flex" flexDirection="column" gap={1}>
         {Object.entries(characteristics).map(([trait, checked]) => (
           <Box key={trait}>
             <RadioButton
