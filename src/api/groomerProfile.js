@@ -57,7 +57,6 @@ export const groomerPublicProfile = async (id) => {
   try {
     const url = `${ProfileController.groomerProfile}/${id}`;
     const { data } = await apiClient.get(url);
-    console.log(data);
     return data.response;
   } catch (e) {
     console.log(e);
@@ -84,7 +83,8 @@ export const updateGroomerProfile = async (newData) => {
       startMessage: newData.startMessage,
       faq: newData.faq,
     });
-    return data;
+    if (data.response === '미용사 프로필 수정이 완료되었습니다.') return true;
+    else return false;
   } catch (e) {
     console.log(e);
     return false;
@@ -95,7 +95,8 @@ export const deleteGroomerProfile = async (id) => {
   try {
     const url = `${ProfileController.groomerProfile}/${id}`;
     const { data } = await apiClient.delete(url);
-    return data.response;
+    if (data.response === '미용사 프로필 삭제가 완료되었습니다.') return true;
+    else return false;
   } catch (e) {
     console.log(e);
     return false;

@@ -66,7 +66,8 @@ export const deleteDogProfile = async (id) => {
   try {
     const url = `${ProfileController.dogProfile}/${id}`;
     const { data } = await apiClient.delete(url);
-    return data.response;
+    if (data.response === '반려견 프로필 삭제가 완료되었습니다.') return true;
+    else return false;
   } catch (e) {
     console.log(e);
     return false;
