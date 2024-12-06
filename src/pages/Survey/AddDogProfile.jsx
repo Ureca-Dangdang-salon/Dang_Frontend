@@ -15,7 +15,9 @@ import paths from '@/routes/paths';
 
 const AddDogProfile = () => {
   const navigate = useNavigate();
-  const { step, setStep, petInfo, characteristics } = useSurveyUserStore();
+  const defaultImgPath = '/images/default-dog-profile.png';
+  const { step, setStep, petInfo, setPetInfo, characteristics } =
+    useSurveyUserStore();
 
   const isStepValid = () => {
     switch (step) {
@@ -46,11 +48,15 @@ const AddDogProfile = () => {
   };
 
   const handleSaveProfile = async () => {
+    const imageData = petInfo.profileImage || defaultImgPath;
+    setPetInfo({ profileImage: imageData });
+
     const res = await postDogProfile(petInfo);
     return res;
   };
 
-  const handleGoBack = async () => {
+  const handleSubmit = async () => {
+    if (!isStepValid()) return '';
     if (await handleSaveProfile()) navigate(paths.mypage);
   };
 
@@ -98,7 +104,7 @@ const AddDogProfile = () => {
             <Button
               size="large"
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
-              onClick={handleGoBack}
+              onClick={handleSubmit}
               label="프로필 저장하기"
             />
           ) : (

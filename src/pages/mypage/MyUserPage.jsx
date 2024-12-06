@@ -77,8 +77,14 @@ const MyUserPage = () => {
                   primaryButton="삭제"
                   buttonColor="delete"
                   title="반려견을 삭제하시겠습니까?"
-                  action={() => {
-                    deleteDogProfile(dog.dogProfileId);
+                  action={async () => {
+                    await deleteDogProfile(dog.dogProfileId);
+                    setData((prevData) => ({
+                      ...prevData,
+                      dogProfiles: prevData.dogProfiles.filter(
+                        (e) => e.dogProfileId !== dog.dogProfileId
+                      ),
+                    }));
                   }}
                 />
               </Box>

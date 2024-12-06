@@ -14,10 +14,13 @@ import {
   postAddGroomerProfile,
   postGroomerProfile,
 } from '@/api/groomerProfile';
+import paths from '@/routes/paths';
 
 function AddSalonProfile() {
   const navigate = useNavigate();
-  const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
+  const defaultImgPath = '/images/default-groomer-profile.png';
+  const { groomerInfo, setGroomerInfo, businessInfo, step, setStep } =
+    useSurveyGroomerStore();
 
   const isStepValid = () => {
     switch (step) {
@@ -43,7 +46,7 @@ function AddSalonProfile() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate('/home');
+      if (await postAddGroomerProfile(businessInfo)) navigate(paths.mypage);
     } else setStep(step + 1);
   };
 
@@ -53,6 +56,9 @@ function AddSalonProfile() {
   };
 
   const handleSaveProfile = async () => {
+    const imageData = groomerInfo.profileImage || defaultImgPath;
+    setGroomerInfo({ profileImage: imageData });
+
     const res = await postGroomerProfile(groomerInfo);
     return res;
   };
@@ -92,7 +98,7 @@ function AddSalonProfile() {
                 backgroundColor={isStepValid() ? 'primary' : 'n3'}
                 onClick={async () => {
                   if (!isStepValid()) return '';
-                  if (await handleSaveProfile()) navigate('/home');
+                  if (await handleSaveProfile()) navigate(paths.mypage);
                 }}
                 label="프로필 저장하기"
               />
