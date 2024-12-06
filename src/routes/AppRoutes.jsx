@@ -46,7 +46,7 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const role = 'salon';
+  const role = 'salon'; //TODO: remove
 
   return (
     <Box
@@ -75,7 +75,7 @@ const AppContent = () => {
             <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
             <Route path={paths.myRequest} element={<MyRequest />} />
             <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
-            <Route path={paths.mypage} element={<Mypage role={role} />} />
+            <Route path={paths.mypage} element={<Mypage />} />
             <Route path={paths.newRequest} element={<NewRequest />} />
             <Route path={paths.newReview} element={<NewReview />} />
             <Route path={paths.estimate} element={<NewEstimate />} />
