@@ -17,3 +17,9 @@ export const ProfileController = {
 export const ImageController = {
   uploadImage: '/api/images',
 };
+
+export const ReviewController = {
+  getUserReview: '/api/review',
+  groomerReview: '/api/review/:profileId',
+  review: '/api/review/:reviewId',
+};
