@@ -3,9 +3,10 @@ import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
 import TextArea from '@components/Common/TextArea/TextArea';
-import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import ImageSelector from '@components/Features/ImageSelector';
+import { postReview } from '@/api/review';
+import { uploadImage } from '@/api/image';
 
 const NewReview = () => {
   const [data, setData] = useState({
@@ -49,24 +50,16 @@ const NewReview = () => {
     setData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
-    const userId = 2;
-    // const accessToken ='';
+  const handleSubmit = async () => {
+    const groomerId = 1; //TODO: 변수로 대체하기
 
-    axios
-      .post(`http://localhost:8080/api/reviews/${userId}`, data, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${accessToken}`,
-        },
+    data.imageKey = await Promise.all(
+      data.imageKey.map(async (image) => {
+        const res = await uploadImage(image.file);
+        return res;
       })
-      .then((response) => {
-        console.log('Review submitted successfully:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error submitting review:', error);
-      });
+    );
+    await postReview(data, groomerId);
   };
 
   return (
@@ -111,16 +104,17 @@ const NewReview = () => {
           <ImageSelector
             maxImages={MAX_IMAGES}
             images={data.imageKey}
-            onChange={(updatedImages) =>
-              setData((prev) => ({ ...prev, imageKey: updatedImages }))
-            }
+            onChange={(updatedImages) => {
+              handleChange('imageKey', updatedImages);
+            }}
           />
         </Box>
 
         <Box textAlign="center" mt={5}>
           <Button
             size="large"
-            backgroundColor="primary"
+            backgroundColor={data.starScore ? 'primary' : 'n3'}
+            disabled={!data.starScore}
             label="리뷰 작성하기"
             onClick={handleSubmit}
           />

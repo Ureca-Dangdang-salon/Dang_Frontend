@@ -19,7 +19,5 @@ export const ImageController = {
 };
 
 export const ReviewController = {
-  getUserReview: '/api/review',
-  groomerReview: '/api/review/:profileId',
-  review: '/api/review/:reviewId',
+  review: '/api/review',
 };

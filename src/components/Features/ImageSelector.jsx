@@ -31,7 +31,6 @@ const ImageSelector = ({ maxImages, images = [], onChange }) => {
         file,
         preview: URL.createObjectURL(file),
       }));
-
       onChange([...images, ...newImages]);
     }
   };
@@ -49,10 +48,10 @@ const ImageSelector = ({ maxImages, images = [], onChange }) => {
       />
       <Box display="flex" alignItems="start">
         {images.map((image, index) => (
-          <>
+          <Box display="flex" alignItems="start" key={index}>
             <img
               key={index}
-              src={image.preview}
+              src={image?.preview}
               alt={`Uploaded ${index + 1}`}
               style={{
                 width: '100px',
@@ -64,7 +63,7 @@ const ImageSelector = ({ maxImages, images = [], onChange }) => {
             <IconButton onClick={() => handleRemoveImage(index)}>
               <HighlightOffRoundedIcon color="delete" />
             </IconButton>
-          </>
+          </Box>
         ))}
 
         {images.length < maxImages && (
