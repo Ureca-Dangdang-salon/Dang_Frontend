@@ -11,10 +11,11 @@ import ProfileSelector from '@components/Features/ProfileSelector';
 import { useEffect } from 'react';
 import { dogProfile, updateDogProfile } from '@/api/dogProfile';
 import { characteristics } from '@/constants/features';
+import { useNavigate } from 'react-router-dom';
 
 const DogProfile = () => {
+  const navigate = useNavigate();
   const [id, setId] = useState(0);
-  const [profileImage, setProfileImage] = useState(null);
   const [data, setData] = useState({});
   const [features, setFeatures] = useState([]);
   const [additionalFeature, setAdditionalFeature] = useState('');
@@ -29,7 +30,6 @@ const DogProfile = () => {
       const res = await dogProfile(id);
       setData(res);
       setFeatures(res.features.map((item) => item.description));
-      setProfileImage(res.profileImage);
       setLoading(false);
     };
 
@@ -41,7 +41,7 @@ const DogProfile = () => {
   };
 
   const handleImageChange = (image) => {
-    setProfileImage(image);
+    handleChange('profileImage', image);
   };
 
   const handleSubmit = () => {
@@ -50,6 +50,7 @@ const DogProfile = () => {
       .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
 
     updateDogProfile(data, id, featureIds, additionalFeature);
+    navigate(-1);
   };
 
   if (loading) return <Typography>LOADING</Typography>;
@@ -61,7 +62,7 @@ const DogProfile = () => {
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>
           <ProfileSelector
             defaultImage="dog"
-            image={profileImage}
+            image={data?.profileImage}
             onChange={handleImageChange}
           />
         </Box>

@@ -19,10 +19,6 @@ const MyUserPage = () => {
     getUserProfile();
   }, []);
 
-  const noDogs = () => {
-    data.dogProfiles.length();
-  };
-
   const statButton = [
     { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
     {
@@ -49,7 +45,7 @@ const MyUserPage = () => {
           </IconButton>
         </Box>
 
-        {noDogs && (
+        {!data?.dogProfiles.length && (
           <Typography textAlign="center">반려견을 등록해주세요.</Typography>
         )}
 
@@ -69,7 +65,8 @@ const MyUserPage = () => {
                   <img
                     src={dog.profileImage}
                     width="100px"
-                    style={{ borderRadius: '50%' }}
+                    height="100px"
+                    style={{ borderRadius: '50%', objectFit: 'cover' }}
                   />
                   <Typography mt={1}>{dog.name}</Typography>
                 </Box>

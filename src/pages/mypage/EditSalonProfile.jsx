@@ -10,8 +10,10 @@ import CertificationsForm from '@components/Features/CertificationsForm';
 import ProfileSelector from '@components/Features/ProfileSelector';
 import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
+import { useNavigate } from 'react-router-dom';
 
 const EditSalonProfile = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [serviceAreas, setServiceAreas] = useState([]);
@@ -77,9 +79,8 @@ const EditSalonProfile = () => {
   };
 
   const handleSubmit = () => {
-    console.log(serviceAreas);
-    console.log('edit: ' + putData.servicesDistrictIds);
     updateGroomerProfile(putData);
+    navigate(-1);
   };
 
   return (

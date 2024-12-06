@@ -7,8 +7,11 @@ import SelectRegion from '@components/NewRequest/modules/SelectRegion';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
 import toast, { Toaster } from 'react-hot-toast';
 import { socialProfile, updateSocialProfile } from '@/api/socialProfile';
+import ProfileSelector from '@components/Features/ProfileSelector';
+import { useNavigate } from 'react-router-dom';
 
 const EditSocialProfile = () => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState(null);
   const [districtId, setDistrictId] = useState(0);
   const [data, setData] = useState(null);
@@ -23,8 +26,17 @@ const EditSocialProfile = () => {
     getSocialProfile();
   }, []);
 
+  const handleChange = (field, value) => {
+    setData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageChange = (image) => {
+    handleChange('imageKey', image);
+  };
+
   const handleSubmit = () => {
-    updateSocialProfile(districtId);
+    updateSocialProfile(data.imageKey, districtId);
+    navigate(-1);
   };
 
   if (loading) return <Typography>LOADING</Typography>;
@@ -34,16 +46,13 @@ const EditSocialProfile = () => {
       <Toaster />
       <DetailHeader label={'소셜 로그인 계정 수정'} />
       <Box p={4} color="text.main" textAlign="center">
-        <img
-          src={data?.imageKey}
-          width="150px"
-          style={{
-            borderRadius: '50%',
-            objectFit: 'cover',
-            border: '2px solid',
-            borderColor: '#9747FF',
-          }}
-        />
+        <Box textAlign="center" sx={{ cursor: 'pointer' }}>
+          <ProfileSelector
+            defaultImage="human"
+            image={data?.imageKey}
+            onChange={handleImageChange}
+          />
+        </Box>
 
         <Box mt={3}>
           <SubTitle title="이메일 *" />

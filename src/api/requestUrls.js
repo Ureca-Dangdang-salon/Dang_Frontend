@@ -13,3 +13,7 @@ export const ProfileController = {
   detailGroomerProfile: '/api/groomerprofile/detail',
   dogProfile: '/api/dogprofile',
 };
+
+export const ImageController = {
+  uploadImage: '/api/images',
+};

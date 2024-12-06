@@ -31,6 +31,15 @@ const Mypage = () => {
       }
     : {};
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.reload();
+    } catch (error) {
+      console.error('로그아웃에 실패했습니다:', error);
+    }
+  };
+
   return (
     <Box>
       <Header invisible={true} />
@@ -69,7 +78,7 @@ const Mypage = () => {
           <Button
             color="text.main"
             sx={{ borderRadius: '10px', minWidth: '40px' }}
-            onClick={() => logout()}
+            onClick={handleLogout}
           >
             로그아웃
           </Button>

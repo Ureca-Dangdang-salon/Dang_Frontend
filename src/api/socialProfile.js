@@ -4,6 +4,7 @@ import { ProfileController } from './requestUrls';
 export const socialProfile = async () => {
   try {
     const { data } = await apiClient.get(ProfileController.socialProfile);
+    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
