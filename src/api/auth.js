@@ -30,7 +30,7 @@ export const loginCheck = async () => {
   try {
     const { data } = await apiClient.get(AuthController.checkLogin);
     if (data.response === '로그인이 되어있지 않습니다.') return false;
-    return !!data.response?.login;
+    return data.response;
   } catch (e) {
     console.log(e);
     return false;
