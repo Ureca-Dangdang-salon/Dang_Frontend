@@ -37,8 +37,8 @@ const MySalonPage = () => {
   ];
 
   const defaultImgPath = '/images/default-groomer-profile.png';
-  const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
-  const imageStyle = data.imageKey
+  const imageSrc = data?.imageKey ? data.imageKey : defaultImgPath;
+  const imageStyle = data?.imageKey
     ? {
         borderRadius: '50%',
         objectFit: 'cover',
@@ -56,7 +56,7 @@ const MySalonPage = () => {
           <Typography fontWeight={700} mr={1}>
             미용사 프로필
             {!data && (
-              <IconButton onClick={() => navigate(paths.survey.groomer)}>
+              <IconButton onClick={() => navigate(paths.survey.groomerProfile)}>
                 <ControlPointTwoToneIcon color="primary" />
               </IconButton>
             )}
@@ -187,7 +187,7 @@ const MySalonPage = () => {
             <Box fontSize={14} mt={3} lineHeight={1.7}>
               <Box fontWeight={600}>자격증:</Box>
               <ul style={{ marginLeft: '20px' }}>
-                {detail?.certifications.map((item) => (
+                {detail?.certifications?.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
