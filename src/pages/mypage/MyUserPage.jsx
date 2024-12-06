@@ -6,10 +6,12 @@ import React, { useEffect, useState } from 'react';
 import { userProfile } from '@/api/userProfile';
 import paths from '@/routes/paths';
 import { deleteDogProfile } from '@/api/dogProfile';
+import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const MyUserPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
+  const { resetPetInfo } = useSurveyUserStore();
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -40,7 +42,12 @@ const MyUserPage = () => {
           <Typography fontWeight={700} mr={1}>
             댕댕이들
           </Typography>
-          <IconButton onClick={() => navigate(paths.survey.dogProfile)}>
+          <IconButton
+            onClick={() => {
+              resetPetInfo();
+              navigate(paths.survey.dogProfile);
+            }}
+          >
             <ControlPointTwoToneIcon color="primary" />
           </IconButton>
         </Box>

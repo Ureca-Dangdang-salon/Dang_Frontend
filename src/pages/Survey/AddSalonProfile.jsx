@@ -18,9 +18,7 @@ import paths from '@/routes/paths';
 
 function AddSalonProfile() {
   const navigate = useNavigate();
-  const defaultImgPath = '/images/default-groomer-profile.png';
-  const { groomerInfo, setGroomerInfo, businessInfo, step, setStep } =
-    useSurveyGroomerStore();
+  const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
 
   const isStepValid = () => {
     switch (step) {
@@ -46,7 +44,7 @@ function AddSalonProfile() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate(paths.mypage);
+      if (await postAddGroomerProfile(businessInfo)) navigate(paths.home);
     } else setStep(step + 1);
   };
 
@@ -56,9 +54,6 @@ function AddSalonProfile() {
   };
 
   const handleSaveProfile = async () => {
-    const imageData = groomerInfo.profileImage || defaultImgPath;
-    setGroomerInfo({ profileImage: imageData });
-
     const res = await postGroomerProfile(groomerInfo);
     return res;
   };

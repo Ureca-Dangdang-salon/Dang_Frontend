@@ -15,9 +15,7 @@ import paths from '@/routes/paths';
 
 const AddDogProfile = () => {
   const navigate = useNavigate();
-  const defaultImgPath = '/images/default-dog-profile.png';
-  const { step, setStep, petInfo, setPetInfo, characteristics } =
-    useSurveyUserStore();
+  const { step, setStep, petInfo, characteristics } = useSurveyUserStore();
 
   const isStepValid = () => {
     switch (step) {
@@ -48,9 +46,6 @@ const AddDogProfile = () => {
   };
 
   const handleSaveProfile = async () => {
-    const imageData = petInfo.profileImage || defaultImgPath;
-    setPetInfo({ profileImage: imageData });
-
     const res = await postDogProfile(petInfo);
     return res;
   };
