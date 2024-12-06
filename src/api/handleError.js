@@ -1,8 +1,14 @@
 import { apiClient } from './apiClient';
 import { tokenRefresh } from './auth';
+import { AuthController } from './requestUrls';
 
 export const handleError = async (error) => {
   const originalRequest = error.config;
+
+  if (originalRequest.url === AuthController.refresh) {
+    window.location.href = '/';
+    return Promise.reject(error);
+  }
 
   if (
     error.response &&
@@ -13,6 +19,7 @@ export const handleError = async (error) => {
     try {
       const res = await tokenRefresh();
       if (res) return apiClient(originalRequest);
+      else return Promise.reject(error);
     } catch (e) {
       window.location.href = '/';
       return Promise.reject(e);
