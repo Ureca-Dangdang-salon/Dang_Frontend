@@ -2,7 +2,6 @@ import { Container, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
 import Button from '@/components/Common/Button/Button';
-import { Modal } from '@/components/Common/Modal/Modal';
 import Step1 from '@/components/Survey/UserSteps/Step1';
 import Step2 from '@/components/Survey/UserSteps/Step2';
 import Step3 from '@/components/Survey/UserSteps/Step3';
@@ -12,11 +11,11 @@ import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 import { postDogProfile } from '@/api/dogProfile';
+import paths from '@/routes/paths';
 
-const SurveyUser = () => {
+const AddDogProfile = () => {
   const navigate = useNavigate();
-  const { step, setStep, resetPetInfo, petInfo, characteristics } =
-    useSurveyUserStore();
+  const { step, setStep, petInfo, characteristics } = useSurveyUserStore();
 
   const isStepValid = () => {
     switch (step) {
@@ -51,14 +50,9 @@ const SurveyUser = () => {
     return res;
   };
 
-  const handleAddAnotherPet = async () => {
-    if (await handleSaveProfile()) {
-      resetPetInfo();
-    }
-  };
-
-  const handleGoHome = async () => {
-    if (await handleSaveProfile()) navigate('/home');
+  const handleSubmit = async () => {
+    if (!isStepValid()) return '';
+    if (await handleSaveProfile()) navigate(paths.mypage);
   };
 
   const handleNextStep = () => {
@@ -68,13 +62,13 @@ const SurveyUser = () => {
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
-    else navigate('/survey');
+    else navigate(-1);
   };
 
   return (
     <>
       <SurveyHeader
-        label="회원가입"
+        label="반려견 등록"
         totalPage={7}
         currPage={step}
         backHandler={handleBack}
@@ -95,28 +89,18 @@ const SurveyUser = () => {
             bottom: 0,
             left: 0,
             right: 0,
-            pb: 5,
+            pb: 15,
             bgcolor: 'white',
             display: 'flex',
             justifyContent: 'center',
           }}
         >
           {step === 7 ? (
-            <Modal
-              openModalButton="프로필 저장하기"
-              buttonColor="primary"
-              variant="contained"
-              title="반려견 프로필이 저장되었습니다. 다른 반려견을 추가하시겠어요?"
-              secondaryButton="홈으로 가기"
-              primaryButton="추가하기"
-              action={handleAddAnotherPet}
-              onGoHome={handleGoHome}
-              buttonSx={{
-                width: '326px',
-                height: '60px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-              }}
+            <Button
+              size="large"
+              backgroundColor={isStepValid() ? 'primary' : 'n3'}
+              onClick={handleSubmit}
+              label="프로필 저장하기"
             />
           ) : (
             <Button
@@ -132,4 +116,4 @@ const SurveyUser = () => {
   );
 };
 
-export default SurveyUser;
+export default AddDogProfile;

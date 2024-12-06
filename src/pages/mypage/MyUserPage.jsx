@@ -1,41 +1,37 @@
-import { Typography, Box, Divider, IconButton, Button } from '@mui/material';
+import { Typography, Box, Divider, IconButton } from '@mui/material';
 import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from '@components/Common/Modal/Modal';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { userProfile } from '@/api/userProfile';
+import paths from '@/routes/paths';
+import { deleteDogProfile } from '@/api/dogProfile';
+import useSurveyUserStore from '@/store/useSurveyUserStore';
 
 const MyUserPage = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const { resetPetInfo } = useSurveyUserStore();
 
-  const userData = {
-    dogProfiles: [
-      {
-        dogProfileId: 1,
-        name: '구름이',
-        profileImage: 'imageUrl',
-      },
-      {
-        dogProfileId: 2,
-        name: '구름이2',
-        profileImage: 'imageUrl2',
-      },
-    ],
-    couponCount: 3,
-    reviewCount: 2,
-    paymentCount: 5,
-  };
+  useEffect(() => {
+    const getUserProfile = async () => {
+      const res = await userProfile();
+      setData(res);
+    };
+    getUserProfile();
+  }, []);
 
   const statButton = [
-    { label: '쿠폰함', route: '/mypage/coupons', value: userData.couponCount },
+    { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
     {
       label: '결제내역',
-      route: '/mypage/paymenthistory',
-      value: userData.paymentCount,
+      route: paths.paymentHistory,
+      value: data?.paymentCount,
     },
     {
       label: '나의 리뷰',
-      route: '/mypage/myreviews',
-      value: userData.reviewCount,
+      route: paths.myReviews,
+      value: data?.reviewCount,
     },
   ];
 
@@ -46,29 +42,57 @@ const MyUserPage = () => {
           <Typography fontWeight={700} mr={1}>
             댕댕이들
           </Typography>
-          <IconButton onClick={() => navigate('/mypage/dogprofile')}>
+          <IconButton
+            onClick={() => {
+              resetPetInfo();
+              navigate(paths.survey.dogProfile);
+            }}
+          >
             <ControlPointTwoToneIcon color="primary" />
           </IconButton>
         </Box>
+
+        {!data?.dogProfiles.length && (
+          <Typography textAlign="center">반려견을 등록해주세요.</Typography>
+        )}
+
         <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
-          {userData.dogProfiles.map((dog) => {
+          {data?.dogProfiles.map((dog) => {
             return (
               <Box key={dog.name} justifyItems="center">
                 <Box
                   justifyItems="center"
                   sx={{ cursor: 'pointer' }}
-                  onClick={() => navigate('/mypage/dogprofile')}
+                  onClick={() =>
+                    navigate(
+                      paths.editDogProfile.replace(':id', dog.dogProfileId)
+                    )
+                  }
                 >
-                  <img src="/images/default-dog-profile.png" width="100px" />
+                  <img
+                    src={dog.profileImage}
+                    width="100px"
+                    height="100px"
+                    style={{ borderRadius: '50%', objectFit: 'cover' }}
+                  />
                   <Typography mt={1}>{dog.name}</Typography>
                 </Box>
 
                 <Modal
-                  openLabel="삭제"
-                  leftLabel="취소"
-                  rightLabel="삭제"
+                  openModalButton="삭제"
+                  secondaryButton="취소"
+                  primaryButton="삭제"
                   buttonColor="delete"
                   title="반려견을 삭제하시겠습니까?"
+                  action={async () => {
+                    await deleteDogProfile(dog.dogProfileId);
+                    setData((prevData) => ({
+                      ...prevData,
+                      dogProfiles: prevData.dogProfiles.filter(
+                        (e) => e.dogProfileId !== dog.dogProfileId
+                      ),
+                    }));
+                  }}
                 />
               </Box>
             );

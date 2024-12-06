@@ -38,9 +38,9 @@ const MyRequestItem = ({ deadline }) => {
         ) : (
           <Modal
             buttonColor="delete"
-            openLabel="견적 그만 받기"
-            leftLabel="취소"
-            rightLabel="그만 받기"
+            openModalButton="견적 그만 받기"
+            secondaryButton="취소"
+            primaryButton="그만 받기"
             title="견적을 그만 받으시겠습니까?"
           />
         )}

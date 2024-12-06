@@ -8,7 +8,7 @@ const Step2 = () => {
 
   return (
     <SurveySection title="어떤 서비스를 제공하시나요?">
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {Object.entries(serviceList).map(([service, checked]) => (
           <RadioButton
             key={service}

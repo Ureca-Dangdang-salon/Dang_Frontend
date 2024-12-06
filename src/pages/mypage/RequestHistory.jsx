@@ -81,15 +81,12 @@ const RequestHistory = () => {
                       top: -110,
                       right: -10,
                     }}
-                    // onClick={(e) => {
-                    //   e.stopPropagation();
-                    // }}
                   >
                     <Modal
                       buttonColor="delete"
-                      openLabel="요청삭제"
-                      leftLabel="취소"
-                      rightLabel="삭제"
+                      openModalButton="요청삭제"
+                      secondaryButton="취소"
+                      primaryButton="삭제"
                       title="요청을 삭제하시겠습니까?"
                     />
                   </Box>

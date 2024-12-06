@@ -8,10 +8,12 @@ import { Selector2 } from '@components/NewRequest/atoms/Selector2';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
+import useRoleStore from '@/store/useRoleStore';
 
 function Survey() {
   const [location, setLocation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { role, setRole } = useRoleStore();
   const [id, setId] = useState(null);
   const navigate = useNavigate();
 
@@ -22,11 +24,13 @@ function Survey() {
 
   const handleHairstylistSignup = async () => {
     if (!location) return false;
+    setRole('ROLE_SALON');
     if (await join('ROLE_SALON', id)) navigate(paths.survey.groomer);
   };
 
   const handleUserSignup = async () => {
     if (!location) return false;
+    setRole('ROLE_USER');
     if (await join('ROLE_USER', id)) navigate(paths.survey.user);
   };
 
