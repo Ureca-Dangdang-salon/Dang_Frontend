@@ -17,3 +17,7 @@ export const ProfileController = {
 export const ImageController = {
   uploadImage: '/api/images',
 };
+
+export const ReviewController = {
+  review: '/api/review',
+};

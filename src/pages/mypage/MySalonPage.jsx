@@ -135,11 +135,14 @@ const MySalonPage = () => {
               </Box>
             </Box>
 
-            <ReviewStars
-              starScore={detail?.starScore}
-              reviewCount={detail?.reviewCount}
-              link="/mypage/myreviews"
-            />
+            <ReviewStars starScore={detail?.starScore} />
+            <Box textAlign="center">
+              <Button color="n3" sx={{ p: 0, borderRadius: '10px' }}>
+                <Typography fontWeight={700} fontSize={14} color="n2">
+                  (리뷰 {detail?.reviewCount}개)
+                </Typography>
+              </Button>
+            </Box>
 
             <Box
               display="flex"
@@ -154,7 +157,7 @@ const MySalonPage = () => {
                   cursor: 'pointer',
                   '&:hover': { color: 'secondary.main' },
                 }}
-                onClick={() => navigate('/mypage/requesthistory')}
+                onClick={() => navigate(paths.requestHistory)}
               >
                 <Box fontSize={14}>견적요청내역</Box>
                 <Typography
@@ -172,7 +175,11 @@ const MySalonPage = () => {
                   cursor: 'pointer',
                   '&:hover': { color: 'secondary.main' },
                 }}
-                onClick={() => navigate('/mypage/myreviews')}
+                onClick={() =>
+                  navigate(paths.myReviews, {
+                    state: { profileId: data?.profileId },
+                  })
+                }
               >
                 <Box fontSize={14}>리뷰</Box>
                 <Typography
