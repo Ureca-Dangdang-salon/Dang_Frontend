@@ -1,55 +1,49 @@
 import { useRef, useState } from 'react';
 import { Box, Button, DialogTitle, Dialog, DialogActions } from '@mui/material';
+import { uploadImage } from '@/api/image';
 
-const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
+const ProfileSelector = ({ defaultImage, image, onChange }) => {
+  const defaultImgPath =
+    defaultImage === 'human'
+      ? '/images/default-groomer-profile.png'
+      : '/images/default-dog-profile.png';
+
   const fileInputRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(image);
+  const [selectedImage, setSelectedImage] = useState(image ? image : null);
 
   const handleOpenFileInput = () => {
     if (fileInputRef.current) fileInputRef.current.click();
     setOpen(false);
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const preview = URL.createObjectURL(file);
-      setSelectedImage(preview);
-      onChange(preview);
+      const res = await uploadImage(file);
+      setSelectedImage(res);
+      onChange(res);
     }
     setOpen(false);
   };
 
-  const handleRemoveImage = () => {
-    setSelectedImage(null);
-    onChange(null);
-  };
-
-  const defaultImgPath =
-    defaultImage === 'human'
-      ? '/images/default-groomer-profile.png'
-      : '/images/default-dog-profile.png';
-
   return (
-    <Box>
-      <Box
-        textAlign="center"
-        sx={{ cursor: 'pointer' }}
-        onClick={() => setOpen(true)}
-      >
+    <Box width="150px" margin="auto">
+      <Box sx={{ cursor: 'pointer' }} onClick={() => setOpen(true)}>
         <img
           src={selectedImage ? selectedImage : defaultImgPath}
           width="150px"
           height="150px"
-          alt={selectedImage ? 'Selected Profile' : 'Default Profile'}
+          alt={selectedImage}
           style={
-            selectedImage && {
-              borderRadius: '50%',
-              objectFit: 'cover',
-              border: '2px solid',
-              borderColor: '#9747FF',
-            }
+            image
+              ? {
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid',
+                  borderColor: '#9747FF',
+                }
+              : { borderRadius: '50%' }
           }
         />
 
@@ -83,7 +77,8 @@ const ProfileSelector = ({ defaultImage, image = null, onChange }) => {
             <Button
               onClick={() => {
                 setOpen(false);
-                handleRemoveImage();
+                setSelectedImage(defaultImgPath);
+                onChange(defaultImgPath);
               }}
               color="n3"
               variant="contained"

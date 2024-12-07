@@ -33,6 +33,8 @@ import ContestResult from '@/pages/Contest/ContestResult';
 import MyRequestDetail from '@/pages/chat/MyRequestDetail';
 import NotFound from '@components/Layout/NotFound';
 import PrivateRoute from './PrivateRoute';
+import AddDogProfile from '@/pages/Survey/AddDogProfile';
+import AddSalonProfile from '@/pages/Survey/AddSalonProfile';
 
 const AppRoutes = () => {
   return (
@@ -44,7 +46,7 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const role = 'salon';
+  const role = 'salon'; //TODO: remove
 
   return (
     <Box
@@ -73,7 +75,7 @@ const AppContent = () => {
             <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
             <Route path={paths.myRequest} element={<MyRequest />} />
             <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
-            <Route path={paths.mypage} element={<Mypage role={role} />} />
+            <Route path={paths.mypage} element={<Mypage />} />
             <Route path={paths.newRequest} element={<NewRequest />} />
             <Route path={paths.newReview} element={<NewReview />} />
             <Route path={paths.estimate} element={<NewEstimate />} />
@@ -88,8 +90,13 @@ const AppContent = () => {
               path={paths.editSalonProfile}
               element={<EditSalonProfile />}
             />
-            <Route path={paths.dogProfile} element={<DogProfile />} />
+            <Route path={paths.editDogProfile} element={<DogProfile />} />
+            <Route path={paths.survey.dogProfile} element={<AddDogProfile />} />
             <Route path={paths.salonProfile} element={<SalonProfile />} />
+            <Route
+              path={paths.survey.groomerProfile}
+              element={<AddSalonProfile />}
+            />
             <Route path={paths.paymentHistory} element={<PaymentHistory />} />
             <Route path={paths.myCoupons} element={<MyCoupons />} />
             <Route path={paths.myReviews} element={<MyReviews role={role} />} />

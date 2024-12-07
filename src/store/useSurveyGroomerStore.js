@@ -1,6 +1,8 @@
 import { services, serviceTypes } from '@/constants/services';
 import { create } from 'zustand';
 
+const defaultImgPath = '/images/default-groomer-profile.png';
+
 const initialGroomerInfo = {
   name: '',
   servicesOfferedId: [],
@@ -11,7 +13,7 @@ const initialGroomerInfo = {
 };
 
 const initialBusniessInfo = {
-  imageKey: null,
+  imageKey: defaultImgPath,
   businessNumber: '',
   address: '',
   experience: '',

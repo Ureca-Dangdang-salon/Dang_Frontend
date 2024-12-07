@@ -14,8 +14,9 @@ import {
   postAddGroomerProfile,
   postGroomerProfile,
 } from '@/api/groomerProfile';
+import paths from '@/routes/paths';
 
-function SurveyGroomer() {
+function AddSalonProfile() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
 
@@ -43,13 +44,13 @@ function SurveyGroomer() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate('/home');
+      if (await postAddGroomerProfile(businessInfo)) navigate(paths.home);
     } else setStep(step + 1);
   };
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
-    else navigate('/survey');
+    else navigate(-1);
   };
 
   const handleSaveProfile = async () => {
@@ -60,7 +61,7 @@ function SurveyGroomer() {
   return (
     <>
       <SurveyHeader
-        label="회원가입"
+        label="미용사 프로필 등록"
         totalPage={7}
         currPage={step}
         backHandler={handleBack}
@@ -79,7 +80,7 @@ function SurveyGroomer() {
             bottom: 0,
             left: 0,
             right: 0,
-            pb: 5,
+            pb: 15,
             bgcolor: 'white',
             display: 'flex',
             justifyContent: 'center',
@@ -92,7 +93,7 @@ function SurveyGroomer() {
                 backgroundColor={isStepValid() ? 'primary' : 'n3'}
                 onClick={async () => {
                   if (!isStepValid()) return '';
-                  if (await handleSaveProfile()) navigate('/home');
+                  if (await handleSaveProfile()) navigate(paths.mypage);
                 }}
                 label="프로필 저장하기"
               />
@@ -120,4 +121,4 @@ function SurveyGroomer() {
   );
 }
 
-export default SurveyGroomer;
+export default AddSalonProfile;

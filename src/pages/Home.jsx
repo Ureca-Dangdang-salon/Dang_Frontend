@@ -9,6 +9,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Card from '@components/Common/Card';
 import axios from 'axios';
 import WinnerProfile from '@components/Contest/WinnerProfile';
+import paths from '@/routes/paths';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const Home = () => {
             label="우승 미용사 프로필"
             backgroundColor="primary"
             size="medium"
+            onClick={() => navigate(paths.salonProfile.replace(':id', 4))} //TODO: id 변수로 바꾸기
           />
         </Box>
 

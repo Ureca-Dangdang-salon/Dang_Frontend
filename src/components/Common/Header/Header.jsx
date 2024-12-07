@@ -32,5 +32,5 @@ export const Header = ({ invisible }) => (
 );
 
 Header.propTypes = {
-  invisible: PropTypes.bool.isRequired,
+  invisible: PropTypes.bool,
 };
