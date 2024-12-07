@@ -2,6 +2,7 @@ import { myReviews, receivedReviews } from '@/api/review';
 import useRoleStore from '@/store/useRoleStore';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import ReviewAccordion from '@components/Features/ReviewAccordion';
+import EmptyContent from '@components/Layout/EmptyContent';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -9,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 const MyReviews = () => {
   const { role } = useRoleStore();
   const location = useLocation();
-  const [profileId, setProfileId] = useState(location.state.profileId);
+  const [profileId, setProfileId] = useState(location.state?.profileId);
   const [allReviews, setAllReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,11 +36,19 @@ const MyReviews = () => {
         <DetailHeader label="나에게 남긴 리뷰들" />
       )}
 
-      <Box p={4} color="text.main" fontSize={14}>
-        {allReviews?.map((review) => (
-          <ReviewAccordion key={review.reviewId} review={review} role={role} />
-        ))}
-      </Box>
+      {!allReviews.length ? (
+        <EmptyContent title="리뷰가 없습니다" />
+      ) : (
+        <Box p={4} color="text.main" fontSize={14}>
+          {allReviews?.map((review) => (
+            <ReviewAccordion
+              key={review.reviewId}
+              review={review}
+              role={role}
+            />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };
