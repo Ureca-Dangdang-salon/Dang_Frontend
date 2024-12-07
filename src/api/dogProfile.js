@@ -15,18 +15,10 @@ export const dogProfile = async (id) => {
 
 export const postDogProfile = async (petInfo) => {
   try {
-    const { data } = await apiClient.post(ProfileController.dogProfile, {
-      name: petInfo.name,
-      profileImage: petInfo.profileImage,
-      species: petInfo.species,
-      ageYear: petInfo.ageYear,
-      ageMonth: petInfo.ageMonth,
-      gender: petInfo.gender,
-      neutering: petInfo.neutering,
-      weight: petInfo.weight,
-      featureIds: petInfo.featureIds,
-      additionalFeature: petInfo.additionalFeature,
-    });
+    const { data } = await apiClient.post(
+      ProfileController.dogProfile,
+      petInfo
+    );
     if (data.response === '반려견 프로필 등록이 완료되었습니다.') return true;
     else return false;
   } catch (e) {
