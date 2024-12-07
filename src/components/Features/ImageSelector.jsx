@@ -4,8 +4,9 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import toast from 'react-hot-toast';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import { uploadImage } from '@/api/image';
 
-const ImageSelector = ({ maxImages, images = [], onChange }) => {
+const ImageSelector = ({ maxImages, images, onChange }) => {
   const fileInputRef = useRef(null);
 
   const maxImagesReached = () =>
@@ -17,7 +18,7 @@ const ImageSelector = ({ maxImages, images = [], onChange }) => {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const files = event.target.files;
     if (files) {
       const fileArray = Array.from(files);
@@ -27,10 +28,13 @@ const ImageSelector = ({ maxImages, images = [], onChange }) => {
         return;
       }
 
-      const newImages = fileArray.map((file) => ({
-        file,
-        preview: URL.createObjectURL(file),
-      }));
+      const newImages = await Promise.all(
+        fileArray.map(async (file) => {
+          const res = await uploadImage(file);
+          return res;
+        })
+      );
+
       onChange([...images, ...newImages]);
     }
   };
@@ -51,8 +55,8 @@ const ImageSelector = ({ maxImages, images = [], onChange }) => {
           <Box display="flex" alignItems="start" key={index}>
             <img
               key={index}
-              src={image?.preview}
-              alt={`Uploaded ${index + 1}`}
+              src={image}
+              alt={image}
               style={{
                 width: '100px',
                 height: '100px',

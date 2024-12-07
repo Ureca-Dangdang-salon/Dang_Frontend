@@ -19,6 +19,7 @@ const paths = {
   notification: '/notification',
   newRequest: '/newrequest',
   newReview: '/newreview',
+  editReview: '/editreview/:id',
   estimate: '/estimate',
   editEstimate: '/estimate/edit',
 

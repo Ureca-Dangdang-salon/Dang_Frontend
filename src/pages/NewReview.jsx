@@ -6,7 +6,6 @@ import TextArea from '@components/Common/TextArea/TextArea';
 import { Toaster } from 'react-hot-toast';
 import ImageSelector from '@components/Features/ImageSelector';
 import { postReview } from '@/api/review';
-import { uploadImage } from '@/api/image';
 
 const NewReview = () => {
   const [data, setData] = useState({
@@ -16,7 +15,7 @@ const NewReview = () => {
   });
 
   const MAX_IMAGES = 3;
-  const totalStars = 5;
+  const TOTAL_STARS = 5;
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -27,7 +26,7 @@ const NewReview = () => {
 
   const renderStars = () => {
     const stars = [];
-    for (let i = 1; i <= totalStars; i++) {
+    for (let i = 1; i <= TOTAL_STARS; i++) {
       const isFilled = i <= (hoverRating || userRating);
       stars.push(
         <img
@@ -51,14 +50,7 @@ const NewReview = () => {
   };
 
   const handleSubmit = async () => {
-    const groomerId = 1; //TODO: 변수로 대체하기
-
-    data.imageKey = await Promise.all(
-      data.imageKey.map(async (image) => {
-        const res = await uploadImage(image.file);
-        return res;
-      })
-    );
+    const groomerId = 4; //TODO: 변수로 대체하기
     await postReview(data, groomerId);
   };
 

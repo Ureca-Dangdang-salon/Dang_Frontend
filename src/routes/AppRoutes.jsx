@@ -35,6 +35,7 @@ import NotFound from '@components/Layout/NotFound';
 import PrivateRoute from './PrivateRoute';
 import AddDogProfile from '@/pages/Survey/AddDogProfile';
 import AddSalonProfile from '@/pages/Survey/AddSalonProfile';
+import EditReview from '@/pages/mypage/EditReview';
 
 const AppRoutes = () => {
   return (
@@ -78,6 +79,7 @@ const AppContent = () => {
             <Route path={paths.mypage} element={<Mypage />} />
             <Route path={paths.newRequest} element={<NewRequest />} />
             <Route path={paths.newReview} element={<NewReview />} />
+            <Route path={paths.editReview} element={<EditReview />} />
             <Route path={paths.estimate} element={<NewEstimate />} />
             <Route path={paths.editEstimate} element={<EditEstimate />} />
             <Route path={paths.contestResult} element={<ContestResult />} />
@@ -99,7 +101,7 @@ const AppContent = () => {
             />
             <Route path={paths.paymentHistory} element={<PaymentHistory />} />
             <Route path={paths.myCoupons} element={<MyCoupons />} />
-            <Route path={paths.myReviews} element={<MyReviews role={role} />} />
+            <Route path={paths.myReviews} element={<MyReviews />} />
             <Route path={paths.requestHistory} element={<RequestHistory />} />
             <Route
               path={paths.requestHistoryDetail}
