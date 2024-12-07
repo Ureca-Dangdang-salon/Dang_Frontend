@@ -21,3 +21,8 @@ export const ImageController = {
 export const ReviewController = {
   review: '/api/review',
 };
+
+export const RequestController = {
+  dogProfiles: '/api/estimaterequest/dogprofiles',
+  postEstimate: '/api/estimaterequest',
+};

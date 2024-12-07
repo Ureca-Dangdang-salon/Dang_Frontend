@@ -1,43 +1,42 @@
-import { useState } from 'react';
 import { Box } from '@mui/material';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import SubTitle from '../atoms/SubTitle';
+import { services } from '@/constants/services';
+import useRequestStore from '@/store/useRequestStore';
 
 const SelectService = () => {
-  const [service, setService] = useState([]);
-  const services = [
-    '목욕',
-    '털 미용',
-    '전체 클리핑',
-    '부분 가위컷',
-    '발톱 정리',
-    '피부 미용 (머드팩)',
-    '양치',
-    '귀 세정',
-  ];
+  const { requestInfo, setRequestInfo, dogIndex } = useRequestStore();
+  const dogInfo = requestInfo.dogEstimateRequestList[dogIndex];
 
-  const handleServiceChange = (idx) => {
-    setService((prevService) => {
-      if (prevService.includes(idx)) {
-        return prevService.filter((item) => item !== idx);
-      } else {
-        return [...prevService, idx];
-      }
+  const handleServiceChange = (value, checked) => {
+    const updatedServicesOffered = checked
+      ? dogInfo.servicesOffered.filter((service) => service !== value)
+      : [...dogInfo.servicesOffered, value];
+
+    const updatedList = [...requestInfo.dogEstimateRequestList];
+    updatedList[dogIndex] = {
+      ...updatedList[dogIndex],
+      servicesOffered: updatedServicesOffered,
+    };
+
+    setRequestInfo({
+      dogEstimateRequestList: updatedList,
     });
   };
 
   return (
     <div>
       <SubTitle title="서비스 선택" />
-      <Box display={'flex'} flexDirection={'column'} gap={2}>
-        {services.map((e, idx) => {
+      <Box display={'flex'} flexDirection={'column'} gap={1}>
+        {Object.entries(services).map(([service], idx) => {
+          const checked = dogInfo.servicesOffered.includes(idx + 1);
           return (
             <RadioButton
-              key={idx}
+              key={service}
               size="large"
-              label={e}
-              onChange={() => handleServiceChange(idx + 1)}
-              selected={service.includes(idx + 1)}
+              label={service}
+              onChange={() => handleServiceChange(idx + 1, checked)}
+              selected={checked}
             />
           );
         })}

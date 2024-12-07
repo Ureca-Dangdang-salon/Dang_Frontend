@@ -2,9 +2,20 @@ import { Box } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import usePageStore from '@/store/usePageStore';
 import SelectService from '../modules/SelectService';
+import useRequestStore from '@/store/useRequestStore';
 
 const DogSecondStep = () => {
   const { setDogStep } = usePageStore();
+  const { requestInfo, dogIndex } = useRequestStore();
+  const dogInfo = requestInfo.dogEstimateRequestList[dogIndex];
+
+  const isValid = () => {
+    const { servicesOffered } = dogInfo;
+    if (servicesOffered.length === 0) {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <>
@@ -14,8 +25,10 @@ const DogSecondStep = () => {
       <Button
         label="완료"
         size="large"
-        backgroundColor=""
-        onClick={() => setDogStep(0)}
+        backgroundColor={isValid() ? 'primary' : 'n3'}
+        onClick={() => {
+          if (isValid()) setDogStep(0);
+        }}
       />
     </>
   );

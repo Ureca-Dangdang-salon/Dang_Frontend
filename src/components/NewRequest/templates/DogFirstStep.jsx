@@ -3,9 +3,26 @@ import Button from '@components/Common/Button/Button';
 import usePageStore from '@/store/usePageStore';
 import SelectDogImg from '../modules/SelectDogImg';
 import SelectSignificant from '../modules/SelectSignificant';
+import useRequestStore from '@/store/useRequestStore';
 
 const DogFirstStep = () => {
   const { setDogStep } = usePageStore();
+
+  const { requestInfo, dogIndex } = useRequestStore();
+  const dogInfo = requestInfo.dogEstimateRequestList[dogIndex];
+
+  const isValid = () => {
+    const { currentImageKey, styleRefImageKey, healthIssue, aggression } =
+      dogInfo;
+
+    if (!currentImageKey || !styleRefImageKey) {
+      return false;
+    }
+    if (typeof healthIssue !== 'boolean' || typeof aggression !== 'boolean') {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <>
@@ -16,8 +33,10 @@ const DogFirstStep = () => {
       <Button
         label="다음으로"
         size="large"
-        backgroundColor=""
-        onClick={() => setDogStep(2)}
+        backgroundColor={isValid() ? 'primary' : 'n3'}
+        onClick={() => {
+          if (isValid()) setDogStep(2);
+        }}
       />
     </>
   );
