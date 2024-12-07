@@ -4,13 +4,11 @@ export const AuthController = {
   checkLogin: '/api/auth/check/login',
 };
 
-<<<<<<< HEAD
-export const ContestController = {
-  winnerRank: '/winner/rank',
-  winner: '/winner/last',
-=======
 export const MyController = {
   dogProfile: '/api/dogprofile',
   groomerProfile: '/api/groomerprofile',
->>>>>>> develop
+};
+
+export const ContestController = {
+  rank: '/api/contest/winner-rank',
 };

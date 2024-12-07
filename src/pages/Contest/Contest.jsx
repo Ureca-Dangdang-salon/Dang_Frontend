@@ -7,6 +7,8 @@ import Feed from '@components/Contest/Feed';
 import { Modal } from '@/components/Common/Modal/Modal';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 
+// todo 콘테스트 구독 버튼 만들기 (어디에 만들어야......?)
+
 const Contest = () => {
   const navigate = useNavigate();
   const [participatedGroomers, setParticipatedGroomers] = useState([]);
