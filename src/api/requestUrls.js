@@ -28,7 +28,7 @@ export const NotificationController = {
   markRead: '/api/notification/read?uuid=',
   unreadCount: '/api/notification/unread-count',
   markAllRead: '/api/notification/read-all',
-  updateSetting: '/api/notification/update/{enabled}',
+  updateSetting: '/api/notification/update',
   subscribe: '/api/notification/subscribe',
   unsubscribe: '/api/notification/unsubscribe',
 };

@@ -1,5 +1,5 @@
 import { myReviews, receivedReviews } from '@/api/review';
-import useRoleStore from '@/store/useRoleStore';
+import useUserStore from '@/store/useUserStore';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import ReviewAccordion from '@components/Features/ReviewAccordion';
 import EmptyContent from '@components/Layout/EmptyContent';
@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const MyReviews = () => {
-  const { role } = useRoleStore();
+  const { role } = useUserStore();
   const location = useLocation();
   const [profileId, setProfileId] = useState(location.state?.profileId);
   const [allReviews, setAllReviews] = useState([]);

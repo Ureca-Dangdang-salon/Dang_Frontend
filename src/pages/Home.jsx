@@ -45,7 +45,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header invisible={true} />
+      <Header />
       <Box p={4} mb={3}>
         <Box textAlign="center">
           <Box textAlign="center" position="relative">
