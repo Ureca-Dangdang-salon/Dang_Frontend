@@ -23,6 +23,7 @@ export const ReviewController = {
 };
 
 export const RequestController = {
-  dogProfiles: '/api/estimaterequest/dogprofiles',
-  postEstimate: '/api/estimaterequest',
+  estimateRequest: '/api/estimaterequest',
+  estimate: '/api/estimate',
+  estimateDog: '/api/estimate/dogrequest',
 };
