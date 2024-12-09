@@ -112,14 +112,12 @@ const Notification = () => {
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Badge variant="dot" color="error">
-                    <Box display="flex" flexDirection="column">
-                      <Typography fontWeight={600}>
-                        {notification.title}
-                      </Typography>
-                      <Typography>{notification.body}</Typography>
-                    </Box>
-                  </Badge>
+                  <Box display="flex" flexDirection="column">
+                    <Typography fontWeight={600}>
+                      {notification.title}
+                    </Typography>
+                    <Typography>{notification.body}</Typography>
+                  </Box>
                   <ArrowForwardIosRoundedIcon color="n3" />
                 </Box>
               </Box>
