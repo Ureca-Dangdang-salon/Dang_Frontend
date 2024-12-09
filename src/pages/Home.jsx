@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@components/Common/Header/Header';
 import { Box, Typography, Button as MuiButton } from '@mui/material';
@@ -7,12 +7,15 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Card from '@components/Common/Card';
-import axios from 'axios';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
+import { getGroomerProfileMainPage } from '@/api/home';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [localGroomers, setLocalGroomers] = useState([]); // 우리 동네 추천 반려견 미용사
+  const [popularGroomers, setPopularGroomers] = useState([]); // 전국 인기 반려견 미용사
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -21,26 +24,14 @@ const Home = () => {
     slidesToScroll: 1,
   };
 
-  const groomers = [
-    { name: '동길이네', location: '서울 강남구' },
-    { name: '포미 미용실', location: '서울특별시 성동구' },
-    { name: '홍길동', location: '경기도 고양시 덕양구' },
-  ];
-  const API_URL =
-    import.meta.env.MODE === 'production' ? 'http://3.36.131.224/api' : '/api';
-
   useEffect(() => {
-    axios
-      .get(`${API_URL}/test`)
-      .then((response) => {
-        console.log('API Response:', response.data);
-      })
-      .catch((error) => {
-        console.error(
-          'Error fetching API:',
-          error.response ? error.response.data : error.message
-        );
-      });
+    // 실제 API 호출
+    getGroomerProfileMainPage().then((data) => {
+      if (data) {
+        setLocalGroomers(data.districtTopGroomers || []);
+        setPopularGroomers(data.nationalTopGroomers || []);
+      }
+    });
   }, []);
 
   return (
@@ -78,10 +69,10 @@ const Home = () => {
           우리 동네 추천 반려견 미용사
         </Typography>
         <Slider {...sliderSettings}>
-          {groomers.map((groomer, index) => (
+          {localGroomers.map((groomer, index) => (
             <Card
               title={groomer.name}
-              subtitle={groomer.location}
+              subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
             />
           ))}
@@ -119,10 +110,10 @@ const Home = () => {
           전국 인기 반려견 미용사
         </Typography>
         <Slider {...sliderSettings}>
-          {groomers.map((groomer, index) => (
+          {popularGroomers.map((groomer, index) => (
             <Card
               title={groomer.name}
-              subtitle={groomer.location}
+              subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
             />
           ))}
