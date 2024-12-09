@@ -35,16 +35,12 @@ const ProfileSelector = ({ defaultImage, image, onChange }) => {
           width="150px"
           height="150px"
           alt={selectedImage}
-          style={
-            image
-              ? {
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '2px solid',
-                  borderColor: '#9747FF',
-                }
-              : { borderRadius: '50%' }
-          }
+          style={{
+            borderRadius: '50%',
+            objectFit: 'cover',
+            border: '2px solid',
+            borderColor: '#FDD94E',
+          }}
         />
 
         <img

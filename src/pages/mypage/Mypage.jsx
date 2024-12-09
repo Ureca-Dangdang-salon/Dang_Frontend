@@ -22,14 +22,12 @@ const Mypage = () => {
   }, []);
 
   const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
-  const imageStyle = data.imageKey
-    ? {
-        borderRadius: '50%',
-        objectFit: 'cover',
-        border: '2px solid',
-        borderColor: '#9747FF',
-      }
-    : {};
+  const imageStyle = {
+    borderRadius: '50%',
+    objectFit: 'cover',
+    border: '2px solid',
+    borderColor: '#FDD94E',
+  };
 
   const handleLogout = async () => {
     try {
@@ -50,6 +48,7 @@ const Mypage = () => {
               src={imageSrc}
               alt="profile_img"
               width="60px"
+              height="60px"
               style={imageStyle}
             />
             <Box ml={2}>
