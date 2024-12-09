@@ -6,7 +6,7 @@ import SelectDog from '../modules/SelectDog';
 import Button from '@components/Common/Button/Button';
 import SubTitle from '../atoms/SubTitle';
 import useRequestStore from '@/store/useRequestStore';
-import { postEstimate } from '@/api/request';
+import { postRequest } from '@/api/request';
 import usePageStore from '@/store/usePageStore';
 
 const SecondStep = () => {
@@ -21,7 +21,6 @@ const SecondStep = () => {
   const { setNewRequestStep } = usePageStore();
 
   const isValid = () => {
-    console.log(requestInfo);
     // eslint-disable-next-line no-unused-vars
     const { groomerProfileId, dogEstimateRequestList, ...rest } = requestInfo;
 
@@ -82,7 +81,7 @@ const SecondStep = () => {
         backgroundColor={isValid() ? 'primary' : 'n3'}
         onClick={async () => {
           if (isValid()) {
-            if (await postEstimate(requestInfo)) {
+            if (await postRequest(requestInfo)) {
               resetRequestInfo();
               resetSelectDogs();
               setNewRequestStep(1);

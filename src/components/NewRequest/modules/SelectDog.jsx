@@ -5,6 +5,7 @@ import useRequestStore from '@/store/useRequestStore';
 import { useEffect, useState } from 'react';
 import { getDogProfiles } from '@/api/request';
 import usePageStore from '@/store/usePageStore';
+import { services } from '@/constants/services';
 
 const SelectDog = ({ title }) => {
   const { setDogStep } = usePageStore();
@@ -28,6 +29,13 @@ const SelectDog = ({ title }) => {
           const dogData = dogList.find(
             (dog) => dog.dogProfileId === e.dogProfileId
           );
+          const dogInfo = requestInfo.dogEstimateRequestList[idx];
+          const servicesArray = Object.keys(services);
+          const selectedServices = dogInfo.servicesOffered
+            .map((id) => servicesArray[id - 1])
+            .filter(Boolean)
+            .join(', ');
+
           return (
             <Box
               key={idx}
@@ -36,7 +44,15 @@ const SelectDog = ({ title }) => {
                 setDogStep(1);
               }}
             >
-              <SelectDogItem data={dogData} idx={idx} />
+              <SelectDogItem
+                data={dogData}
+                selectedServices={selectedServices}
+                description={
+                  (dogInfo.healthIssue && '질병 ') +
+                  (dogInfo.aggression && '공격성 ') +
+                  dogInfo.description
+                }
+              />
             </Box>
           );
         })}

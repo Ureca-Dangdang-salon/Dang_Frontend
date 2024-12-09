@@ -1,17 +1,7 @@
 import { Box, Card, Typography, Avatar } from '@mui/material';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import useRequestStore from '@/store/useRequestStore';
-import { services } from '@/constants/services';
 
-const SelectDogItem = ({ data, idx }) => {
-  const { requestInfo } = useRequestStore();
-  const dogInfo = requestInfo.dogEstimateRequestList[idx];
-  const servicesArray = Object.keys(services);
-  const selectedServices = dogInfo.servicesOffered
-    .map((id) => servicesArray[id - 1])
-    .filter(Boolean)
-    .join(', ');
-
+const SelectDogItem = ({ data, selectedServices, description, price }) => {
   return (
     <Card
       sx={{
@@ -50,27 +40,39 @@ const SelectDogItem = ({ data, idx }) => {
           />
           <Typography variant="body2">{data?.name}</Typography>
         </Box>
-
         <Box>
-          <Typography variant="body1">
-            서비스 선택 :{' '}
-            {selectedServices || (
-              <span style={{ color: '#B8B8B8' }}>서비스를 선택해주세요.</span>
-            )}
-          </Typography>
-          <Typography variant="body2">
-            특이사항:{' '}
-            {dogInfo.description || (
-              <span style={{ color: '#B8B8B8' }}>없음</span>
-            )}
-          </Typography>
+          <TextBox
+            title="서비스 선택"
+            contnet={selectedServices}
+            placeholder="서비스를 선택해주세요."
+          />
+          <TextBox title="특이사항" contnet={description} placeholder="없음" />
+          {price && (
+            <TextBox
+              title="금액"
+              contnet={price && price + ' 원'}
+              placeholder="견적서를 작성해주세요."
+            />
+          )}
         </Box>
       </Box>
-
       <Box>
         <ArrowForwardIosRoundedIcon sx={{ color: 'n2.main' }} />
       </Box>
     </Card>
+  );
+};
+
+const TextBox = ({ title, contnet, placeholder }) => {
+  return (
+    <Box fontSize="14px">
+      {title}:{' '}
+      {contnet || (
+        <Typography sx={{ color: 'n2.main', display: 'inline' }}>
+          {placeholder}
+        </Typography>
+      )}
+    </Box>
   );
 };
 
