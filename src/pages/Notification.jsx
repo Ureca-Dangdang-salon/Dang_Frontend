@@ -4,7 +4,12 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import { useNavigate } from 'react-router-dom';
 import EmptyContent from '@components/Layout/EmptyContent';
 import { useEffect, useState } from 'react';
-import { deleteAll, getNotification, updateSetting } from '@/api/notification';
+import {
+  deleteAll,
+  getNotification,
+  markAsRead,
+  updateSetting,
+} from '@/api/notification';
 import { Modal } from '@components/Common/Modal/Modal';
 import {
   handleEnableNotifications,
@@ -23,11 +28,26 @@ const Notification = () => {
       const res = await getNotification();
       setNotifications(res);
     };
+
     getList();
+
+    const handleIncomingNotification = (newNotification) => {
+      setNotifications((prev) => [newNotification, ...prev]);
+    };
+
+    notificationServiceInstance.listenForMessages(handleIncomingNotification);
+
+    return () => {
+      notificationServiceInstance.callbacks =
+        notificationServiceInstance.callbacks.filter(
+          (cb) => cb !== handleIncomingNotification
+        );
+    };
   }, []);
 
   const handleDeleteAll = async () => {
     await deleteAll();
+    setNotifications([]);
   };
 
   const handleNotificationChange = async () => {
@@ -72,7 +92,7 @@ const Notification = () => {
         </Box>
 
         {notifications.length ? (
-          <Box>
+          <Box mt={3}>
             {notifications.map((notification, index) => (
               <Box
                 key={index}
@@ -81,26 +101,32 @@ const Notification = () => {
                 borderRadius="10px"
                 boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
                 sx={{ '&:hover': { cursor: 'pointer' } }}
-                // onClick={() => navigate(paths.salonReviews)} //일단 리뷰만 먼저
+                onClick={async () => {
+                  if (await markAsRead(notification.id)) {
+                    navigate(paths.chat); //TODO: link to chatroom
+                  }
+                }}
               >
                 <Box
                   display="flex"
                   alignItems="center"
                   justifyContent="space-between"
                 >
-                  <Badge badgeContent={1} variant="dot" color="error">
-                    <Typography fontWeight={600}>
-                      {notification.title}
-                    </Typography>
+                  <Badge variant="dot" color="error">
+                    <Box display="flex" flexDirection="column">
+                      <Typography fontWeight={600}>
+                        {notification.title}
+                      </Typography>
+                      <Typography>{notification.body}</Typography>
+                    </Box>
                   </Badge>
                   <ArrowForwardIosRoundedIcon color="n3" />
                 </Box>
-                <Typography>{notification.body}</Typography>
               </Box>
             ))}
           </Box>
         ) : (
-          <EmptyContent title="알림이 없습니다." />
+          <EmptyContent title="새로 온 알림이 없습니다." />
         )}
       </Box>
     </Box>

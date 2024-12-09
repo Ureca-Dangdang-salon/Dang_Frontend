@@ -26,6 +26,7 @@ class NotificationService {
 
     this.app = initializeApp(firebaseConfig);
     this.messaging = getMessaging(this.app);
+    this.callbacks = []; // Store all callbacks for real-time updates
 
     NotificationService.instance = this;
   }
@@ -39,17 +40,24 @@ class NotificationService {
     throw new Error('Notification permission denied.');
   }
 
-  listenForMessages() {
-    onMessage(this.messaging, (payload) => {
-      if (payload.notification) {
-        const { title, body } = payload.notification;
-        new Notification(title || 'Default Title', {
-          body: body || 'Default Body',
-        });
-      } else {
-        console.warn('Received payload with no notification fields:', payload);
-      }
-    });
+  listenForMessages(callback) {
+    if (callback && typeof callback === 'function') {
+      this.callbacks.push(callback); // Add the callback to the list
+    }
+
+    if (!this.isListening) {
+      onMessage(this.messaging, (payload) => {
+        if (payload.notification) {
+          const { title, body } = payload.notification;
+          const notificationData = { title, body };
+
+          // Trigger all registered callbacks with the new notification
+          this.callbacks.forEach((cb) => cb(notificationData));
+        }
+      });
+
+      this.isListening = true; // Avoid duplicate listeners
+    }
   }
 
   registerServiceWorker() {
@@ -98,7 +106,7 @@ export const handleEnableNotifications = async () => {
   try {
     const token = await notificationServiceInstance.requestPermission();
     await postFcmToken(token);
-    notificationServiceInstance.listenForMessages();
+    console.log('FCM Token registered:', token);
   } catch (e) {
     console.error(e);
   }
