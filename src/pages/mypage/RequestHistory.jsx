@@ -1,39 +1,42 @@
+import { deleteEstimate } from '@/api/estimate';
+import { groomerProfile } from '@/api/groomerProfile';
+import { getRequest } from '@/api/request';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Modal } from '@components/Common/Modal/Modal';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RequestHistory = () => {
-  const dataArray = [
-    {
-      name: '강서진',
-      date: '2024-11-25',
-      region: '서울특별시 성동구',
-      serviceType: 'VISIT',
-      status: 'SEND',
-    },
-    {
-      name: '강서진',
-      date: '2024-12-25',
-      region: '서울특별시 성동구',
-      serviceType: 'ANY',
-      status: 'REJECTED',
-    },
-    {
-      name: '강서진',
-      date: '2024-12-25',
-      region: '서울특별시 성동구',
-      serviceType: 'ANY',
-      status: 'ACCEPTED',
-    },
-  ];
+  const [dataList, setListData] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getGroomerProfile = async () => {
+      const res = await groomerProfile();
+      const estimateList = await getRequest(res.profileId);
+      setListData(estimateList);
+    };
+    getGroomerProfile();
+  }, []);
 
   return (
     <Box>
       <DetailHeader label="견적요청내역" />
-      <Box p={4} color="text.main">
-        {dataArray.map((data, index) => {
+      <Box p={4} color="span.main">
+        {dataList?.map((data, index) => {
           return (
-            <Box key={index}>
+            <Box
+              key={index}
+              onClick={() =>
+                navigate('/mypage/requesthistorydetail', {
+                  state: {
+                    estimateData: data,
+                  },
+                })
+              }
+            >
               <Box
                 mb={4}
                 p={4}
@@ -47,39 +50,43 @@ const RequestHistory = () => {
               >
                 <Box display="flex" alignItems="center">
                   <img
-                    src="/images/default-groomer-profile.png"
+                    src={data.imageKey || '/images/default-groomer-profile.png'}
                     width="100px"
+                    style={{ borderRadius: '50%' }}
                   />
                   <Box ml={2} fontSize={14}>
                     <Typography fontWeight={700}>{data.name}</Typography>
                     <Box display="flex">
-                      <Box container spacing={0.5}>
-                        <text>희망날짜:</text> <br />
-                        <text>지역:</text> <br />
-                        <text>서비스 형태:</text>
+                      <Box spacing={0.5}>
+                        <span>희망날짜:</span> <br />
+                        <span>지역:</span> <br />
+                        <span>서비스 형태:</span>
                       </Box>
                       <Box ml={2}>
-                        <text>{data.date}</text> <br />
-                        <text>{data.region}</text> <br />
-                        <text>
+                        <span>{data.date}</span> <br />
+                        <span>{data.region}</span> <br />
+                        <span>
                           {data.serviceType == 'VISIT'
                             ? '방문'
                             : data.serviceType == 'SHOP'
                               ? '매장'
                               : '방문, 매장'}
-                        </text>
+                        </span>
                       </Box>
                     </Box>
                   </Box>
                 </Box>
 
-                {data.status == 'SEND' && (
+                {data.estimateStatus == 'SEND' && (
                   <Box
                     sx={{
                       position: 'relative',
                       float: 'right',
                       top: -110,
                       right: -10,
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
                     }}
                   >
                     <Modal
@@ -88,6 +95,7 @@ const RequestHistory = () => {
                       secondaryButton="취소"
                       primaryButton="삭제"
                       title="요청을 삭제하시겠습니까?"
+                      action={async () => await deleteEstimate(data.requestId)}
                     />
                   </Box>
                 )}

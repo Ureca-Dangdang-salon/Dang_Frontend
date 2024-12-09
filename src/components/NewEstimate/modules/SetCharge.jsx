@@ -1,57 +1,90 @@
-import { useState } from 'react';
 import { Box } from '@mui/material';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
 import ChargeInput from '../atoms/ChargeInput';
 import InputText from '@components/Common/InputText/InputText';
+import useEstimateStore from '@/store/useEstimateStore';
+import { useEffect } from 'react';
 
-const SetCharge = () => {
-  const [formValues, setFormValues] = useState({
-    bath: '',
-    groomingAmount: '',
-    disease: '',
-    aggression: '',
-    notes: '이가 나기 시작해서 이것저것 잘근잘근 씹을 수 있어요',
-  });
+const SetCharge = ({ dogDetailData }) => {
+  const { estimateInfo, setEstimateInfo, dogIndex, setServicePrice } =
+    useEstimateStore();
+  const dogPriceInfo = estimateInfo.dogPriceList[dogIndex];
 
-  const handleChange = (field) => (value) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const handleServicePrice = (value, idx) => {
+    const updatedList = [...estimateInfo.dogPriceList];
+    if (updatedList[dogIndex]?.serviceList) {
+      const updatedServiceList = [...updatedList[dogIndex].serviceList];
+
+      updatedServiceList[idx] = {
+        ...updatedServiceList[idx],
+        price: value,
+      };
+      updatedList[dogIndex] = {
+        ...updatedList[dogIndex],
+        serviceList: updatedServiceList,
+      };
+    }
+    setEstimateInfo({
+      dogPriceList: updatedList,
+    });
   };
+  const handleFeaturePrice = (field, value) => {
+    const updatedList = [...estimateInfo.dogPriceList];
+    updatedList[dogIndex] = {
+      ...updatedList[dogIndex],
+      [field]: value,
+    };
+    setEstimateInfo({
+      dogPriceList: updatedList,
+    });
+  };
+
+  useEffect(() => {
+    if (dogDetailData?.serviceList) {
+      dogDetailData.serviceList.forEach((e) => {
+        setServicePrice(e.serviceId, dogIndex);
+      });
+    }
+  }, [dogDetailData]);
 
   return (
     <Box display="flex" flexDirection="column" gap={4}>
       <Box display="flex" flexDirection="column" gap={2}>
         <SubTitle title="요청 서비스 금액 설정" />
-        <ChargeInput
-          label="목욕"
-          value={formValues.bath}
-          onChange={handleChange('bath')}
-        />
-        <ChargeInput
-          label="털 미용"
-          value={formValues.groomingAmount}
-          onChange={handleChange('groomingAmount')}
-        />
+        {dogDetailData?.serviceList.map((e, idx) => (
+          <ChargeInput
+            key={e.serviceId}
+            label={e.description}
+            value={dogPriceInfo?.serviceList[idx]?.price}
+            onChange={(value) => handleServicePrice(value, idx)}
+          />
+        ))}
       </Box>
       <Box display="flex" flexDirection="column" gap={2}>
-        <SubTitle title="특이사항" />
-        <ChargeInput
-          label="질병"
-          value={formValues.disease}
-          onChange={handleChange('disease')}
-        />
-        <ChargeInput
-          label="공격성"
-          value={formValues.aggression}
-          onChange={handleChange('aggression')}
-        />
-        <InputText
-          value={formValues.notes}
-          disabled={true}
-          onChange={() => {}}
-        />
+        {(dogDetailData?.healthIssue ||
+          dogDetailData?.aggression ||
+          dogDetailData?.description) && <SubTitle title="특이사항" />}
+        {dogDetailData?.healthIssue && (
+          <ChargeInput
+            label="질병"
+            value={dogPriceInfo?.healthIssueCharge}
+            onChange={(value) => handleFeaturePrice('healthIssueCharge', value)}
+          />
+        )}
+        {dogDetailData?.aggression && (
+          <ChargeInput
+            label="공격성"
+            value={dogPriceInfo?.aggressionCharge}
+            onChange={(value) => handleFeaturePrice('aggressionCharge', value)}
+          />
+        )}
+        {dogDetailData?.description && (
+          <InputText
+            value={dogDetailData.description}
+            disabled={true}
+            onChange={() => ''}
+          />
+        )}
       </Box>
     </Box>
   );

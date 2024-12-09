@@ -1,11 +1,10 @@
-import React from 'react';
 import { Box, Input, Typography } from '@mui/material';
 
 const ChargeInput = ({ label, placeholder, value, onChange }) => {
   const handleChange = (e) => {
     const input = e.target.value;
     const numericValue = input.replace(/[^0-9]/g, '');
-    onChange(numericValue);
+    onChange(parseInt(numericValue));
   };
 
   return (
