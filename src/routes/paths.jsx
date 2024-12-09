@@ -33,6 +33,7 @@ const paths = {
   requestHistoryDetail: '/mypage/requesthistorydetail',
 
   salonProfile: '/salonprofile/:id',
+  salonReviews: '/salonreviews',
   contestResult: '/contestresult',
 };
 

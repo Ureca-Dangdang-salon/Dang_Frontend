@@ -6,8 +6,12 @@ import EmptyContent from '@components/Layout/EmptyContent';
 import { useEffect, useState } from 'react';
 import { deleteAll, getNotification, updateSetting } from '@/api/notification';
 import { Modal } from '@components/Common/Modal/Modal';
-import { handleEnableNotifications } from '@/utils/NotificationService';
+import {
+  handleEnableNotifications,
+  notificationServiceInstance,
+} from '@/utils/NotificationService';
 import useUserStore from '@/store/useUserStore';
+import paths from '@/routes/paths';
 
 const Notification = () => {
   const navigate = useNavigate();
@@ -30,10 +34,13 @@ const Notification = () => {
     if (await updateSetting(!notificationEnabled))
       setNotificationEnabled(!notificationEnabled);
 
-    // if (notificationEnabled) {
-    //   handleEnableNotifications();
-    // } else {
-    // }
+    if (!notificationEnabled) {
+      await notificationServiceInstance.registerServiceWorker();
+      await handleEnableNotifications();
+    } else {
+      await notificationServiceInstance.unsubscribeFromNotifications();
+      await notificationServiceInstance.unregisterServiceWorker();
+    }
   };
 
   return (
@@ -74,7 +81,7 @@ const Notification = () => {
                 borderRadius="10px"
                 boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
                 sx={{ '&:hover': { cursor: 'pointer' } }}
-                onClick={() => navigate('/')}
+                // onClick={() => navigate(paths.salonReviews)} //일단 리뷰만 먼저
               >
                 <Box
                   display="flex"

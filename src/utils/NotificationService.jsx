@@ -22,14 +22,12 @@ const vapidKey =
 
 class NotificationService {
   constructor() {
-    if (NotificationService.instance) {
-      return NotificationService.instance; // Return the existing instance
-    }
+    if (NotificationService.instance) return NotificationService.instance;
 
-    this.app = initializeApp(firebaseConfig); // Initialize Firebase
-    this.messaging = getMessaging(this.app); // Get Messaging instance
+    this.app = initializeApp(firebaseConfig);
+    this.messaging = getMessaging(this.app);
 
-    NotificationService.instance = this; // Cache the instance
+    NotificationService.instance = this;
   }
 
   async requestPermission() {
@@ -94,14 +92,14 @@ class NotificationService {
   }
 }
 
-const notificationServiceInstance = new NotificationService();
+export const notificationServiceInstance = new NotificationService();
 
 export const handleEnableNotifications = async () => {
   try {
     const token = await notificationServiceInstance.requestPermission();
     await postFcmToken(token);
-    console.log('Notifications enabled.');
+    notificationServiceInstance.listenForMessages();
   } catch (e) {
-    console.error('Failed to enable notifications:', e);
+    console.error(e);
   }
 };
