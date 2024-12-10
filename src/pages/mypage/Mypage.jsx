@@ -3,32 +3,59 @@ import { Typography, Box, Button } from '@mui/material';
 import MyUserPage from './MyUserPage';
 import MySalonPage from './MySalonPage';
 import { Modal } from '@components/Common/Modal/Modal';
+import { socialProfile } from '@/api/socialProfile';
+import { useEffect, useState } from 'react';
+import useUserStore from '@/store/useUserStore';
+import { logout, deleteAccount } from '@/api/auth';
 
-const Mypage = (props) => {
-  const userData = {
-    role: 'USER',
-    name: '이민수',
-    email: 'dsdas@gmail.com',
-    profileImage: 'imageUrl',
-    city: '서울특별시',
-    district: '성동구',
+const Mypage = () => {
+  const defaultImgPath = '/images/default-groomer-profile.png';
+  const [data, setData] = useState({});
+  const { role } = useUserStore();
+
+  useEffect(() => {
+    const getSocialProfile = async () => {
+      const res = await socialProfile();
+      setData(res);
+    };
+    getSocialProfile();
+  }, []);
+
+  const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
+  const imageStyle = data.imageKey
+    ? {
+        borderRadius: '50%',
+        objectFit: 'cover',
+        border: '2px solid',
+        borderColor: '#9747FF',
+      }
+    : {};
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.reload();
+    } catch (error) {
+      console.error('로그아웃에 실패했습니다:', error);
+    }
   };
 
   return (
     <Box>
-      <Header invisible={true} />
+      <Header />
       <Box p={4} color="text.main">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">
             <img
-              src="/images/default-groomer-profile.png"
+              src={imageSrc}
               alt="profile_img"
               width="60px"
+              style={imageStyle}
             />
             <Box ml={2}>
-              <Typography fontWeight={700}>{userData.name}</Typography>
+              <Typography fontWeight={700}>{data?.name}</Typography>
               <Typography>
-                {userData.city} {userData.district} | {userData.email}
+                {data?.city} {data?.district} | {data?.email}
               </Typography>
             </Box>
           </Box>
@@ -41,8 +68,8 @@ const Mypage = (props) => {
           </Button>
         </Box>
 
-        {props.role === 'user' ? (
-          <MyUserPage dogProfiles={userData.dogProfiles} />
+        {role == 'ROLE_USER' ? (
+          <MyUserPage dogProfiles={data?.dogProfiles} />
         ) : (
           <MySalonPage />
         )}
@@ -51,16 +78,18 @@ const Mypage = (props) => {
           <Button
             color="text.main"
             sx={{ borderRadius: '10px', minWidth: '40px' }}
+            onClick={handleLogout}
           >
             로그아웃
           </Button>
           <br />
           <Modal
             buttonColor="text"
-            openLabel="회원탈퇴"
-            leftLabel="취소"
-            rightLabel="탈퇴"
+            openModalButton="회원탈퇴"
+            secondaryButton="취소"
+            primaryButton="탈퇴"
             title="정말 계정을 지우시겠습니까? 이 과정은 돌이킬 수 없습니다."
+            action={() => deleteAccount()}
           />
         </Box>
       </Box>

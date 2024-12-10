@@ -10,7 +10,12 @@ import Step5 from '@components/Survey/GroomerSteps/Step5';
 import Step6 from '@components/Survey/GroomerSteps/Step6';
 import Step7 from '@components/Survey/GroomerSteps/Step7';
 import useSurveyGroomerStore from '@/store/useSurveyGroomerStore';
-import { postAddGroomerProfile, postGroomerProfile } from '@/api/profile';
+import {
+  postAddGroomerProfile,
+  postGroomerProfile,
+} from '@/api/groomerProfile';
+import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/utils/NotificationService';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
@@ -40,13 +45,16 @@ function SurveyGroomer() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate('/home');
+      if (await postAddGroomerProfile(businessInfo)) {
+        handleEnableNotifications();
+        navigate(paths.home);
+      }
     } else setStep(step + 1);
   };
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
-    else navigate('/survey');
+    else navigate(paths.survey);
   };
 
   const handleSaveProfile = async () => {

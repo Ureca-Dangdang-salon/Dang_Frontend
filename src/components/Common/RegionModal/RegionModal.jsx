@@ -16,7 +16,7 @@ import { koreaRegions } from './KoreaRegions';
 export const RegionModal = ({ setLocation, open, setOpen }) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [regionId, setRegionId] = useState(-1);
+  const [regionId, setRegionId] = useState(0);
 
   const handleClose = () => {
     setOpen(false);

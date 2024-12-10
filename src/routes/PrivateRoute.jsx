@@ -1,23 +1,44 @@
-import { loginCheck } from '@/api/auth';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { loginCheck } from '@/api/auth';
+import useUserStore from '@/store/useUserStore';
+import {
+  handleEnableNotifications,
+  notificationServiceInstance,
+} from '@/utils/NotificationService';
+import paths from './paths';
+import { Typography } from '@mui/material';
 
 const PrivateRoute = () => {
-  const [isLogin, setIsLogin] = useState(null);
+  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled } =
+    useUserStore();
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const checkLogin = async () => {
-      const res = await loginCheck();
-      setIsLogin(res);
-    };
-    checkLogin();
-  }, []);
+    if (!loggedIn) {
+      const checkLogin = async () => {
+        try {
+          const res = await loginCheck();
+          setLoggedIn(res.login);
+          setRole(res.role);
+          setNotificationEnabled(res.notificationEnabled);
+          setLoading(false);
 
-  if (isLogin === null) {
-    return <div>Loading</div>;
-  }
+          if (res.notificationEnabled) {
+            notificationServiceInstance.registerServiceWorker();
+            handleEnableNotifications();
+          }
+        } catch (error) {
+          console.error('로그인 체크에 실패했습니다:', error);
+          setLoggedIn(false);
+        }
+      };
+      checkLogin();
+    }
+  }, [loggedIn, setLoggedIn]);
 
-  return isLogin ? <Outlet /> : <Navigate to="/" />;
+  if (loading) return <Typography>Loading</Typography>;
+  return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;
 };
 
 export default PrivateRoute;

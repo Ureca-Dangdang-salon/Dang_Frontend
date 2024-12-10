@@ -1,6 +1,7 @@
 import { Box, Typography, IconButton } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Feed = ({
   imageUrl,
@@ -8,18 +9,38 @@ const Feed = ({
   nickname,
   explanation,
   isLiked,
-  onClick,
+  onClick, deleteButton,
+    onLikeToggle,
 }) => {
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        border: '1px solid',
-        borderColor: 'n4.main',
-        borderRadius: '10px',
-      }}
-      onClick={onClick}
-    >
+    return (
+        <Box
+            sx={{
+                width: '100%',
+                border: '1px solid',
+                borderColor: 'n4.main',
+                borderRadius: '10px',
+                position: 'relative',
+            }}
+            onClick={onClick}
+        >
+            {/* 삭제 버튼 */}
+            {deleteButton && (
+                <IconButton
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        backgroundColor: 'white',
+                        '&:hover': { backgroundColor: 'delete.main', color: 'white' },
+                    }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        deleteButton();
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
+            )}
       {/* 상단 사용자 정보 */}
       <Box display="flex" alignItems="center" mb={2} ml={2} mt={2}>
         <img
@@ -68,6 +89,7 @@ const Feed = ({
           onClick={(e) => {
             e.stopPropagation();
             // 좋아요 토글 로직
+              onLikeToggle();
           }}
         >
           {isLiked ? (

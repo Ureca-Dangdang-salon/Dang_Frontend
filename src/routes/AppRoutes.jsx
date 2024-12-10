@@ -33,6 +33,10 @@ import ContestResult from '@/pages/Contest/ContestResult';
 import MyRequestDetail from '@/pages/chat/MyRequestDetail';
 import NotFound from '@components/Layout/NotFound';
 import PrivateRoute from './PrivateRoute';
+import AddDogProfile from '@/pages/Survey/AddDogProfile';
+import AddSalonProfile from '@/pages/Survey/AddSalonProfile';
+import EditReview from '@/pages/mypage/EditReview';
+import SalonReviews from '@/pages/SalonReviews';
 
 const AppRoutes = () => {
   return (
@@ -44,7 +48,7 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const role = 'salon';
+  const role = 'salon'; //TODO: remove
 
   return (
     <Box
@@ -59,9 +63,9 @@ const AppContent = () => {
       <Box paddingBottom="80px" height="100%">
         <Routes>
           <Route path={paths.login} element={<Login />} />
+          <Route path={paths.survey.root} element={<Survey />} />
           <Route element={<PrivateRoute />}>
             <Route path="*" element={<NotFound />} />
-            <Route path={paths.survey.root} element={<Survey />} />
             <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
             <Route path={paths.survey.user} element={<SurveyUser />} />
             <Route path={paths.home} element={<Home />} />
@@ -73,9 +77,10 @@ const AppContent = () => {
             <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
             <Route path={paths.myRequest} element={<MyRequest />} />
             <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
-            <Route path={paths.mypage} element={<Mypage role={role} />} />
+            <Route path={paths.mypage} element={<Mypage />} />
             <Route path={paths.newRequest} element={<NewRequest />} />
             <Route path={paths.newReview} element={<NewReview />} />
+            <Route path={paths.editReview} element={<EditReview />} />
             <Route path={paths.estimate} element={<NewEstimate />} />
             <Route path={paths.editEstimate} element={<EditEstimate />} />
             <Route path={paths.contestResult} element={<ContestResult />} />
@@ -88,11 +93,17 @@ const AppContent = () => {
               path={paths.editSalonProfile}
               element={<EditSalonProfile />}
             />
-            <Route path={paths.dogProfile} element={<DogProfile />} />
+            <Route path={paths.editDogProfile} element={<DogProfile />} />
+            <Route path={paths.survey.dogProfile} element={<AddDogProfile />} />
             <Route path={paths.salonProfile} element={<SalonProfile />} />
+            <Route path={paths.salonReviews} element={<SalonReviews />} />
+            <Route
+              path={paths.survey.groomerProfile}
+              element={<AddSalonProfile />}
+            />
             <Route path={paths.paymentHistory} element={<PaymentHistory />} />
             <Route path={paths.myCoupons} element={<MyCoupons />} />
-            <Route path={paths.myReviews} element={<MyReviews role={role} />} />
+            <Route path={paths.myReviews} element={<MyReviews />} />
             <Route path={paths.requestHistory} element={<RequestHistory />} />
             <Route
               path={paths.requestHistoryDetail}

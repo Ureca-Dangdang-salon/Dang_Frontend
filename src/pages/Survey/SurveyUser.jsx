@@ -11,7 +11,9 @@ import Step5 from '@/components/Survey/UserSteps/Step5';
 import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
-import { postDogProfile } from '@/api/profile';
+import { postDogProfile } from '@/api/dogProfile';
+import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/utils/NotificationService';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
@@ -57,8 +59,11 @@ const SurveyUser = () => {
     }
   };
 
-  const handleGoHome = async () => {
-    if (await handleSaveProfile()) navigate('/home');
+  const completeProfile = async () => {
+    if (await handleSaveProfile()) {
+      handleEnableNotifications();
+      navigate(paths.home);
+    }
   };
 
   const handleNextStep = () => {
@@ -68,7 +73,7 @@ const SurveyUser = () => {
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
-    else navigate('/survey');
+    else navigate(paths.survey);
   };
 
   return (
@@ -103,14 +108,14 @@ const SurveyUser = () => {
         >
           {step === 7 ? (
             <Modal
-              openLabel="프로필 저장하기"
+              openModalButton="프로필 저장하기"
               buttonColor="primary"
               variant="contained"
               title="반려견 프로필이 저장되었습니다. 다른 반려견을 추가하시겠어요?"
-              leftLabel="홈으로 가기"
-              rightLabel="추가하기"
+              secondaryButton="홈으로 가기"
+              primaryButton="추가하기"
               action={handleAddAnotherPet}
-              onGoHome={handleGoHome}
+              onGoHome={completeProfile}
               buttonSx={{
                 width: '326px',
                 height: '60px',

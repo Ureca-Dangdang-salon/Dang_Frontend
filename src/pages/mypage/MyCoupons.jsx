@@ -69,11 +69,11 @@ const MyCoupons = () => {
         </Box>
 
         <Modal
-          openLabel="삭제"
+          openModalButton="삭제"
           buttonColor="delete"
           title="삭제하시겠습니까?"
-          leftLabel="취소"
-          rightLabel="삭제"
+          secondaryButton="취소"
+          primaryButton="삭제"
         />
       </Box>
     </Box>

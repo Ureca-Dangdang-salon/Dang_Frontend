@@ -1,6 +1,7 @@
 import { characteristics } from '@/constants/features';
 import { create } from 'zustand';
 
+const defaultImgPath = '/images/default-dog-profile.png';
 const initialPetInfo = {
   name: '',
   ageYear: 0,
@@ -11,7 +12,7 @@ const initialPetInfo = {
   weight: 0,
   featureIds: [],
   additionalFeature: '',
-  profileImage: null,
+  profileImage: defaultImgPath,
 };
 
 const useSurveyUserStore = create((set) => ({

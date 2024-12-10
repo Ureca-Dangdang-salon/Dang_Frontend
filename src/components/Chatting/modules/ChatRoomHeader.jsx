@@ -48,9 +48,9 @@ const ChatRoomHeader = ({ userName }) => {
         </Box>
         <Modal
           buttonColor="delete"
-          openLabel="채팅방 나가기"
-          leftLabel="취소"
-          rightLabel="나가기"
+          openModalButton="채팅방 나가기"
+          secondaryButton="취소"
+          primaryButton="나가기"
           title="채팅방을 나가시겠습니까?"
         />
       </Box>

@@ -5,6 +5,8 @@ const paths = {
     root: '/survey',
     groomer: '/survey/groomer',
     user: '/survey/user',
+    dogProfile: '/survey/newdog',
+    groomerProfile: '/survey/newgroomer',
   },
   contest: '/contest',
   entry: '/contest/entry',
@@ -17,19 +19,21 @@ const paths = {
   notification: '/notification',
   newRequest: '/newrequest',
   newReview: '/newreview',
+  editReview: '/editreview/:id',
   estimate: '/estimate',
   editEstimate: '/estimate/edit',
 
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',
-  dogProfile: '/mypage/dogprofile',
+  editDogProfile: '/mypage/editDogProfile/:id',
   myCoupons: '/mypage/coupons',
   paymentHistory: '/mypage/paymenthistory',
   myReviews: '/mypage/myreviews',
   requestHistory: '/mypage/requesthistory',
   requestHistoryDetail: '/mypage/requesthistorydetail',
 
-  salonProfile: '/salonprofile',
+  salonProfile: '/salonprofile/:id',
+  salonReviews: '/salonreviews',
   contestResult: '/contestresult',
 };
 
