@@ -41,7 +41,7 @@ const MySalonPage = () => {
   const imageStyle = {
     borderRadius: '50%',
     objectFit: 'cover',
-    border: '2px solid',
+    border: '5px solid',
     borderColor: '#FDD94E',
   };
 

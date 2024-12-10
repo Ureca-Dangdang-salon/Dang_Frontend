@@ -12,9 +12,9 @@ import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
 import { useNavigate } from 'react-router-dom';
 import {
-  validatePhoneNumber,
-  stringEmpty,
-  listEmpty,
+  validPhoneNum,
+  stringNotEmpty,
+  listNotEmpty,
 } from '@/utils/toastUtils';
 
 const EditSalonProfile = () => {
@@ -71,11 +71,11 @@ const EditSalonProfile = () => {
 
   const isValid = () => {
     return (
-      stringEmpty(putData.name.trim(), '서비스 이름') &&
-      validatePhoneNumber(putData.phone) &&
-      stringEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
-      listEmpty(putData.servicesDistrictIds) &&
-      stringEmpty(putData.serviceType, '서비스 형태')
+      stringNotEmpty(putData.name.trim(), '서비스 이름') &&
+      validPhoneNum(putData.phone) &&
+      stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
+      listNotEmpty(putData.servicesDistrictIds) &&
+      stringNotEmpty(putData.serviceType, '서비스 형태')
     );
   };
 

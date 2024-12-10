@@ -12,6 +12,13 @@ import { useEffect } from 'react';
 import { dogProfile, updateDogProfile } from '@/api/dogProfile';
 import { characteristics } from '@/constants/features';
 import { useNavigate } from 'react-router-dom';
+import paths from '@/routes/paths';
+import {
+  isNotNull,
+  isNotZero,
+  stringNotEmpty,
+  validDogAge,
+} from '@/utils/toastUtils';
 
 const DogProfile = () => {
   const navigate = useNavigate();
@@ -30,6 +37,9 @@ const DogProfile = () => {
       const res = await dogProfile(id);
       setData(res);
       setFeatures(res.features.map((item) => item.description));
+      setAdditionalFeature(
+        features.find((item) => !(item in characteristics)) || ''
+      );
       setLoading(false);
     };
 
@@ -45,27 +55,30 @@ const DogProfile = () => {
   };
 
   const isValid = () => {
-    return (
-      (data.name.trim() !== '' &&
-        (data.ageYear > 0 || data.ageMonth > 0) &&
-        data.weight > 0 &&
-        data.species !== '' &&
-        data.species !== null &&
-        ['MALE', 'FEMALE'].includes(data.gender) &&
-        ['Y', 'N'].includes(data.neutering) &&
-        petInfo.featureIds.length !== 0) ||
+    const featuresValid =
+      features.length !== 0 ||
       characteristics.없음 === true ||
-      petInfo.additionalFeature.trim() !== ''
+      additionalFeature.trim() !== '';
+
+    return (
+      stringNotEmpty(data.name.trim(), '반려견 이름') &&
+      validDogAge(data.ageYear, data.ageMonth) &&
+      isNotZero(data.weight, '반려견의 몸무게') &&
+      stringNotEmpty(data.species, '견종') &&
+      isNotNull(data.species) &&
+      featuresValid
     );
   };
 
-  const handleSubmit = () => {
-    const featureIds = features
-      .filter((feat) => feat !== '기타' && feat !== '없음')
-      .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
+  const handleSubmit = async () => {
+    if (isValid()) {
+      const featureIds = features
+        .filter((feat) => feat !== '기타' && feat !== '없음')
+        .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
 
-    updateDogProfile(data, id, featureIds, additionalFeature);
-    navigate(-1);
+      await updateDogProfile(data, id, featureIds, additionalFeature);
+      navigate(paths.mypage);
+    }
   };
 
   if (loading) return <Typography>LOADING</Typography>;
@@ -167,38 +180,46 @@ const DogProfile = () => {
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           특징 *
         </Typography>
-        {Object.entries(characteristics).map(([trait, checked]) => (
-          <Box key={trait}>
-            <RadioButton
-              size="large"
-              label={trait}
-              selected={features.includes(trait)}
-              onChange={() => {
-                setFeatures((prevFeatures) => {
-                  if (trait === '없음') return ['없음'];
-                  if (trait === '기타') setAdditionalFeature('');
-                  if (prevFeatures.includes(trait))
-                    return prevFeatures.filter((item) => item !== trait);
+        {Object.entries(characteristics).map(([trait, checked]) => {
+          return (
+            <Box key={trait}>
+              <RadioButton
+                size="large"
+                label={trait}
+                selected={
+                  trait === '기타'
+                    ? additionalFeature.trim() != ''
+                    : features.includes(trait)
+                }
+                onChange={() => {
+                  setFeatures((prevFeatures) => {
+                    if (trait === '없음') return ['없음'];
+                    // if (trait === '기타') {
+                    //   if (!features.includes('기타')) setAdditionalFeature('');
+                    // }
+                    if (prevFeatures.includes(trait))
+                      return prevFeatures.filter((item) => item !== trait);
 
-                  return [
-                    ...prevFeatures.filter((item) => item !== '없음'),
-                    trait,
-                  ];
-                });
-              }}
-            />
-            {trait === '기타' && features.includes(trait) && (
-              <Box sx={{ mt: 2, mb: 2 }}>
-                <InputText
-                  size="large"
-                  placeholder="기타 특징을 적어주세요. (최대30자)"
-                  value={additionalFeature}
-                  onChange={(e) => setAdditionalFeature(e.target.value)}
-                />
-              </Box>
-            )}
-          </Box>
-        ))}
+                    return [
+                      ...prevFeatures.filter((item) => item !== '없음'),
+                      trait,
+                    ];
+                  });
+                }}
+              />
+              {trait === '기타' && additionalFeature && (
+                <Box sx={{ mt: 2, mb: 2 }}>
+                  <InputText
+                    size="large"
+                    placeholder="기타 특징을 적어주세요. (최대30자)"
+                    value={additionalFeature}
+                    onChange={(e) => setAdditionalFeature(e.target.value)}
+                  />
+                </Box>
+              )}
+            </Box>
+          );
+        })}
 
         <Box textAlign="center" mt={3}>
           <Button
