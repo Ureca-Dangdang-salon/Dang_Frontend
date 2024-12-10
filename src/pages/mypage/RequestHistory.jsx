@@ -33,6 +33,7 @@ const RequestHistory = () => {
                 navigate('/mypage/requesthistorydetail', {
                   state: {
                     estimateData: data,
+                    estimateStatus: data.estimateStatus,
                   },
                 })
               }
@@ -43,10 +44,13 @@ const RequestHistory = () => {
                 borderRadius="10px"
                 boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
                 sx={
-                  data.status == 'REJECTED'
+                  data.estimateStatus == 'REJECTED'
                     ? { backgroundColor: 'n4.main', filter: 'blur(2px)' }
                     : { '&:hover': { cursor: 'pointer' } }
                 }
+                onClick={(e) => {
+                  data.estimateStatus == 'REJECTED' && e.stopPropagation();
+                }}
               >
                 <Box display="flex" alignItems="center">
                   <img
@@ -76,8 +80,7 @@ const RequestHistory = () => {
                     </Box>
                   </Box>
                 </Box>
-
-                {data.estimateStatus == 'SEND' && (
+                {data.estimateStatus == null && (
                   <Box
                     sx={{
                       position: 'relative',
@@ -99,8 +102,7 @@ const RequestHistory = () => {
                     />
                   </Box>
                 )}
-
-                {data.status == 'ACCEPTED' && (
+                {data.estimateStatus == 'SEND' && (
                   <Box
                     color="secondary.main"
                     fontSize={14}
