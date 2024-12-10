@@ -5,6 +5,7 @@ export const dogProfile = async (id) => {
   try {
     const url = `${ProfileController.dogProfile}/${id}`;
     const { data } = await apiClient.get(url);
+    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);

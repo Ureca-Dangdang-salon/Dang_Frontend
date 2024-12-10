@@ -44,6 +44,21 @@ const DogProfile = () => {
     handleChange('profileImage', image);
   };
 
+  const isValid = () => {
+    return (
+      (data.name.trim() !== '' &&
+        (data.ageYear > 0 || data.ageMonth > 0) &&
+        data.weight > 0 &&
+        data.species !== '' &&
+        data.species !== null &&
+        ['MALE', 'FEMALE'].includes(data.gender) &&
+        ['Y', 'N'].includes(data.neutering) &&
+        petInfo.featureIds.length !== 0) ||
+      characteristics.없음 === true ||
+      petInfo.additionalFeature.trim() !== ''
+    );
+  };
+
   const handleSubmit = () => {
     const featureIds = features
       .filter((feat) => feat !== '기타' && feat !== '없음')
@@ -68,7 +83,7 @@ const DogProfile = () => {
         </Box>
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
-          이름
+          이름 *
         </Typography>
         <Box width="100%" display="flex" flexDirection="column">
           <InputText
@@ -78,7 +93,7 @@ const DogProfile = () => {
         </Box>
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          나이
+          나이 *
         </Typography>
         <NumberPicker
           onChange={(value) => handleChange('ageYear', value)}
@@ -95,7 +110,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          견종
+          견종 *
         </Typography>
         <Selector
           label="견종을 선택해주세요"
@@ -106,7 +121,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          성별
+          성별 *
         </Typography>
         <RadioButton
           label="남아"
@@ -123,7 +138,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          중성화 여부
+          중성화 여부 *
         </Typography>
         <RadioButton
           label="했어요"
@@ -150,7 +165,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          특징
+          특징 *
         </Typography>
         {Object.entries(characteristics).map(([trait, checked]) => (
           <Box key={trait}>

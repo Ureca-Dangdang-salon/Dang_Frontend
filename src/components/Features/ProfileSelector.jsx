@@ -38,7 +38,7 @@ const ProfileSelector = ({ defaultImage, image, onChange }) => {
           style={{
             borderRadius: '50%',
             objectFit: 'cover',
-            border: '2px solid',
+            border: '5px solid',
             borderColor: '#FDD94E',
           }}
         />
