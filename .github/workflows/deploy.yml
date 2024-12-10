@@ -25,11 +25,18 @@ jobs:
           npm install
           npm run build
 
-      # 3. 빌드 파일을 EC2 서버로 전송
+      # 3. SSH 키 파일 생성
+      - name: Create SSH Key File
+        run: |
+          echo "$KEY" > /tmp/deploy_key.pem
+          chmod 600 /tmp/deploy_key.pem
+        env:
+          KEY: ${{ secrets.FRONTEND_EC2_KEY }}
+
+      # 4. 빌드 파일을 EC2 서버로 전송
       - name: Upload build files to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./build/* $USER@$HOST:/usr/share/nginx/html
         env:
           HOST: ${{ secrets.FRONTEND_EC2_HOST }}
           USER: ${{ secrets.FRONTEND_EC2_USER }}
-          KEY: ${{ secrets.FRONTEND_EC2_KEY }}
-        run: |
-          scp -o StrictHostKeyChecking=no -i $KEY -r ./build/* $USER@$HOST:/usr/share/nginx/html
