@@ -27,6 +27,7 @@ const DogProfile = () => {
   const [features, setFeatures] = useState([]);
   const [additionalFeature, setAdditionalFeature] = useState('');
   const [loading, setLoading] = useState(true);
+  const [openInput, setOpenInput] = useState(false);
 
   useEffect(() => {
     const currentPath = window.location.pathname;
@@ -35,11 +36,19 @@ const DogProfile = () => {
 
     const getDogProfile = async () => {
       const res = await dogProfile(id);
+      const featList = res.features.map((item) => item.description);
       setData(res);
-      setFeatures(res.features.map((item) => item.description));
-      setAdditionalFeature(
-        features.find((item) => !(item in characteristics)) || ''
-      );
+      setFeatures(featList);
+
+      const addFeat = featList.find((item) => !(item in characteristics));
+      if (addFeat != '') {
+        setFeatures([...features, '기타']);
+        setAdditionalFeature(addFeat);
+      }
+      // if (featList.find((item) => !(item in characteristics)))
+      // setAdditionalFeature(
+      //   featList.find((item) => !(item in characteristics)) || ''
+      // );
       setLoading(false);
     };
 
@@ -52,6 +61,28 @@ const DogProfile = () => {
 
   const handleImageChange = (image) => {
     handleChange('profileImage', image);
+  };
+
+  const handleFeatureChange = (trait) => {
+    setFeatures((prevFeatures) => {
+      if (trait === '없음') {
+        setOpenInput(false);
+        return ['없음'];
+      } else {
+        if (prevFeatures.includes(trait)) {
+          if (trait === '기타') {
+            setAdditionalFeature('');
+            setOpenInput(false);
+          }
+          return prevFeatures.filter((item) => item !== trait);
+        } else {
+          if (trait === '기타') {
+            setOpenInput(true);
+          }
+          return [...prevFeatures.filter((item) => item !== '없음'), trait];
+        }
+      }
+    });
   };
 
   const isValid = () => {
@@ -186,28 +217,10 @@ const DogProfile = () => {
               <RadioButton
                 size="large"
                 label={trait}
-                selected={
-                  trait === '기타'
-                    ? additionalFeature.trim() != ''
-                    : features.includes(trait)
-                }
-                onChange={() => {
-                  setFeatures((prevFeatures) => {
-                    if (trait === '없음') return ['없음'];
-                    // if (trait === '기타') {
-                    //   if (!features.includes('기타')) setAdditionalFeature('');
-                    // }
-                    if (prevFeatures.includes(trait))
-                      return prevFeatures.filter((item) => item !== trait);
-
-                    return [
-                      ...prevFeatures.filter((item) => item !== '없음'),
-                      trait,
-                    ];
-                  });
-                }}
+                selected={features.includes(trait)}
+                onChange={() => handleFeatureChange(trait)}
               />
-              {trait === '기타' && additionalFeature && (
+              {trait === '기타' && openInput && (
                 <Box sx={{ mt: 2, mb: 2 }}>
                   <InputText
                     size="large"
