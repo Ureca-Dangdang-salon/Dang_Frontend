@@ -25,9 +25,8 @@ const DogProfile = () => {
   const [id, setId] = useState(0);
   const [data, setData] = useState({});
   const [features, setFeatures] = useState([]);
-  const [additionalFeature, setAdditionalFeature] = useState('');
+  const [additionalFeature, setAdditionalFeature] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [openInput, setOpenInput] = useState(false);
 
   useEffect(() => {
     const currentPath = window.location.pathname;
@@ -37,18 +36,15 @@ const DogProfile = () => {
     const getDogProfile = async () => {
       const res = await dogProfile(id);
       const featList = res.features.map((item) => item.description);
+      const addFeat = featList.find((item) => !(item in characteristics));
+
+      if (addFeat != '') {
+        setAdditionalFeature(addFeat);
+        setFeatures([...features.filter((item) => item !== addFeat), '기타']);
+      }
+
       setData(res);
       setFeatures(featList);
-
-      const addFeat = featList.find((item) => !(item in characteristics));
-      if (addFeat != '') {
-        setFeatures([...features, '기타']);
-        setAdditionalFeature(addFeat);
-      }
-      // if (featList.find((item) => !(item in characteristics)))
-      // setAdditionalFeature(
-      //   featList.find((item) => !(item in characteristics)) || ''
-      // );
       setLoading(false);
     };
 
@@ -66,18 +62,18 @@ const DogProfile = () => {
   const handleFeatureChange = (trait) => {
     setFeatures((prevFeatures) => {
       if (trait === '없음') {
-        setOpenInput(false);
+        setAdditionalFeature(null);
         return ['없음'];
       } else {
+        console.log(prevFeatures);
         if (prevFeatures.includes(trait)) {
           if (trait === '기타') {
-            setAdditionalFeature('');
-            setOpenInput(false);
+            setAdditionalFeature(null);
           }
           return prevFeatures.filter((item) => item !== trait);
         } else {
           if (trait === '기타') {
-            setOpenInput(true);
+            setAdditionalFeature('');
           }
           return [...prevFeatures.filter((item) => item !== '없음'), trait];
         }
@@ -211,28 +207,26 @@ const DogProfile = () => {
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
           특징 *
         </Typography>
-        {Object.entries(characteristics).map(([trait, checked]) => {
-          return (
-            <Box key={trait}>
-              <RadioButton
-                size="large"
-                label={trait}
-                selected={features.includes(trait)}
-                onChange={() => handleFeatureChange(trait)}
-              />
-              {trait === '기타' && openInput && (
-                <Box sx={{ mt: 2, mb: 2 }}>
-                  <InputText
-                    size="large"
-                    placeholder="기타 특징을 적어주세요. (최대30자)"
-                    value={additionalFeature}
-                    onChange={(e) => setAdditionalFeature(e.target.value)}
-                  />
-                </Box>
-              )}
-            </Box>
-          );
-        })}
+        {Object.entries(characteristics).map(([trait, checked]) => (
+          <Box key={trait}>
+            <RadioButton
+              size="large"
+              label={trait}
+              selected={features.includes(trait)}
+              onChange={() => handleFeatureChange(trait)}
+            />
+            {trait === '기타' && features.includes(trait) && (
+              <Box sx={{ mt: 2, mb: 2 }}>
+                <InputText
+                  size="large"
+                  placeholder="기타 특징을 적어주세요. (최대30자)"
+                  value={additionalFeature}
+                  onChange={(e) => setAdditionalFeature(e.target.value)}
+                />
+              </Box>
+            )}
+          </Box>
+        ))}
 
         <Box textAlign="center" mt={3}>
           <Button
