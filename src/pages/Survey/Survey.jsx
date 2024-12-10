@@ -68,12 +68,14 @@ function Survey() {
         >
           <Button
             size="large"
+            disabled={location ? false : true}
             backgroundColor={location ? 'primary' : 'n3'}
             onClick={handleHairstylistSignup}
             label="미용사로 가입하기"
           />
           <Button
             size="large"
+            disabled={location ? false : true}
             backgroundColor={location ? 'secondary' : 'n3'}
             onClick={handleUserSignup}
             label="사용자로 가입하기"
