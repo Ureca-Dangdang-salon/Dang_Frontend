@@ -21,13 +21,10 @@ jobs:
           node-version: 16
 
       - name: Install dependencies and build
-        env:
-          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-          VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
-          VITE_TOSS_CLIENT_KEY: ${{ secrets.VITE_TOSS_CLIENT_KEY }}
         run: |
           npm install
           npm run build
+          ls -al ./build
 
       # 3. SSH 키 파일 생성
       - name: Create SSH Key File
