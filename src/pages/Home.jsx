@@ -9,7 +9,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Card from '@components/Common/Card';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
-import { getGroomerProfileMainPage, GetContestWinner } from '@/api/home';
+import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Home = () => {
       }
     });
 
-    GetContestWinner().then((data) => {
+    getContestWinner().then((data) => {
       if (data) {
         setWinner({
           name: data.post.dogName,

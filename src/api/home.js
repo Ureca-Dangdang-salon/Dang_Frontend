@@ -11,7 +11,7 @@ export const getGroomerProfileMainPage = async () => {
   }
 };
 
-export const GetContestWinner = async () => {
+export const getContestWinner = async () => {
   try {
     const { data } = await apiClient.get(HomeController.winnerProfile);
     return data.response || false;
