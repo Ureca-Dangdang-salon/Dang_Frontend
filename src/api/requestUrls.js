@@ -19,9 +19,10 @@ export const ImageController = {
 };
 
 export const ContestController = {
-  rank: '/api/contest/winner/rank',
+  rank: '/api/contests/winner/rank',
 };
 
 export const HomeController = {
   homegroomerProfile: '/api/groomerprofile/main',
+  winnerProfile: '/api/contests/winner/last',
 };

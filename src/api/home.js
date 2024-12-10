@@ -10,3 +10,13 @@ export const getGroomerProfileMainPage = async () => {
     return false;
   }
 };
+
+export const GetContestWinner = async () => {
+  try {
+    const { data } = await apiClient.get(HomeController.winnerProfile);
+    return data.response || false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};

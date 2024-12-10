@@ -9,12 +9,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import Card from '@components/Common/Card';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
-import { getGroomerProfileMainPage } from '@/api/home';
+import { getGroomerProfileMainPage, GetContestWinner } from '@/api/home';
 
 const Home = () => {
   const navigate = useNavigate();
   const [localGroomers, setLocalGroomers] = useState([]); // 우리 동네 추천 반려견 미용사
   const [popularGroomers, setPopularGroomers] = useState([]); // 전국 인기 반려견 미용사
+  const [winner, setWinner] = useState({
+    name: '',
+    profileImage: '',
+  });
 
   const sliderSettings = {
     dots: true,
@@ -25,11 +29,19 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // 실제 API 호출
     getGroomerProfileMainPage().then((data) => {
       if (data) {
         setLocalGroomers(data.districtTopGroomers || []);
         setPopularGroomers(data.nationalTopGroomers || []);
+      }
+    });
+
+    GetContestWinner().then((data) => {
+      if (data) {
+        setWinner({
+          name: data.post.dogName,
+          profileImage: data.post.imageUrl || 'images/default-dog-profile.png',
+        });
       }
     });
   }, []);
@@ -43,7 +55,11 @@ const Home = () => {
             <Typography fontWeight={900} fontSize={20} mb={0.5}>
               11월 콘테스트 우승자
             </Typography>
-            <WinnerProfile name="뭉치" votes={110} />
+            <WinnerProfile
+              name={winner.name}
+              profileImage={winner.profileImage}
+              showVotes={false}
+            />
           </Box>
           <MuiButton
             fontSize={14}
