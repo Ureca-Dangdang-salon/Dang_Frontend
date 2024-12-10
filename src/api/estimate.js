@@ -41,7 +41,7 @@ export const postEstimate = async (estimateInfo) => {
 export const deleteEstimate = async (requestId) => {
   try {
     const { data } = await apiClient.delete(
-      RequestController.estimate + `/${requestId}`
+      RequestController.estimateRequest + `/${requestId}`
     );
     if (data.response === '견적 요청 삭제에 성공하였습니다.') return true;
     else return false;
