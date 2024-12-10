@@ -25,22 +25,6 @@ const Home = () => {
     { name: '포미 미용실', location: '서울특별시 성동구' },
     { name: '홍길동', location: '경기도 고양시 덕양구' },
   ];
-  const API_URL =
-    import.meta.env.MODE === 'production' ? 'http://3.36.131.224/api' : '/api';
-
-  useEffect(() => {
-    axios
-      .get(`${API_URL}/test`)
-      .then((response) => {
-        console.log('API Response:', response.data);
-      })
-      .catch((error) => {
-        console.error(
-          'Error fetching API:',
-          error.response ? error.response.data : error.message
-        );
-      });
-  }, []);
 
   return (
     <div>
