@@ -18,11 +18,12 @@ const Home = () => {
   const [winner, setWinner] = useState({
     name: '',
     profileImage: '',
+    grommerProfileId: null,
   });
 
   const sliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -41,6 +42,7 @@ const Home = () => {
         setWinner({
           name: data.post.dogName,
           profileImage: data.post.imageUrl || 'images/default-dog-profile.png',
+          grommerProfileId: data.grommerProfileId,
         });
       }
     });
@@ -77,7 +79,11 @@ const Home = () => {
             label="우승 미용사 프로필"
             backgroundColor="primary"
             size="medium"
-            onClick={() => navigate(paths.salonProfile.replace(':id', 4))} //TODO: id 변수로 바꾸기
+            onClick={() =>
+              navigate(
+                paths.salonProfile.replace(':id', winner.grommerProfileId)
+              )
+            }
           />
         </Box>
 
