@@ -28,14 +28,6 @@ const Contest = () => {
 
   const tempLoginUserId = 1;
 
-  // useEffect(() => {
-  //   // localStorage에서 참여한 미용사 목록 가져오기
-  //   const participated = JSON.parse(
-  //     localStorage.getItem('participatedGroomers') || '[]'
-  //   );
-  //   setParticipatedGroomers(participated);
-  // }, []);
-
   useEffect(() => {
     const loadContestInfo = async () => {
       try {
@@ -170,44 +162,6 @@ const Contest = () => {
       console.error(error);
     }
   };
-
-  // // 예시 데이터
-  // const contestEntries = [
-  //   {
-  //     id: 1,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '홍길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '이길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: false,
-  //   },
-  //
-  //   {
-  //     id: 3,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '김길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: false,
-  //   },
-  //
-  //   {
-  //     id: 4,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '박길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: false,
-  //   },
-  // ];
 
   return (
     <div>

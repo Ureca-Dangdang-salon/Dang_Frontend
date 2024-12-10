@@ -13,8 +13,8 @@ import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [localGroomers, setLocalGroomers] = useState([]); // 우리 동네 추천 반려견 미용사
-  const [popularGroomers, setPopularGroomers] = useState([]); // 전국 인기 반려견 미용사
+  const [localGroomers, setLocalGroomers] = useState([]);
+  const [popularGroomers, setPopularGroomers] = useState([]);
   const [winner, setWinner] = useState({
     name: '',
     profileImage: '',
