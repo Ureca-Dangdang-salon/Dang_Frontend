@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { dogProfile, updateDogProfile } from '@/api/dogProfile';
 import { characteristics } from '@/constants/features';
 import { useNavigate } from 'react-router-dom';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 
 const DogProfile = () => {
   const navigate = useNavigate();
@@ -154,7 +155,7 @@ const DogProfile = () => {
         </Typography>
         {Object.entries(characteristics).map(([trait, checked]) => (
           <Box key={trait}>
-            <RadioButton
+            <Checkbox
               size="large"
               label={trait}
               selected={features.includes(trait)}

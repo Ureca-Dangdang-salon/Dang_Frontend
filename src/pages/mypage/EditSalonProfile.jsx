@@ -11,6 +11,7 @@ import ProfileSelector from '@components/Features/ProfileSelector';
 import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
 import { useNavigate } from 'react-router-dom';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 
 const EditSalonProfile = () => {
   const navigate = useNavigate();
@@ -142,7 +143,7 @@ const EditSalonProfile = () => {
           {serviceKeys.map((service, index) => {
             return (
               <Box key={index}>
-                <RadioButton
+                <Checkbox
                   label={service}
                   size="large"
                   selected={servicesOffered.includes(service)}
