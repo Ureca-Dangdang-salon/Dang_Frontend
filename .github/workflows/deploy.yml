@@ -1,9 +1,9 @@
-name: Deploy Frontend
+name: Deploy React App
 
 on:
   push:
     branches:
-      - main # main 브랜치 푸시 시 실행
+      - main
 
 jobs:
   build-and-deploy:
@@ -20,17 +20,10 @@ jobs:
         with:
           node-version: 18
 
-      - name: Create .env File
-        run: |
-          echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" > .env
-          echo "VITE_AUTH_URL=${{ secrets.VITE_AUTH_URL }}" >> .env
-          echo "VITE_TOSS_CLIENT_KEY=${{ secrets.VITE_TOSS_CLIENT_KEY }}" >> .env
-
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
-          ls -al ./dist
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
@@ -44,22 +37,15 @@ jobs:
         env:
           KEY: ${{ secrets.FRONTEND_EC2_KEY }}
 
-      # 4. EC2 서버에서 디렉터리 생성 및 권한 설정
-      - name: Prepare Remote Directory
-        run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem $USER@$HOST "
-            sudo mkdir -p /home/ubuntu/project/dist && \
-            sudo chown -R ubuntu:ubuntu /home/ubuntu/project && \
-            chmod -R 755 /home/ubuntu/project
-          "
-        env:
-          HOST: ${{ secrets.FRONTEND_EC2_HOST }}
-          USER: ${{ secrets.FRONTEND_EC2_USER }}
-
-      # 5. 빌드 파일을 EC2 서버로 전송
+      # 4. 빌드 파일을 EC2 서버로 전송
       - name: Upload build files to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./dist/. $USER@$HOST:/home/ubuntu/project/dist
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem $USER@$HOST "
+            sudo rm -rf /var/www/m.dangdang-salon.com/* && \
+            mkdir -p /var/www/m.dangdang-salon.com && \
+            exit
+          "
+          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./build/* $USER@$HOST:/var/www/m.dangdang-salon.com/
         env:
           HOST: ${{ secrets.FRONTEND_EC2_HOST }}
           USER: ${{ secrets.FRONTEND_EC2_USER }}
