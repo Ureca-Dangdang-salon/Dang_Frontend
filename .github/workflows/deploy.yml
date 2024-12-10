@@ -21,6 +21,10 @@ jobs:
           node-version: 16
 
       - name: Install dependencies and build
+        env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
+          VITE_TOSS_CLIENT_KEY: ${{ secrets.VITE_TOSS_CLIENT_KEY }}
         run: |
           npm install
           npm run build
@@ -36,7 +40,7 @@ jobs:
       # 4. 빌드 파일을 EC2 서버로 전송
       - name: Upload build files to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./build/* $USER@$HOST:/usr/share/nginx/html
+          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./build/. $USER@$HOST:/usr/share/nginx/html
         env:
           HOST: ${{ secrets.FRONTEND_EC2_HOST }}
           USER: ${{ secrets.FRONTEND_EC2_USER }}
