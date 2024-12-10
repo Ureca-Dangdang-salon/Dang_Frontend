@@ -40,6 +40,7 @@ export const mainTheme = createTheme({
     delete: {
       main: '#FF7D7D', //red2
       light: '#FFAC8F', //coral
+      contrastText: 'white',
     },
   },
   typography: {

@@ -14,8 +14,8 @@ const Button = ({ size, backgroundColor, onClick, label, disabled, style }) => {
         fontWeight: 'bold',
         fontSize: 16,
         ...(size === 'large'
-          ? { width: '326px', height: '60px' }
-          : { width: '167px', height: '48px' }),
+          ? { maxWidth: '326px', width: '100%', height: '60px' }
+          : { maxWidth: '180px', width: '100%', height: '48px' }),
         '&:hover': { backgroundColor: `${backgroundColor}.main` },
       }}
     >
