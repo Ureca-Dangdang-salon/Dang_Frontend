@@ -18,6 +18,14 @@ export const ImageController = {
   uploadImage: '/api/images',
 };
 
+export const ContestController = {
+  rank: '/api/contests/winner/rank',
+};
+
+export const HomeController = {
+  homegroomerProfile: '/api/groomerprofile/main',
+  winnerProfile: '/api/contests/winner/last',
+};
 export const ReviewController = {
   review: '/api/review',
 };

@@ -2,15 +2,12 @@ import { useRef } from 'react';
 import { Box, IconButton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-import toast from 'react-hot-toast';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
 import { uploadImage } from '@/api/image';
+import { maxImagesReached } from '@/utils/toastUtils';
 
 const ImageSelector = ({ maxImages, images, onChange }) => {
   const fileInputRef = useRef(null);
-
-  const maxImagesReached = () =>
-    toast.error(`최대 ${maxImages}장까지 업로드 할 수 있습니다`);
 
   const handleOpenFileInput = () => {
     if (fileInputRef.current) {
@@ -24,7 +21,7 @@ const ImageSelector = ({ maxImages, images, onChange }) => {
       const fileArray = Array.from(files);
 
       if (images.length + fileArray.length > maxImages) {
-        maxImagesReached();
+        maxImagesReached(3);
         return;
       }
 
