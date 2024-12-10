@@ -1,0 +1,51 @@
+name: Deploy React App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. GitHub 리포지토리에서 코드 가져오기
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Node.js 설치 및 React 빌드
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+          ls -al ./dist # 빌드 결과 확인
+        env:
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
+          VITE_TOSS_CLIENT_KEY: ${{ secrets.VITE_TOSS_CLIENT_KEY }}
+
+      # 3. SSH 키 파일 생성
+      - name: Create SSH Key File
+        run: |
+          echo "$KEY" > /tmp/deploy_key.pem
+          chmod 600 /tmp/deploy_key.pem
+        env:
+          KEY: ${{ secrets.FRONTEND_EC2_KEY }}
+
+      # 4. 빌드 파일을 EC2 서버로 전송
+      - name: Upload build files to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem $USER@$HOST "
+            sudo rm -rf /var/www/m.dangdang-salon.com/* && \
+            mkdir -p /var/www/m.dangdang-salon.com
+          "
+          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./dist/* $USER@$HOST:/var/www/m.dangdang-salon.com/
+        env:
+          HOST: ${{ secrets.FRONTEND_EC2_HOST }}
+          USER: ${{ secrets.FRONTEND_EC2_USER }}
