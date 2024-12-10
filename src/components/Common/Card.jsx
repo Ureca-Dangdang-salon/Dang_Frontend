@@ -3,8 +3,8 @@ import { Box, Typography } from '@mui/material';
 const Card = ({ title, subtitle }) => {
   return (
     <Box
-      mt={1}
-      mb={1}
+      my={1}
+      mx={0.5}
       p={3}
       borderRadius="10px"
       boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
