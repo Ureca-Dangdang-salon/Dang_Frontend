@@ -7,7 +7,7 @@ const Chat = () => {
   const is = 1;
   return (
     <Box>
-      <Header invisible={true} />
+      <Header />
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {is ? <Chatmain /> : <EmptyContent title="채팅내역이 없습니다." />}

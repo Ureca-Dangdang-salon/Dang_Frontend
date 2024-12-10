@@ -7,34 +7,26 @@ import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const MyReviews = () => {
-  const { role } = useUserStore();
+const SalonReviews = () => {
   const location = useLocation();
-  const [profileId, setProfileId] = useState(location.state?.profileId);
+  const [id, setId] = useState(location.state?.profileId);
   const [allReviews, setAllReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getMyReviews = async () => {
-      const res =
-        role == 'ROLE_USER'
-          ? await myReviews()
-          : await receivedReviews(profileId);
+    const getReviews = async () => {
+      const res = await receivedReviews(id);
       setAllReviews(res);
       setLoading(false);
     };
-    getMyReviews();
+    getReviews();
   }, []);
 
   if (loading) return <Typography>LOADING</Typography>;
 
   return (
     <Box>
-      {role == 'ROLE_USER' ? (
-        <DetailHeader label="나의 리뷰" />
-      ) : (
-        <DetailHeader label="나에게 남긴 리뷰들" />
-      )}
+      <DetailHeader label="리뷰" />
 
       {!allReviews.length ? (
         <EmptyContent title="리뷰가 없습니다" />
@@ -44,7 +36,7 @@ const MyReviews = () => {
             <ReviewAccordion
               key={review.reviewId}
               review={review}
-              role={role}
+              role="ROLE_SALON"
             />
           ))}
         </Box>
@@ -53,4 +45,4 @@ const MyReviews = () => {
   );
 };
 
-export default MyReviews;
+export default SalonReviews;

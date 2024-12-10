@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { groomerPublicProfile } from '@/api/groomerProfile';
+import paths from '@/routes/paths';
 
 const SalonProfile = () => {
   const navigate = useNavigate();
@@ -125,6 +126,11 @@ const SalonProfile = () => {
               cursor: 'pointer',
               '&:hover': { color: 'secondary.main' },
             }}
+            onClick={() =>
+              navigate(paths.salonReviews, {
+                state: { profileId: data.profileId },
+              })
+            }
           >
             <Typography fontSize={14} color="inherit">
               리뷰
