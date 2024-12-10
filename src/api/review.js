@@ -31,6 +31,7 @@ export const receivedReviews = async (groomerId) => {
   try {
     const url = `${ReviewController.review}/${groomerId}`;
     const { data } = await apiClient.get(url);
+    console.log(data);
     return data.response;
   } catch (e) {
     console.log(e);

@@ -29,3 +29,14 @@ export const HomeController = {
 export const ReviewController = {
   review: '/api/review',
 };
+
+export const NotificationController = {
+  fcmToken: '/api/notification/fcm-token',
+  getNotification: '/api/notification/list',
+  markRead: '/api/notification/read?uuid=',
+  unreadCount: '/api/notification/unread-count',
+  markAllRead: '/api/notification/read-all',
+  updateSetting: '/api/notification/update',
+  subscribe: '/api/notification/subscribe',
+  unsubscribe: '/api/notification/unsubscribe',
+};
