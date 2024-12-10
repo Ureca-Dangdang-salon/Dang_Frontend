@@ -24,6 +24,7 @@ jobs:
         run: |
           npm install
           npm run build
+          ls -al ./dist # 빌드 결과 확인
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
@@ -42,10 +43,9 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem $USER@$HOST "
             sudo rm -rf /var/www/m.dangdang-salon.com/* && \
-            mkdir -p /var/www/m.dangdang-salon.com && \
-            exit
+            mkdir -p /var/www/m.dangdang-salon.com
           "
-          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./build/* $USER@$HOST:/var/www/m.dangdang-salon.com/
+          scp -o StrictHostKeyChecking=no -i /tmp/deploy_key.pem -r ./dist/* $USER@$HOST:/var/www/m.dangdang-salon.com/
         env:
           HOST: ${{ secrets.FRONTEND_EC2_HOST }}
           USER: ${{ secrets.FRONTEND_EC2_USER }}
