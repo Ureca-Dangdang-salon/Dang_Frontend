@@ -1,0 +1,35 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main # main 브랜치 푸시 시 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. GitHub 리포지토리에서 코드 가져오기
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Node.js 설치 및 React 빌드
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      # 3. 빌드 파일을 EC2 서버로 전송
+      - name: Upload build files to EC2
+        env:
+          HOST: ${{ secrets.FRONTEND_EC2_HOST }}
+          USER: ${{ secrets.FRONTEND_EC2_USER }}
+          KEY: ${{ secrets.FRONTEND_EC2_KEY }}
+        run: |
+          scp -o StrictHostKeyChecking=no -i $KEY -r ./build/* $USER@$HOST:/usr/share/nginx/html
