@@ -26,3 +26,6 @@ export const HomeController = {
   homegroomerProfile: '/api/groomerprofile/main',
   winnerProfile: '/api/contests/winner/last',
 };
+export const ReviewController = {
+  review: '/api/review',
+};

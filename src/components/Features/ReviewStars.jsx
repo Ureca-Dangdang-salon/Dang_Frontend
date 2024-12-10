@@ -1,10 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 const ReviewStars = (props) => {
-  const totalStars = 5;
+  const TOTAL_STARS = 5;
   const fullStars = Math.floor(props.starScore);
   const hasHalfStar = props.starScore % 1 != 0;
-  const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
+  const emptyStars = TOTAL_STARS - fullStars - (hasHalfStar ? 1 : 0);
 
   return (
     <>
@@ -33,17 +33,6 @@ const ReviewStars = (props) => {
         <Typography fontWeight={700} color="n3">
           / 5
         </Typography>
-      </Box>
-      <Box textAlign="center">
-        <Button
-          color="n3"
-          sx={{ p: 0, borderRadius: '10px' }}
-          href={props.link}
-        >
-          <Typography fontWeight={700} fontSize={14} color="n2">
-            (리뷰 {props.reviewCount}개)
-          </Typography>
-        </Button>
       </Box>
     </>
   );

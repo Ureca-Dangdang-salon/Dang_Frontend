@@ -56,10 +56,16 @@ const SalonProfile = () => {
         </Box>
 
         {!isNaN(detail.starScore) && (
-          <ReviewStars
-            starScore={detail?.starScore}
-            reviewCount={detail?.reviewCount}
-          />
+          <>
+            <ReviewStars starScore={detail?.starScore} />
+            <Box textAlign="center">
+              <Button color="n3" sx={{ p: 0, borderRadius: '10px' }}>
+                <Typography fontWeight={700} fontSize={14} color="n2">
+                  (리뷰 {detail?.reviewCount}개)
+                </Typography>
+              </Button>
+            </Box>
+          </>
         )}
 
         <Typography mt={3} lineHeight={1.7}>

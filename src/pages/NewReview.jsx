@@ -3,9 +3,9 @@ import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
 import TextArea from '@components/Common/TextArea/TextArea';
-import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import ImageSelector from '@components/Features/ImageSelector';
+import { postReview } from '@/api/review';
 
 const NewReview = () => {
   const [data, setData] = useState({
@@ -15,7 +15,7 @@ const NewReview = () => {
   });
 
   const MAX_IMAGES = 3;
-  const totalStars = 5;
+  const TOTAL_STARS = 5;
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -26,7 +26,7 @@ const NewReview = () => {
 
   const renderStars = () => {
     const stars = [];
-    for (let i = 1; i <= totalStars; i++) {
+    for (let i = 1; i <= TOTAL_STARS; i++) {
       const isFilled = i <= (hoverRating || userRating);
       stars.push(
         <img
@@ -49,24 +49,9 @@ const NewReview = () => {
     setData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
-    const userId = 2;
-    // const accessToken ='';
-
-    axios
-      .post(`http://localhost:8080/api/reviews/${userId}`, data, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log('Review submitted successfully:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error submitting review:', error);
-      });
+  const handleSubmit = async () => {
+    const groomerId = 4; //TODO: 변수로 대체하기
+    await postReview(data, groomerId);
   };
 
   return (
@@ -111,16 +96,17 @@ const NewReview = () => {
           <ImageSelector
             maxImages={MAX_IMAGES}
             images={data.imageKey}
-            onChange={(updatedImages) =>
-              setData((prev) => ({ ...prev, imageKey: updatedImages }))
-            }
+            onChange={(updatedImages) => {
+              handleChange('imageKey', updatedImages);
+            }}
           />
         </Box>
 
         <Box textAlign="center" mt={5}>
           <Button
             size="large"
-            backgroundColor="primary"
+            backgroundColor={data.starScore ? 'primary' : 'n3'}
+            disabled={!data.starScore}
             label="리뷰 작성하기"
             onClick={handleSubmit}
           />
