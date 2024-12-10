@@ -16,6 +16,7 @@ import {
 } from '@/api/groomerProfile';
 import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/utils/NotificationService';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
@@ -50,7 +51,10 @@ function SurveyGroomer() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate(paths.home);
+      if (await postAddGroomerProfile(businessInfo)) {
+        handleEnableNotifications();
+        navigate(paths.home);
+      }
     } else setStep(step + 1);
   };
 

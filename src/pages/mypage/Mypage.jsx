@@ -5,13 +5,13 @@ import MySalonPage from './MySalonPage';
 import { Modal } from '@components/Common/Modal/Modal';
 import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
-import useRoleStore from '@/store/useRoleStore';
+import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
 
 const Mypage = () => {
   const defaultImgPath = '/images/default-groomer-profile.png';
   const [data, setData] = useState({});
-  const { role } = useRoleStore();
+  const { role } = useUserStore();
 
   useEffect(() => {
     const getSocialProfile = async () => {
@@ -40,7 +40,7 @@ const Mypage = () => {
 
   return (
     <Box>
-      <Header invisible={true} />
+      <Header />
       <Box p={4} color="text.main">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">

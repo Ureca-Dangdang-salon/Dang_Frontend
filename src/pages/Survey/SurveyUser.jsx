@@ -13,6 +13,8 @@ import Step7 from '@/components/Survey/UserSteps/Step7';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 import { postDogProfile } from '@/api/dogProfile';
 import { cantGoBack } from '@/utils/toastUtils';
+import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/utils/NotificationService';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
@@ -58,8 +60,11 @@ const SurveyUser = () => {
     }
   };
 
-  const handleGoHome = async () => {
-    if (await handleSaveProfile()) navigate('/home');
+  const completeProfile = async () => {
+    if (await handleSaveProfile()) {
+      handleEnableNotifications();
+      navigate(paths.home);
+    }
   };
 
   const handleNextStep = () => {
@@ -106,7 +111,7 @@ const SurveyUser = () => {
               secondaryButton="홈으로 가기"
               primaryButton="추가하기"
               action={handleAddAnotherPet}
-              onGoHome={handleGoHome}
+              onGoHome={completeProfile}
               buttonSx={{
                 width: '326px',
                 height: '60px',
