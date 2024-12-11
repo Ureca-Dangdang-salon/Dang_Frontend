@@ -15,7 +15,13 @@ import {
   likePost,
   unlikePost,
 } from '@/api/contestApi.js';
-
+import {
+  alreadyParticipatedInContest,
+  contestCheckError,
+  postDeleted,
+  postDeleteError,
+  noWinnerInfo,
+} from '@/utils/toastUtils';
 const Contest = () => {
   const navigate = useNavigate();
   const [participatedGroomers, setParticipatedGroomers] = useState([]);
@@ -27,7 +33,6 @@ const Contest = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const tempLoginUserId = 1;
-  // alert -> toast로 바꿔 달라는 요청
   useEffect(() => {
     const loadContestInfo = async () => {
       try {
@@ -85,7 +90,8 @@ const Contest = () => {
       );
 
       if (response.already_participated) {
-        alert('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+        //alert('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+        alreadyParticipatedInContest(3);
       } else {
         navigate('/contest/entry', {
           state: {
@@ -97,7 +103,8 @@ const Contest = () => {
       }
     } catch (error) {
       console.error(error);
-      alert('참여 여부 확인 중 문제가 발생했습니다. 다시 시도해주세요.');
+      //alert('참여 여부 확인 중 문제가 발생했습니다. 다시 시도해주세요.');
+      contestCheckError(3);
     }
   };
 
@@ -105,16 +112,19 @@ const Contest = () => {
     try {
       const response = await deletePost(postId);
       if (response === '포스트 삭제가 완료되었습니다.') {
-        alert('포스트가 삭제되었습니다.');
+        //alert('포스트가 삭제되었습니다.');
+        postDeleted(3);
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post.postId !== postId)
         );
       } else {
-        alert('포스트 삭제 중 문제가 발생했습니다.');
+        //alert('포스트 삭제 중 문제가 발생했습니다.');
+        postDeleteError(3);
       }
     } catch (error) {
       console.error(error);
-      alert('포스트 삭제 중 문제가 발생했습니다.');
+      //alert('포스트 삭제 중 문제가 발생했습니다.');
+      postDeleteError(3);
     }
   };
 
@@ -185,7 +195,8 @@ const Contest = () => {
                   ? navigate(
                       `/salonprofile/${contestDetails.recentWinner.groomerProfileId}`
                     )
-                  : alert('우승자 정보가 없습니다.')
+                  : //alert('우승자 정보가 없습니다.')
+                    noWinnerInfo(3)
               }
               sx={{
                 cursor: 'pointer',
@@ -210,7 +221,7 @@ const Contest = () => {
             <Typography>우승자 정보가 없습니다.</Typography>
           )}
           {/* 참여 버튼 */}
-          <Box display="flex" justifyContent="center" mt={5} mb={5}>
+          <Box display="flex" justifyContent="center" mt={5}>
             {participatedGroomers.length > 0 ? (
               <Modal
                 openModalButton="삭제하기"
@@ -234,7 +245,7 @@ const Contest = () => {
           <Box display="flex" justifyContent="center" mt={2} mb={5}>
             <Button
               label="구독하기"
-              backgroundColor="secondary"
+              backgroundColor="primary"
               size="large"
               onClick={handleSubscribe}
             />

@@ -52,3 +52,23 @@ export const listNotEmpty = (list, field) => {
     return false;
   } else return true;
 };
+
+export const alreadyParticipatedInContest = () => {
+  toast.error('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+};
+
+export const contestCheckError = () => {
+  toast.error('참여 여부 확인 중 문제가 발생했습니다. 다시 시도해주세요.');
+};
+
+export const postDeleted = () => {
+  toast.success('포스트가 삭제되었습니다.');
+};
+
+export const postDeleteError = () => {
+  toast.error('포스트 삭제 중 문제가 발생했습니다.');
+};
+
+export const noWinnerInfo = () => {
+  toast.info('우승자 정보가 없습니다.');
+};
