@@ -3,14 +3,17 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Button, Dialog, DialogActions } from '@mui/material';
 import 'dayjs/locale/ko';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
-const DateModal = ({ date, setDate, open, setOpen }) => {
+const DateModal = ({ setDate, open, setOpen }) => {
+  const [selectDate, setSelectDate] = useState(null);
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleAction = () => {
-    setDate(date);
+    setDate(dayjs(selectDate).format('YYYY-MM-DD'));
     handleClose();
   };
 
@@ -21,7 +24,7 @@ const DateModal = ({ date, setDate, open, setOpen }) => {
       PaperProps={{ sx: { borderRadius: '12px' } }}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-        <DateCalendar value={date} onChange={(e) => setDate(e)} />
+        <DateCalendar value={selectDate} onChange={(e) => setSelectDate(e)} />
       </LocalizationProvider>
 
       <DialogActions
@@ -29,7 +32,7 @@ const DateModal = ({ date, setDate, open, setOpen }) => {
       >
         <Button
           onClick={handleAction}
-          disabled={!date}
+          disabled={!selectDate}
           autoFocus
           sx={{
             borderRadius: '10px',

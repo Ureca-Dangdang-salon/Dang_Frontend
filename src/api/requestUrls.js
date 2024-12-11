@@ -26,10 +26,17 @@ export const HomeController = {
   homegroomerProfile: '/api/groomerprofile/main',
   winnerProfile: '/api/contests/winner/last',
 };
+
 export const ReviewController = {
   review: '/api/review',
 };
 
+export const RequestController = {
+  estimateRequest: '/api/estimaterequest',
+  estimate: '/api/estimate',
+  estimateDog: '/api/estimate/dogrequest',
+};
+  
 export const NotificationController = {
   fcmToken: '/api/notification/fcm-token',
   getNotification: '/api/notification/list',
@@ -39,4 +46,8 @@ export const NotificationController = {
   updateSetting: '/api/notification/update',
   subscribe: '/api/notification/subscribe',
   unsubscribe: '/api/notification/unsubscribe',
+};
+
+export const PaymentController = {
+  paymentHistory: '/api/payments',
 };

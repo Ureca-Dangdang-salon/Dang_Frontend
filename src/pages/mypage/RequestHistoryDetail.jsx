@@ -5,62 +5,65 @@ import DogCompareImg from '@components/Features/DogCompareImg';
 import Button from '@components/Common/Button/Button';
 import ArrowCircleLeftTwoToneIcon from '@mui/icons-material/ArrowCircleLeftTwoTone';
 import ArrowCircleRightTwoToneIcon from '@mui/icons-material/ArrowCircleRightTwoTone';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getRequestDetail } from '@/api/request';
+import { Modal } from '@components/Common/Modal/Modal';
+import paths from '@/routes/paths';
+import useEstimateStore from '@/store/useEstimateStore';
+import { deleteEstimate } from '@/api/estimate';
 
 const RequestHistoryDetail = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [data, setData] = useState();
+  const location = useLocation();
+  const { estimateData, estimateStatus } = location.state || null;
+  const navigate = useNavigate();
+  const { resetEstimateInfo } = useEstimateStore();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getRequestDetail(estimateData.requestId);
+      setData(res);
+    };
+    fetchData();
+  }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? data.dogs.length - 1 : prevIndex - 1
+      prevIndex === 0 ? data.length - 1 : prevIndex - 1
     );
   };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === data.dogs.length - 1 ? 0 : prevIndex + 1
+      prevIndex === data.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const handleDotClick = (index) => {
+    resetEstimateInfo();
     setCurrentIndex(index);
   };
 
-  const data = {
-    name: '강서진',
-    date: '2024-11-25',
-    region: '서울특별시 성동구',
-    serviceType: 'VISIT',
-    status: 'SEND',
-    dogs: [
-      {
-        name: '뽀삐',
-        services: ['목욕', '털 미용', '발톱 정리'],
-        descriptions: ['물을 너무 심하게 좋아해요'],
-        aggression: false,
-        healthIssue: false,
-        requestDesc: ['이가 나기 시작해서 이것저것 잘근잘근 씹을 수 있어요'],
-      },
-      {
-        name: '댕댕이',
-        services: ['목욕', '털 미용', '발톱 정리'],
-        descriptions: ['물을 너무 심하게 좋아해요'],
-        aggression: true,
-        healthIssue: true,
-        requestDesc: ['이가 나기 시작해서 이것저것 잘근잘근 씹을 수 있어요'],
-      },
-    ],
+  const delEstimate = async () => {
+    await deleteEstimate(estimateData.requestId);
   };
 
-  const currentDog = data.dogs[currentIndex];
+  const currentDog = data && data[currentIndex];
 
   return (
     <Box>
       <DetailHeader label="견적 요청 내역 상세보기" />
       <Box p={4} color="text.main">
         <Box display="flex" alignItems="center" justifyContent="center">
-          <img src="/images/default-groomer-profile.png" width="100px" />
+          <img
+            src={estimateData.imageKey || '/images/default-groomer-profile.png'}
+            width="100px"
+            style={{ borderRadius: '50%' }}
+          />
           <Box ml={3} fontSize={14}>
-            <Typography fontWeight={700}>{data.name}</Typography>
+            <Typography fontWeight={700}>{estimateData.name}</Typography>
             <Box display="flex">
               <Box>
                 <Typography>희망날짜:</Typography>
@@ -68,12 +71,12 @@ const RequestHistoryDetail = () => {
                 <Typography>서비스 형태:</Typography>
               </Box>
               <Box ml={2}>
-                <Typography>{data.date}</Typography>
-                <Typography>{data.region}</Typography>
+                <Typography>{estimateData.date}</Typography>
+                <Typography>{estimateData.region}</Typography>
                 <Typography>
-                  {data.serviceType == 'VISIT'
+                  {estimateData.serviceType == 'VISIT'
                     ? '방문'
-                    : data.serviceType == 'SHOP'
+                    : estimateData.serviceType == 'SHOP'
                       ? '매장'
                       : '방문, 매장'}
                 </Typography>
@@ -88,7 +91,7 @@ const RequestHistoryDetail = () => {
           </IconButton>
 
           <Box display="flex" justifyContent="center" gap={1}>
-            {data.dogs.map((_, index) => (
+            {data?.map((_, index) => (
               <Box
                 key={index}
                 onClick={() => handleDotClick(index)}
@@ -116,38 +119,49 @@ const RequestHistoryDetail = () => {
           boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
           textAlign="center"
         >
-          <img src="/images/default-dog-profile.png" width="100px" />
-          <Typography>{currentDog.name}</Typography>
+          <img
+            src={
+              currentDog?.dogProfileResponseDto.profileImage ||
+              '/images/default-dog-profile.png'
+            }
+            width="100px"
+            style={{ borderRadius: '50%' }}
+          />
+          <Typography>{currentDog?.dogProfileResponseDto.name}</Typography>
           <Box display="flex" justifyContent="center" gap={3} mt={3} px={2}>
-            <DogCompareImg text="현재 반려견 사진" />
-            <DogCompareImg text="원하는 스타일" />
+            <DogCompareImg
+              text="현재 반려견 사진"
+              imgUrl={currentDog?.currentPhotoKey}
+            />
+            <DogCompareImg
+              text="원하는 스타일"
+              imgUrl={currentDog?.styleRefPhotoKey}
+            />
           </Box>
 
           <Box bgcolor="p4.main" fontWeight={700} py={1.5} mt={3} mb={1}>
             요청 서비스
           </Box>
-          {currentDog.services.map((service, index) => (
-            <Typography key={index}>{service}</Typography>
+          {currentDog?.serviceList.map((e, index) => (
+            <Typography key={index}>{e.description}</Typography>
           ))}
 
           <Box bgcolor="p4.main" fontWeight={700} py={1.5} mt={3} mb={1}>
             요청시 특이사항
           </Box>
           <Typography>
-            공격성: {currentDog.aggression ? '있음' : '없음'}
+            공격성: {currentDog?.aggression ? '있음' : '없음'}
           </Typography>
           <Typography>
-            질병: {currentDog.healthIssue ? '있음' : '없음'}
+            질병: {currentDog?.healthIssue ? '있음' : '없음'}
           </Typography>
-          {currentDog.requestDesc.map((desc, index) => (
-            <Typography key={index}>{desc}</Typography>
-          ))}
+          <Typography>{currentDog?.description}</Typography>
 
           <Box bgcolor="p4.main" fontWeight={700} py={1.5} mt={3} mb={1}>
             특징
           </Box>
-          {currentDog.descriptions.map((desc, index) => (
-            <Typography key={index}>{desc}</Typography>
+          {currentDog?.featureList.map((e, index) => (
+            <Typography key={index}>{e.description}</Typography>
           ))}
         </Box>
 
@@ -161,8 +175,38 @@ const RequestHistoryDetail = () => {
         </Box>
 
         <Box display="flex" justifyContent="center" gap={3} mt={3}>
-          <Button size="medium" backgroundColor="delete" label="요청 삭제" />
-          <Button size="medium" backgroundColor="primary" label="견적서 작성" />
+          {estimateStatus !== 'SEND' && (
+            <>
+              <Modal
+                openModalButton="요청 삭제"
+                buttonColor="delete"
+                variant="contained"
+                title="견적 요청을 삭제하시겠습니까?"
+                primaryButton="삭제하기"
+                secondaryButton="취소하기"
+                action={delEstimate}
+                onGoHome={() => ''}
+                buttonSx={{
+                  width: '167px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+              />
+
+              <Button
+                size="medium"
+                backgroundColor="primary"
+                label="견적서 작성"
+                onClick={() =>
+                  navigate(paths.estimate, {
+                    state: {
+                      requestId: estimateData.requestId,
+                    },
+                  })
+                }
+              />
+            </>
+          )}
         </Box>
       </Box>
     </Box>

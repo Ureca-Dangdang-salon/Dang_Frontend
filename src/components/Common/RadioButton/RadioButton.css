@@ -47,6 +47,12 @@
 
 .radio-circle.checked {
   border-color: #fdd94e;
+}
+
+.inner-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
   background-color: #fdd94e;
 }
 

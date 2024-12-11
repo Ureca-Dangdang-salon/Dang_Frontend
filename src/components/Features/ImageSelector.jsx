@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Box, IconButton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import { uploadImage } from '@/api/image';
 import { maxImagesReached } from '@/utils/toastUtils';
 
