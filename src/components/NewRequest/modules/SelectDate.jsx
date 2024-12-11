@@ -3,18 +3,16 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Selector2 } from '../atoms/Selector2';
 import SubTitle from '../atoms/SubTitle';
 import DateModal from '@components/Common/DateModal';
-import useRequestStore from '@/store/useRequestStore';
 
-const SelectDate = () => {
-  const { requestInfo, setRequestInfo } = useRequestStore();
+const SelectDate = ({ value, set }) => {
   const [open, setOpen] = useState(false);
 
   const setDate = (date) => {
     const formattedDate = `${date}T00:00:00`;
-    setRequestInfo({ date: formattedDate });
+    set(formattedDate);
   };
 
-  const displayDate = requestInfo.date?.split('T')[0] || '';
+  const displayDate = value?.split('T')[0] || '';
 
   return (
     <div>

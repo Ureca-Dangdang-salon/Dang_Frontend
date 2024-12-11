@@ -60,10 +60,14 @@ const SecondStep = () => {
     setRequestInfo({ districtId: id });
   };
 
+  const setDate = (date) => {
+    setRequestInfo({ date: date });
+  };
+
   return (
     <>
       <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
-        <SelectDate />
+        <SelectDate value={requestInfo.date} set={setDate} />
         <div>
           <SubTitle title="지역" />
           <SelectRegion

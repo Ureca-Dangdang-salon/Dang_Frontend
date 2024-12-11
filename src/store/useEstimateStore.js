@@ -81,21 +81,25 @@ const useEstimateStore = create((set) => ({
       };
     }),
 
-  setTotalAmount: (dogIndex) =>
+  setTotalAmount: () =>
     set((state) => {
-      const dog = state.estimateInfo.dogPriceList[dogIndex];
-      const chargesSum = dog.aggressionCharge + dog.healthIssueCharge;
-      const serviceSum = dog.serviceList.reduce(
-        (total, service) => total + service.price,
+      const totalAmount = state.estimateInfo.dogPriceList.reduce(
+        (total, dog) => {
+          const chargesSum = dog.aggressionCharge + dog.healthIssueCharge;
+          const serviceSum = dog.serviceList.reduce(
+            (serviceTotal, service) => serviceTotal + service.price,
+            0
+          );
+
+          return total + chargesSum + serviceSum;
+        },
         0
       );
-
-      const totalAmount = chargesSum + serviceSum;
 
       return {
         estimateInfo: {
           ...state.estimateInfo,
-          totalAmount: state.estimateInfo.totalAmount + totalAmount,
+          totalAmount: totalAmount,
         },
       };
     }),
