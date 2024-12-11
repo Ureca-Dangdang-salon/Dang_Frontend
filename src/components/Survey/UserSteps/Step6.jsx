@@ -3,6 +3,7 @@ import InputText from '@/components/Common/InputText/InputText';
 import RadioButton from '@/components/Common/RadioButton/RadioButton';
 import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 
 const Step6 = () => {
   const { petInfo, setPetInfo, characteristics, updateCharacteristic } =
@@ -13,7 +14,7 @@ const Step6 = () => {
       <Box display="flex" flexDirection="column" gap={1}>
         {Object.entries(characteristics).map(([trait, checked]) => (
           <Box key={trait}>
-            <RadioButton
+            <Checkbox
               label={trait}
               selected={checked}
               onChange={() => {

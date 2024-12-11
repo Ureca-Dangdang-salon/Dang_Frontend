@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import RadioButton from '@components/Common/RadioButton/RadioButton';
 import SubTitle from '../atoms/SubTitle';
 import { services } from '@/constants/services';
 import useRequestStore from '@/store/useRequestStore';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 
 const SelectService = () => {
   const { requestInfo, setRequestInfo, dogIndex } = useRequestStore();
@@ -31,8 +31,8 @@ const SelectService = () => {
         {Object.entries(services).map(([service], idx) => {
           const checked = dogInfo.servicesOffered.includes(idx + 1);
           return (
-            <RadioButton
-              key={service}
+            <Checkbox
+              key={idx}
               size="large"
               label={service}
               onChange={() => handleServiceChange(idx + 1, checked)}

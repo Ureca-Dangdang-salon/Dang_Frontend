@@ -106,7 +106,6 @@ export const handleEnableNotifications = async () => {
   try {
     const token = await notificationServiceInstance.requestPermission();
     await postFcmToken(token);
-    console.log('FCM Token registered:', token);
   } catch (e) {
     console.error(e);
   }

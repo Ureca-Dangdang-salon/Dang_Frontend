@@ -47,3 +47,7 @@ export const NotificationController = {
   subscribe: '/api/notification/subscribe',
   unsubscribe: '/api/notification/unsubscribe',
 };
+
+export const PaymentController = {
+  paymentHistory: '/api/payments',
+};

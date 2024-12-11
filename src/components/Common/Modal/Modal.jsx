@@ -63,10 +63,10 @@ export const Modal = ({
           <Box width="100%" textAlign="center" mb={2} mx={2}>
             <Button
               onClick={handleClose}
+              color="n3"
+              variant="contained"
               sx={{
                 borderRadius: '10px',
-                bgcolor: 'n3.main',
-                color: 'n2.main',
                 minWidth: '100px',
                 minHeight: '48px',
                 fontWeight: 700,
@@ -78,10 +78,10 @@ export const Modal = ({
             <Button
               onClick={handleAction}
               autoFocus
+              color="delete"
+              variant="contained"
               sx={{
                 borderRadius: '10px',
-                bgcolor: 'delete.light',
-                color: 'white.main',
                 minWidth: '100px',
                 minHeight: '48px',
                 fontWeight: 700,
