@@ -4,6 +4,8 @@ import { IconButton, Badge } from '@mui/material';
 import paths from '@/routes/paths';
 import { unreadCount } from '@/api/notification';
 import { useEffect, useState } from 'react';
+import { onMessage } from 'firebase/messaging';
+import { messaging } from '@/firebase/firebase';
 
 export const Header = () => {
   const [unreadNotification, setUnreadNotification] = useState(0);
@@ -14,6 +16,14 @@ export const Header = () => {
       setUnreadNotification(res);
     };
     getUnreadCount();
+
+    // Listen for foreground messages
+    const unsubscribe = onMessage(messaging, (payload) => {
+      console.log('Foreground message received:', payload);
+      setUnreadNotification((prev) => prev + 1);
+    });
+
+    return () => unsubscribe(); // Clean up listener on unmount
   }, []);
 
   return (
