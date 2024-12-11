@@ -5,7 +5,6 @@ import InputText from '@components/Common/InputText/InputText';
 import { useState, useEffect } from 'react';
 import SelectRegion from '@components/NewRequest/modules/SelectRegion';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
-import toast, { Toaster } from 'react-hot-toast';
 import { socialProfile, updateSocialProfile } from '@/api/socialProfile';
 import ProfileSelector from '@components/Features/ProfileSelector';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +20,7 @@ const EditSocialProfile = () => {
     const getSocialProfile = async () => {
       const res = await socialProfile();
       setData(res);
+      setDistrictId(res.districtId);
       setLoading(false);
     };
     getSocialProfile();
@@ -43,7 +43,6 @@ const EditSocialProfile = () => {
 
   return (
     <Box>
-      <Toaster />
       <DetailHeader label={'소셜 로그인 계정 수정'} />
       <Box p={4} color="text.main" textAlign="center">
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>

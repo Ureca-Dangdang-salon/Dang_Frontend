@@ -11,6 +11,11 @@ import ProfileSelector from '@components/Features/ProfileSelector';
 import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
 import { useNavigate } from 'react-router-dom';
+import {
+  validPhoneNum,
+  stringNotEmpty,
+  listNotEmpty,
+} from '@/utils/toastUtils';
 
 const EditSalonProfile = () => {
   const navigate = useNavigate();
@@ -64,6 +69,16 @@ const EditSalonProfile = () => {
     });
   }, [data, certifications, serviceAreas, servicesOffered]);
 
+  const isValid = () => {
+    return (
+      stringNotEmpty(putData.name.trim(), '서비스 이름') &&
+      validPhoneNum(putData.phone) &&
+      stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
+      listNotEmpty(putData.servicesDistrictIds) &&
+      stringNotEmpty(putData.serviceType, '서비스 형태')
+    );
+  };
+
   const handleChange = (field, value) => {
     setData((prev) => {
       return {
@@ -79,8 +94,10 @@ const EditSalonProfile = () => {
   };
 
   const handleSubmit = () => {
-    updateGroomerProfile(putData);
-    navigate(-1);
+    if (isValid()) {
+      updateGroomerProfile(putData);
+      navigate(-1);
+    }
   };
 
   return (
@@ -166,7 +183,7 @@ const EditSalonProfile = () => {
             <InputText
               value={data.businessNumber}
               onChange={(e) => handleChange('businessNumber', e.target.value)}
-              placeholder="사업자 번호"
+              placeholder="123-45-67890"
             />
           </Box>
 
@@ -177,7 +194,7 @@ const EditSalonProfile = () => {
             <InputText
               value={data.address}
               onChange={(e) => handleChange('address', e.target.value)}
-              placeholder="가게 주소"
+              placeholder="댕댕로 000-00"
             />
           </Box>
 
@@ -220,8 +237,8 @@ const EditSalonProfile = () => {
           <Box textAlign="center" mt={3}>
             <Button
               size="large"
-              backgroundColor="primary"
               label="저장하기"
+              backgroundColor="primary"
               onClick={handleSubmit}
             />
           </Box>

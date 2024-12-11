@@ -38,14 +38,12 @@ const MySalonPage = () => {
 
   const defaultImgPath = '/images/default-groomer-profile.png';
   const imageSrc = data?.imageKey ? data.imageKey : defaultImgPath;
-  const imageStyle = data?.imageKey
-    ? {
-        borderRadius: '50%',
-        objectFit: 'cover',
-        border: '2px solid',
-        borderColor: '#9747FF',
-      }
-    : {};
+  const imageStyle = {
+    borderRadius: '50%',
+    objectFit: 'cover',
+    border: '5px solid',
+    borderColor: '#FDD94E',
+  };
 
   if (loading) return <Typography>LOADING</Typography>;
 
