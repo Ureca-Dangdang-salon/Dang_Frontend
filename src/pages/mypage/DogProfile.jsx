@@ -35,7 +35,6 @@ const DogProfile = () => {
 
     const getDogProfile = async () => {
       const res = await dogProfile(id);
-      console.log(res.features.map((item) => item.description));
       const featList = res.features.map((item) => item.description);
       const addFeat = featList.find((item) => !(item in characteristics));
 
@@ -69,7 +68,6 @@ const DogProfile = () => {
         setAdditionalFeature(null);
         return ['없음'];
       } else {
-        console.log(prevFeatures);
         if (prevFeatures.includes(trait)) {
           if (trait === '기타') {
             setAdditionalFeature(null);
