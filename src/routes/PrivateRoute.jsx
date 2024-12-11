@@ -21,7 +21,7 @@ const PrivateRoute = () => {
           setNotificationEnabled(res.notificationEnabled);
           setLoading(false);
 
-          if (res.notificationEnabled) handleEnableNotifications();
+          if (res.notificationEnabled) await handleEnableNotifications();
         } catch (error) {
           console.error('로그인 체크에 실패했습니다:', error);
           setLoggedIn(false);
