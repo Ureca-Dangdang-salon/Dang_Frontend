@@ -122,7 +122,7 @@ const SurveyUser = () => {
           ) : (
             <Button
               size="large"
-              disabled={isStepValid() ? false : true}
+              disabled={!isStepValid()}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label="다음으로"

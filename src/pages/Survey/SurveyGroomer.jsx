@@ -14,18 +14,13 @@ import {
   postAddGroomerProfile,
   postGroomerProfile,
 } from '@/api/groomerProfile';
-import { cantGoBack } from '@/utils/toastUtils';
+import { cantGoBack, validPhoneNum } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
 import { handleEnableNotifications } from '@/utils/NotificationService';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
-
-  const validatePhoneNumber = (phoneNumber) => {
-    const regex = /^\d{3}-\d{4}-\d{4}$/;
-    return regex.test(phoneNumber);
-  };
 
   const isStepValid = () => {
     switch (step) {
@@ -34,7 +29,7 @@ function SurveyGroomer() {
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
-        return validatePhoneNumber(groomerInfo.phone);
+        return validPhoneNum(groomerInfo.phone.trim());
       case 4:
         return groomerInfo.contactHours.trim() !== '';
       case 5:
@@ -97,7 +92,7 @@ function SurveyGroomer() {
             >
               <Button
                 size="large"
-                disabled={isStepValid() ? false : true}
+                disabled={!isStepValid()}
                 backgroundColor={isStepValid() ? 'primary' : 'n3'}
                 onClick={async () => {
                   if (!isStepValid()) return '';
@@ -108,7 +103,7 @@ function SurveyGroomer() {
               <Button
                 size="large"
                 backgroundColor="primary"
-                disabled={isStepValid() ? false : true}
+                disabled={!isStepValid()}
                 onClick={async () => {
                   if (!isStepValid()) return '';
                   if (await handleSaveProfile()) handleNextStep();
@@ -119,7 +114,7 @@ function SurveyGroomer() {
           ) : (
             <Button
               size="large"
-              disabled={isStepValid() ? false : true}
+              disabled={!isStepValid()}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label={step === 7 ? '프로필 저장하기' : '다음으로'}
