@@ -50,3 +50,51 @@ export const deleteEstimate = async (requestId) => {
     return false;
   }
 };
+
+export const getEditEstimate = async (estimateId) => {
+  try {
+    const { data } = await apiClient.get(
+      RequestController.estimate + `/${estimateId}`
+    );
+    return data.response;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const getEditEstimateDog = async (requestId, dogProfileId) => {
+  try {
+    const { data } = await apiClient.get(
+      RequestController.estimate + `/${requestId}/${dogProfileId}`
+    );
+    return data.response;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const putEditEstimateDog = async (
+  estimateId,
+  estimateEdit,
+  estimateDogPrice
+) => {
+  try {
+    const { data } = await apiClient.put(
+      RequestController.estimate + `/update`,
+      {
+        estimateId: estimateId,
+        totalAmount: estimateEdit.totalAmount,
+        description: estimateEdit.comment,
+        imageKey: estimateEdit.imageKey,
+        date: estimateEdit.date,
+        dogPriceList: estimateDogPrice,
+      }
+    );
+    return data.response;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};

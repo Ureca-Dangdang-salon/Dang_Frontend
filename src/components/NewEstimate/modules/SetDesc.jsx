@@ -2,18 +2,15 @@ import InputText from '@components/Common/InputText/InputText';
 import TextArea from '@components/Common/TextArea/TextArea';
 import SubTitle from '@components/NewRequest/atoms/SubTitle';
 import { Box, Typography } from '@mui/material';
-import useEstimateStore from '@/store/useEstimateStore';
 import ImageSelector from '@components/Features/ImageSelector';
 
-const SetDesc = () => {
-  const { estimateInfo, setEstimateInfo } = useEstimateStore();
-
+const SetDesc = ({ info, set }) => {
   return (
     <Box display="flex" flexDirection="column" gap={4}>
       <div>
         <SubTitle title="총 금액" />
         <InputText
-          value={estimateInfo.totalAmount + ' 원'}
+          value={info?.totalAmount + ' 원'}
           disabled={true}
           onChange={() => ''}
         />
@@ -26,17 +23,20 @@ const SetDesc = () => {
         <TextArea
           placeholder="설명을 작성해주세요."
           rows={5}
-          value={estimateInfo.description}
-          onChange={(e) => setEstimateInfo({ description: e.target.value })}
+          value={info?.description || info?.comment}
+          onChange={(e) => {
+            const field =
+              (info?.description && 'description') ||
+              (info?.comment && 'comment');
+            set(field, e.target.value);
+          }}
         />
       </div>
       <div>
         <ImageSelector
           maxImages={1}
-          images={estimateInfo.imageKey ? [estimateInfo.imageKey] : []}
-          onChange={(updatedImages) =>
-            setEstimateInfo({ imageKey: updatedImages[0] })
-          }
+          images={info?.imageKey ? [info.imageKey] : []}
+          onChange={(updatedImages) => set('imageKey', updatedImages[0])}
         />
       </div>
     </Box>
