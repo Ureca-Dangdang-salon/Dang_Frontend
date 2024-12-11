@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { SurveyHeader } from '@components/Common/SurveyHeader/SurveyHeader';
-import NewRequest from '@components/NewRequest/templates/NewRequest';
+import NewRequest from '@components/Request/templates/NewRequest';
 import usePageStore from '@/store/usePageStore';
 
 const NewRequestPage = () => {

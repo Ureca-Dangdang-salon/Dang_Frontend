@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import ChargeInput from '../atoms/ChargeInput';
 import InputText from '@components/Common/InputText/InputText';
 import useEstimateStore from '@/store/useEstimateStore';

@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import usePageStore from '@/store/usePageStore';
-import SelectDogItem from '@components/NewRequest/atoms/SelectDogItem';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SelectDogItem from '@components/Request/atoms/SelectDogItem';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import useEstimateStore from '@/store/useEstimateStore';
 import { useEffect } from 'react';
 

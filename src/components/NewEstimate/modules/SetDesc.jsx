@@ -1,6 +1,6 @@
 import InputText from '@components/Common/InputText/InputText';
 import TextArea from '@components/Common/TextArea/TextArea';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import { Box, Typography } from '@mui/material';
 import ImageSelector from '@components/Features/ImageSelector';
 

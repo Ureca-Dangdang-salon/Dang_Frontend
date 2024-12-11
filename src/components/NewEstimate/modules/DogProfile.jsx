@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from '@mui/material';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import DogCompareImg from '@components/Features/DogCompareImg';
 
 const DogProfile = ({ dogDetailData }) => {

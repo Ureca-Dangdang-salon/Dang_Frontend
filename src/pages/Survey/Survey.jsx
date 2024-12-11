@@ -4,7 +4,7 @@ import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
 import Button from '@/components/Common/Button/Button';
 import { join } from '@/api/auth';
 import { RegionModal } from '@components/Common/RegionModal/RegionModal';
-import { Selector2 } from '@components/NewRequest/atoms/Selector2';
+import { Selector2 } from '@components/Request/atoms/Selector2';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';

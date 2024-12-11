@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Grid2 } from '@mui/material';
-import PetItem from '@components/NewRequest/atoms/PetItem';
+import PetItem from '@components/Request/atoms/PetItem';
 import { getDogProfiles } from '@/api/request';
 import useRequestStore from '@/store/useRequestStore';
 
