@@ -14,10 +14,8 @@ import { Modal } from '@components/Common/Modal/Modal';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
 import {
-  unregisterServiceWorker,
   unsubscribeFromNotifications,
   handleEnableNotifications,
-  registerServiceWorker,
 } from '@/firebase/firebaseMessaging';
 
 const Notification = () => {
@@ -44,11 +42,9 @@ const Notification = () => {
       setNotificationEnabled(!notificationEnabled);
 
     if (!notificationEnabled) {
-      registerServiceWorker();
       await handleEnableNotifications();
     } else {
       await unsubscribeFromNotifications();
-      unregisterServiceWorker();
     }
   };
 

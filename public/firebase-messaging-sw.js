@@ -22,8 +22,6 @@ if (!self.firebaseMessagingInitialized) {
   self.firebaseMessagingInitialized = true;
 
   messaging.onBackgroundMessage((payload) => {
-    console.log('[Service Worker] Background message received:', payload);
-
     if (payload.notification) {
       const notificationTitle = payload.notification.title || 'Default Title';
       const notificationOptions = {
