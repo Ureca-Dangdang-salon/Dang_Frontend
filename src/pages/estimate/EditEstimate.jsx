@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import EditFristStep from '@components/NewEstimate/templates/EditFristStep';
+import EditFristStep from '@components/Estimate/templates/EditFristStep';
 import { useEffect } from 'react';
 import { getEditEstimate, getEditEstimateDog } from '@/api/estimate';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 import usePageStore from '@/store/usePageStore';
-import EditDetailStep from '@components/NewEstimate/templates/EditDetailStep';
+import EditDetailStep from '@components/Estimate/templates/EditDetailStep';
 import { SurveyHeader } from '@components/Common/SurveyHeader/SurveyHeader';
 import { useNavigate } from 'react-router-dom';
 

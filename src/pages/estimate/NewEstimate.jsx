@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import usePageStore from '@/store/usePageStore';
 import { SurveyHeader } from '@components/Common/SurveyHeader/SurveyHeader';
-import FirstStep from '@components/NewEstimate/templates/FirstStep';
-import DetailStep from '@components/NewEstimate/templates/DetailStep';
+import FirstStep from '@components/Estimate/templates/FirstStep';
+import DetailStep from '@components/Estimate/templates/DetailStep';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const NewEstimatePage = () => {
