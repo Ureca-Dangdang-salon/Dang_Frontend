@@ -70,7 +70,6 @@ export const registerServiceWorker = () => {
 };
 
 export const handleEnableNotifications = async () => {
-  registerServiceWorker();
   await requestNotificationPermission();
   const token = await getFCMToken();
   if (token) console.log('FCM Token:', token);

@@ -17,6 +17,7 @@ import {
   unregisterServiceWorker,
   unsubscribeFromNotifications,
   handleEnableNotifications,
+  registerServiceWorker,
 } from '@/firebase/firebaseMessaging';
 
 const Notification = () => {
@@ -43,6 +44,7 @@ const Notification = () => {
       setNotificationEnabled(!notificationEnabled);
 
     if (!notificationEnabled) {
+      registerServiceWorker();
       await handleEnableNotifications();
     } else {
       await unsubscribeFromNotifications();
