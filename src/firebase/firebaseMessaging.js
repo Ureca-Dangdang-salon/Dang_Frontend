@@ -12,11 +12,11 @@ export const initializeForegroundNotifications = () => {
     onMessage(messaging, (payload) => {
       console.log('Message received in foreground:', payload);
 
-      const notificationTitle = payload.notification.title;
+      const notificationTitle = payload.data.title;
       const notificationOptions = {
-        body: payload.notification.body,
-        icon: payload.notification.icon,
-        data: payload.notification.data,
+        body: payload.data.body,
+        icon: payload.data.icon,
+        data: payload.data,
       };
 
       if (
@@ -29,7 +29,7 @@ export const initializeForegroundNotifications = () => {
         );
         notification.onclick = (event) => {
           event.preventDefault();
-          const redirectUrl = payload.notification.data?.url;
+          const redirectUrl = payload.data.url;
           if (redirectUrl) window.open(redirectUrl, '_self');
           notification.close();
         };

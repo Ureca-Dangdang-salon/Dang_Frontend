@@ -22,17 +22,18 @@ if (!self.firebaseMessagingInitialized) {
   self.firebaseMessagingInitialized = true;
 
   messaging.onBackgroundMessage((payload) => {
-    if (payload.notification) {
-      const notificationTitle = payload.notification.title || 'Default Title';
-      const notificationOptions = {
-        body: payload.notification.body || 'Default Body',
-        icon: payload.notification.icon || '/default-icon.png',
-      };
+    console.log('[Service Worker] Background message received:', payload);
 
-      self.registration.showNotification(
-        notificationTitle,
-        notificationOptions
-      );
-    }
+    const notificationTitle = payload.data.title;
+    const notificationOptions = {
+      body: payload.data.body,
+      icon: '/default-icon.png',
+      data: {
+        url: payload.data.url,
+        notificationId: payload.data.notificationId,
+      },
+    };
+
+    self.registration.showNotification(notificationTitle, notificationOptions);
   });
 }
