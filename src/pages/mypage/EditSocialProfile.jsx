@@ -35,7 +35,7 @@ const EditSocialProfile = () => {
   };
 
   const handleSubmit = () => {
-    updateSocialProfile(data.imageKey, districtId);
+    updateSocialProfile(data.imageKey, data.email, districtId);
     navigate(-1);
   };
 

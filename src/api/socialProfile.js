@@ -11,10 +11,11 @@ export const socialProfile = async () => {
   }
 };
 
-export const updateSocialProfile = async (image_key, district_id) => {
+export const updateSocialProfile = async (image_key, email, district_id) => {
   try {
     const { data } = await apiClient.put(ProfileController.socialProfile, {
       imageKey: image_key,
+      email: email,
       districtId: district_id,
     });
     return data.response === '유저 정보가 변경되었습니다.';
