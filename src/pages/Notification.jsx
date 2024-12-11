@@ -1,5 +1,5 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
-import { Box, Typography, Badge, Switch } from '@mui/material';
+import { Box, Typography, Switch } from '@mui/material';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { useNavigate } from 'react-router-dom';
 import EmptyContent from '@components/Layout/EmptyContent';
