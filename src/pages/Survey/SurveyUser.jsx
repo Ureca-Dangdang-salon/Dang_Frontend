@@ -14,7 +14,6 @@ import useSurveyUserStore from '@/store/useSurveyUserStore';
 import { postDogProfile } from '@/api/dogProfile';
 import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
-import { handleEnableNotifications } from '@/utils/NotificationService';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
@@ -62,7 +61,6 @@ const SurveyUser = () => {
 
   const completeProfile = async () => {
     if (await handleSaveProfile()) {
-      handleEnableNotifications();
       navigate(paths.home);
     }
   };
@@ -122,7 +120,7 @@ const SurveyUser = () => {
           ) : (
             <Button
               size="large"
-              disabled={isStepValid() ? false : true}
+              disabled={!isStepValid()}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label="다음으로"

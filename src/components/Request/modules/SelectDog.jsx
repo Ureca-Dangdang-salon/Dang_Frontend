@@ -36,6 +36,14 @@ const SelectDog = ({ title }) => {
             .filter(Boolean)
             .join(', ');
 
+          const desc = [
+            dogInfo.healthIssue ? '질병' : '',
+            dogInfo.aggression ? '공격성' : '',
+            dogInfo.description,
+          ]
+            .filter(Boolean)
+            .join(', ');
+
           return (
             <Box
               key={idx}
@@ -47,11 +55,7 @@ const SelectDog = ({ title }) => {
               <SelectDogItem
                 data={dogData}
                 selectedServices={selectedServices}
-                description={
-                  (dogInfo.healthIssue && '질병 ') +
-                  (dogInfo.aggression && '공격성 ') +
-                  dogInfo.description
-                }
+                description={desc}
               />
             </Box>
           );

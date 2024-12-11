@@ -1,8 +1,14 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Toaster } from 'react-hot-toast';
 import paths from '@/routes/paths';
+import { useEffect } from 'react';
+import {
+  requestNotificationPermission,
+  getFCMToken,
+  initializeForegroundNotifications,
+} from '../firebase/firebaseMessaging';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
