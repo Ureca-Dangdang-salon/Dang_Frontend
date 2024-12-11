@@ -20,7 +20,6 @@ export const getNotification = async () => {
       NotificationController.getNotification
     );
 
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);

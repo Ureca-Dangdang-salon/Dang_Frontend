@@ -13,13 +13,20 @@ import { dogProfile, updateDogProfile } from '@/api/dogProfile';
 import { characteristics } from '@/constants/features';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '@components/Common/Checkbox/Checkbox';
+import paths from '@/routes/paths';
+import {
+  isNotNull,
+  isNotZero,
+  stringNotEmpty,
+  validDogAge,
+} from '@/utils/toastUtils';
 
 const DogProfile = () => {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
   const [data, setData] = useState({});
   const [features, setFeatures] = useState([]);
-  const [additionalFeature, setAdditionalFeature] = useState('');
+  const [additionalFeature, setAdditionalFeature] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,8 +36,16 @@ const DogProfile = () => {
 
     const getDogProfile = async () => {
       const res = await dogProfile(id);
+      const featList = res.features.map((item) => item.description);
+      const addFeat = featList.find((item) => !(item in characteristics));
+
+      if (addFeat != '') {
+        setAdditionalFeature(addFeat);
+        setFeatures([...features.filter((item) => item !== addFeat), '기타']);
+      }
+
       setData(res);
-      setFeatures(res.features.map((item) => item.description));
+      setFeatures(featList);
       setLoading(false);
     };
 
@@ -45,13 +60,53 @@ const DogProfile = () => {
     handleChange('profileImage', image);
   };
 
-  const handleSubmit = () => {
-    const featureIds = features
-      .filter((feat) => feat !== '기타' && feat !== '없음')
-      .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
+  const handleFeatureChange = (trait) => {
+    setFeatures((prevFeatures) => {
+      if (trait === '없음') {
+        setAdditionalFeature(null);
+        return ['없음'];
+      } else {
+        console.log(prevFeatures);
+        if (prevFeatures.includes(trait)) {
+          if (trait === '기타') {
+            setAdditionalFeature(null);
+          }
+          return prevFeatures.filter((item) => item !== trait);
+        } else {
+          if (trait === '기타') {
+            setAdditionalFeature('');
+          }
+          return [...prevFeatures.filter((item) => item !== '없음'), trait];
+        }
+      }
+    });
+  };
 
-    updateDogProfile(data, id, featureIds, additionalFeature);
-    navigate(-1);
+  const isValid = () => {
+    const featuresValid =
+      features.length !== 0 ||
+      characteristics.없음 === true ||
+      additionalFeature.trim() !== '';
+
+    return (
+      stringNotEmpty(data.name.trim(), '반려견 이름') &&
+      validDogAge(data.ageYear, data.ageMonth) &&
+      isNotZero(data.weight, '반려견의 몸무게') &&
+      stringNotEmpty(data.species, '견종') &&
+      isNotNull(data.species) &&
+      featuresValid
+    );
+  };
+
+  const handleSubmit = async () => {
+    if (isValid()) {
+      const featureIds = features
+        .filter((feat) => feat !== '기타' && feat !== '없음')
+        .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
+
+      await updateDogProfile(data, id, featureIds, additionalFeature);
+      navigate(paths.mypage);
+    }
   };
 
   if (loading) return <Typography>LOADING</Typography>;
@@ -69,7 +124,7 @@ const DogProfile = () => {
         </Box>
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
-          이름
+          이름 *
         </Typography>
         <Box width="100%" display="flex" flexDirection="column">
           <InputText
@@ -79,7 +134,7 @@ const DogProfile = () => {
         </Box>
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          나이
+          나이 *
         </Typography>
         <NumberPicker
           onChange={(value) => handleChange('ageYear', value)}
@@ -96,7 +151,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          견종
+          견종 *
         </Typography>
         <Selector
           label="견종을 선택해주세요"
@@ -107,7 +162,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          성별
+          성별 *
         </Typography>
         <RadioButton
           label="남아"
@@ -124,7 +179,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          중성화 여부
+          중성화 여부 *
         </Typography>
         <RadioButton
           label="했어요"
@@ -151,7 +206,7 @@ const DogProfile = () => {
         />
 
         <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-          특징
+          특징 *
         </Typography>
         {Object.entries(characteristics).map(([trait, checked]) => (
           <Box key={trait}>
@@ -159,19 +214,7 @@ const DogProfile = () => {
               size="large"
               label={trait}
               selected={features.includes(trait)}
-              onChange={() => {
-                setFeatures((prevFeatures) => {
-                  if (trait === '없음') return ['없음'];
-                  if (trait === '기타') setAdditionalFeature('');
-                  if (prevFeatures.includes(trait))
-                    return prevFeatures.filter((item) => item !== trait);
-
-                  return [
-                    ...prevFeatures.filter((item) => item !== '없음'),
-                    trait,
-                  ];
-                });
-              }}
+              onChange={() => handleFeatureChange(trait)}
             />
             {trait === '기타' && features.includes(trait) && (
               <Box sx={{ mt: 2, mb: 2 }}>
