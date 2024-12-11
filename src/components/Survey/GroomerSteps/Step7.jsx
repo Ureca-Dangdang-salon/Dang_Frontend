@@ -41,7 +41,7 @@ const Step7 = () => {
           </Typography>
           <InputText
             size="large"
-            placeholder="사업자 번호를 입력해주세요"
+            placeholder="123-45-67890"
             value={businessInfo.businessNumber}
             onChange={(e) =>
               setBusinessInfo({ businessNumber: e.target.value })
@@ -55,7 +55,7 @@ const Step7 = () => {
           </Typography>
           <InputText
             size="large"
-            placeholder="가게 위치 정보를 입력해주세요"
+            placeholder="댕댕로 000-00"
             value={businessInfo.address}
             onChange={(e) => setBusinessInfo({ address: e.target.value })}
           />

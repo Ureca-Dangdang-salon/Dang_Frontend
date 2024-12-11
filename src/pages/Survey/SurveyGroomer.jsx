@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
 import Button from '@/components/Common/Button/Button';
@@ -14,10 +14,18 @@ import {
   postAddGroomerProfile,
   postGroomerProfile,
 } from '@/api/groomerProfile';
+import { cantGoBack } from '@/utils/toastUtils';
+import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/utils/NotificationService';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const regex = /^\d{3}-\d{4}-\d{4}$/;
+    return regex.test(phoneNumber);
+  };
 
   const isStepValid = () => {
     switch (step) {
@@ -26,7 +34,7 @@ function SurveyGroomer() {
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
-        return groomerInfo.phone.trim() !== '';
+        return validatePhoneNumber(groomerInfo.phone);
       case 4:
         return groomerInfo.contactHours.trim() !== '';
       case 5:
@@ -43,13 +51,16 @@ function SurveyGroomer() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate('/home');
+      if (await postAddGroomerProfile(businessInfo)) {
+        handleEnableNotifications();
+        navigate(paths.home);
+      }
     } else setStep(step + 1);
   };
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
-    else navigate('/survey');
+    else cantGoBack();
   };
 
   const handleSaveProfile = async () => {
@@ -65,7 +76,7 @@ function SurveyGroomer() {
         currPage={step}
         backHandler={handleBack}
       />
-      <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
+      <Box sx={{ px: 4 }}>
         {step === 1 && <Step1 />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}
@@ -75,47 +86,47 @@ function SurveyGroomer() {
         {step === 7 && <Step7 />}
         <Box
           sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            pb: 5,
-            bgcolor: 'white',
+            pt: 5,
             display: 'flex',
             justifyContent: 'center',
           }}
         >
           {step === 6 ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box
+              sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}
+            >
               <Button
                 size="large"
+                disabled={isStepValid() ? false : true}
                 backgroundColor={isStepValid() ? 'primary' : 'n3'}
                 onClick={async () => {
                   if (!isStepValid()) return '';
-                  if (await handleSaveProfile()) navigate('/home');
+                  if (await handleSaveProfile()) navigate(paths.home);
                 }}
                 label="프로필 저장하기"
               />
               <Button
                 size="large"
-                backgroundColor={'n3'}
+                backgroundColor="primary"
+                disabled={isStepValid() ? false : true}
                 onClick={async () => {
                   if (!isStepValid()) return '';
                   if (await handleSaveProfile()) handleNextStep();
                 }}
-                label="상세 정보 작성하기"
+                label="상세 정보 작성하기 (선택)"
               />
             </Box>
           ) : (
             <Button
               size="large"
+              disabled={isStepValid() ? false : true}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label={step === 7 ? '프로필 저장하기' : '다음으로'}
             />
           )}
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

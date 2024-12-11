@@ -34,7 +34,6 @@ const EditReview = () => {
 
   return (
     <Box>
-      <Toaster />
       <DetailHeader label="리뷰 작성" />
       <Box p={4}>
         <Box display="flex">

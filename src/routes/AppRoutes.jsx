@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { Navbar } from '@components/Common/Navbar/Navbar';
+import { Toaster } from 'react-hot-toast';
 import paths from '@/routes/paths';
 
 import Home from '../pages/Home';
@@ -36,6 +37,7 @@ import PrivateRoute from './PrivateRoute';
 import AddDogProfile from '@/pages/Survey/AddDogProfile';
 import AddSalonProfile from '@/pages/Survey/AddSalonProfile';
 import EditReview from '@/pages/mypage/EditReview';
+import SalonReviews from '@/pages/SalonReviews';
 
 const AppRoutes = () => {
   return (
@@ -59,12 +61,13 @@ const AppContent = () => {
         boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.05)',
       }}
     >
+      <Toaster />
       <Box paddingBottom="80px" height="100%">
         <Routes>
           <Route path={paths.login} element={<Login />} />
+          <Route path={paths.survey.root} element={<Survey />} />
           <Route element={<PrivateRoute />}>
             <Route path="*" element={<NotFound />} />
-            <Route path={paths.survey.root} element={<Survey />} />
             <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
             <Route path={paths.survey.user} element={<SurveyUser />} />
             <Route path={paths.home} element={<Home />} />
@@ -95,6 +98,7 @@ const AppContent = () => {
             <Route path={paths.editDogProfile} element={<DogProfile />} />
             <Route path={paths.survey.dogProfile} element={<AddDogProfile />} />
             <Route path={paths.salonProfile} element={<SalonProfile />} />
+            <Route path={paths.salonReviews} element={<SalonReviews />} />
             <Route
               path={paths.survey.groomerProfile}
               element={<AddSalonProfile />}

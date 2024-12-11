@@ -8,12 +8,12 @@ import { Selector2 } from '@components/NewRequest/atoms/Selector2';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
-import useRoleStore from '@/store/useRoleStore';
+import useUserStore from '@/store/useUserStore';
 
 function Survey() {
   const [location, setLocation] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { role, setRole } = useRoleStore();
+  const { role, setRole } = useUserStore();
   const [id, setId] = useState(null);
   const navigate = useNavigate();
 
@@ -68,12 +68,14 @@ function Survey() {
         >
           <Button
             size="large"
+            disabled={location ? false : true}
             backgroundColor={location ? 'primary' : 'n3'}
             onClick={handleHairstylistSignup}
             label="미용사로 가입하기"
           />
           <Button
             size="large"
+            disabled={location ? false : true}
             backgroundColor={location ? 'secondary' : 'n3'}
             onClick={handleUserSignup}
             label="사용자로 가입하기"

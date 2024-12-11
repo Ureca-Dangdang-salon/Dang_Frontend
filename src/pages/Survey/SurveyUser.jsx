@@ -1,4 +1,4 @@
-import { Container, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
 import Button from '@/components/Common/Button/Button';
@@ -12,6 +12,9 @@ import Step6 from '@/components/Survey/UserSteps/Step6';
 import Step7 from '@/components/Survey/UserSteps/Step7';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 import { postDogProfile } from '@/api/dogProfile';
+import { cantGoBack } from '@/utils/toastUtils';
+import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/utils/NotificationService';
 
 const SurveyUser = () => {
   const navigate = useNavigate();
@@ -57,8 +60,11 @@ const SurveyUser = () => {
     }
   };
 
-  const handleGoHome = async () => {
-    if (await handleSaveProfile()) navigate('/home');
+  const completeProfile = async () => {
+    if (await handleSaveProfile()) {
+      handleEnableNotifications();
+      navigate(paths.home);
+    }
   };
 
   const handleNextStep = () => {
@@ -68,7 +74,7 @@ const SurveyUser = () => {
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
-    else navigate('/survey');
+    else cantGoBack();
   };
 
   return (
@@ -80,7 +86,7 @@ const SurveyUser = () => {
         backHandler={handleBack}
       />
 
-      <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
+      <Box sx={{ px: 4 }}>
         {step === 1 && <Step1 />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}
@@ -91,12 +97,7 @@ const SurveyUser = () => {
 
         <Box
           sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            pb: 5,
-            bgcolor: 'white',
+            pt: 5,
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -110,7 +111,7 @@ const SurveyUser = () => {
               secondaryButton="홈으로 가기"
               primaryButton="추가하기"
               action={handleAddAnotherPet}
-              onGoHome={handleGoHome}
+              onGoHome={completeProfile}
               buttonSx={{
                 width: '326px',
                 height: '60px',
@@ -121,13 +122,14 @@ const SurveyUser = () => {
           ) : (
             <Button
               size="large"
+              disabled={isStepValid() ? false : true}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label="다음으로"
             />
           )}
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };

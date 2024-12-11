@@ -46,7 +46,7 @@ const Step5 = () => {
   return (
     <SurveySection title="서비스 지역을 알려주세요.">
       <Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
           {serviceAreas.map((area, index) => (
             <Box
               key={index}

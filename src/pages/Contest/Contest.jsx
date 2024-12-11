@@ -2,17 +2,19 @@ import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
 import { Box, Typography } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import {useState, useEffect, useCallback} from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Feed from '@components/Contest/Feed';
 import { Modal } from '@/components/Common/Modal/Modal';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import {
   checkContestParticipation,
-  deletePost, fetchContestDetails,
+  deletePost,
+  fetchContestDetails,
   fetchCurrentContest,
-  getContestPosts, likePost,
-  unlikePost
-} from "@/api/contestApi.js";
+  getContestPosts,
+  likePost,
+  unlikePost,
+} from '@/api/contestApi.js';
 
 const Contest = () => {
   const navigate = useNavigate();
@@ -26,19 +28,11 @@ const Contest = () => {
 
   const tempLoginUserId = 1;
 
-  // useEffect(() => {
-  //   // localStorage에서 참여한 미용사 목록 가져오기
-  //   const participated = JSON.parse(
-  //     localStorage.getItem('participatedGroomers') || '[]'
-  //   );
-  //   setParticipatedGroomers(participated);
-  // }, []);
-
   useEffect(() => {
     const loadContestInfo = async () => {
       try {
         const contest = await fetchCurrentContest();
-        console.log("contestInfo:", contest);
+        console.log('contestInfo:', contest);
         if (contest) {
           setCurrentContest(contest);
           setPosts([]);
@@ -46,7 +40,7 @@ const Contest = () => {
           setIsLastPage(false);
 
           const details = await fetchContestDetails(contest.contestId);
-          console.log("details:", details);
+          console.log('details:', details);
           setContestDetails(details);
         }
       } catch (error) {
@@ -86,7 +80,9 @@ const Contest = () => {
 
   const handleParticipation = async () => {
     try {
-      const response = await checkContestParticipation(currentContest.contestId);
+      const response = await checkContestParticipation(
+        currentContest.contestId
+      );
 
       if (response.already_participated) {
         alert('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
@@ -108,15 +104,17 @@ const Contest = () => {
   const handleDeletePost = async (postId) => {
     try {
       const response = await deletePost(postId);
-      if (response === "포스트 삭제가 완료되었습니다.") {
-        alert("포스트가 삭제되었습니다.");
-        setPosts((prevPosts) => prevPosts.filter((post) => post.postId !== postId));
+      if (response === '포스트 삭제가 완료되었습니다.') {
+        alert('포스트가 삭제되었습니다.');
+        setPosts((prevPosts) =>
+          prevPosts.filter((post) => post.postId !== postId)
+        );
       } else {
-        alert("포스트 삭제 중 문제가 발생했습니다.");
+        alert('포스트 삭제 중 문제가 발생했습니다.');
       }
     } catch (error) {
       console.error(error);
-      alert("포스트 삭제 중 문제가 발생했습니다.");
+      alert('포스트 삭제 중 문제가 발생했습니다.');
     }
   };
 
@@ -124,10 +122,10 @@ const Contest = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
     if (
-        scrollTop + clientHeight >= scrollHeight &&
-        !isLoading &&
-        !isLastPage &&
-        currentContest
+      scrollTop + clientHeight >= scrollHeight &&
+      !isLoading &&
+      !isLastPage &&
+      currentContest
     ) {
       fetchPosts();
     }
@@ -157,53 +155,13 @@ const Contest = () => {
 
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
-          post.postId === postId
-            ? { ...post, liked: !isLiked }
-            :post
+          post.postId === postId ? { ...post, liked: !isLiked } : post
         )
       );
     } catch (error) {
       console.error(error);
     }
-  }
-
-  // // 예시 데이터
-  // const contestEntries = [
-  //   {
-  //     id: 1,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '홍길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '이길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: false,
-  //   },
-  //
-  //   {
-  //     id: 3,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '김길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: false,
-  //   },
-  //
-  //   {
-  //     id: 4,
-  //     imageUrl: '/images/dog.png',
-  //     userProfile: '/images/default-dog-profile.png',
-  //     nickname: '박길동',
-  //     explanation: '자랑자랑자랑우리강아지너무귀엽지대박이지',
-  //     isLiked: false,
-  //   },
-  // ];
+  };
 
   return (
     <div>
@@ -218,9 +176,11 @@ const Contest = () => {
             <Box
               component="span"
               onClick={() =>
-                  contestDetails?.recentWinner?.groomerProfileId
-                      ? navigate(`/salonprofile/${contestDetails.recentWinner.groomerProfileId}`)
-                      : alert('우승자 정보가 없습니다.')
+                contestDetails?.recentWinner?.groomerProfileId
+                  ? navigate(
+                      `/salonprofile/${contestDetails.recentWinner.groomerProfileId}`
+                    )
+                  : alert('우승자 정보가 없습니다.')
               }
               sx={{
                 cursor: 'pointer',
@@ -231,13 +191,18 @@ const Contest = () => {
             </Box>
           </Box>
           {contestDetails?.recentWinner ? (
-              <WinnerProfile
-                  name={contestDetails.recentWinner.dogName || '알 수 없는 강아지 이름'}
-                  profileImage={contestDetails.recentWinner.imageUrl || '/images/default-image.jpg'}
-                  showVotes={false}
-              />
+            <WinnerProfile
+              name={
+                contestDetails.recentWinner.dogName || '알 수 없는 강아지 이름'
+              }
+              profileImage={
+                contestDetails.recentWinner.imageUrl ||
+                '/images/default-image.jpg'
+              }
+              showVotes={false}
+            />
           ) : (
-              <Typography>우승자 정보가 없습니다.</Typography>
+            <Typography>우승자 정보가 없습니다.</Typography>
           )}
           {/* 참여 버튼 */}
           <Box display="flex" justifyContent="center" mt={5} mb={5}>
@@ -283,22 +248,24 @@ const Contest = () => {
               }}
             >
               {posts.map((post) => (
-                  <Feed
-                      key={post.postId}
-                      imageUrl={post.imageUrl}
-                      nickname={post.dogName}
-                      explanation={post.description}
-                      isLiked={post.liked}
-                      deleteButton={
-                        post.userId === tempLoginUserId
-                            ? () => handleDeletePost(post.postId)
-                            : null
-                      }
-                      onLikeToggle={() => handleLikeToggle(post.postId, post.liked)}
-                  />
+                <Feed
+                  key={post.postId}
+                  imageUrl={post.imageUrl}
+                  nickname={post.dogName}
+                  explanation={post.description}
+                  isLiked={post.liked}
+                  deleteButton={
+                    post.userId === tempLoginUserId
+                      ? () => handleDeletePost(post.postId)
+                      : null
+                  }
+                  onLikeToggle={() => handleLikeToggle(post.postId, post.liked)}
+                />
               ))}
               {isLoading && <Typography>로딩 중...</Typography>}
-              {isLastPage && <Typography>더 이상 게시물이 없습니다.</Typography>}
+              {isLastPage && (
+                <Typography>더 이상 게시물이 없습니다.</Typography>
+              )}
             </Box>
           </Box>{' '}
         </Box>

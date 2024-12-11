@@ -5,13 +5,13 @@ import MySalonPage from './MySalonPage';
 import { Modal } from '@components/Common/Modal/Modal';
 import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
-import useRoleStore from '@/store/useRoleStore';
+import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
 
 const Mypage = () => {
   const defaultImgPath = '/images/default-groomer-profile.png';
   const [data, setData] = useState({});
-  const { role } = useRoleStore();
+  const { role } = useUserStore();
 
   useEffect(() => {
     const getSocialProfile = async () => {
@@ -22,14 +22,12 @@ const Mypage = () => {
   }, []);
 
   const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
-  const imageStyle = data.imageKey
-    ? {
-        borderRadius: '50%',
-        objectFit: 'cover',
-        border: '2px solid',
-        borderColor: '#9747FF',
-      }
-    : {};
+  const imageStyle = {
+    borderRadius: '50%',
+    objectFit: 'cover',
+    border: '2px solid',
+    borderColor: '#FDD94E',
+  };
 
   const handleLogout = async () => {
     try {
@@ -42,7 +40,7 @@ const Mypage = () => {
 
   return (
     <Box>
-      <Header invisible={true} />
+      <Header />
       <Box p={4} color="text.main">
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Box display="flex" alignItems="center">
@@ -50,6 +48,7 @@ const Mypage = () => {
               src={imageSrc}
               alt="profile_img"
               width="60px"
+              height="60px"
               style={imageStyle}
             />
             <Box ml={2}>
