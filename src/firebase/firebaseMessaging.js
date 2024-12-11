@@ -12,6 +12,11 @@ export const initializeForegroundNotifications = () => {
     onMessage(messaging, (payload) => {
       console.log('Message received in foreground:', payload);
 
+      if (!payload.data) {
+        console.log('No notification object in payload, skipping...');
+        return;
+      }
+
       const notificationTitle = payload.data.title;
       const notificationOptions = {
         body: payload.data.body,
@@ -23,16 +28,7 @@ export const initializeForegroundNotifications = () => {
         Notification.permission === 'granted' &&
         document.visibilityState === 'visible'
       ) {
-        const notification = new Notification(
-          notificationTitle,
-          notificationOptions
-        );
-        notification.onclick = (event) => {
-          event.preventDefault();
-          const redirectUrl = payload.data.url;
-          if (redirectUrl) window.open(redirectUrl, '_self');
-          notification.close();
-        };
+        new Notification(notificationTitle, notificationOptions);
       }
     });
     onMessageListenerInitialized = true;
