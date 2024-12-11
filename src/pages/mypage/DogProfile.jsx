@@ -47,7 +47,7 @@ const DogProfile = () => {
       }
 
       setData(res);
-      setFeatures(featList);
+      setFeatures(featList.length === 0 ? ['없음'] : featList);
       setLoading(false);
     };
 
@@ -68,7 +68,6 @@ const DogProfile = () => {
         setAdditionalFeature(null);
         return ['없음'];
       } else {
-        console.log(prevFeatures);
         if (prevFeatures.includes(trait)) {
           if (trait === '기타') {
             setAdditionalFeature(null);
@@ -104,7 +103,11 @@ const DogProfile = () => {
     if (isValid()) {
       const featureIds = features
         .filter((feat) => feat !== '기타' && feat !== '없음')
-        .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
+        .map((feat) => {
+          const index = Object.keys(characteristics).indexOf(feat);
+          return index !== -1 ? index + 1 : null;
+        })
+        .filter((id) => id !== null);
 
       await updateDogProfile(data, id, featureIds, additionalFeature);
       navigate(paths.mypage);
@@ -221,17 +224,17 @@ const DogProfile = () => {
               }
               onChange={() => handleFeatureChange(trait)}
             />
-            {features.includes(trait) ||
-              (trait === '기타' && additionalFeature && (
-                <Box sx={{ mt: 2, mb: 2 }}>
-                  <InputText
-                    size="large"
-                    placeholder="기타 특징을 적어주세요. (최대30자)"
-                    value={additionalFeature}
-                    onChange={(e) => setAdditionalFeature(e.target.value)}
-                  />
-                </Box>
-              ))}
+            {((trait === '기타' && features.includes('기타')) ||
+              (trait === '기타' && additionalFeature != null)) && (
+              <Box sx={{ mt: 2, mb: 2 }}>
+                <InputText
+                  size="large"
+                  placeholder="기타 특징을 적어주세요. (최대30자)"
+                  value={additionalFeature}
+                  onChange={(e) => setAdditionalFeature(e.target.value)}
+                />
+              </Box>
+            )}
           </Box>
         ))}
 
