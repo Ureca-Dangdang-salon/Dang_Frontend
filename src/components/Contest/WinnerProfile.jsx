@@ -26,6 +26,9 @@ const WinnerProfile = ({
           maxWidth: '300px',
           display: 'flex',
           justifyContent: 'center',
+          overflow: 'hidden',
+          borderRadius: '50%',
+          aspectRatio: '1/1',
         }}
       >
         <img
