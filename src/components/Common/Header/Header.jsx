@@ -17,13 +17,12 @@ export const Header = () => {
     };
     getUnreadCount();
 
-    // Listen for foreground messages
-    const unsubscribe = onMessage(messaging, (payload) => {
-      console.log('Foreground message received:', payload);
-      setUnreadNotification((prev) => prev + 1);
-    });
+    // const unsubscribe = onMessage(messaging, (payload) => {
+    //   console.log('Foreground message received:', payload);
+    //   setUnreadNotification((prev) => prev + 1);
+    // });
 
-    return () => unsubscribe(); // Clean up listener on unmount
+    // return () => unsubscribe();
   }, []);
 
   return (

@@ -73,7 +73,7 @@ export const handleEnableNotifications = async () => {
   await requestNotificationPermission();
   const token = await getFCMToken();
   if (token) console.log('FCM Token:', token);
-  initializeForegroundNotifications();
+  //   initializeForegroundNotifications();
 };
 
 export const unregisterServiceWorker = () => {
