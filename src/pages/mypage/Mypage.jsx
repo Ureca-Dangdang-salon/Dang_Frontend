@@ -7,10 +7,7 @@ import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
 import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
-import {
-  unregisterServiceWorker,
-  unsubscribeFromNotifications,
-} from '@/firebase/firebaseMessaging';
+import { unsubscribeFromNotifications } from '@/firebase/firebaseMessaging';
 
 const Mypage = () => {
   const defaultImgPath = '/images/default-groomer-profile.png';
@@ -36,7 +33,6 @@ const Mypage = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      unregisterServiceWorker();
       await unsubscribeFromNotifications();
       window.location.reload();
     } catch (error) {

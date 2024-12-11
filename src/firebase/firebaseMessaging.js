@@ -38,7 +38,10 @@ export const requestNotificationPermission = async () => {
 };
 
 export const getFCMToken = async () => {
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   try {
+    await delay(1000);
     const token = await getToken(messaging, {
       vapidKey: vapidKey,
     });
@@ -56,35 +59,11 @@ export const getFCMToken = async () => {
   }
 };
 
-export const registerServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('/firebase-messaging-sw.js')
-      .then((registration) => {
-        console.log('Service Worker registered:', registration.scope);
-      })
-      .catch((error) => {
-        console.error('Service Worker registration failed:', error);
-      });
-  }
-};
-
 export const handleEnableNotifications = async () => {
   await requestNotificationPermission();
   const token = await getFCMToken();
   if (token) console.log('FCM Token:', token);
-  //   initializeForegroundNotifications();
-};
-
-export const unregisterServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
-      registrations.forEach((registration) => {
-        registration.unregister();
-        console.log('Service worker unregistered:', registration.scope);
-      });
-    });
-  }
+  initializeForegroundNotifications();
 };
 
 export const unsubscribeFromNotifications = async () => {
