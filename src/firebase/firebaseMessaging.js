@@ -102,3 +102,16 @@ export const unsubscribeFromNotifications = async () => {
     console.error('Error unsubscribing from notifications:', error);
   }
 };
+
+export const deleteCurrentFCMToken = async () => {
+  try {
+    const isTokenDeleted = await deleteToken(messaging);
+    if (isTokenDeleted) {
+      console.log('FCM token deleted successfully.');
+    } else {
+      console.warn('No FCM token to delete.');
+    }
+  } catch (error) {
+    console.error('Error deleting FCM token:', error);
+  }
+};
