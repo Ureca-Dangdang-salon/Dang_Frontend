@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box } from '@mui/material';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import SubTitle from '../atoms/SubTitle';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 
 const SelectService = () => {
   const [service, setService] = useState([]);
@@ -32,7 +33,7 @@ const SelectService = () => {
       <Box display={'flex'} flexDirection={'column'} gap={2}>
         {services.map((e, idx) => {
           return (
-            <RadioButton
+            <Checkbox
               key={idx}
               size="large"
               label={e}
