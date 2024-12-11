@@ -5,20 +5,38 @@ import { postFcmToken } from '@/api/notification';
 const vapidKey =
   'BK0rq1l6wWkjwd2tOQ_2LQVfdhEmCWE9ysr0wucnrLzCzufwYSTZlzbPMaIsm5Bv9Y92UYlYgEli_uHVasIpWT4';
 
+let onMessageListenerInitialized = false;
+
 export const initializeForegroundNotifications = () => {
-  onMessage(messaging, (payload) => {
-    console.log('Message received in foreground:', payload);
+  if (!onMessageListenerInitialized) {
+    onMessage(messaging, (payload) => {
+      console.log('Message received in foreground:', payload);
 
-    const notificationTitle = payload.notification.title;
-    const notificationOptions = {
-      body: payload.notification.body,
-      icon: payload.notification.icon,
-    };
+      const notificationTitle = payload.notification.title;
+      const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon,
+        data: payload.notification.data,
+      };
 
-    if (Notification.permission === 'granted') {
-      new Notification(notificationTitle, notificationOptions);
-    }
-  });
+      if (
+        Notification.permission === 'granted' &&
+        document.visibilityState === 'visible'
+      ) {
+        const notification = new Notification(
+          notificationTitle,
+          notificationOptions
+        );
+        notification.onclick = (event) => {
+          event.preventDefault();
+          const redirectUrl = payload.notification.data?.url;
+          if (redirectUrl) window.open(redirectUrl, '_self');
+          notification.close();
+        };
+      }
+    });
+    onMessageListenerInitialized = true;
+  }
 };
 
 export const requestNotificationPermission = async () => {
