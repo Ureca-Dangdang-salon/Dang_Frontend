@@ -21,8 +21,7 @@ export const postGroomerProfile = async (groomerInfo) => {
       servicesOfferedId: groomerInfo.servicesOfferedId,
       servicesDistrictIds: groomerInfo.servicesDistrictIds,
     });
-    if (data.response === '미용사 프로필 등록이 완료되었습니다.') return true;
-    else return false;
+    return data.response === '미용사 프로필 등록이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -44,9 +43,7 @@ export const postAddGroomerProfile = async (businessInfo) => {
         faq: businessInfo.faq,
       }
     );
-    if (data.response === '미용사 프로필 상세 정보 등록이 완료되었습니다.')
-      return true;
-    else return false;
+    return data.response === '미용사 프로필 상세 정보 등록이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -83,8 +80,7 @@ export const updateGroomerProfile = async (newData) => {
       startMessage: newData.startMessage,
       faq: newData.faq,
     });
-    if (data.response === '미용사 프로필 수정이 완료되었습니다.') return true;
-    else return false;
+    return data.response === '미용사 프로필 수정이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -95,8 +91,7 @@ export const deleteGroomerProfile = async (id) => {
   try {
     const url = `${ProfileController.groomerProfile}/${id}`;
     const { data } = await apiClient.delete(url);
-    if (data.response === '미용사 프로필 삭제가 완료되었습니다.') return true;
-    else return false;
+    return data.response === '미용사 프로필 삭제가 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;

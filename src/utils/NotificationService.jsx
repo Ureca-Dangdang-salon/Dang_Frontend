@@ -26,7 +26,6 @@ class NotificationService {
 
     this.app = initializeApp(firebaseConfig);
     this.messaging = getMessaging(this.app);
-    this.callbacks = []; // Store all callbacks for real-time updates
 
     NotificationService.instance = this;
   }
@@ -42,7 +41,7 @@ class NotificationService {
 
   listenForMessages(callback) {
     if (callback && typeof callback === 'function') {
-      this.callbacks.push(callback); // Add the callback to the list
+      this.callbacks.push(callback);
     }
 
     if (!this.isListening) {
@@ -51,12 +50,11 @@ class NotificationService {
           const { title, body } = payload.notification;
           const notificationData = { title, body };
 
-          // Trigger all registered callbacks with the new notification
           this.callbacks.forEach((cb) => cb(notificationData));
         }
       });
 
-      this.isListening = true; // Avoid duplicate listeners
+      this.isListening = true;
     }
   }
 
@@ -105,6 +103,7 @@ export const notificationServiceInstance = new NotificationService();
 export const handleEnableNotifications = async () => {
   try {
     const token = await notificationServiceInstance.requestPermission();
+    console.log(token);
     await postFcmToken(token);
   } catch (e) {
     console.error(e);

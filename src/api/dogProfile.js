@@ -5,6 +5,7 @@ export const dogProfile = async (id) => {
   try {
     const url = `${ProfileController.dogProfile}/${id}`;
     const { data } = await apiClient.get(url);
+    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
@@ -18,8 +19,7 @@ export const postDogProfile = async (petInfo) => {
       ProfileController.dogProfile,
       petInfo
     );
-    if (data.response === '반려견 프로필 등록이 완료되었습니다.') return true;
-    else return false;
+    return data.response === '반려견 프로필 등록이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -33,6 +33,7 @@ export const updateDogProfile = async (
   additionalFeature
 ) => {
   try {
+    console.log(featureIds, additionalFeature);
     const url = `${ProfileController.dogProfile}/${id}`;
     const { data } = await apiClient.put(url, {
       name: newData.name,
@@ -46,8 +47,7 @@ export const updateDogProfile = async (
       featureIds: featureIds,
       additionalFeature: additionalFeature,
     });
-    if (data.response === '반려견 프로필 수정이 완료되었습니다.') return true;
-    else return false;
+    return data.response === '반려견 프로필 수정이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -58,8 +58,7 @@ export const deleteDogProfile = async (id) => {
   try {
     const url = `${ProfileController.dogProfile}/${id}`;
     const { data } = await apiClient.delete(url);
-    if (data.response === '반려견 프로필 삭제가 완료되었습니다.') return true;
-    else return false;
+    return data.response === '반려견 프로필 삭제가 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
