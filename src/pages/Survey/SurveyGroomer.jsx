@@ -14,13 +14,17 @@ import {
   postAddGroomerProfile,
   postGroomerProfile,
 } from '@/api/groomerProfile';
-import { cantGoBack, validPhoneNum } from '@/utils/toastUtils';
+import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
-import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const regex = /^\d{3}-\d{4}-\d{4}$/;
+    return regex.test(phoneNumber);
+  };
 
   const isStepValid = () => {
     switch (step) {
@@ -29,7 +33,7 @@ function SurveyGroomer() {
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
-        return validPhoneNum(groomerInfo.phone.trim());
+        return validatePhoneNumber(groomerInfo.phone);
       case 4:
         return groomerInfo.contactHours.trim() !== '';
       case 5:
@@ -47,7 +51,6 @@ function SurveyGroomer() {
     if (!isStepValid()) return '';
     if (step === 7) {
       if (await postAddGroomerProfile(businessInfo)) {
-        handleEnableNotifications();
         navigate(paths.home);
       }
     } else setStep(step + 1);
