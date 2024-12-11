@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { loginCheck } from '@/api/auth';
 import useUserStore from '@/store/useUserStore';
-import {
-  handleEnableNotifications,
-  notificationServiceInstance,
-} from '@/utils/NotificationService';
+import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 import paths from './paths';
 import { Typography } from '@mui/material';
 
@@ -24,10 +21,7 @@ const PrivateRoute = () => {
           setNotificationEnabled(res.notificationEnabled);
           setLoading(false);
 
-          if (res.notificationEnabled) {
-            notificationServiceInstance.registerServiceWorker();
-            handleEnableNotifications();
-          }
+          if (res.notificationEnabled) handleEnableNotifications();
         } catch (error) {
           console.error('로그인 체크에 실패했습니다:', error);
           setLoggedIn(false);

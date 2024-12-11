@@ -1,14 +1,13 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import InputText from '@components/Common/InputText/InputText';
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@components/Common/Button/Button';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import { Selector } from '@components/Common/Selector/Selector';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import { breeds } from '@/constants/breeds';
 import ProfileSelector from '@components/Features/ProfileSelector';
-import { useEffect } from 'react';
 import { dogProfile, updateDogProfile } from '@/api/dogProfile';
 import { characteristics } from '@/constants/features';
 import { useNavigate } from 'react-router-dom';
@@ -39,9 +38,12 @@ const DogProfile = () => {
       const featList = res.features.map((item) => item.description);
       const addFeat = featList.find((item) => !(item in characteristics));
 
-      if (addFeat != '') {
+      if (addFeat) {
         setAdditionalFeature(addFeat);
-        setFeatures([...features.filter((item) => item !== addFeat), '기타']);
+        setFeatures((prev) => [
+          ...prev.filter((item) => item !== addFeat),
+          '기타',
+        ]);
       }
 
       setData(res);
@@ -213,19 +215,23 @@ const DogProfile = () => {
             <Checkbox
               size="large"
               label={trait}
-              selected={features.includes(trait)}
+              selected={
+                features.includes(trait) ||
+                (trait === '기타' && additionalFeature)
+              }
               onChange={() => handleFeatureChange(trait)}
             />
-            {trait === '기타' && features.includes(trait) && (
-              <Box sx={{ mt: 2, mb: 2 }}>
-                <InputText
-                  size="large"
-                  placeholder="기타 특징을 적어주세요. (최대30자)"
-                  value={additionalFeature}
-                  onChange={(e) => setAdditionalFeature(e.target.value)}
-                />
-              </Box>
-            )}
+            {features.includes(trait) ||
+              (trait === '기타' && additionalFeature && (
+                <Box sx={{ mt: 2, mb: 2 }}>
+                  <InputText
+                    size="large"
+                    placeholder="기타 특징을 적어주세요. (최대30자)"
+                    value={additionalFeature}
+                    onChange={(e) => setAdditionalFeature(e.target.value)}
+                  />
+                </Box>
+              ))}
           </Box>
         ))}
 

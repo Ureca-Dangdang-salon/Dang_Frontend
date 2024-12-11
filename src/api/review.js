@@ -9,8 +9,7 @@ export const postReview = async (newData, groomerId) => {
       starScore: newData.starScore,
       imageKey: newData.imageKey,
     });
-    if (data.response === '리뷰 등록이 완료되었습니다.') return true;
-    else return false;
+    return data.response === '리뷰 등록이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -43,8 +42,7 @@ export const deleteReview = async (reviewId) => {
   try {
     const url = `${ReviewController.review}/${reviewId}`;
     const { data } = await apiClient.delete(url);
-    if (data.response === '리뷰 삭제가 완료되었습니다.') return true;
-    else return false;
+    return data.response === '리뷰 삭제가 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;
@@ -58,8 +56,7 @@ export const updateReview = async (reviewId, newData) => {
       text: newData.text,
       reviewImages: newData.reviewImages,
     });
-    if (data.response === '리뷰 수정이 완료되었습니다.') return true;
-    else return false;
+    return data.response === '리뷰 수정이 완료되었습니다.';
   } catch (e) {
     console.log(e);
     return false;

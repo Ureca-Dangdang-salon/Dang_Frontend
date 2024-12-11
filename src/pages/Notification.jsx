@@ -11,12 +11,13 @@ import {
   updateSetting,
 } from '@/api/notification';
 import { Modal } from '@components/Common/Modal/Modal';
-import {
-  handleEnableNotifications,
-  notificationServiceInstance,
-} from '@/utils/NotificationService';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
+import {
+  unregisterServiceWorker,
+  unsubscribeFromNotifications,
+  handleEnableNotifications,
+} from '@/firebase/firebaseMessaging';
 
 const Notification = () => {
   const navigate = useNavigate();
@@ -30,19 +31,6 @@ const Notification = () => {
     };
 
     getList();
-
-    const handleIncomingNotification = (newNotification) => {
-      setNotifications((prev) => [newNotification, ...prev]);
-    };
-
-    notificationServiceInstance.listenForMessages(handleIncomingNotification);
-
-    return () => {
-      notificationServiceInstance.callbacks =
-        notificationServiceInstance.callbacks.filter(
-          (cb) => cb !== handleIncomingNotification
-        );
-    };
   }, []);
 
   const handleDeleteAll = async () => {
@@ -55,11 +43,10 @@ const Notification = () => {
       setNotificationEnabled(!notificationEnabled);
 
     if (!notificationEnabled) {
-      await notificationServiceInstance.registerServiceWorker();
       await handleEnableNotifications();
     } else {
-      await notificationServiceInstance.unsubscribeFromNotifications();
-      await notificationServiceInstance.unregisterServiceWorker();
+      await unsubscribeFromNotifications();
+      unregisterServiceWorker();
     }
   };
 

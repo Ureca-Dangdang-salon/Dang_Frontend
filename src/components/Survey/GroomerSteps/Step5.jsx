@@ -44,42 +44,44 @@ const Step5 = () => {
   };
 
   return (
-    <SurveySection title="서비스 지역을 알려주세요.">
-      <Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
-          {serviceAreas.map((area, index) => (
-            <Box
-              key={index}
-              sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-            >
-              <InputText
-                size="large"
-                placeholder="서비스 지역을 선택해주세요"
-                value={area}
-                readOnly
-                onClick={() => setIsModalOpen(true)}
-                onChange={() => ''}
-              />
-              <DeleteButton
-                size="medium"
-                label=""
-                onClick={() => handleRemove(index)}
-              />
-            </Box>
-          ))}
+    <Box mt={15} mb={15}>
+      <SurveySection title="서비스 지역을 알려주세요.">
+        <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 2 }}>
+            {serviceAreas.map((area, index) => (
+              <Box
+                key={index}
+                sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+              >
+                <InputText
+                  size="large"
+                  placeholder="서비스 지역을 선택해주세요"
+                  value={area}
+                  readOnly
+                  onClick={() => setIsModalOpen(true)}
+                  onChange={() => ''}
+                />
+                <DeleteButton
+                  size="medium"
+                  label=""
+                  onClick={() => handleRemove(index)}
+                />
+              </Box>
+            ))}
+          </Box>
+          <AddButton
+            size="large"
+            label="서비스 지역 추가하기"
+            onClick={() => setIsModalOpen(true)}
+          />
         </Box>
-        <AddButton
-          size="large"
-          label="서비스 지역 추가하기"
-          onClick={() => setIsModalOpen(true)}
+        <RegionModal
+          open={isModalOpen}
+          setOpen={setIsModalOpen}
+          setLocation={handleSetLocation}
         />
-      </Box>
-      <RegionModal
-        open={isModalOpen}
-        setOpen={setIsModalOpen}
-        setLocation={handleSetLocation}
-      />
-    </SurveySection>
+      </SurveySection>
+    </Box>
   );
 };
 

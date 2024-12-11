@@ -85,12 +85,7 @@ const AddDogProfile = () => {
 
         <Box
           sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            pb: 15,
-            bgcolor: 'white',
+            mt: 5,
             display: 'flex',
             justifyContent: 'center',
           }}

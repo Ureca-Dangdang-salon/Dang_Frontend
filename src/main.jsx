@@ -6,9 +6,9 @@ import { ThemeProvider } from '@mui/material';
 import { mainTheme } from '@/themes';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ThemeProvider theme={mainTheme}>
-      <AppRoutes />
-    </ThemeProvider>
-  </StrictMode>
+  // <StrictMode>
+  <ThemeProvider theme={mainTheme}>
+    <AppRoutes />
+  </ThemeProvider>
+  // </StrictMode>
 );
