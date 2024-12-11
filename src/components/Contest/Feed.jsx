@@ -110,6 +110,19 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 import { Modal } from '@/components/Common/Modal/Modal';
+import { keyframes } from '@mui/system';
+
+const scaleAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 const Feed = ({
   imageUrl,
@@ -149,7 +162,7 @@ const Feed = ({
             height: '24px',
           }}
         />
-        <Typography fontSize={16} ml={1} flexGrow={1}>
+        <Typography fontSize={16} ml={1} flexGrow={1} fontWeight="bold">
           {nickname}
         </Typography>
         {/* 삭제 버튼 */}
@@ -206,9 +219,19 @@ const Feed = ({
           }}
         >
           {isLiked ? (
-            <FavoriteIcon sx={{ color: 'delete.main' }} />
+            <FavoriteIcon
+              sx={{
+                color: 'delete.main',
+                animation: `${scaleAnimation} 0.5s ease`,
+              }}
+            />
           ) : (
-            <FavoriteBorderIcon sx={{ color: 'delete.main' }} />
+            <FavoriteBorderIcon
+              sx={{
+                color: 'delete.main',
+                animation: `${scaleAnimation} 0.5s ease`,
+              }}
+            />
           )}
         </IconButton>
       </Box>
