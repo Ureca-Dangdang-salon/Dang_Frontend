@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import ChargeInput from '../atoms/ChargeInput';
 import InputText from '@components/Common/InputText/InputText';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 
-const SetEditCharge = ({ dogDetailData }) => {
+const EditSetCharge = ({ dogDetailData }) => {
   const { estimateDogPrice, currentDogIndex, updateEstimateDogPrice } =
     useEstimateEditStore();
 
@@ -70,4 +70,4 @@ const SetEditCharge = ({ dogDetailData }) => {
   );
 };
 
-export default SetEditCharge;
+export default EditSetCharge;

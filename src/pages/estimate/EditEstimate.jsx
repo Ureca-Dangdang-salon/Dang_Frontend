@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import EditStep from '@components/NewEstimate/templates/EditStep';
+import EditFristStep from '@components/NewEstimate/templates/EditFristStep';
 import { useEffect } from 'react';
 import { getEditEstimate, getEditEstimateDog } from '@/api/estimate';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 import usePageStore from '@/store/usePageStore';
-import EditStepDog from '@components/NewEstimate/templates/EditStepDog';
+import EditDetailStep from '@components/NewEstimate/templates/EditDetailStep';
 import { SurveyHeader } from '@components/Common/SurveyHeader/SurveyHeader';
 import { useNavigate } from 'react-router-dom';
 
@@ -103,9 +103,9 @@ const EditEstimate = () => {
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {estimateEditStep === 1 ? (
-            <EditStep isValid={isValid} />
+            <EditFristStep isValid={isValid} />
           ) : (
-            <EditStepDog isValid={isValid} />
+            <EditDetailStep isValid={isValid} />
           )}
         </Box>
       </Box>

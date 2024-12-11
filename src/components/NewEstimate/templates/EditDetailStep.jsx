@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import DogProfile from '../modules/DogProfile';
-import SetEditCharge from '../modules/SetEditCharge';
+import EditSetCharge from '../modules/EditSetCharge';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 import usePageStore from '@/store/usePageStore';
 
-const EditStepDog = ({ isValid }) => {
+const EditDetailStep = ({ isValid }) => {
   const { setEstimateEditStep } = usePageStore();
   const { estimateDogPrice, currentDogIndex, setTotalAmount } =
     useEstimateEditStore();
@@ -14,7 +14,7 @@ const EditStepDog = ({ isValid }) => {
     <>
       <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
         <DogProfile dogDetailData={estimateDogPrice[currentDogIndex]} />
-        <SetEditCharge dogDetailData={estimateDogPrice[currentDogIndex]} />
+        <EditSetCharge dogDetailData={estimateDogPrice[currentDogIndex]} />
       </Box>
       <Button
         label="완료"
@@ -31,4 +31,4 @@ const EditStepDog = ({ isValid }) => {
   );
 };
 
-export default EditStepDog;
+export default EditDetailStep;

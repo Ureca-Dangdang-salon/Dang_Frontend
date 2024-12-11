@@ -1,10 +1,10 @@
 import { Box } from '@mui/material';
-import SelectDogItem from '@components/NewRequest/atoms/SelectDogItem';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SelectDogItem from '@components/Request/atoms/SelectDogItem';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import usePageStore from '@/store/usePageStore';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 
-const SelectEditDogList = ({ title, selectDogList }) => {
+const EditSelectDogList = ({ title, selectDogList }) => {
   const { setEstimateEditStep } = usePageStore();
   const { setCurrentDogId, setCurrentDogIndex } = useEstimateEditStore();
   return (
@@ -39,4 +39,4 @@ const SelectEditDogList = ({ title, selectDogList }) => {
   );
 };
 
-export default SelectEditDogList;
+export default EditSelectDogList;
