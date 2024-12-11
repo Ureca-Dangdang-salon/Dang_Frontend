@@ -19,14 +19,16 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  console.log('Background message received:', payload);
+if (!self.firebaseMessagingInitialized) {
+  messaging.onBackgroundMessage((payload) => {
+    console.log('Background message received:', payload);
 
-  const notificationTitle = payload.notification.title || 'Default Title';
-  const notificationOptions = {
-    body: payload.notification.body || 'Default Body',
-    icon: payload.notification.icon || '/default-icon.png',
-  };
+    const notificationTitle = payload.notification.title || 'Default Title';
+    const notificationOptions = {
+      body: payload.notification.body || 'Default Body',
+      icon: payload.notification.icon || '/default-icon.png',
+    };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+    self.registration.showNotification(notificationTitle, notificationOptions);
+  });
+}
