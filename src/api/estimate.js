@@ -38,10 +38,10 @@ export const postEstimate = async (estimateInfo) => {
   }
 };
 
-export const deleteEstimate = async (requestId) => {
+export const deleteEstimate = async (requestId, groomerProfileId) => {
   try {
     const { data } = await apiClient.delete(
-      RequestController.estimateRequest + `/${requestId}`
+      RequestController.estimateRequest + `/${requestId}/${groomerProfileId}`
     );
     return data.response === '견적 요청 삭제에 성공하였습니다.';
   } catch (e) {
