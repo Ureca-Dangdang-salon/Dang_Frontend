@@ -19,7 +19,7 @@ const Step1 = () => {
       <SurveySection title="반려견의 이름을 입력해주세요">
         <InputText
           size="large"
-          placeholder="이름을 입력해주세요"
+          placeholder="댕댕이"
           value={petInfo.name}
           onChange={handleInputChange}
           errorMessage={error ? '필수 항목입니다.' : ''}
