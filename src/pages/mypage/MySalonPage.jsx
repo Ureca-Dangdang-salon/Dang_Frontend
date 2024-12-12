@@ -110,7 +110,9 @@ const MySalonPage = () => {
                     <Grid size={4}>연락 가능 시간:</Grid>
                     <Grid size={8}>{data?.contactHours}</Grid>
 
-                    <Grid size={4}>서비스 지역:</Grid>
+                    {detail?.servicesDistricts && (
+                      <Grid size={4}>서비스 지역:</Grid>
+                    )}
                     <Grid size={8}>
                       {detail?.servicesDistricts?.map((item, index) => (
                         <Typography key={index} fontSize="inherit">
@@ -189,14 +191,16 @@ const MySalonPage = () => {
                 </Typography>
               </Box>
             </Box>
-            <Box fontSize={14} mt={3} lineHeight={1.7}>
-              <Box fontWeight={600}>자격증:</Box>
-              <ul style={{ marginLeft: '20px' }}>
-                {detail?.certifications?.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </Box>
+            {detail?.certifications.length > 0 && (
+              <Box fontSize={14} mt={3} lineHeight={1.7}>
+                <Box fontWeight={600}>자격증:</Box>
+                <ul style={{ marginLeft: '20px' }}>
+                  {detail?.certifications?.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </Box>
+            )}
             <Box mt={1}>
               {info.map((item, index) => (
                 <Box key={index} fontSize={14} lineHeight={2} mb={1}>

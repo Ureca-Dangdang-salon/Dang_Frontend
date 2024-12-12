@@ -32,7 +32,6 @@ const Mypage = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      localStorage.removeItem('notificationsEnabled');
       window.location.reload();
     } catch (error) {
       console.error('로그아웃에 실패했습니다:', error);
