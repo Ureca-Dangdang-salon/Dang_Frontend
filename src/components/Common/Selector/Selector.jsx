@@ -6,7 +6,6 @@ export const Selector = ({ label, choices, value, onChange, field }) => {
     <Box
       sx={{
         width: '100%',
-        height: '60px',
         backgroundColor: 'white.main',
         '.MuiOutlinedInput-notchedOutline': {
           borderRadius: '10px',
@@ -27,6 +26,7 @@ export const Selector = ({ label, choices, value, onChange, field }) => {
             placeholder={label}
             sx={{
               '& .MuiInputBase-input': {
+                height: '27px',
                 color: 'text.main',
                 fontWeight: 'bold',
               },
@@ -45,14 +45,21 @@ export const Selector = ({ label, choices, value, onChange, field }) => {
             </li>
           );
         }}
+        noOptionsText="해당 견종을 찾을 수 없습니다."
       />
+
+      {!value && (
+        <Typography fontSize={12} color="red" mt="5px" ml="8px">
+          견종을 선택해주세요.
+        </Typography>
+      )}
     </Box>
   );
 };
 
 Selector.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   choices: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   field: PropTypes.string.isRequired,

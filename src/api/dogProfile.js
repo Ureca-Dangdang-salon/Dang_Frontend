@@ -32,7 +32,6 @@ export const updateDogProfile = async (
   additionalFeature
 ) => {
   try {
-    console.log(featureIds, additionalFeature);
     const url = `${ProfileController.dogProfile}/${id}`;
     const { data } = await apiClient.put(url, {
       name: newData.name,
