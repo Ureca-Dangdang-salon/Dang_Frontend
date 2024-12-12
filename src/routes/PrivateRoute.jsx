@@ -10,7 +10,7 @@ import paths from './paths';
 import { Typography } from '@mui/material';
 
 const PrivateRoute = () => {
-  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled } =
+  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled, setUserId } =
     useUserStore();
   const [loading, setLoading] = useState(true);
 
@@ -22,6 +22,7 @@ const PrivateRoute = () => {
           setLoggedIn(res.login);
           setRole(res.role);
           setNotificationEnabled(res.notificationEnabled);
+          setUserId(res.userId);
           setLoading(false);
 
           if (res.notificationEnabled) {

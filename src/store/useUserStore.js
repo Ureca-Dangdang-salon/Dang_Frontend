@@ -9,6 +9,9 @@ const useUserStore = create((set) => ({
 
   notificationEnabled: false,
   setNotificationEnabled: (bool) => set({ notificationEnabled: bool }),
+
+  userId: null, // 로그인된 사용자 ID
+  setUserId: (id) => set({ userId: id }),
 }));
 
 export default useUserStore;

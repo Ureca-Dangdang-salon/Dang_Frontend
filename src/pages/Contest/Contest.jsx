@@ -24,6 +24,7 @@ import {
   noWinnerInfo,
 } from '@/utils/toastUtils';
 import dayjs from 'dayjs';
+import useUserStore from '@/store/useUserStore';
 
 const Contest = () => {
   const navigate = useNavigate();
@@ -36,7 +37,8 @@ const Contest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasPayment, setHasPayment] = useState(false);
 
-  const tempLoginUserId = 8;
+  // const tempLoginUserId = 8;
+  const { userId } = useUserStore();
 
   useEffect(() => {
     const loadContestInfo = async () => {
@@ -346,7 +348,8 @@ const Contest = () => {
                     explanation={post.description}
                     isLiked={post.liked}
                     deleteButton={
-                      post.userId === tempLoginUserId
+                      // post.userId === tempLoginUserId
+                      post.userId === userId
                         ? () => handleDeletePost(post.postId)
                         : null
                     }
