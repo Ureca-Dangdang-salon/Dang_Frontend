@@ -72,7 +72,7 @@ const EditSalonProfile = () => {
 
   const isValid = () => {
     return (
-      stringNotEmpty(putData.name.trim(), '서비스 이름') &&
+      stringNotEmpty(putData.name.trim(), '닉네임') &&
       validPhoneNum(putData.phone) &&
       stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
       listNotEmpty(putData.servicesDistrictIds) &&
@@ -115,7 +115,7 @@ const EditSalonProfile = () => {
           />
 
           {[
-            { name: '서비스 이름', var: 'name' },
+            { name: '닉네임 / 활동명', var: 'name' },
             { name: '전화번호', var: 'phone' },
             { name: '연락 가능 시간', var: 'contactHours' },
           ].map((item, index) => (

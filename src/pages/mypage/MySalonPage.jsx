@@ -99,7 +99,7 @@ const MySalonPage = () => {
 
                 <Box flexGrow={1} ml={3} fontSize={14}>
                   <Grid container spacing={1}>
-                    <Grid size={4}>서비스 이름:</Grid>
+                    <Grid size={4}>닉네임:</Grid>
                     <Grid size={8} fontWeight={700}>
                       {data?.name}
                     </Grid>
