@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import { Box, Autocomplete, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
 
 export const Selector = ({ label, choices, value, onChange, field }) => {
+  const [touched, setTouched] = useState(false);
+
+  const handleBlur = () => {
+    setTouched(true);
+  };
+
   return (
     <Box
       sx={{
@@ -19,6 +26,7 @@ export const Selector = ({ label, choices, value, onChange, field }) => {
         value={value}
         options={choices}
         getOptionLabel={(option) => option}
+        onBlur={handleBlur}
         onChange={(e, newValue) => onChange(field, newValue)}
         renderInput={(params) => (
           <TextField
@@ -48,7 +56,7 @@ export const Selector = ({ label, choices, value, onChange, field }) => {
         noOptionsText="해당 견종을 찾을 수 없습니다."
       />
 
-      {!value && (
+      {touched && !value && (
         <Typography fontSize={12} color="red" mt="5px" ml="8px">
           견종을 선택해주세요.
         </Typography>
