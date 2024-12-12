@@ -100,9 +100,11 @@ const RequestHistory = () => {
                       secondaryButton="취소"
                       primaryButton="삭제"
                       title="요청을 삭제하시겠습니까?"
-                      action={async () =>
-                        await deleteEstimate(data.requestId, groomerId)
-                      }
+                      action={async () => {
+                        await deleteEstimate(data.requestId, groomerId);
+                        const estimateList = await getRequest(groomerId);
+                        setListData(estimateList);
+                      }}
                     />
                   </Box>
                 )}
