@@ -92,9 +92,9 @@ const DogProfile = () => {
     return (
       stringNotEmpty(data.name.trim(), '반려견 이름') &&
       validDogAge(data.ageYear, data.ageMonth) &&
-      isNotZero(data.weight, '반려견의 몸무게') &&
+      isNotZero(data.weight, '몸무게') &&
       stringNotEmpty(data.species, '견종') &&
-      isNotNull(data.species) &&
+      isNotNull(data.species, '견종') &&
       featuresValid
     );
   };
@@ -134,7 +134,9 @@ const DogProfile = () => {
         <Box width="100%" display="flex" flexDirection="column">
           <InputText
             value={data.name}
+            placeholder="댕댕이"
             onChange={(e) => handleChange('name', e.target.value)}
+            errorMessage={!data.name.trim() ? '이름을 입력해주세요' : ''}
           />
         </Box>
 
@@ -159,7 +161,7 @@ const DogProfile = () => {
           견종 *
         </Typography>
         <Selector
-          label="견종을 선택해주세요"
+          label="골든 리트리버"
           value={data.species}
           choices={breeds}
           onChange={handleChange}

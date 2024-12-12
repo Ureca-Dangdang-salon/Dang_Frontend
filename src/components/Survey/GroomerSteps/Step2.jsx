@@ -14,6 +14,7 @@ const Step2 = () => {
             key={service}
             label={service}
             selected={checked}
+            survey={true}
             size="large"
             onChange={() => updateService(service, !checked)}
           />
