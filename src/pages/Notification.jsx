@@ -13,7 +13,6 @@ import {
 import { Modal } from '@components/Common/Modal/Modal';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
-import { initializeForegroundNotifications } from '@/firebase/firebaseMessaging';
 
 const Notification = () => {
   const navigate = useNavigate();
@@ -37,8 +36,6 @@ const Notification = () => {
   const handleNotificationChange = async () => {
     if (await updateSetting(!notificationEnabled))
       setNotificationEnabled(!notificationEnabled);
-
-    if (!notificationEnabled) initializeForegroundNotifications();
   };
 
   return (
