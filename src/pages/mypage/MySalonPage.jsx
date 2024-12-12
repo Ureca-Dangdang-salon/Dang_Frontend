@@ -202,23 +202,26 @@ const MySalonPage = () => {
               </Box>
             )}
             <Box mt={1}>
-              {info.map((item, index) => (
-                <Box key={index} fontSize={14} lineHeight={2} mb={1}>
-                  {index > 2 ? (
-                    <>
-                      <Box fontWeight={600}>{item.title}:</Box>
-                      {item.content}
-                    </>
-                  ) : (
-                    <Box display="flex">
-                      <Box fontWeight={600} mr={1}>
-                        {item.title}:
-                      </Box>
-                      {item.content}
+              {info.map(
+                (item, index) =>
+                  item.content && (
+                    <Box key={index} fontSize={14} lineHeight={2} mb={1}>
+                      {index > 2 ? (
+                        <>
+                          <Box fontWeight={600}>{item.title}:</Box>
+                          {item.content}
+                        </>
+                      ) : (
+                        <Box display="flex">
+                          <Box fontWeight={600} mr={1}>
+                            {item.title}:
+                          </Box>
+                          {item.content}
+                        </Box>
+                      )}
                     </Box>
-                  )}
-                </Box>
-              ))}
+                  )
+              )}
             </Box>
           </>
         )}
