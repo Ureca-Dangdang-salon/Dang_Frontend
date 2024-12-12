@@ -80,20 +80,6 @@ export const handleEnableNotifications = async () => {
   initializeForegroundNotifications();
 };
 
-export const unsubscribeFromNotifications = async () => {
-  try {
-    const currentToken = await getToken(messaging, { vapidKey });
-    if (currentToken) {
-      await deleteToken(messaging);
-      console.log('Successfully unsubscribed from FCM.');
-    } else {
-      console.log('No token found; already unsubscribed or not subscribed.');
-    }
-  } catch (error) {
-    console.error('Error unsubscribing from notifications:', error);
-  }
-};
-
 export const deleteCurrentFCMToken = async () => {
   try {
     const isTokenDeleted = await deleteToken(messaging);

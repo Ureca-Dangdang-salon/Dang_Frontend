@@ -7,7 +7,6 @@ import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
 import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
-import { unsubscribeFromNotifications } from '@/firebase/firebaseMessaging';
 
 const Mypage = () => {
   const defaultImgPath = '/images/default-groomer-profile.png';
@@ -33,7 +32,7 @@ const Mypage = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      await unsubscribeFromNotifications();
+      localStorage.removeItem('notificationsEnabled');
       window.location.reload();
     } catch (error) {
       console.error('로그아웃에 실패했습니다:', error);
