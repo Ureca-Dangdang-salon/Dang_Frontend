@@ -10,11 +10,13 @@ import { useNavigate } from 'react-router-dom';
 
 const RequestHistory = () => {
   const [dataList, setListData] = useState();
+  const [groomerId, setGroomerId] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     const getGroomerProfile = async () => {
       const res = await groomerProfile();
+      setGroomerId(res.profileId);
       const estimateList = await getRequest(res.profileId);
       setListData(estimateList);
     };
@@ -98,7 +100,9 @@ const RequestHistory = () => {
                       secondaryButton="취소"
                       primaryButton="삭제"
                       title="요청을 삭제하시겠습니까?"
-                      action={async () => await deleteEstimate(data.requestId)}
+                      action={async () =>
+                        await deleteEstimate(data.requestId, groomerId)
+                      }
                     />
                   </Box>
                 )}
