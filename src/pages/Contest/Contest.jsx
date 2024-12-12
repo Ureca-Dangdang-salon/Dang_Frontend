@@ -14,6 +14,7 @@ import {
   getContestPosts,
   likePost,
   unlikePost,
+  fetchContestPayments,
 } from '@/api/contestApi.js';
 import {
   alreadyParticipatedInContest,
@@ -22,6 +23,8 @@ import {
   postDeleteError,
   noWinnerInfo,
 } from '@/utils/toastUtils';
+import dayjs from 'dayjs';
+
 const Contest = () => {
   const navigate = useNavigate();
   const [participatedGroomers, setParticipatedGroomers] = useState([]);
@@ -31,8 +34,10 @@ const Contest = () => {
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasPayment, setHasPayment] = useState(false);
 
-  const tempLoginUserId = 1;
+  const tempLoginUserId = 8;
+
   useEffect(() => {
     const loadContestInfo = async () => {
       try {
@@ -54,6 +59,26 @@ const Contest = () => {
     };
 
     loadContestInfo();
+  }, []);
+
+  // 결제 여부 확인
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      try {
+        const today = dayjs();
+        const startDate = today
+          .subtract(1, 'month')
+          .format('YYYY-MM-DDT00:00:00');
+        const endDate = today.format('YYYY-MM-DDT00:00:00');
+
+        const payments = await fetchContestPayments(startDate, endDate);
+        setHasPayment(payments.length > 0);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    checkPaymentStatus();
   }, []);
 
   const handleDelete = () => {
@@ -83,16 +108,32 @@ const Contest = () => {
     }
   }, [currentContest, fetchPosts]);
 
+  // 콘테스트 참여하기 로직 요구사항
+  // 단순히 참여 여부만 확인했다면, 이제는 결제 여부 확인 후 참여 여부 확인하는 순서대로 진행해야함
+  // 시나리오 1: 결제 내역 없음
+  // 참여하기 버튼 클릭 -> 결제 내역 없음 -> 모달로 안내 (O)
+  // 시나리오 2: 결제 있음 & 이미 참여
+  // 참여하기 버튼 클릭 -> 결제 내역 있음 -> 이미 참여함 -> 토스트 메시지 (O)
+  // 시나리오 3: 결제 있음 & 미참여
+  // 참여하기 버튼 클릭 -> 결제 내역 있음 -> 미참여 -> 참여 페이지로 이동 (O)
+  // 시나리오 2, 3을 제외한 1번만 모달이 필요한 거니까 여기를 수정하면 되나?
+  // 이전 컨테스트 로직
+  // 1. 바로 참여 여부 확인
+  // 2. 이미 참여했으면 toast
+  // 3. 참여 안 했으면 페이지 이동
   const handleParticipation = async () => {
     try {
+      // 1. 바로 참여 여부 확인
       const response = await checkContestParticipation(
         currentContest.contestId
       );
-
+      // 2. 이미 참여했으면 toast
       if (response.already_participated) {
         //alert('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
         alreadyParticipatedInContest(3);
-      } else {
+      }
+      // 3. 참여 안 했으면 페이지 이동
+      else {
         navigate('/contest/entry', {
           state: {
             startedAt: currentContest.startedAt,
@@ -131,8 +172,14 @@ const Contest = () => {
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
+    // if (
+    //   scrollTop + clientHeight >= scrollHeight &&
+    //   !isLoading &&
+    //   !isLastPage &&
+    //   currentContest
+    // )
     if (
-      scrollTop + clientHeight >= scrollHeight &&
+      scrollTop + clientHeight >= scrollHeight - 100 &&
       !isLoading &&
       !isLastPage &&
       currentContest
@@ -232,12 +279,30 @@ const Contest = () => {
                 action={handleDelete}
                 onClose={() => {}}
               />
-            ) : (
+            ) : hasPayment ? (
               <Button
                 label="참여하기"
                 backgroundColor="primary"
                 size="large"
                 onClick={handleParticipation}
+              />
+            ) : (
+              <Modal
+                openModalButton="참여하기"
+                buttonColor="primary"
+                variant="contained"
+                buttonSx={{
+                  width: '326px',
+                  height: '60px',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  backgroundColor: '#FDD94E',
+                }}
+                title="결제 내역이 필요해요! 콘테스트 참여는 최근 한 달 내 결제 내역이 필요합니다."
+                primaryButton="확인"
+                action={() => {}}
+                onClose={() => {}}
+                isSimpleModal={true}
               />
             )}
           </Box>
@@ -272,21 +337,25 @@ const Contest = () => {
                 gap: 4,
               }}
             >
-              {posts.map((post) => (
-                <Feed
-                  key={post.postId}
-                  imageUrl={post.imageUrl}
-                  nickname={post.dogName}
-                  explanation={post.description}
-                  isLiked={post.liked}
-                  deleteButton={
-                    post.userId === tempLoginUserId
-                      ? () => handleDeletePost(post.postId)
-                      : null
-                  }
-                  onLikeToggle={() => handleLikeToggle(post.postId, post.liked)}
-                />
-              ))}
+              {posts.map((post) => {
+                return (
+                  <Feed
+                    key={post.postId}
+                    imageUrl={post.imageUrl}
+                    nickname={post.dogName}
+                    explanation={post.description}
+                    isLiked={post.liked}
+                    deleteButton={
+                      post.userId === tempLoginUserId
+                        ? () => handleDeletePost(post.postId)
+                        : null
+                    }
+                    onLikeToggle={() =>
+                      handleLikeToggle(post.postId, post.liked)
+                    }
+                  />
+                );
+              })}
               {isLoading && <Typography>로딩 중...</Typography>}
               {isLastPage && (
                 <Typography>더 이상 게시물이 없습니다.</Typography>
