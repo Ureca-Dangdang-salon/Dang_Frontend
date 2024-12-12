@@ -31,6 +31,7 @@ const ServiceRegionForm = ({ regions, setServiceAreas }) => {
             size="large"
             value={`${area.city} ${area.district}`}
             readOnly
+            onClick={() => setIsModalOpen(true)}
             onChange={() => setIsModalOpen(true)}
           />
           <DeleteButton

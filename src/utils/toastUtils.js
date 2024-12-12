@@ -27,7 +27,7 @@ export const validFeatures = () => {};
 
 export const isNotZero = (value, field) => {
   if (value == 0) {
-    toast.error(`${field} 이/가 0일 수 없습니다.`);
+    toast.error(`${field}: 0보다 큰 수를 작성해주세요.`);
     return false;
   } else return true;
 };
@@ -41,6 +41,7 @@ export const isNotNull = (item, field) => {
 
 export const stringNotEmpty = (string, field) => {
   if (string === '') {
+    console.log(string, field);
     toast.error(`${field} 작성/선택 후 저장해주세요.`);
     return false;
   } else return true;

@@ -17,6 +17,7 @@ const SecondStep = () => {
     setDistrict,
     resetRequestInfo,
     resetSelectDogs,
+    resetServiceType,
   } = useRequestStore();
   const { setNewRequestStep } = usePageStore();
 
@@ -88,6 +89,8 @@ const SecondStep = () => {
             if (await postRequest(requestInfo)) {
               resetRequestInfo();
               resetSelectDogs();
+              resetServiceType();
+              setDistrict(null);
               setNewRequestStep(1);
             }
           }

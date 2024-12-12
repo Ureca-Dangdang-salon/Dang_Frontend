@@ -32,17 +32,20 @@
   background-color: #fffbef;
 }
 
-.check {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid #b8b8b8;
+.box {
   background-color: #ffffff;
   margin-right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
+}
+
+.check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #b8b8b8;
 }
 
 .check.checked {

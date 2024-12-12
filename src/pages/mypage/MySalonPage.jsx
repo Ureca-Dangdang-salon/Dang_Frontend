@@ -99,7 +99,7 @@ const MySalonPage = () => {
 
                 <Box flexGrow={1} ml={3} fontSize={14}>
                   <Grid container spacing={1}>
-                    <Grid size={4}>서비스 이름:</Grid>
+                    <Grid size={4}>닉네임:</Grid>
                     <Grid size={8} fontWeight={700}>
                       {data?.name}
                     </Grid>
@@ -110,7 +110,9 @@ const MySalonPage = () => {
                     <Grid size={4}>연락 가능 시간:</Grid>
                     <Grid size={8}>{data?.contactHours}</Grid>
 
-                    <Grid size={4}>서비스 지역:</Grid>
+                    {detail?.servicesDistricts && (
+                      <Grid size={4}>서비스 지역:</Grid>
+                    )}
                     <Grid size={8}>
                       {detail?.servicesDistricts?.map((item, index) => (
                         <Typography key={index} fontSize="inherit">
@@ -189,32 +191,37 @@ const MySalonPage = () => {
                 </Typography>
               </Box>
             </Box>
-            <Box fontSize={14} mt={3} lineHeight={1.7}>
-              <Box fontWeight={600}>자격증:</Box>
-              <ul style={{ marginLeft: '20px' }}>
-                {detail?.certifications?.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </Box>
+            {detail?.certifications.length > 0 && (
+              <Box fontSize={14} mt={3} lineHeight={1.7}>
+                <Box fontWeight={600}>자격증:</Box>
+                <ul style={{ marginLeft: '20px' }}>
+                  {detail?.certifications?.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </Box>
+            )}
             <Box mt={1}>
-              {info.map((item, index) => (
-                <Box key={index} fontSize={14} lineHeight={2} mb={1}>
-                  {index > 2 ? (
-                    <>
-                      <Box fontWeight={600}>{item.title}:</Box>
-                      {item.content}
-                    </>
-                  ) : (
-                    <Box display="flex">
-                      <Box fontWeight={600} mr={1}>
-                        {item.title}:
-                      </Box>
-                      {item.content}
+              {info.map(
+                (item, index) =>
+                  item.content && (
+                    <Box key={index} fontSize={14} lineHeight={2} mb={1}>
+                      {index > 2 ? (
+                        <>
+                          <Box fontWeight={600}>{item.title}:</Box>
+                          {item.content}
+                        </>
+                      ) : (
+                        <Box display="flex">
+                          <Box fontWeight={600} mr={1}>
+                            {item.title}:
+                          </Box>
+                          {item.content}
+                        </Box>
+                      )}
                     </Box>
-                  )}
-                </Box>
-              ))}
+                  )
+              )}
             </Box>
           </>
         )}

@@ -11,25 +11,25 @@ const PrivateRoute = () => {
     useUserStore();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!loggedIn) {
-      const checkLogin = async () => {
-        try {
-          const res = await loginCheck();
-          setLoggedIn(res.login);
-          setRole(res.role);
-          setNotificationEnabled(res.notificationEnabled);
-          setLoading(false);
+  const checkLogin = async () => {
+    try {
+      const res = await loginCheck();
+      setLoggedIn(res.login);
+      setRole(res.role);
+      setNotificationEnabled(res.notificationEnabled);
+      setLoading(false);
 
-          if (res.notificationEnabled) await handleEnableNotifications();
-        } catch (error) {
-          console.error('로그인 체크에 실패했습니다:', error);
-          setLoggedIn(false);
-        }
-      };
-      checkLogin();
+      await handleEnableNotifications();
+    } catch (error) {
+      console.error('로그인 체크에 실패했습니다:', error);
+      setLoggedIn(false);
+      setLoading(false);
     }
-  }, [loggedIn, setLoggedIn]);
+  };
+
+  useEffect(() => {
+    if (!loggedIn) checkLogin();
+  }, [loggedIn]);
 
   if (loading) return <Typography>Loading</Typography>;
   return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;

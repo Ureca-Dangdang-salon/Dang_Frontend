@@ -15,7 +15,7 @@ const Step4 = () => {
     <Box mt={15} mb={15}>
       <SurveySection title="반려견의 견종을 입력해주세요">
         <Selector
-          label="견종을 선택해주세요"
+          label="골든 리트리버"
           value={petInfo.species}
           choices={breeds}
           onChange={handleChange}

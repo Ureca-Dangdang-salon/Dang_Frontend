@@ -3,12 +3,7 @@ import { Box } from '@mui/material';
 import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Toaster } from 'react-hot-toast';
 import paths from '@/routes/paths';
-import { useEffect } from 'react';
-import {
-  requestNotificationPermission,
-  getFCMToken,
-  initializeForegroundNotifications,
-} from '../firebase/firebaseMessaging';
+import { FCMListener } from '@/firebase/FCMListener';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -68,6 +63,7 @@ const AppContent = () => {
       }}
     >
       <Toaster />
+      <FCMListener />
       <Box paddingBottom="80px" height="100%">
         <Routes>
           <Route path={paths.login} element={<Login />} />

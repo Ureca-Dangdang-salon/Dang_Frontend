@@ -57,12 +57,13 @@ const useRequestStore = create((set) => ({
       },
     })),
 
-  serviceTypes: serviceTypes,
+  resetServiceType: () => set({ serviceType: serviceTypes }),
+  serviceType: serviceTypes,
   toggleServiceType: (selectKey) =>
     set((state) => {
       let activeServiceType = '';
 
-      const updatedServiceTypes = state.serviceTypes.map((type) => {
+      const updatedServiceType = state.serviceType.map((type) => {
         if (type.key === selectKey) {
           activeServiceType = type.value;
           return { ...type, selected: true };
@@ -72,7 +73,7 @@ const useRequestStore = create((set) => ({
       });
 
       return {
-        serviceTypes: updatedServiceTypes,
+        serviceType: updatedServiceType,
         requestInfo: {
           ...state.requestInfo,
           serviceType: activeServiceType,

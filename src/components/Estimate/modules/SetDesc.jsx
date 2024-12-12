@@ -26,8 +26,7 @@ const SetDesc = ({ info, set }) => {
           value={info?.description || info?.comment}
           onChange={(e) => {
             const field =
-              (info?.description && 'description') ||
-              (info?.comment && 'comment');
+              info?.description.length >= 0 ? 'description' : 'comment';
             set(field, e.target.value);
           }}
         />
