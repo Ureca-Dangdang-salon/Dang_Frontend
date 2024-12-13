@@ -21,8 +21,8 @@ const SalonProfile = () => {
     ? {
         borderRadius: '50%',
         objectFit: 'cover',
-        border: '2px solid',
-        borderColor: '#9747FF',
+        border: '5px solid',
+        borderColor: '#FDD94E',
       }
     : {};
 
@@ -175,24 +175,43 @@ const SalonProfile = () => {
                 </React.Fragment>
               ))}
             </Grid>
-            <Grid size={4}>🪪자격증:</Grid>
-            <Grid size={8}>
-              {detail?.certifications?.map((cert, index) => {
-                return <li key={index}>{cert}</li>;
-              })}
-            </Grid>
-            <Grid size={4}>💼사업자 번호:</Grid>
-            <Grid size={8}>{data?.businessNumber}</Grid>
-            <Grid size={4}>📍가게 위치 정보:</Grid>
-            <Grid size={8}>{data?.address}</Grid>
+
+            {detail?.certifications?.length > 0 && (
+              <>
+                <Grid size={4}>🪪자격증:</Grid>
+                <Grid size={8}>
+                  {detail.certifications.map((cert, index) => (
+                    <li key={index}>{cert}</li>
+                  ))}
+                </Grid>
+              </>
+            )}
+
+            {data?.businessNumber && (
+              <>
+                <Grid size={4}>💼사업자 번호:</Grid>
+                <Grid size={8}>{data.businessNumber}</Grid>
+              </>
+            )}
+
+            {data?.address && (
+              <>
+                <Grid size={4}>📍가게 위치 정보:</Grid>
+                <Grid size={8}>{data.address}</Grid>
+              </>
+            )}
           </Grid>
 
-          <Typography mt={3} fontWeight={700}>
-            FAQ
-          </Typography>
-          <Typography lineHeight={2} mt={1} sx={{ whiteSpace: 'pre-line' }}>
-            {data?.faq}
-          </Typography>
+          {data?.faq && (
+            <>
+              <Typography mt={3} fontWeight={700}>
+                FAQ
+              </Typography>
+              <Typography lineHeight={2} mt={1} sx={{ whiteSpace: 'pre-line' }}>
+                {data.faq}
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
     </Box>
