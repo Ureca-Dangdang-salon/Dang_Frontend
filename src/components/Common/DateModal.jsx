@@ -12,11 +12,6 @@ const DateModal = ({ setDate, open, setOpen }) => {
     setOpen(false);
   };
 
-  const handleAction = () => {
-    setDate(dayjs(selectDate).format('YYYY-MM-DD'));
-    handleClose();
-  };
-
   return (
     <Dialog
       open={open}
@@ -24,20 +19,26 @@ const DateModal = ({ setDate, open, setOpen }) => {
       PaperProps={{ sx: { borderRadius: '12px' } }}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ko">
-        <DateCalendar value={selectDate} onChange={(e) => setSelectDate(e)} />
+        <DateCalendar
+          value={selectDate}
+          onChange={(e) => {
+            setSelectDate(e);
+            setDate(dayjs(e).format('YYYY-MM-DD'));
+          }}
+          shouldDisableDate={(date) => dayjs(date).isBefore(dayjs(), 'day')}
+        />
       </LocalizationProvider>
 
       <DialogActions
         sx={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}
       >
         <Button
-          onClick={handleAction}
+          onClick={handleClose}
           disabled={!selectDate}
-          autoFocus
           sx={{
             borderRadius: '10px',
-            bgcolor: 'primary.main',
-            color: 'white.main',
+            bgcolor: selectDate ? 'primary.main' : 'n3.main',
+            color: 'text.main',
             minWidth: '100px',
             minHeight: '40px',
             fontWeight: 700,

@@ -8,7 +8,7 @@ const SelectServiceType = () => {
 
   return (
     <div>
-      <SubTitle title="서비스 진행 형태" />
+      <SubTitle title="서비스 진행 형태 *" />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {serviceType.map((e, idx) => (
           <RadioButton
