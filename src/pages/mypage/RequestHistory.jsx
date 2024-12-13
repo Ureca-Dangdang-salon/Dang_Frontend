@@ -122,6 +122,20 @@ const RequestHistory = () => {
                     요청전송완료
                   </Box>
                 )}
+                {data.estimateStatus == 'ACCEPTED' && (
+                  <Box
+                    color="secondary.main"
+                    fontSize={14}
+                    sx={{
+                      position: 'relative',
+                      float: 'right',
+                      top: -110,
+                      right: -10,
+                    }}
+                  >
+                    결제완료
+                  </Box>
+                )}
               </Box>
             </Box>
           );
