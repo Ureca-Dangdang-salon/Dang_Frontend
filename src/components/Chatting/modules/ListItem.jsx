@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const ListItem = ({ data, setList }) => {
   const navigate = useNavigate();
   const { role } = useUserStore();
+  const isUser = role === 'ROLE_USER';
 
   return (
     <Box
@@ -29,29 +30,59 @@ const ListItem = ({ data, setList }) => {
         }}
         onClick={() => navigate(`${data.roomId}`)}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-          }}
-        >
-          <Avatar
-            src="/images/default-groomer-profile.png"
+        {isUser ? (
+          <Box
             sx={{
-              width: 64,
-              height: 64,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
             }}
-          />
-          <Box>
-            <Typography fontSize="14px" fontWeight="bold">
-              {data.groomerProfile.serviceName}
-            </Typography>
-            <Typography fontSize="14px">
-              {data.groomerProfile.address}
-            </Typography>
+          >
+            <Avatar
+              src={
+                data.groomerProfile.profileImageUrl ||
+                '/images/default-groomer-profile.png'
+              }
+              sx={{
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Box>
+              <Typography fontSize="14px" fontWeight="bold">
+                {data.groomerProfile.serviceName}
+              </Typography>
+              <Typography fontSize="14px">
+                {data.groomerProfile.address}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+            }}
+          >
+            <Avatar
+              src={
+                data.customer.profileImageUrl ||
+                '/images/default-groomer-profile.png'
+              }
+              sx={{
+                width: 64,
+                height: 64,
+              }}
+            />
+            <Box>
+              <Typography fontSize="14px" fontWeight="bold">
+                {data.customer.customerName}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography fontSize="14px">{data.lastMessage}</Typography>
           {!!data.unreadCount && (
@@ -74,7 +105,7 @@ const ListItem = ({ data, setList }) => {
         </Box>
       </Box>
 
-      {role === 'ROLE_USER' && (
+      {isUser && (
         <Box
           display="flex"
           alignItems="center"
