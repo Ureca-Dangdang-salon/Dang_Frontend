@@ -111,14 +111,16 @@ const ChatRoomHeader = ({ userName, roomId }) => {
               size="medium"
               style={{ width: '100%' }}
               backgroundColor="primary"
-              onClick={() =>
+              onClick={() => {
                 navigate(paths.editEstimate, {
+                  replace: true,
                   state: {
                     estimateId: roomInfo.estimateId,
                     requestId: roomInfo.estimateRequestId,
                   },
-                })
-              }
+                });
+                window.location.href = paths.editEstimate;
+              }}
             />
             <Button
               label="견적 요청서 보기"
