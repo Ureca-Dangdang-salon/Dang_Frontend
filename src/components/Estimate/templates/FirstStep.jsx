@@ -9,6 +9,7 @@ import useEstimateStore from '@/store/useEstimateStore';
 import { groomerProfile } from '@/api/groomerProfile';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
+import { createChatRoom } from '@/api/chat';
 
 const FirstStep = ({ requestId }) => {
   const [dogList, setDogList] = useState();
@@ -32,9 +33,15 @@ const FirstStep = ({ requestId }) => {
   }, []);
 
   const submitEstimate = async () => {
-    if (await postEstimate(estimateInfo)) {
+    const estimateId = await postEstimate(estimateInfo);
+    if (estimateId) {
       resetEstimateInfo();
-      navigate(paths.requestHistory);
+      const res = await createChatRoom(estimateId);
+      navigate(paths.chat + `/${res.room_id}`, {
+        state: {
+          roomId: res.room_id,
+        },
+      });
     }
   };
 
