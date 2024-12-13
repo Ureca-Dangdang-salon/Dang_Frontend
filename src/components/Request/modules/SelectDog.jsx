@@ -24,7 +24,7 @@ const SelectDog = ({ title }) => {
   return (
     <div>
       <SubTitle title={title} />
-      <Box>
+      <Box mt={1}>
         {requestInfo.dogEstimateRequestList.map((e, idx) => {
           const dogData = dogList.find(
             (dog) => dog.dogProfileId === e.dogProfileId
@@ -51,6 +51,7 @@ const SelectDog = ({ title }) => {
                 setDogIndex(idx);
                 setDogStep(1);
               }}
+              mb={4}
             >
               <SelectDogItem
                 data={dogData}

@@ -92,21 +92,21 @@ const SelectDogImg = () => {
       <Box>
         <Box display="flex" gap={4} justifyContent="center">
           <DogImg
-            text="현재 반려견 사진"
+            text="현재 반려견 사진 *"
             handelChange={handelImgChange}
             field="currentImageKey"
             img={dogInfo?.currentImageKey}
           />
           <DogImg
-            text="원하는 스타일(예시)"
+            text="원하는 스타일 (예시)"
             border={true}
             field="styleRefImageKey"
             handelChange={handelImgChange}
             img={dogInfo?.styleRefImageKey}
           />
         </Box>
-        <Typography fontSize="10px" textAlign="center" mt={2}>
-          반려견 미용 시 현재 사진과 다를 경우 불이익이 발생할 수 있습니다.
+        <Typography fontSize={14} textAlign="center" mt={2} color="red">
+          ❗현재 사진과 다를 경우 불이익이 발생할 수 있습니다.
         </Typography>
       </Box>
     </div>

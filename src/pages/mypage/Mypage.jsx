@@ -9,6 +9,7 @@ import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
 
 const Mypage = () => {
+  const { setLoggedIn, setRole, setNotificationEnabled } = useUserStore();
   const defaultImgPath = '/images/default-groomer-profile.png';
   const [data, setData] = useState({});
   const { role } = useUserStore();
@@ -32,6 +33,12 @@ const Mypage = () => {
   const handleLogout = async () => {
     try {
       await logout();
+
+      setLoggedIn(false);
+      setRole(null);
+      setNotificationEnabled(false);
+      localStorage.removeItem('notificationOn');
+
       window.location.reload();
     } catch (error) {
       console.error('로그아웃에 실패했습니다:', error);

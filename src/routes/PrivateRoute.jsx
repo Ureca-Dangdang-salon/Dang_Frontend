@@ -20,7 +20,12 @@ const PrivateRoute = () => {
       setLoading(false);
       setUserId(res.userId);
 
-      await handleEnableNotifications();
+      const notificationOn = localStorage.getItem('notificationOn');
+
+      if (res.login && notificationOn !== 'true') {
+        await handleEnableNotifications();
+        localStorage.setItem('notificationOn', 'true');
+      }
     } catch (error) {
       console.error('로그인 체크에 실패했습니다:', error);
       setLoggedIn(false);
@@ -29,10 +34,11 @@ const PrivateRoute = () => {
   };
 
   useEffect(() => {
-    if (!loggedIn) checkLogin();
-  }, [loggedIn]);
+    checkLogin();
+  }, []);
 
-  if (loading) return <Typography>Loading</Typography>;
+  if (loading) return <Typography>Loading...</Typography>;
+
   return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;
 };
 

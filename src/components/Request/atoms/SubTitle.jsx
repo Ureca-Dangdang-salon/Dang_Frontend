@@ -3,7 +3,6 @@ import { Typography } from '@mui/material';
 const SubTitle = ({ title, isOption }) => {
   return (
     <Typography
-      color="text"
       fontWeight="bold"
       fontSize={16}
       width="100%"

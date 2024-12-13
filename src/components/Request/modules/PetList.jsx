@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Grid2 } from '@mui/material';
+import { Box, Grid2, Typography } from '@mui/material';
 import PetItem from '@components/Request/atoms/PetItem';
 import { getDogProfiles } from '@/api/request';
 import useRequestStore from '@/store/useRequestStore';
@@ -35,16 +35,18 @@ const PetList = () => {
         py={4}
         width="100%"
       >
-        {dogList.length
-          ? dogList.map((e, idx) => (
-              <PetItem
-                key={idx}
-                isSelected={selectDogs.includes(e.dogProfileId)}
-                onSelect={() => handleSelect(e.dogProfileId)}
-                data={e}
-              />
-            ))
-          : '반려견이 없습니다. 등록해주세요'}
+        {dogList.length ? (
+          dogList.map((e, idx) => (
+            <PetItem
+              key={idx}
+              isSelected={selectDogs.includes(e.dogProfileId)}
+              onSelect={() => handleSelect(e.dogProfileId)}
+              data={e}
+            />
+          ))
+        ) : (
+          <Typography>반려견이 없습니다. 등록해주세요</Typography>
+        )}
       </Grid2>
     </Box>
   );

@@ -1,19 +1,18 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Box, Typography, Divider, Button } from '@mui/material';
-import GppGoodRoundedIcon from '@mui/icons-material/GppGoodRounded';
-import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
-import WorkspacePremiumRoundedIcon from '@mui/icons-material/WorkspacePremiumRounded';
 import ReviewStars from '@components/Features/ReviewStars';
 import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { groomerPublicProfile } from '@/api/groomerProfile';
 import paths from '@/routes/paths';
+import BadgeDisplay from '@components/Features/BadgeDisplay';
 
 const SalonProfile = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [detail, setDetail] = useState({});
+  const [badges, setBadges] = useState([]);
 
   const defaultImgPath = '/images/default-groomer-profile.png';
   const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
@@ -21,8 +20,8 @@ const SalonProfile = () => {
     ? {
         borderRadius: '50%',
         objectFit: 'cover',
-        border: '2px solid',
-        borderColor: '#9747FF',
+        border: '5px solid',
+        borderColor: '#FDD94E',
       }
     : {};
 
@@ -34,6 +33,7 @@ const SalonProfile = () => {
       const res = await groomerPublicProfile(id);
       setData(res);
       setDetail(res.groomerProfileDetailsInfoResponseDto);
+      setBadges(res.groomerProfileDetailsInfoResponseDto.badges);
     };
 
     getGroomerProfile();
@@ -51,9 +51,7 @@ const SalonProfile = () => {
         />
         <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
           <Typography fontWeight={700}>{data?.name}</Typography>
-          <GppGoodRoundedIcon sx={{ color: '#34A853' }} />
-          <BadgeRoundedIcon sx={{ color: '#4285F4' }} />
-          <WorkspacePremiumRoundedIcon color="primary" />
+          <BadgeDisplay badges={badges} />
         </Box>
 
         {!isNaN(detail.starScore) && (
@@ -175,24 +173,43 @@ const SalonProfile = () => {
                 </React.Fragment>
               ))}
             </Grid>
-            <Grid size={4}>🪪자격증:</Grid>
-            <Grid size={8}>
-              {detail?.certifications?.map((cert, index) => {
-                return <li key={index}>{cert}</li>;
-              })}
-            </Grid>
-            <Grid size={4}>💼사업자 번호:</Grid>
-            <Grid size={8}>{data?.businessNumber}</Grid>
-            <Grid size={4}>📍가게 위치 정보:</Grid>
-            <Grid size={8}>{data?.address}</Grid>
+
+            {detail?.certifications?.length > 0 && (
+              <>
+                <Grid size={4}>🪪자격증:</Grid>
+                <Grid size={8}>
+                  {detail.certifications.map((cert, index) => (
+                    <li key={index}>{cert}</li>
+                  ))}
+                </Grid>
+              </>
+            )}
+
+            {data?.businessNumber && (
+              <>
+                <Grid size={4}>💼사업자 번호:</Grid>
+                <Grid size={8}>{data.businessNumber}</Grid>
+              </>
+            )}
+
+            {data?.address && (
+              <>
+                <Grid size={4}>📍가게 위치 정보:</Grid>
+                <Grid size={8}>{data.address}</Grid>
+              </>
+            )}
           </Grid>
 
-          <Typography mt={3} fontWeight={700}>
-            FAQ
-          </Typography>
-          <Typography lineHeight={2} mt={1} sx={{ whiteSpace: 'pre-line' }}>
-            {data?.faq}
-          </Typography>
+          {data?.faq && (
+            <>
+              <Typography mt={3} fontWeight={700}>
+                FAQ
+              </Typography>
+              <Typography lineHeight={2} mt={1} sx={{ whiteSpace: 'pre-line' }}>
+                {data.faq}
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
     </Box>

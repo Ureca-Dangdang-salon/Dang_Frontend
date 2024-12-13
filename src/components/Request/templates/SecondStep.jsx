@@ -2,59 +2,20 @@ import { Box } from '@mui/material';
 import SelectDate from '../modules/SelectDate';
 import SelectRegion from '../modules/SelectRegion';
 import SelectServiceType from '../modules/SelectServiceType';
-import SelectDog from '../modules/SelectDog';
 import Button from '@components/Common/Button/Button';
 import SubTitle from '../atoms/SubTitle';
 import useRequestStore from '@/store/useRequestStore';
-import { postRequest } from '@/api/request';
 import usePageStore from '@/store/usePageStore';
 
 const SecondStep = () => {
-  const {
-    requestInfo,
-    setRequestInfo,
-    district,
-    setDistrict,
-    resetRequestInfo,
-    resetSelectDogs,
-    resetServiceType,
-  } = useRequestStore();
+  const { requestInfo, setRequestInfo, district, setDistrict } =
+    useRequestStore();
   const { setNewRequestStep } = usePageStore();
 
   const isValid = () => {
     // eslint-disable-next-line no-unused-vars
-    const { groomerProfileId, dogEstimateRequestList, ...rest } = requestInfo;
-
-    if (
-      !Object.values(rest).every((value) => {
-        if (
-          value === null ||
-          value === undefined ||
-          value === '' ||
-          (Array.isArray(value) && value.length === 0)
-        ) {
-          return false;
-        }
-        return true;
-      })
-    ) {
-      return false;
-    }
-
-    return dogEstimateRequestList.every((dogInfo) => {
-      return Object.entries(dogInfo).every(([key, dogValue]) => {
-        if (key === 'description') return true;
-        if (
-          dogValue === null ||
-          dogValue === undefined ||
-          dogValue === '' ||
-          (Array.isArray(dogValue) && dogValue.length === 0)
-        ) {
-          return false;
-        }
-        return true;
-      });
-    });
+    const { serviceType, districtId, date } = requestInfo;
+    return serviceType && districtId && date;
   };
 
   const setId = (id) => {
@@ -67,10 +28,10 @@ const SecondStep = () => {
 
   return (
     <>
-      <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
+      <Box display="flex" flexDirection="column" gap={4} width="100%" pb={4}>
         <SelectDate value={requestInfo.date} set={setDate} />
         <div>
-          <SubTitle title="지역" />
+          <SubTitle title="지역 *" />
           <SelectRegion
             setLocation={setDistrict}
             setDistrictId={setId}
@@ -78,22 +39,15 @@ const SecondStep = () => {
           />
         </div>
         <SelectServiceType />
-        <SelectDog title="반려견별 세부사항" />
       </Box>
       <Button
-        label="견적 신청하기"
+        label="다음으로"
         size="large"
+        disabled={!isValid()}
         backgroundColor={isValid() ? 'primary' : 'n3'}
         onClick={async () => {
-          if (isValid()) {
-            if (await postRequest(requestInfo)) {
-              resetRequestInfo();
-              resetSelectDogs();
-              resetServiceType();
-              setDistrict(null);
-              setNewRequestStep(1);
-            }
-          }
+          if (!isValid()) return '';
+          setNewRequestStep(3);
         }}
       />
     </>

@@ -16,7 +16,7 @@ const SelectDate = ({ value, set }) => {
 
   return (
     <div>
-      <SubTitle title="원하는 날짜" />
+      <SubTitle title="원하는 날짜 *" />
       <Selector2
         label="날짜 선택"
         content={displayDate}

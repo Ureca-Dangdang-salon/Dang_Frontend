@@ -43,32 +43,39 @@ const SelectDogItem = ({ data, selectedServices, description, price }) => {
         <Box>
           <TextBox
             title="서비스 선택"
-            contnet={selectedServices}
+            content={selectedServices}
             placeholder="서비스를 선택해주세요."
           />
-          <TextBox title="특이사항" contnet={description} placeholder="없음" />
+          <TextBox title="특이사항" content={description} placeholder="없음" />
           {price && (
             <TextBox
               title="금액"
-              contnet={price && price + ' 원'}
+              content={price && price + ' 원'}
               placeholder="견적서를 작성해주세요."
             />
           )}
         </Box>
       </Box>
       <Box>
-        <ArrowForwardIosRoundedIcon sx={{ color: 'n2.main' }} />
+        <ArrowForwardIosRoundedIcon sx={{ color: 'n3.main' }} />
       </Box>
     </Card>
   );
 };
 
-const TextBox = ({ title, contnet, placeholder }) => {
+const TextBox = ({ title, content, placeholder }) => {
   return (
-    <Box fontSize="14px">
-      {title}:{' '}
-      {contnet || (
-        <Typography sx={{ color: 'n2.main', display: 'inline' }}>
+    <Box fontSize="14px" display="flex" alignItems="center" gap={1}>
+      {title}:
+      {content && (
+        <Typography fontWeight={700} fontSize="inherit">
+          {content}
+        </Typography>
+      )}{' '}
+      {!content && (
+        <Typography
+          sx={{ color: 'n2.main', display: 'inline', fontSize: 'inherit' }}
+        >
           {placeholder}
         </Typography>
       )}
