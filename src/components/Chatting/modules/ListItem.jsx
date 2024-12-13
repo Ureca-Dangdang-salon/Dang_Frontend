@@ -85,19 +85,39 @@ const ListItem = ({ data, setList }) => {
           <Typography fontSize="14px" fontWeight="bold">
             견적 가격 {data.totalAmount.toLocaleString()}원
           </Typography>
-          <Modal
-            buttonColor="delete"
-            openModalButton="거절하기"
-            secondaryButton="취소"
-            primaryButton="거절"
-            title="견적을 거절하시겠습니까?"
-            action={async () => {
-              if (await rejectEstimate('estimateId')) {
-                const res = await getChatList();
-                setList(res);
-              }
-            }}
-          />
+          {data.estimateStatus === 'SEND' && (
+            <Modal
+              buttonColor="delete"
+              openModalButton="거절하기"
+              secondaryButton="취소"
+              primaryButton="거절"
+              title="견적을 거절하시겠습니까?"
+              action={async () => {
+                if (await rejectEstimate(data.estimateId)) {
+                  const res = await getChatList();
+                  setList(res);
+                }
+              }}
+            />
+          )}
+          {data.estimateStatus === 'ACCEPTED' && (
+            <Typography
+              variant="body2"
+              color="secondary"
+              sx={{ px: '8px', py: '6px' }}
+            >
+              결제완료
+            </Typography>
+          )}
+          {data.estimateStatus === 'REJECTED' && (
+            <Typography
+              variant="body2"
+              color="delete"
+              sx={{ px: '8px', py: '6px' }}
+            >
+              거절됨
+            </Typography>
+          )}
         </Box>
       )}
     </Box>
