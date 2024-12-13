@@ -70,7 +70,19 @@ const ChattingItem = ({ isOwn, estimate, image, message, otherProfile }) => {
             </Typography>
           </Box>
         )}
-        {image}
+        {image && (
+          <Box width="100%">
+            <img
+              src={image}
+              alt={image}
+              style={{
+                maxWidth: '100%',
+                objectFit: 'cover',
+                borderRadius: '10px',
+              }}
+            />
+          </Box>
+        )}
         {message}
       </Box>
     </Box>
