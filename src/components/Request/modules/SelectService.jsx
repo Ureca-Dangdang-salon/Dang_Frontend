@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import SubTitle from '../atoms/SubTitle';
 import { services } from '@/constants/services';
 import useRequestStore from '@/store/useRequestStore';
 import Checkbox from '@components/Common/Checkbox/Checkbox';
@@ -25,23 +24,21 @@ const SelectService = () => {
   };
 
   return (
-    <div>
-      <SubTitle title="서비스 선택" />
-      <Box display={'flex'} flexDirection={'column'} gap={1}>
-        {Object.entries(services).map(([service], idx) => {
-          const checked = dogInfo.servicesOffered.includes(idx + 1);
-          return (
-            <Checkbox
-              key={idx}
-              size="large"
-              label={service}
-              onChange={() => handleServiceChange(idx + 1, checked)}
-              selected={checked}
-            />
-          );
-        })}
-      </Box>
-    </div>
+    <Box display={'flex'} flexDirection={'column'} gap={1}>
+      {Object.entries(services).map(([service], idx) => {
+        const checked = dogInfo.servicesOffered.includes(idx + 1);
+        return (
+          <Checkbox
+            key={idx}
+            size="large"
+            label={service}
+            survey={true}
+            onChange={() => handleServiceChange(idx + 1, checked)}
+            selected={checked}
+          />
+        );
+      })}
+    </Box>
   );
 };
 

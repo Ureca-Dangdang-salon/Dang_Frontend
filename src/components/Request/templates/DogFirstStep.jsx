@@ -12,15 +12,13 @@ const DogFirstStep = () => {
   const dogInfo = requestInfo.dogEstimateRequestList[dogIndex];
 
   const isValid = () => {
-    const { currentImageKey, styleRefImageKey, healthIssue, aggression } =
-      dogInfo;
+    const { currentImageKey, healthIssue, aggression } = dogInfo;
 
-    if (!currentImageKey || !styleRefImageKey) {
+    if (!currentImageKey) return false;
+
+    if (typeof healthIssue !== 'boolean' || typeof aggression !== 'boolean')
       return false;
-    }
-    if (typeof healthIssue !== 'boolean' || typeof aggression !== 'boolean') {
-      return false;
-    }
+
     return true;
   };
 
@@ -33,9 +31,12 @@ const DogFirstStep = () => {
       <Button
         label="다음으로"
         size="large"
+        disabled={!isValid()}
         backgroundColor={isValid() ? 'primary' : 'n3'}
         onClick={() => {
-          if (isValid()) setDogStep(2);
+          if (isValid()) {
+            setDogStep(2);
+          }
         }}
       />
     </>

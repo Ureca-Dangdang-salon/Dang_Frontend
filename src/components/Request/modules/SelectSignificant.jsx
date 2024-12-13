@@ -50,19 +50,19 @@ const SelectSignificant = () => {
     <div>
       <SubTitle title="반려견 특이사항" />
       <SelectForm
-        text="질병이 있나요?"
+        text="질병이 있나요? *"
         handelChange={handelChange}
         value={dogInfo.healthIssue}
         field="healthIssue"
       />
       <SelectForm
-        text="공격성이 있나요?"
+        text="공격성이 있나요? *"
         handelChange={handelChange}
         value={dogInfo.aggression}
         field="aggression"
       />
       <TextArea
-        placeholder="추가적인 특이사항을 입력해 주세요.(선택)"
+        placeholder="추가적인 특이사항을 입력해 주세요. (선택)"
         rows={2}
         value={dogInfo.description}
         onChange={(e) => handelChange('description', e.target.value)}

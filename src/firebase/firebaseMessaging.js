@@ -5,34 +5,29 @@ import { postFcmToken } from '@/api/notification';
 const vapidKey =
   'BK0rq1l6wWkjwd2tOQ_2LQVfdhEmCWE9ysr0wucnrLzCzufwYSTZlzbPMaIsm5Bv9Y92UYlYgEli_uHVasIpWT4';
 
-let onMessageListenerInitialized = false;
-
 export const initializeForegroundNotifications = () => {
-  if (!onMessageListenerInitialized) {
-    onMessage(messaging, (payload) => {
-      console.log('Message received in foreground:', payload);
+  onMessage(messaging, (payload) => {
+    console.log('Message received in foreground:', payload);
 
-      if (!payload.data) {
-        console.log('No notification object in payload, skipping...');
-        return;
-      }
+    if (!payload.data) {
+      console.log('No notification object in payload, skipping...');
+      return;
+    }
 
-      const notificationTitle = payload.data.title;
-      const notificationOptions = {
-        body: payload.data.body,
-        icon: payload.data.icon,
-        data: payload.data,
-      };
+    const notificationTitle = payload.data.title;
+    const notificationOptions = {
+      body: payload.data.body,
+      icon: payload.data.icon,
+      data: payload.data,
+    };
 
-      if (
-        Notification.permission === 'granted' &&
-        document.visibilityState === 'visible'
-      ) {
-        new Notification(notificationTitle, notificationOptions);
-      }
-    });
-    onMessageListenerInitialized = true;
-  }
+    if (
+      Notification.permission === 'granted' &&
+      document.visibilityState === 'visible'
+    ) {
+      new Notification(notificationTitle, notificationOptions);
+    }
+  });
 };
 
 export const requestNotificationPermission = async () => {

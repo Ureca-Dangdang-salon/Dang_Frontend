@@ -22,12 +22,13 @@ const MyUserPage = () => {
   }, []);
 
   const statButton = [
-    { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
     {
       label: '결제내역',
       route: paths.paymentHistory,
       value: data?.paymentCount,
     },
+    { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
+
     {
       label: '나의 리뷰',
       route: paths.myReviews,

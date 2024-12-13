@@ -41,7 +41,6 @@ export const isNotNull = (item, field) => {
 
 export const stringNotEmpty = (string, field) => {
   if (string === '') {
-    console.log(string, field);
     toast.error(`${field} 작성/선택 후 저장해주세요.`);
     return false;
   } else return true;
@@ -52,4 +51,12 @@ export const listNotEmpty = (list, field) => {
     toast.error(`${field}에서 최소 1개의 항목을 추가해주세요.`);
     return false;
   } else return true;
+};
+
+export const noEmptyString = (list, field) => {
+  if (list.every((e) => e !== '')) return true;
+  else {
+    toast.error(`${field} 작성을 완료해주세요.`);
+    return false;
+  }
 };
