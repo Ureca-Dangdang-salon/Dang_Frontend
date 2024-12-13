@@ -37,7 +37,7 @@ const MyRequestItem = ({ data }) => {
         <Typography>{dayjs(data.date).format('YYYY-MM-DD')}</Typography>
       </Box>
       <Box onClick={(e) => e.stopPropagation()}>
-        {data.status === 'PAID' ? (
+        {data.status === 'CANCEL' ? (
           <Typography variant="body2">마감</Typography>
         ) : (
           <Modal
