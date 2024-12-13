@@ -175,39 +175,37 @@ const RequestHistoryDetail = () => {
         </Box>
 
         <Box display="flex" justifyContent="center" gap={3} mt={3}>
-          {estimateStatus !== 'SEND' ||
-            (estimateStatus !== 'ACCEPTED' && (
-              <>
-                <Modal
-                  openModalButton="요청 삭제"
-                  buttonColor="delete"
-                  variant="contained"
-                  title="견적 요청을 삭제하시겠습니까?"
-                  primaryButton="삭제하기"
-                  secondaryButton="취소하기"
-                  action={delEstimate}
-                  onGoHome={() => ''}
-                  buttonSx={{
-                    width: '167px',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                  }}
-                />
-
-                <Button
-                  size="medium"
-                  backgroundColor="primary"
-                  label="견적서 작성"
-                  onClick={() =>
-                    navigate(paths.estimate, {
-                      state: {
-                        requestId: estimateData.requestId,
-                      },
-                    })
-                  }
-                />
-              </>
-            ))}
+          {estimateStatus === null && (
+            <>
+              <Modal
+                openModalButton="요청 삭제"
+                buttonColor="delete"
+                variant="contained"
+                title="견적 요청을 삭제하시겠습니까?"
+                primaryButton="삭제하기"
+                secondaryButton="취소하기"
+                action={delEstimate}
+                onGoHome={() => ''}
+                buttonSx={{
+                  width: '167px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+              />
+              <Button
+                size="medium"
+                backgroundColor="primary"
+                label="견적서 작성"
+                onClick={() =>
+                  navigate(paths.estimate, {
+                    state: {
+                      requestId: estimateData.requestId,
+                    },
+                  })
+                }
+              />
+            </>
+          )}
         </Box>
       </Box>
     </Box>
