@@ -19,7 +19,7 @@ const EditEstimate = () => {
   const { estimateEditStep, setEstimateEditStep } = usePageStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const { estimateId } = location.state || {};
+  const { estimateId, requestId } = location.state || {};
 
   useEffect(() => {
     if (estimateEdit) {
@@ -49,7 +49,7 @@ const EditEstimate = () => {
       const fetchDogPrices = async () => {
         for (const e of estimateEdit.estimateList) {
           const dogId = e.dogProfileResponseDto.dogProfileId;
-          const res = await getEditEstimateDog(4, dogId);
+          const res = await getEditEstimateDog(requestId, dogId);
           const updatedRes = { ...res, dogProfileId: dogId };
           setEstimateDogPrice(updatedRes);
         }

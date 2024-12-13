@@ -115,6 +115,7 @@ const ChatRoomHeader = ({ userName, roomId }) => {
                 navigate(paths.editEstimate, {
                   state: {
                     estimateId: roomInfo.estimateId,
+                    requestId: roomInfo.estimateRequestId,
                   },
                 })
               }

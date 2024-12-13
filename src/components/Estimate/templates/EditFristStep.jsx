@@ -56,10 +56,14 @@ const EditFristStep = ({ isValid, estimateId }) => {
         label="견적서 수정하기"
         size="large"
         backgroundColor={isAllValid() ? 'primary' : 'n3'}
-        onClick={() => {
+        onClick={async () => {
           if (isAllValid()) {
             if (
-              putEditEstimateDog(estimateId, estimateEdit, transDogPriceList())
+              await putEditEstimateDog(
+                estimateId,
+                estimateEdit,
+                transDogPriceList()
+              )
             )
               navigate(-1);
           }
