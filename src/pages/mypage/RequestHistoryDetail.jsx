@@ -16,6 +16,7 @@ import { deleteEstimate } from '@/api/estimate';
 const RequestHistoryDetail = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [data, setData] = useState();
+  const [dogCount, setDogCount] = useState(0);
   const location = useLocation();
   const { estimateData, estimateStatus } = location.state || null;
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const RequestHistoryDetail = () => {
     const fetchData = async () => {
       const res = await getRequestDetail(estimateData.requestId);
       setData(res);
+      setDogCount(res.length);
+      console.log(res.length);
     };
     fetchData();
   }, []);
@@ -56,10 +59,10 @@ const RequestHistoryDetail = () => {
     <Box>
       <DetailHeader label="견적 요청 내역 상세보기" />
       <Box p={4} color="text.main">
-        <Box display="flex" alignItems="center" justifyContent="center">
+        <Box display="flex" alignItems="center" justifyContent="center" mb={5}>
           <img
             src={estimateData.imageKey || '/images/default-groomer-profile.png'}
-            width="100px"
+            width="80px"
             style={{ borderRadius: '50%' }}
           />
           <Box ml={3} fontSize={14}>
@@ -85,33 +88,39 @@ const RequestHistoryDetail = () => {
           </Box>
         </Box>
 
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <IconButton color="primary" onClick={handlePrev}>
-            <ArrowCircleLeftTwoToneIcon />
-          </IconButton>
+        {dogCount > 1 && (
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <IconButton color="primary" onClick={handlePrev}>
+              <ArrowCircleLeftTwoToneIcon />
+            </IconButton>
 
-          <Box display="flex" justifyContent="center" gap={1}>
-            {data?.map((_, index) => (
-              <Box
-                key={index}
-                onClick={() => handleDotClick(index)}
-                sx={{
-                  width: currentIndex === index ? '20px' : '10px',
-                  height: '10px',
-                  borderRadius: currentIndex === index ? '10px' : '50%',
-                  backgroundColor:
-                    currentIndex === index ? 'primary.main' : 'n4.main',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.3s',
-                }}
-              />
-            ))}
+            <Box display="flex" justifyContent="center" gap={1}>
+              {data?.map((_, index) => (
+                <Box
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  sx={{
+                    width: currentIndex === index ? '20px' : '10px',
+                    height: '10px',
+                    borderRadius: currentIndex === index ? '10px' : '50%',
+                    backgroundColor:
+                      currentIndex === index ? 'primary.main' : 'n4.main',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s',
+                  }}
+                />
+              ))}
+            </Box>
+
+            <IconButton color="primary" onClick={handleNext}>
+              <ArrowCircleRightTwoToneIcon />
+            </IconButton>
           </Box>
-
-          <IconButton color="primary" onClick={handleNext}>
-            <ArrowCircleRightTwoToneIcon />
-          </IconButton>
-        </Box>
+        )}
 
         <Box
           py={4}
@@ -125,6 +134,7 @@ const RequestHistoryDetail = () => {
               '/images/default-dog-profile.png'
             }
             width="100px"
+            height="100px"
             style={{ borderRadius: '50%' }}
           />
           <Typography>{currentDog?.dogProfileResponseDto.name}</Typography>
@@ -165,16 +175,18 @@ const RequestHistoryDetail = () => {
           ))}
         </Box>
 
-        <Box display="flex" justifyContent="space-between">
-          <IconButton color="primary" onClick={handlePrev}>
-            <ArrowCircleLeftTwoToneIcon />
-          </IconButton>
-          <IconButton color="primary" onClick={handleNext}>
-            <ArrowCircleRightTwoToneIcon />
-          </IconButton>
-        </Box>
+        {dogCount > 1 && (
+          <Box display="flex" justifyContent="space-between">
+            <IconButton color="primary" onClick={handlePrev}>
+              <ArrowCircleLeftTwoToneIcon />
+            </IconButton>
+            <IconButton color="primary" onClick={handleNext}>
+              <ArrowCircleRightTwoToneIcon />
+            </IconButton>
+          </Box>
+        )}
 
-        <Box display="flex" justifyContent="center" gap={3} mt={3}>
+        <Box display="flex" justifyContent="center" gap={3} my={5}>
           {estimateStatus !== 'SEND' && (
             <>
               <Modal
@@ -187,7 +199,7 @@ const RequestHistoryDetail = () => {
                 action={delEstimate}
                 onGoHome={() => ''}
                 buttonSx={{
-                  width: '167px',
+                  width: '50%',
                   fontSize: '16px',
                   fontWeight: 'bold',
                 }}
@@ -204,6 +216,7 @@ const RequestHistoryDetail = () => {
                     },
                   })
                 }
+                style={{ width: '50%' }}
               />
             </>
           )}

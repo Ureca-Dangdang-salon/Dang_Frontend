@@ -129,14 +129,15 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
         <Box width="100%" textAlign="center" mb={2}>
           <Button
             onClick={handleClose}
+            color="n3"
+            variant="contained"
             sx={{
               borderRadius: '10px',
-              bgcolor: 'grey.300',
               color: 'text.primary',
               minWidth: '100px',
               minHeight: '40px',
               fontWeight: 700,
-              mr: 1,
+              mr: 3,
               '&:hover': { bgcolor: 'n4.main' },
             }}
           >
@@ -146,10 +147,10 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
             onClick={handleAction}
             disabled={!selectedRegion}
             autoFocus
+            color="primary"
+            variant="contained"
             sx={{
               borderRadius: '10px',
-              bgcolor: 'primary.main',
-              color: 'white.main',
               minWidth: '100px',
               minHeight: '40px',
               fontWeight: 700,

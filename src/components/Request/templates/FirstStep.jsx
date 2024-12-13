@@ -21,7 +21,7 @@ const FirstStep = () => {
       }}
     >
       <div>
-        <SubTitle title="요청할 반려견 선택(다중 선택 가능)" />
+        <SubTitle title="요청할 반려견 선택 (다중 선택 가능)" />
         <PetList />
       </div>
       <Button
