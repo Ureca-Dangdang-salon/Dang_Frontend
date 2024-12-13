@@ -36,11 +36,13 @@ const FirstStep = ({ requestId }) => {
     const estimateId = await postEstimate(estimateInfo);
     if (estimateId) {
       resetEstimateInfo();
-      const res = await createChatRoom(estimateId);
-      navigate(paths.chat + `/${res.room_id}`, {
-        state: {
-          roomId: res.room_id,
-        },
+      await createChatRoom(estimateId).then((res) => {
+        if (res.roomId)
+          navigate(paths.chat + `/${res.roomId}`, {
+            state: {
+              roomId: res.roomId,
+            },
+          });
       });
     }
   };
