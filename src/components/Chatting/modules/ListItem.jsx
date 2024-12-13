@@ -54,21 +54,23 @@ const ListItem = ({ data, setList }) => {
         </Box>
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Typography fontSize="14px">{data.lastMessage}</Typography>
-          <Box
-            width="20px"
-            height="20px"
-            borderRadius="50%"
-            sx={{
-              backgroundColor: 'delete.main',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography fontSize="12px" color="white" fontWeight="bold">
-              {data.unreadCount}
-            </Typography>
-          </Box>
+          {!!data.unreadCount && (
+            <Box
+              width="20px"
+              height="20px"
+              borderRadius="50%"
+              sx={{
+                backgroundColor: 'delete.main',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography fontSize="12px" color="white" fontWeight="bold">
+                {data.unreadCount}
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Box>
 
