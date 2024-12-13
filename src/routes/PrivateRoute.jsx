@@ -19,7 +19,15 @@ const PrivateRoute = () => {
       setNotificationEnabled(res.notificationEnabled);
       setLoading(false);
 
-      await handleEnableNotifications();
+      // Get the 'notificationOn' value from localStorage
+      const notificationOn = localStorage.getItem('notificationOn');
+
+      // Check if the user is logged in and notifications have not been enabled yet
+      if (res.login && notificationOn !== 'true') {
+        // Only run `handleEnableNotifications` when the user logs in and notifications have not been enabled
+        await handleEnableNotifications();
+        localStorage.setItem('notificationOn', 'true'); // Set the flag to 'true' after enabling notifications
+      }
     } catch (error) {
       console.error('로그인 체크에 실패했습니다:', error);
       setLoggedIn(false);
@@ -28,10 +36,13 @@ const PrivateRoute = () => {
   };
 
   useEffect(() => {
-    if (!loggedIn) checkLogin();
-  }, [loggedIn]);
+    checkLogin();
+  }, []);
 
-  if (loading) return <Typography>Loading</Typography>;
+  // Show loading text while the login check is being processed
+  if (loading) return <Typography>Loading...</Typography>;
+
+  // Redirect to login page if not logged in, otherwise render the protected content
   return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;
 };
 
