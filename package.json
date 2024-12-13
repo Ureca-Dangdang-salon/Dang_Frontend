@@ -22,6 +22,7 @@
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.7",
     "@mui/x-date-pickers": "^7.22.3",
+    "@stomp/stompjs": "^7.0.0",
     "axios": "^1.7.8",
     "dayjs": "^1.11.13",
     "firebase": "^9.20.0",
@@ -31,6 +32,7 @@
     "react-router-dom": "^7.0.1",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
+    "sockjs-client": "^1.6.1",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
