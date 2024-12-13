@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import NorthRoundedIcon from '@mui/icons-material/NorthRounded';
 import useUserStore from '@/store/useUserStore';
 
-const ChatHeader = () => {
-  const [order, setOrder] = useState(true);
+const ChatHeader = ({ order, setOrder }) => {
   const { role } = useUserStore();
 
   return (

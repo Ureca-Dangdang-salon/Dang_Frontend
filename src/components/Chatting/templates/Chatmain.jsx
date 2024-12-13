@@ -4,7 +4,8 @@ import ListItem from '../modules/ListItem';
 import { getChatList } from '@/api/chat';
 
 const Chatmain = () => {
-  const [list, setList] = useState();
+  const [list, setList] = useState([]);
+  const [order, setOrder] = useState(true);
 
   useEffect(() => {
     const fetchList = async () => {
@@ -14,10 +15,14 @@ const Chatmain = () => {
     fetchList();
   }, []);
 
+  const sortedList = [...list].sort((a, b) =>
+    order ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount
+  );
+
   return (
     <>
-      <ChatHeader />
-      {list?.map((e, idx) => (
+      <ChatHeader order={order} setOrder={setOrder} />
+      {sortedList.map((e, idx) => (
         <ListItem key={idx} data={e} setList={setList} />
       ))}
     </>
