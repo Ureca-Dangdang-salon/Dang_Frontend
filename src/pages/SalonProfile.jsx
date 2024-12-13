@@ -1,19 +1,18 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Box, Typography, Divider, Button } from '@mui/material';
-import GppGoodRoundedIcon from '@mui/icons-material/GppGoodRounded';
-import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
-import WorkspacePremiumRoundedIcon from '@mui/icons-material/WorkspacePremiumRounded';
 import ReviewStars from '@components/Features/ReviewStars';
 import { useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { groomerPublicProfile } from '@/api/groomerProfile';
 import paths from '@/routes/paths';
+import BadgeDisplay from '@components/Features/BadgeDisplay';
 
 const SalonProfile = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [detail, setDetail] = useState({});
+  const [badges, setBadges] = useState([]);
 
   const defaultImgPath = '/images/default-groomer-profile.png';
   const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
@@ -34,6 +33,7 @@ const SalonProfile = () => {
       const res = await groomerPublicProfile(id);
       setData(res);
       setDetail(res.groomerProfileDetailsInfoResponseDto);
+      setBadges(res.groomerProfileDetailsInfoResponseDto.badges);
     };
 
     getGroomerProfile();
@@ -51,9 +51,7 @@ const SalonProfile = () => {
         />
         <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
           <Typography fontWeight={700}>{data?.name}</Typography>
-          <GppGoodRoundedIcon sx={{ color: '#34A853' }} />
-          <BadgeRoundedIcon sx={{ color: '#4285F4' }} />
-          <WorkspacePremiumRoundedIcon color="primary" />
+          <BadgeDisplay badges={badges} />
         </Box>
 
         {!isNaN(detail.starScore) && (
