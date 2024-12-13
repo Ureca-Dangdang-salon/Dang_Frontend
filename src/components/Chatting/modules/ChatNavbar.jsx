@@ -2,6 +2,10 @@ import { Box, IconButton, InputBase } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
+import { useRef } from 'react';
+import { uploadImage } from '@/api/image';
+import { maxImagesReached } from '@/utils/toastUtils';
+import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 
 const CircleButton = ({ icon: Icon, onClick }) => {
   return (
@@ -24,11 +28,47 @@ const CircleButton = ({ icon: Icon, onClick }) => {
 };
 
 const ChatNavbar = ({ onSend }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(null);
+  const fileInputRef = useRef(null);
+  const [images, setImage] = useState([]);
 
   const handelSend = () => {
-    if (message.length > 0) onSend(message);
-    setMessage('');
+    if (message?.length > 0 || images.length > 0)
+      onSend(message, images[0] || null);
+    setMessage(null);
+    setImage([]);
+  };
+
+  const handleOpenFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+
+      if (images.length + fileArray.length > 1) {
+        maxImagesReached(1);
+        return;
+      }
+
+      const newImages = await Promise.all(
+        fileArray.map(async (file) => {
+          const res = await uploadImage(file);
+          return res;
+        })
+      );
+
+      setImage([...images, ...newImages]);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    const updatedImages = images.filter((_, i) => i !== 0);
+    setImage(updatedImages);
   };
 
   return (
@@ -47,7 +87,36 @@ const ChatNavbar = ({ onSend }) => {
         bgcolor: 'white.main',
       }}
     >
-      <CircleButton icon={AttachFileIcon} />
+      {images.length > 0 && (
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: '90px',
+            display: 'flex',
+            alignItems: 'start',
+          }}
+        >
+          <img
+            src={images}
+            alt=""
+            style={{
+              maxWidth: '250px',
+              MaxHeight: '200px',
+              minWidth: '100px',
+              minHeight: '100px',
+              objectFit: 'cover',
+              borderRadius: '10px',
+            }}
+          />
+          <IconButton onClick={() => handleRemoveImage()}>
+            <HighlightOffRoundedIcon color="delete" />
+          </IconButton>
+        </Box>
+      )}
+      <CircleButton
+        icon={AttachFileIcon}
+        onClick={() => handleOpenFileInput()}
+      />
       <InputBase
         placeholder="메시지를 입력하세요."
         sx={{
@@ -71,6 +140,14 @@ const ChatNavbar = ({ onSend }) => {
         }}
       />
       <CircleButton icon={SendIcon} onClick={() => handelSend()} />
+      <input
+        ref={fileInputRef}
+        accept="image/*"
+        multiple
+        type="file"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
     </Box>
   );
 };

@@ -46,6 +46,8 @@ const ChatRoom = () => {
       {},
       async () => {
         stompClient.current.subscribe(`/sub/chat/${roomId}`, (message) => {
+          console.log(message.body);
+
           const chatMessage = JSON.parse(message.body);
           setMessageData((prev) => [...prev, chatMessage]);
         });
@@ -58,7 +60,7 @@ const ChatRoom = () => {
     );
   };
 
-  const sendMessage = (content) => {
+  const sendMessage = (content, image) => {
     if (stompClient.current && stompClient.current.connected) {
       const message = {
         roomId: roomId,
@@ -66,6 +68,7 @@ const ChatRoom = () => {
         senderRole: role,
         messageText: content,
         sendAt: new Date().toISOString(),
+        imageUrl: image,
       };
       stompClient.current.send(
         `/pub/chat/send/${roomId}`,

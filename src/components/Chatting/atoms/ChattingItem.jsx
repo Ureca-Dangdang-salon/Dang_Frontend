@@ -77,6 +77,7 @@ const ChattingItem = ({ isOwn, estimate, image, message, otherProfile }) => {
               alt={image}
               style={{
                 maxWidth: '100%',
+                minHeight: '100px',
                 objectFit: 'cover',
                 borderRadius: '10px',
               }}
