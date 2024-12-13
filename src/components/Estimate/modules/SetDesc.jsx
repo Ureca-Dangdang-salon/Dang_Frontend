@@ -23,10 +23,9 @@ const SetDesc = ({ info, set }) => {
         <TextArea
           placeholder="설명을 작성해주세요."
           rows={5}
-          value={info?.description || info?.comment}
+          value={info?.description}
           onChange={(e) => {
-            const field =
-              info?.description.length >= 0 ? 'description' : 'comment';
+            const field = 'description';
             set(field, e.target.value);
           }}
         />

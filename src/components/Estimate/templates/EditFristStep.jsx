@@ -5,10 +5,12 @@ import SelectDate from '@components/Request/modules/SelectDate';
 import EditSelectDogList from '../modules/EditSelectDogList';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 import { putEditEstimateDog } from '@/api/estimate';
+import { useNavigate } from 'react-router-dom';
 
-const EditFristStep = ({ isValid }) => {
+const EditFristStep = ({ isValid, estimateId }) => {
   const { estimateEdit, setEstimateEdit, estimateDogPrice } =
     useEstimateEditStore();
+  const navigate = useNavigate();
 
   const setDate = (date) => {
     setEstimateEdit({ date: date });
@@ -43,7 +45,6 @@ const EditFristStep = ({ isValid }) => {
   return (
     <>
       <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
-        <Box onClick={() => console.log(transDogPriceList())}>ads</Box>
         <SelectDate value={estimateEdit?.date} set={setDate} />
         <EditSelectDogList
           title="반려견 요청 목록"
@@ -57,7 +58,10 @@ const EditFristStep = ({ isValid }) => {
         backgroundColor={isAllValid() ? 'primary' : 'n3'}
         onClick={() => {
           if (isAllValid()) {
-            putEditEstimateDog(10, estimateEdit, transDogPriceList());
+            if (
+              putEditEstimateDog(estimateId, estimateEdit, transDogPriceList())
+            )
+              navigate(-1);
           }
         }}
       />
