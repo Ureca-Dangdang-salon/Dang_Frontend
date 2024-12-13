@@ -1,8 +1,9 @@
 import { Box, IconButton, InputBase } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
+import { useState } from 'react';
 
-const CircleButton = ({ icon: Icon }) => {
+const CircleButton = ({ icon: Icon, onClick }) => {
   return (
     <IconButton
       sx={{
@@ -15,13 +16,21 @@ const CircleButton = ({ icon: Icon }) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}
+      onClick={onClick}
     >
       <Icon sx={{ color: 'primary.main' }} />
     </IconButton>
   );
 };
 
-const ChatNavbar = () => {
+const ChatNavbar = ({ onSend }) => {
+  const [message, setMessage] = useState('');
+
+  const handelSend = () => {
+    if (message.length > 0) onSend(message);
+    setMessage('');
+  };
+
   return (
     <Box
       sx={{
@@ -52,8 +61,16 @@ const ChatNavbar = () => {
           fontSize: '16px',
           fontWeight: 'medium',
         }}
+        value={message || ''}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handelSend();
+          }
+        }}
       />
-      <CircleButton icon={SendIcon} />
+      <CircleButton icon={SendIcon} onClick={() => handelSend()} />
     </Box>
   );
 };
