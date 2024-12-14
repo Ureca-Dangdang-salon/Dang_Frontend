@@ -8,6 +8,7 @@ import { getRequestMyDetail } from '@/api/chat';
 const MyRequestDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState();
+  const [title, setTitle] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,9 +18,16 @@ const MyRequestDetail = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (data?.length > 0) {
+      const combinedTitle = data.map((e) => e.dogName).join(', ');
+      setTitle(combinedTitle);
+    }
+  }, [data]);
+
   return (
     <Box>
-      <DetailHeader label="댕댕1, 횐둥1 견적" />
+      <DetailHeader label={title + ' 견적'} />
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {data?.length > 0 &&
