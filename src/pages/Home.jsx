@@ -10,11 +10,14 @@ import Card from '@components/Common/Card';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
 import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
+import { getValidCoupons } from '@/api/coupon';
 
 const Home = () => {
   const navigate = useNavigate();
   const [localGroomers, setLocalGroomers] = useState([]);
   const [popularGroomers, setPopularGroomers] = useState([]);
+  const [eventName, setEventName] = useState('');
+  const [eventId, setEventId] = useState(0);
   const [winner, setWinner] = useState({
     name: '',
     profileImage: '',
@@ -28,6 +31,16 @@ const Home = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  useEffect(() => {
+    const getValidEvents = async () => {
+      const events = await getValidCoupons();
+      setEventName(events[0].eventName);
+      setEventId(events[0].eventId);
+    };
+
+    getValidEvents();
+  }, []);
 
   useEffect(() => {
     getGroomerProfileMainPage().then((data) => {
@@ -108,13 +121,15 @@ const Home = () => {
                 놓치지 마세요!
               </Typography>
               <Typography color="white" fontSize={20} fontWeight={900}>
-                겨울맞이 할인쿠폰 드려요
+                {eventName} 드려요~!
               </Typography>
             </Box>
           </Box>
 
           <MuiButton
-            onClick={() => navigate('/coupon')}
+            onClick={() =>
+              navigate(paths.coupon, { state: { eventId: eventId } })
+            }
             sx={{
               backgroundColor: 'primary.main',
               color: 'text.main',
@@ -124,7 +139,7 @@ const Home = () => {
               mt: 1,
             }}
           >
-            쿠폰받기
+            쿠폰 받으러 가기
           </MuiButton>
         </Box>
 

@@ -1,80 +1,88 @@
 import { Box, Typography } from '@mui/material';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
-import { Modal } from '@components/Common/Modal/Modal';
+import { useEffect, useState } from 'react';
+import { getMyCoupons } from '@/api/coupon';
+import couponImage from '/images/coupon.png';
+import dayjs from 'dayjs';
 
 const MyCoupons = () => {
+  const [coupons, setCoupons] = useState([]);
+
+  useEffect(() => {
+    const myCoupons = async () => {
+      const res = await getMyCoupons();
+      setCoupons(res);
+    };
+
+    myCoupons();
+  }, []);
+
   return (
     <Box>
       <DetailHeader label="쿠폰함" />
       <Box
         mt={5}
+        textAlign="center"
         display="flex"
+        flexDirection="column"
         alignItems="center"
         justifyContent="center"
         gap={2}
       >
-        <Box
-          position="relative"
-          width="350px"
-          borderRadius="15px"
-          overflow="hidden"
-        >
-          <img
-            src="/images/coupon.png"
-            alt="Coupon"
-            style={{ width: '100%', height: 'auto' }}
-          />
-          <Box position="absolute" top={20} left={20} color="white">
-            <Typography
-              color="white"
-              fontWeight={900}
-              fontSize={25}
-              lineHeight={1.2}
-              maxWidth={180}
-            >
-              겨울맞이 반려견 미용 할인 쿠폰
-            </Typography>
-            <Typography
-              color="white"
-              fontWeight={900}
-              fontSize={14}
-              mt={2.5}
-              ml={5}
-            >
-              사용기한: 2025-01-31
-            </Typography>
-          </Box>
-          <Box>
-            <Typography
-              color="primary"
-              fontWeight={900}
-              fontSize={40}
+        {coupons.map((coupon, index) => (
+          <Box position="relative" width="80%" mb={3} key={coupon.couponId}>
+            <img
+              src={couponImage}
+              alt="10% 할인쿠폰"
+              style={{
+                width: '100%',
+                height: 'auto',
+                borderRadius: '10px',
+              }}
+            />
+            <Box position="absolute" top="18%" left="8%">
+              <Typography
+                fontWeight={900}
+                fontSize={23}
+                lineHeight={1.2}
+                maxWidth={180}
+                color="white"
+                sx={{ textAlign: 'left' }}
+              >
+                {coupon?.name}
+              </Typography>
+            </Box>
+            <Box position="absolute" top="70%" left="15%">
+              <Typography fontWeight={900} fontSize={15} color="white">
+                사용기한:
+                {coupon?.expiredAt
+                  ? dayjs(coupon.expiredAt).format('YYYY-MM-DD')
+                  : 'N/A'}
+              </Typography>
+            </Box>
+            <Box
               position="absolute"
-              top={40}
-              right={32}
+              width="90px"
+              top="50%"
+              right="9px"
+              sx={{
+                transform: 'translateY(-50%)',
+              }}
             >
-              10
-            </Typography>
-            <Typography
-              color="#341823"
-              fontWeight={900}
-              fontSize={20}
-              position="absolute"
-              top={60}
-              right={13}
-            >
-              %
-            </Typography>
+              <Typography
+                color="primary.main"
+                fontWeight={900}
+                fontSize={coupon?.discountType === 'FIXED' ? 27 : 40}
+                lineHeight={1}
+              >
+                {coupon?.discountAmount}
+              </Typography>
+              <Typography color="#341823" fontWeight={700} fontSize={14}>
+                {coupon?.discountType === 'FIXED' ? '원' : '%'}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-
-        <Modal
-          openModalButton="삭제"
-          buttonColor="delete"
-          title="삭제하시겠습니까?"
-          secondaryButton="취소"
-          primaryButton="삭제"
-        />
+        ))}
       </Box>
     </Box>
   );
