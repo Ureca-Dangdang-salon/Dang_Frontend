@@ -9,15 +9,14 @@ import {
   Button as MuiButton,
   LinearProgress,
 } from '@mui/material';
-import couponImage from '/images/coupon.png';
 import Button from '@/components/Common/Button/Button';
 import { useEffect, useState } from 'react';
-import { connectSSE, getCouponDetail, issueCoupon } from '@/api/coupon';
+import { getCouponDetail, issueCoupon } from '@/api/coupon';
 import { useLocation } from 'react-router-dom';
 import dayjs from 'dayjs';
-import useUserStore from '@/store/useUserStore';
-import { CouponController } from '@/api/requestUrls';
-import { apiClient } from '@/api/apiClient';
+import toast from 'react-hot-toast';
+import paths from '@/routes/paths';
+import CouponImage from './CouponImage';
 
 const Coupon = () => {
   const location = useLocation();
@@ -42,6 +41,11 @@ const Coupon = () => {
   };
 
   useEffect(() => {
+    const storedDownloadedState = localStorage.getItem('isDownloaded');
+    if (storedDownloadedState) {
+      setIsDownloaded(JSON.parse(storedDownloadedState));
+    }
+
     const getCoupon = async () => {
       const res = await getCouponDetail(state.eventId);
       setData(res);
@@ -54,13 +58,16 @@ const Coupon = () => {
     const res = await issueCoupon(state.eventId);
     if (res?.includes('대기열에 참여했습니다.')) {
       setOpenModal(true);
-      const source = await connectSSE(state.eventId);
-      console.log(source);
-      startConnectSSE(new EventSource(source));
+      connectSSE();
     }
   };
 
-  const startConnectSSE = async (source) => {
+  const connectSSE = () => {
+    const source = new EventSource(
+      `http://localhost:8080/api/coupons/queue/updates?eventId=${state.eventId}`,
+      { withCredentials: true }
+    );
+
     source.onopen = () => console.log('SSE connection established.');
 
     source.addEventListener('queue_status', (event) => {
@@ -88,8 +95,29 @@ const Coupon = () => {
       try {
         const result = JSON.parse(event.data);
         console.log('Coupon issue result received:', result);
-        alert(result ? 'Coupon has been issued!' : 'Coupon issuance failed.');
-        if (result) setIsDownloaded(true);
+        toast(
+          result ? (
+            <span>
+              🎉 쿠폰이 발급되었습니다!{' '}
+              <a
+                href={paths.myCoupons}
+                style={{ color: '#9747FF', textDecoration: 'underline' }}
+              >
+                쿠폰함 가기
+              </a>
+            </span>
+          ) : (
+            '❌ 쿠폰 발급에 실패했습니다.'
+          ),
+          {
+            duration: 4000,
+            position: 'top-center',
+          }
+        );
+        if (result) {
+          setIsDownloaded(true);
+          localStorage.setItem('isDownloaded', true);
+        }
         closeModal();
         source.close();
       } catch (error) {
@@ -99,7 +127,7 @@ const Coupon = () => {
 
     source.onerror = (error) => {
       console.error('SSE connection error:', error);
-      setTimeout(() => startConnectSSE(source), 5000);
+      setTimeout(() => connectSSE(), 5000);
     };
 
     setEventSource(source);
@@ -147,90 +175,7 @@ const Coupon = () => {
             p: 3,
           }}
         >
-          <Box position="relative" mb={3}>
-            <img
-              src={couponImage}
-              alt="10% 할인쿠폰"
-              style={{
-                width: '100%',
-                height: 'auto',
-                borderRadius: '10px',
-              }}
-            />
-            <Box
-              position="absolute"
-              top="18%"
-              left="8%"
-              sx={{
-                maxWidth: '80%',
-                textAlign: 'left',
-              }}
-            >
-              <Typography
-                fontWeight={900}
-                sx={{
-                  fontSize: { xs: 'clamp(16px, 4vw, 23px)', sm: '23px' },
-                  lineHeight: 1.2,
-                  color: 'white',
-                }}
-              >
-                {data?.name}
-              </Typography>
-            </Box>
-            <Box
-              position="absolute"
-              top="70%"
-              left="15%"
-              sx={{
-                textAlign: 'left',
-                color: 'white',
-                fontSize: { xs: 'clamp(12px, 3vw, 15px)', sm: '15px' },
-              }}
-            >
-              <Typography fontWeight={900}>
-                사용기한:{' '}
-                {data?.endedAt
-                  ? dayjs(data.endedAt).format('YYYY-MM-DD')
-                  : 'N/A'}
-              </Typography>
-            </Box>
-            <Box
-              position="absolute"
-              width="90px"
-              top="50%"
-              right="9px"
-              sx={{
-                transform: 'translateY(-50%)',
-                textAlign: 'center',
-              }}
-            >
-              <Typography
-                color="primary.main"
-                fontWeight={900}
-                sx={{
-                  fontSize: {
-                    xs:
-                      data?.discountType === 'FIXED'
-                        ? 'clamp(20px, 5vw, 27px)'
-                        : 'clamp(30px, 7vw, 40px)',
-                    sm: data?.discountType === 'FIXED' ? '27px' : '40px',
-                  },
-                  lineHeight: 1,
-                }}
-              >
-                {data?.discountAmount}
-              </Typography>
-              <Typography
-                sx={{
-                  color: '#341823',
-                  fontWeight: 700,
-                  fontSize: { xs: 'clamp(10px, 2.5vw, 14px)', sm: '14px' },
-                }}
-              >
-                {data?.discountType === 'FIXED' ? '원' : '%'}
-              </Typography>
-            </Box>
-          </Box>
+          <CouponImage data={data} />
 
           <Button
             label={isDownloaded ? '발급완료' : '쿠폰 다운받기'}
@@ -251,7 +196,8 @@ const Coupon = () => {
 
           <Box sx={{ fontSize: 14, textAlign: 'left' }}>
             <Typography fontSize="inherit">
-              • 발급받은 쿠폰은 2025년 1월 31일까지 사용 가능합니다.
+              • 발급받은 쿠폰은 {dayjs(data?.endedAt).format('YYYY-MM-DD')}
+              까지 사용 가능합니다.
             </Typography>
             <Typography fontSize="inherit">
               • 1인당 1회 발급 가능하며, 발급받은 쿠폰은 &ldquo;마이페이지 -
@@ -279,12 +225,16 @@ const Coupon = () => {
           접속 대기 중입니다.
         </DialogTitle>
         <DialogContent>
-          <Typography>총 대기 인원: {queue.queueLength} 명</Typography>
-          <Typography>남은 쿠폰: {queue.remainingCoupons} 개</Typography>
           <Typography>
-            앞에 {queue.aheadCount} 명, 뒤에 {queue.behindCount} 명
+            총 대기 인원: <strong>{queue.queueLength}</strong> 명
           </Typography>
-          <Typography>예상시간: {formatTime(queue.estimatedTime)}</Typography>
+          <Typography>
+            앞에 <strong>{queue.aheadCount}</strong> 명, 뒤에{' '}
+            <strong>{queue.behindCount}</strong> 명
+          </Typography>
+          <Typography>
+            예상시간: <strong>{formatTime(queue.estimatedTime)}</strong>
+          </Typography>
           <Box mt={3} sx={{ width: '100%' }}>
             <LinearProgress
               variant="determinate"

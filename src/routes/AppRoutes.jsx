@@ -8,7 +8,7 @@ import { FCMListener } from '@/firebase/FCMListener';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Survey from '../pages/Survey/Survey';
-import Coupon from '@/pages/Coupon';
+import Coupon from '@/pages/coupon/Coupon';
 import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
 import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';

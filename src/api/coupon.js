@@ -36,24 +36,11 @@ export const getMyCoupons = async () => {
   }
 };
 
-export const connectSSE = async (eventId) => {
-  try {
-    const { data } = await apiClient.get(
-      `${CouponController.queue}?eventId=${eventId}`
-    );
-    return data;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-};
-
 export const issueCoupon = async (eventId) => {
   try {
     const { data } = await apiClient.post(
       `${CouponController.issueCoupons}?eventId=${eventId}`
     );
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
