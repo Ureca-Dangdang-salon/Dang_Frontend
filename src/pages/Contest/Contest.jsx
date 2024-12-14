@@ -25,6 +25,7 @@ import {
 } from '@/utils/toastUtils';
 import dayjs from 'dayjs';
 import useUserStore from '@/store/useUserStore';
+import useLikeStore from '@/store/useLikeStore';
 
 const Contest = () => {
   const navigate = useNavigate();
@@ -39,6 +40,21 @@ const Contest = () => {
 
   // const tempLoginUserId = 8;
   const { userId } = useUserStore();
+  const { likedPosts, setLikedPost } = useLikeStore();
+
+  const syncLikedPosts = useCallback(
+    (serverPosts) => {
+      const updatedPosts = serverPosts.map((post) => ({
+        ...post,
+        liked:
+          likedPosts[post.postId] !== undefined
+            ? likedPosts[post.postId]
+            : post.liked,
+      }));
+      return updatedPosts;
+    },
+    [likedPosts]
+  );
 
   useEffect(() => {
     const loadContestInfo = async () => {
@@ -94,7 +110,9 @@ const Contest = () => {
     setIsLoading(true);
     try {
       const data = await getContestPosts(currentContest.contestId, page, 3);
-      setPosts((prevPosts) => [...prevPosts, ...data.content]);
+      const syncedPosts = syncLikedPosts(data.content);
+      // setPosts((prevPosts) => [...prevPosts, ...data.content]);
+      setPosts((prevPosts) => [...prevPosts, ...syncedPosts]);
       setIsLastPage(data.last);
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
@@ -102,7 +120,7 @@ const Contest = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, isLastPage, currentContest, page]);
+  }, [isLoading, isLastPage, currentContest, page, syncLikedPosts]);
 
   useEffect(() => {
     if (currentContest && page === 0) {
@@ -205,20 +223,49 @@ const Contest = () => {
   }, [handleScroll]);
 
   const handleLikeToggle = async (postId, isLiked) => {
+    // try {
+    //   if (isLiked) {
+    //     await unlikePost(postId);
+    //   } else {
+    //     await likePost(postId);
+    //   }
+
+    //   setPosts((prevPosts) =>
+    //     prevPosts.map((post) =>
+    //       post.postId === postId ? { ...post, liked: !isLiked } : post
+    //     )
+    //   );
+    // } catch (error) {
+    //   console.error(error);
+    // }
     try {
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.postId === postId ? { ...post, liked: !isLiked } : post
+        )
+      );
+
+      // API 호출
       if (isLiked) {
         await unlikePost(postId);
       } else {
         await likePost(postId);
       }
 
+      // 성공 시 전역 상태 업데이트
+      setLikedPost(postId, !isLiked);
+    } catch (error) {
+      console.error('좋아요 토글 실패:', error);
+
+      // 실패 시 상태 롤백
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
-          post.postId === postId ? { ...post, liked: !isLiked } : post
+          post.postId === postId ? { ...post, liked: isLiked } : post
         )
       );
-    } catch (error) {
-      console.error(error);
+
+      // 전역 상태도 롤백
+      setLikedPost(postId, isLiked);
     }
   };
 

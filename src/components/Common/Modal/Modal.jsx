@@ -213,7 +213,8 @@ export const Modal = ({
 };
 
 Modal.propTypes = {
-  openModalButton: PropTypes.string,
+  // openModalButton: PropTypes.string,
+  openModalButton: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   buttonColor: PropTypes.string,
   title: PropTypes.string.isRequired,
   secondaryButton: PropTypes.string,

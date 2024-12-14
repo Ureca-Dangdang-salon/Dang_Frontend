@@ -3,7 +3,8 @@ import { Box, Typography } from '@mui/material';
 const WinnerProfile = ({
   name,
   votes,
-  profileImage = 'images/default-dog-profile.png',
+  profileImage,
+  // profileImage = 'images/default-dog-profile.png',
   showVotes = true,
 }) => {
   return (

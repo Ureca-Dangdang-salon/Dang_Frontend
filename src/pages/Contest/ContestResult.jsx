@@ -9,7 +9,8 @@ const ContestResult = () => {
   const [rankingData, setRankingData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const winnerPost = rankingData?.winnerPost;
+  const rankPosts = rankingData?.rankPosts || [];
   useEffect(() => {
     const fetchRankingData = async () => {
       try {
@@ -33,9 +34,6 @@ const ContestResult = () => {
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
 
-  const winnerPost = rankingData?.winnerPost;
-  const rankPosts = rankingData?.rankPosts || [];
-
   return (
     <Box>
       <Header />
@@ -45,7 +43,7 @@ const ContestResult = () => {
           <WinnerProfile
             name={winnerPost.dogName}
             votes={winnerPost.likeCount}
-            imageUrl={winnerPost.imageUrl}
+            profileImage={winnerPost.imageUrl}
           />
         )}
         {/* 순위별 카드 */}
