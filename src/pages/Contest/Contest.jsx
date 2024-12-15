@@ -38,7 +38,6 @@ const Contest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasPayment, setHasPayment] = useState(false);
 
-  // const tempLoginUserId = 8;
   const { userId } = useUserStore();
   const { likedPosts, setLikedPost } = useLikeStore();
 
@@ -79,7 +78,6 @@ const Contest = () => {
     loadContestInfo();
   }, []);
 
-  // 결제 여부 확인
   useEffect(() => {
     const checkPaymentStatus = async () => {
       try {
@@ -111,7 +109,6 @@ const Contest = () => {
     try {
       const data = await getContestPosts(currentContest.contestId, page, 3);
       const syncedPosts = syncLikedPosts(data.content);
-      // setPosts((prevPosts) => [...prevPosts, ...data.content]);
       setPosts((prevPosts) => [...prevPosts, ...syncedPosts]);
       setIsLastPage(data.last);
       setPage((prevPage) => prevPage + 1);
@@ -128,43 +125,25 @@ const Contest = () => {
     }
   }, [currentContest, fetchPosts]);
 
-  // 콘테스트 참여하기 로직 요구사항
-  // 단순히 참여 여부만 확인했다면, 이제는 결제 여부 확인 후 참여 여부 확인하는 순서대로 진행해야함
-  // 시나리오 1: 결제 내역 없음
-  // 참여하기 버튼 클릭 -> 결제 내역 없음 -> 모달로 안내 (O)
-  // 시나리오 2: 결제 있음 & 이미 참여
-  // 참여하기 버튼 클릭 -> 결제 내역 있음 -> 이미 참여함 -> 토스트 메시지 (O)
-  // 시나리오 3: 결제 있음 & 미참여
-  // 참여하기 버튼 클릭 -> 결제 내역 있음 -> 미참여 -> 참여 페이지로 이동 (O)
-  // 시나리오 2, 3을 제외한 1번만 모달이 필요한 거니까 여기를 수정하면 되나?
-  // 이전 컨테스트 로직
-  // 1. 바로 참여 여부 확인
-  // 2. 이미 참여했으면 toast
-  // 3. 참여 안 했으면 페이지 이동
   const handleParticipation = async () => {
     try {
-      // 1. 바로 참여 여부 확인
       const response = await checkContestParticipation(
         currentContest.contestId
       );
-      // 2. 이미 참여했으면 toast
       if (response.already_participated) {
-        //alert('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
         alreadyParticipatedInContest(3);
-      }
-      // 3. 참여 안 했으면 페이지 이동
-      else {
+      } else {
         navigate('/contest/entry', {
           state: {
             startedAt: currentContest.startedAt,
             endAt: currentContest.endAt,
             contestId: currentContest.contestId,
+            payments: response.payments,
           },
         });
       }
     } catch (error) {
       console.error(error);
-      //alert('참여 여부 확인 중 문제가 발생했습니다. 다시 시도해주세요.');
       contestCheckError(3);
     }
   };
@@ -173,18 +152,15 @@ const Contest = () => {
     try {
       const response = await deletePost(postId);
       if (response === '포스트 삭제가 완료되었습니다.') {
-        //alert('포스트가 삭제되었습니다.');
         postDeleted(3);
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post.postId !== postId)
         );
       } else {
-        //alert('포스트 삭제 중 문제가 발생했습니다.');
         postDeleteError(3);
       }
     } catch (error) {
       console.error(error);
-      //alert('포스트 삭제 중 문제가 발생했습니다.');
       postDeleteError(3);
     }
   };
@@ -192,12 +168,6 @@ const Contest = () => {
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
-    // if (
-    //   scrollTop + clientHeight >= scrollHeight &&
-    //   !isLoading &&
-    //   !isLastPage &&
-    //   currentContest
-    // )
     if (
       scrollTop + clientHeight >= scrollHeight - 100 &&
       !isLoading &&
@@ -223,21 +193,6 @@ const Contest = () => {
   }, [handleScroll]);
 
   const handleLikeToggle = async (postId, isLiked) => {
-    // try {
-    //   if (isLiked) {
-    //     await unlikePost(postId);
-    //   } else {
-    //     await likePost(postId);
-    //   }
-
-    //   setPosts((prevPosts) =>
-    //     prevPosts.map((post) =>
-    //       post.postId === postId ? { ...post, liked: !isLiked } : post
-    //     )
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
     try {
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
@@ -245,26 +200,21 @@ const Contest = () => {
         )
       );
 
-      // API 호출
       if (isLiked) {
         await unlikePost(postId);
       } else {
         await likePost(postId);
       }
 
-      // 성공 시 전역 상태 업데이트
       setLikedPost(postId, !isLiked);
     } catch (error) {
       console.error('좋아요 토글 실패:', error);
 
-      // 실패 시 상태 롤백
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.postId === postId ? { ...post, liked: isLiked } : post
         )
       );
-
-      // 전역 상태도 롤백
       setLikedPost(postId, isLiked);
     }
   };
@@ -291,8 +241,7 @@ const Contest = () => {
                   ? navigate(
                       `/salonprofile/${contestDetails.recentWinner.groomerProfileId}`
                     )
-                  : //alert('우승자 정보가 없습니다.')
-                    noWinnerInfo(3)
+                  : noWinnerInfo(3)
               }
               sx={{
                 cursor: 'pointer',
@@ -395,7 +344,6 @@ const Contest = () => {
                     explanation={post.description}
                     isLiked={post.liked}
                     deleteButton={
-                      // post.userId === tempLoginUserId
                       post.userId === userId
                         ? () => handleDeletePost(post.postId)
                         : null
