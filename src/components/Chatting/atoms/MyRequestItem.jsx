@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { stopEstimate } from '@/api/chat';
 
-const MyRequestItem = ({ data }) => {
+const MyRequestItem = ({ data, fetchList }) => {
   const navigation = useNavigate();
 
   return (
@@ -37,16 +37,22 @@ const MyRequestItem = ({ data }) => {
         <Typography>{dayjs(data.date).format('YYYY-MM-DD')}</Typography>
       </Box>
       <Box onClick={(e) => e.stopPropagation()}>
-        {data.status === 'CANCEL' ? (
+        {data.status === 'CANCEL' && (
           <Typography variant="body2">마감</Typography>
-        ) : (
+        )}
+        {data.status === 'PAID' && (
+          <Typography variant="body2">결제됨</Typography>
+        )}
+        {data.status === 'COMPLETED' && (
           <Modal
             buttonColor="delete"
             openModalButton="견적 그만 받기"
             secondaryButton="취소"
             primaryButton="그만 받기"
             title="견적을 그만 받으시겠습니까?"
-            action={() => stopEstimate(data.requestId)}
+            action={async () => {
+              if (await stopEstimate(data.requestId)) await fetchList();
+            }}
           />
         )}
       </Box>

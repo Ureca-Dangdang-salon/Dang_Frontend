@@ -85,7 +85,7 @@ export const stopEstimate = async (requestId) => {
     const { data } = await apiClient.put(
       RequestController.estimateRequest + `/${requestId}/stop`
     );
-    return data.response.message === '견적 요청이 마감되었습니다.';
+    return data.response === '견적 그만 받기에 성공하였습니다.';
   } catch (e) {
     console.log(e);
     return false;

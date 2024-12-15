@@ -8,11 +8,12 @@ import EmptyContent from '@components/Layout/EmptyContent';
 const MyRequest = () => {
   const [list, setList] = useState();
 
+  const fetchList = async () => {
+    const res = await getRequestMy();
+    setList(res);
+  };
+
   useEffect(() => {
-    const fetchList = async () => {
-      const res = await getRequestMy();
-      setList(res);
-    };
     fetchList();
   }, []);
 
@@ -22,7 +23,9 @@ const MyRequest = () => {
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {list?.length > 0 ? (
-            list.map((e, idx) => <MyRequestItem key={idx} data={e} />)
+            list.map((e, idx) => (
+              <MyRequestItem key={idx} data={e} fetchList={fetchList} />
+            ))
           ) : (
             <EmptyContent title="요청 내역이 없습니다." />
           )}
