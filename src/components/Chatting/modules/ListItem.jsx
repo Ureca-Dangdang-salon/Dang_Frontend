@@ -28,7 +28,9 @@ const ListItem = ({ data, setList }) => {
           flexDirection: 'column',
           cursor: 'pointer',
         }}
-        onClick={() => navigate(`${data.roomId}`)}
+        onClick={() =>
+          navigate(`${data.roomId}`, { state: { amount: data.totalAmount } })
+        }
       >
         {isUser ? (
           <Box

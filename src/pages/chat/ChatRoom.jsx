@@ -20,13 +20,12 @@ const ChatRoom = () => {
   const [roomId, setRoomId] = useState(initialRoomId);
   const stompClient = useRef(null);
   const [messageData, setMessageData] = useState([]);
-
+  const scrollRef = useRef();
   const [hasMorePrevious, setHasMorePrevious] = useState(true);
   const [shouldScrollBottom, setShouldScrollBottom] = useState(true);
 
   useEffect(() => {
     if (id) setRoomId(id);
-
     connect();
     return () => {
       if (stompClient.current) {
@@ -46,12 +45,9 @@ const ChatRoom = () => {
       {},
       async () => {
         stompClient.current.subscribe(`/sub/chat/${roomId}`, (message) => {
-          console.log(message.body);
-
           const chatMessage = JSON.parse(message.body);
           setMessageData((prev) => [...prev, chatMessage]);
         });
-
         await enter();
       },
       (error) => {
@@ -101,14 +97,8 @@ const ChatRoom = () => {
     return res;
   };
 
-  const scrollRef = useRef();
-  const scrollBottom = () => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-
     if (scrollTop < 10 && hasMorePrevious) {
       chatFetch().then((e) => {
         if (hasMorePrevious && e.length > 4)
@@ -134,6 +124,10 @@ const ChatRoom = () => {
     };
   }, [handleScroll]);
 
+  const scrollBottom = () => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   useEffect(() => {
     if (shouldScrollBottom) {
       scrollBottom();
@@ -144,7 +138,6 @@ const ChatRoom = () => {
     <Box>
       <ChatRoomHeader
         userName={otherProfile?.customerName || otherProfile?.serviceName}
-        roomId={roomId}
       />
       <Box
         p={4}

@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, IconButton } from '@mui/material';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -8,12 +8,19 @@ import paths from '@/routes/paths';
 import useChatStore from '@/store/useChatStore';
 import useUserStore from '@/store/useUserStore';
 import { exitChatRoom } from '@/api/chat';
+import { useEffect } from 'react';
 
-const ChatRoomHeader = ({ userName, roomId }) => {
+const ChatRoomHeader = ({ userName }) => {
   const navigate = useNavigate();
   const { otherProfile, roomInfo } = useChatStore();
   const { role } = useUserStore();
+  const location = useLocation();
+  const amount = location.state?.amount || 0;
   const isUser = role === 'ROLE_USER';
+
+  useEffect(() => {
+    if (!amount) navigate(-1);
+  }, []);
 
   return (
     <Box
@@ -78,7 +85,7 @@ const ChatRoomHeader = ({ userName, roomId }) => {
           primaryButton="나가기"
           title="채팅방을 나가시겠습니까?"
           action={async () => {
-            if (await exitChatRoom(roomId)) navigate(paths.chat);
+            if (await exitChatRoom(roomInfo.roomId)) navigate(paths.chat);
           }}
         />
       </Box>
@@ -90,6 +97,12 @@ const ChatRoomHeader = ({ userName, roomId }) => {
               size="medium"
               style={{ width: '100%' }}
               backgroundColor="primary"
+              onClick={() => {
+                navigate(
+                  paths.pay +
+                    `?amount=${amount}&estimateId=${roomInfo.estimateId}`
+                );
+              }}
             />
             <Button
               label="견적 요청서 보기"
