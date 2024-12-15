@@ -2,11 +2,10 @@ import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
 import { Box, Typography, Container } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useEffect, useState } from 'react';
-import ImageUploadIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router-dom';
 import InputText from '@/components/Common/InputText/InputText';
-import { fetchContestPayments, postContestEntry } from '@/api/contestApi.js';
-import { uploadImage } from '@/api/image.js';
+import { fetchContestPayments, postContestEntry } from '@/api/contest';
+import ImageSelector from '@components/Features/ImageSelector';
 
 const ContestEntry = () => {
   const navigate = useNavigate();
@@ -21,7 +20,6 @@ const ContestEntry = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const [previewImage, setPreviewImage] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const loadPayments = async () => {
@@ -47,30 +45,6 @@ const ContestEntry = () => {
     } else {
       navigate(-1);
     }
-  };
-
-  const handleImageUpload = async (file) => {
-    try {
-      setIsUploading(true);
-      const uploadedUrl = await uploadImage(file);
-
-      if (uploadedUrl) {
-        setSelectedImage(uploadedUrl);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // 미리보기 설정
-    setPreviewImage(URL.createObjectURL(file));
-
-    // 이미지 업로드
-    await handleImageUpload(file);
   };
 
   const handleContestSubmit = async () => {
@@ -99,43 +73,7 @@ const ContestEntry = () => {
       console.error(error);
       alert('참여 중 문제가 발생했습니다. 다시 시도해주세요!');
     }
-
-    // // localStorage에 전체 참여 정보 저장
-    // const participatedContests = JSON.parse(
-    //     localStorage.getItem('participatedContests') || '[]'
-    // );
-    // participatedContests.push(participationInfo);
-    // localStorage.setItem(
-    //     'participatedContests',
-    //     JSON.stringify(participatedContests)
-    // );
-    // const participatedGroomers = JSON.parse(
-    //     localStorage.getItem('participatedGroomers') || '[]'
-    // );
-    // participatedGroomers.push(selectedGroomer.id);
-    // localStorage.setItem(
-    //     'participatedGroomers',
-    //     JSON.stringify(participatedGroomers)
-    // );
-    // navigate('/contest');
   };
-  // // 예시 데이터
-  // const groomers = [
-  //   {
-  //     id: 1,
-  //     name: '홍길동 미용사',
-  //     date: '2024-11-14',
-  //     price: '33,000 원',
-  //     place: '서울, 강남구',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: '홍길동 미용사',
-  //     date: '2024-11-14',
-  //     price: '33,000 원',
-  //     place: '서울, 강남구',
-  //   },
-  // ];
 
   const handleGroomerSelect = (groomer) => {
     if (selectedGroomer?.groomerProfileId === groomer.groomerProfileId) {
@@ -144,12 +82,11 @@ const ContestEntry = () => {
       setSelectedGroomer(groomer);
     }
   };
-
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
   const renderStep1 = () => {
-    // if (payments.length === 0) {
-    //   return <Typography>콘테스트 기간 내 결제내역이 없습니다.</Typography>;
-    // }
-
     return (
       <Box>
         <Typography fontSize={24} fontWeight="bold" mt={6}>
@@ -179,7 +116,7 @@ const ContestEntry = () => {
             }}
             onClick={() =>
               handleGroomerSelect({
-                groomerProfileId: payment.groomerProfileId, // ID를 상태로 저장
+                groomerProfileId: payment.groomerProfileId,
                 groomerName: payment.groomerName,
               })
             }
@@ -188,7 +125,7 @@ const ContestEntry = () => {
               <img
                 src={
                   payment.groomerImage || '/images/default-groomer-profile.png'
-                } // 이미지 경로
+                }
                 alt="groomer"
                 style={{
                   width: '100px',
@@ -198,11 +135,10 @@ const ContestEntry = () => {
               <Box mx={3}>
                 <Typography fontWeight={700}>{payment.groomerName}</Typography>
                 <Typography fontSize={14} mt={1}>
-                  결제일: {new Date(payment.paymentDate).toLocaleDateString()}
+                  결제일: {formatDate(payment.paymentDate)}
                 </Typography>
                 <Typography fontSize={14} mt={0.5}>
-                  예약일:{' '}
-                  {new Date(payment.reservationDate).toLocaleDateString()}
+                  예약일: {formatDate(payment.reservationDate)}
                 </Typography>
                 <Typography fontSize={14} mt={0.5}>
                   서비스: {payment.serviceList.join(', ') || '서비스 정보 없음'}
@@ -248,42 +184,16 @@ const ContestEntry = () => {
         value={explanation}
         onChange={(e) => setExplanation(e.target.value)}
       />
-
-      <Typography fontSize={14} fontWeight="bold" mt={2} mb={2}>
-        참가 사진 (0/1)
-      </Typography>
-      <Box
-        sx={{
-          width: '80px',
-          aspectRatio: '1/1',
-          bgcolor: 'n4.main',
-          borderRadius: '10px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          cursor: 'pointer',
-          mb: 3,
-        }}
-        onClick={() => document.getElementById('imageInput').click()}
-      >
-        {previewImage ? (
-          <img
-            src={previewImage}
-            alt="preview"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        ) : (
-          <ImageUploadIcon sx={{ fontSize: 48, color: 'n3.main' }} />
-        )}
+      <Box mt={2} mb={2}>
+        <ImageSelector
+          maxImages={1}
+          images={selectedImage ? [selectedImage] : []}
+          onChange={(images) => {
+            setSelectedImage(images[0]);
+            setPreviewImage(images[0]);
+          }}
+        />
       </Box>
-      <input
-        type="file"
-        id="imageInput"
-        accept="image/*"
-        style={{ display: 'none' }}
-        // onChange={(e) => setSelectedImage(e.target.files[0])}
-        onChange={handleFileChange}
-      />
     </Box>
   );
 
@@ -300,10 +210,7 @@ const ContestEntry = () => {
 
         <Box
           sx={{
-            position: 'fixed',
-            bottom: 100,
-            left: 0,
-            right: 0,
+            mt: 4,
             p: 2,
             bgcolor: 'white',
             display: 'flex',

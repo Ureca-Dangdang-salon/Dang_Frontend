@@ -15,7 +15,7 @@ import {
   likePost,
   unlikePost,
   fetchContestPayments,
-} from '@/api/contestApi.js';
+} from '@/api/contest';
 import {
   alreadyParticipatedInContest,
   contestCheckError,

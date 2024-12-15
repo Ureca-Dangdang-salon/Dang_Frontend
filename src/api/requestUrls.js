@@ -20,6 +20,14 @@ export const ImageController = {
 
 export const ContestController = {
   rank: '/api/contests/winner/rank',
+  current: '/api/contests',
+  details: '/api/contests/',
+  payments: '/api/contests/payment',
+  entry: '/api/posts',
+  check: '/api/contests/',
+  posts: '/api/contests/',
+  deletePost: '/api/posts/',
+  like: '/api/posts/',
 };
 
 export const HomeController = {
@@ -36,7 +44,7 @@ export const RequestController = {
   estimate: '/api/estimate',
   estimateDog: '/api/estimate/dogrequest',
 };
-  
+
 export const NotificationController = {
   fcmToken: '/api/notification/fcm-token',
   getNotification: '/api/notification/list',
