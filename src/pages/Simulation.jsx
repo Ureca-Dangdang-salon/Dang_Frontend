@@ -113,6 +113,10 @@ const Simulation = () => {
         {result && (
           <Box my={4} textAlign="left">
             <Typography fontSize={18} fontWeight={700} my={2}>
+              제공한 이미지 분석 결과:
+            </Typography>
+            <Typography my={2}>{result?.analysisResult}</Typography>
+            <Typography fontSize={18} fontWeight={700} my={2}>
               시뮬레이션 결과:
             </Typography>
             <img
@@ -120,17 +124,14 @@ const Simulation = () => {
               alt="시뮬레이션 이미지"
               style={{ maxWidth: '100%', borderRadius: '10px' }}
             />
-            <Typography my={2}>{result?.analysisResult}</Typography>
-
             <Box display="flex" alignItems="center">
               <Typography fontSize={18} fontWeight={700} my={2}>
                 재미로 보는 닮은 연예인 😎:
               </Typography>
               <Typography ml={2}>{result?.matchingCelebrity}</Typography>
             </Box>
-
             {result?.celebrityImageUrl && (
-              <Box display="flex" justifyContent="center" mt={2}>
+              <Box display="flex" justifyContent="center">
                 <img
                   src={result.celebrityImageUrl}
                   alt="닮은 연예인"
