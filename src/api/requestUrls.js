@@ -36,7 +36,7 @@ export const RequestController = {
   estimate: '/api/estimate',
   estimateDog: '/api/estimate/dogrequest',
 };
-  
+
 export const NotificationController = {
   fcmToken: '/api/notification/fcm-token',
   getNotification: '/api/notification/list',
@@ -50,4 +50,8 @@ export const NotificationController = {
 
 export const PaymentController = {
   paymentHistory: '/api/payments',
+};
+
+export const SimulationController = {
+  generateImage: '/api/gpt/generate',
 };
