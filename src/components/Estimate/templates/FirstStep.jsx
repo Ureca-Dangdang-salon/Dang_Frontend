@@ -24,9 +24,8 @@ const FirstStep = ({ requestId }) => {
     };
     const fetchIds = async () => {
       setEstimateInfo({ requestId: requestId });
-      groomerProfile().then((res) => {
-        setEstimateInfo({ groomerProfileId: res.profileId });
-      });
+      const res = await groomerProfile();
+      if (res) setEstimateInfo({ groomerProfileId: res.profileId });
     };
     fetchDog();
     fetchIds();
@@ -36,14 +35,8 @@ const FirstStep = ({ requestId }) => {
     const estimateId = await postEstimate(estimateInfo);
     if (estimateId) {
       resetEstimateInfo();
-      await createChatRoom(estimateId).then((res) => {
-        if (res.roomId)
-          navigate(paths.chat + `/${res.roomId}`, {
-            state: {
-              roomId: res.roomId,
-            },
-          });
-      });
+      const res = await createChatRoom(estimateId);
+      if (res.roomId) navigate(paths.chatRoom.replace(':id', res.roomId));
     }
   };
 
@@ -65,8 +58,9 @@ const FirstStep = ({ requestId }) => {
         label="견적서 보내기"
         size="large"
         backgroundColor={isValid() ? 'primary' : 'n3'}
-        onClick={() => {
-          if (isValid()) submitEstimate();
+        onClick={async (e) => {
+          if (isValid()) await submitEstimate();
+          e.stopPropagation();
         }}
       />
     </>

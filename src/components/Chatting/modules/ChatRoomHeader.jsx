@@ -19,7 +19,7 @@ const ChatRoomHeader = ({ userName }) => {
   const isUser = role === 'ROLE_USER';
 
   useEffect(() => {
-    if (!amount) navigate(-1);
+    if (!amount && isUser) navigate(-1);
   }, []);
 
   return (

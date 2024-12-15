@@ -61,7 +61,6 @@ const useEstimateEditStore = create((set) => ({
     set((state) => {
       const updatedList = [...state.priceValidList];
       updatedList[index] = true;
-      console.log('valid update');
 
       return { priceValidList: updatedList };
     });

@@ -8,16 +8,14 @@ import { Stomp } from '@stomp/stompjs';
 import useUserStore from '@/store/useUserStore';
 import { enterChatRoom, fetchChatMessages } from '@/api/chat';
 import useChatStore from '@/store/useChatStore';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const ChatRoom = () => {
   const Url = import.meta.env.VITE_SOCKET_URL;
   const { role, userId } = useUserStore();
   const { otherProfile, setOtherProfile, setRoomInfo } = useChatStore();
-  const location = useLocation();
   const { id } = useParams();
-  const { roomId: initialRoomId } = location.state || {};
-  const [roomId, setRoomId] = useState(initialRoomId);
+  const [roomId, setRoomId] = useState(null);
   const stompClient = useRef(null);
   const [messageData, setMessageData] = useState([]);
   const scrollRef = useRef();
