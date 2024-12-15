@@ -39,6 +39,7 @@ import AddDogProfile from '@/pages/Survey/AddDogProfile';
 import AddSalonProfile from '@/pages/Survey/AddSalonProfile';
 import EditReview from '@/pages/mypage/EditReview';
 import SalonReviews from '@/pages/SalonReviews';
+import Simulation from '@/pages/Simulation';
 
 const AppRoutes = () => {
   return (
@@ -76,6 +77,7 @@ const AppContent = () => {
             <Route path={paths.contest} element={<Contest />} />
             <Route path={paths.entry} element={<Entry />} />
             <Route path={paths.coupon} element={<Coupon />} />
+            <Route path={paths.simulation} element={<Simulation />} />
             <Route path={paths.notification} element={<Notification />} />
             <Route path={paths.chat} element={<Chat role={role} />} />
             <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />

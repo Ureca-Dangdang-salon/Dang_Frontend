@@ -5,7 +5,7 @@ import {
   HomeRounded as HomeIcon,
   ReceiptLongRounded as RequestIcon,
   ChatRounded as ChatIcon,
-  PersonRounded as ProfileIcon,
+  AttractionsRounded as SimulationIcon,
 } from '@mui/icons-material';
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
@@ -28,8 +28,13 @@ export const Navbar = ({ page }) => {
       path: paths.newRequest,
       isRequest: true,
     },
+    {
+      key: 'simulation',
+      label: '댕댕+',
+      icon: SimulationIcon,
+      path: paths.simulation,
+    },
     { key: 'chat', label: '채팅', icon: ChatIcon, path: paths.chat },
-    { key: 'mypage', label: '내 정보', icon: ProfileIcon, path: paths.mypage },
   ];
 
   return (

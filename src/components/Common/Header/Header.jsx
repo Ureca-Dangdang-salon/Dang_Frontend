@@ -1,5 +1,8 @@
 import './Header.css';
-import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
+import {
+  PermIdentityRounded,
+  NotificationsNoneRounded,
+} from '@mui/icons-material';
 import { IconButton, Badge } from '@mui/material';
 import paths from '@/routes/paths';
 import { unreadCount } from '@/api/notification';
@@ -28,14 +31,21 @@ export const Header = () => {
       </a>
 
       <div>
-        <IconButton href="/notification" aria-label="notification" color="text">
+        <IconButton
+          href={paths.notification}
+          aria-label="notification"
+          color="text"
+        >
           <Badge
             badgeContent={unreadNotification}
             overlap="circular"
             color="error"
           >
-            <NotificationsNoneRoundedIcon sx={{ fontSize: '30px' }} />
+            <NotificationsNoneRounded sx={{ fontSize: '30px' }} />
           </Badge>
+        </IconButton>
+        <IconButton href={paths.mypage} aria-label="notification" color="text">
+          <PermIdentityRounded sx={{ fontSize: '30px' }} />
         </IconButton>
       </div>
     </header>
