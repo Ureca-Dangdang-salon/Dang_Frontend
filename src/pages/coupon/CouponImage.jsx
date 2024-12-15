@@ -31,7 +31,7 @@ const CouponImage = ({ data }) => {
             lineHeight: 1.2,
           }}
         >
-          {data?.name}겨울맞이 5000원 할인 쿠폰
+          {data?.name}
         </Typography>
       </Box>
       <Box
