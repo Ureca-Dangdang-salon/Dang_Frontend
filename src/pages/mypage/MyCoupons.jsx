@@ -33,7 +33,7 @@ const MyCoupons = () => {
           <Box position="relative" width="80%" mb={3} key={coupon.couponId}>
             <img
               src={couponImage}
-              alt="10% 할인쿠폰"
+              alt="할인쿠폰"
               style={{
                 width: '100%',
                 height: 'auto',
@@ -54,7 +54,7 @@ const MyCoupons = () => {
             </Box>
             <Box position="absolute" top="70%" left="15%">
               <Typography fontWeight={900} fontSize={15} color="white">
-                사용기한:
+                사용기한:{' '}
                 {coupon?.expiredAt
                   ? dayjs(coupon.expiredAt).format('YYYY-MM-DD')
                   : 'N/A'}

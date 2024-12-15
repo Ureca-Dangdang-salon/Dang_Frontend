@@ -1,5 +1,6 @@
 import couponImage from '/images/coupon.png';
 import { Box, Typography } from '@mui/material';
+import { deepPurple } from '@mui/material/colors';
 import dayjs from 'dayjs';
 
 const CouponImage = ({ data }) => {
@@ -19,7 +20,7 @@ const CouponImage = ({ data }) => {
         top="18%"
         left="8%"
         sx={{
-          maxWidth: '80%',
+          maxWidth: '60%',
           textAlign: 'left',
         }}
       >
@@ -31,7 +32,7 @@ const CouponImage = ({ data }) => {
             lineHeight: 1.2,
           }}
         >
-          {data?.name}
+          {data?.name}겨울맞이 5000원 할인 쿠폰
         </Typography>
       </Box>
       <Box
@@ -40,12 +41,11 @@ const CouponImage = ({ data }) => {
         left="15%"
         sx={{
           textAlign: 'left',
-          fontSize: { xs: 'clamp(12px, 3vw, 15px)', sm: '15px' },
+          fontSize: { xs: 'clamp(12px, 3vw, 10px)', sm: '15px' },
         }}
       >
-        <Typography fontWeight={900} color="white">
-          사용기한:
-          {data?.endedAt ? dayjs(data.endedAt).format('YYYY-MM-DD') : 'N/A'}
+        <Typography fontWeight={800} color={deepPurple[50]}>
+          발급 후 30일 이내 사용
         </Typography>
       </Box>
       <Box

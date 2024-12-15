@@ -196,8 +196,7 @@ const Coupon = () => {
 
           <Box sx={{ fontSize: 14, textAlign: 'left' }}>
             <Typography fontSize="inherit">
-              • 발급받은 쿠폰은 {dayjs(data?.endedAt).format('YYYY-MM-DD')}
-              까지 사용 가능합니다.
+              • 발급받은 쿠폰은 발급받은 날짜로부터 한달 뒤까지 사용 가능합니다.
             </Typography>
             <Typography fontSize="inherit">
               • 1인당 1회 발급 가능하며, 발급받은 쿠폰은 &ldquo;마이페이지 -
@@ -244,21 +243,21 @@ const Coupon = () => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Box width="100%" textAlign="center" mb={2} mx={2}>
-            <MuiButton
+          <Box textAlign="center" mb={2} mx={2}>
+            <Button
               onClick={() => setOpenModal(false)}
               autoFocus
-              color="delete"
+              size="large"
+              backgroundColor="delete"
               variant="contained"
-              sx={{
+              label="중지"
+              style={{
                 borderRadius: '10px',
                 minWidth: '100px',
                 minHeight: '48px',
                 fontWeight: 700,
               }}
-            >
-              중지
-            </MuiButton>
+            />
           </Box>
         </DialogActions>
       </Dialog>

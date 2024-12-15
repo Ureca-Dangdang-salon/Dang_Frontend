@@ -60,7 +60,16 @@ export const Navbar = ({ page }) => {
             <Box
               key={key}
               className="nav-button"
-              color={page.includes(key) ? 'secondary.main' : 'n2.main'}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '10%',
+                color: page.includes(key) ? 'secondary.main' : 'n2.main',
+                textAlign: 'center',
+                px: 1,
+              }}
               onClick={() => navigate(path)}
             >
               {isRequest ? (
@@ -71,22 +80,21 @@ export const Navbar = ({ page }) => {
                   borderRadius="50%"
                   bgcolor="secondary.main"
                   mt={-4}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
                 >
-                  <Icon
-                    color="white"
-                    fontSize="large"
-                    sx={{ ml: 1.5, mt: 1.5 }}
-                  />
+                  <Icon color="white" fontSize="large" />
                 </Box>
               ) : (
                 <Icon fontSize="large" />
               )}
-
               <Typography
                 fontSize={14}
                 fontWeight={700}
                 color="inherit"
                 mt={isRequest ? 1 : 0}
+                sx={{ whiteSpace: 'nowrap' }}
               >
                 {label}
               </Typography>
