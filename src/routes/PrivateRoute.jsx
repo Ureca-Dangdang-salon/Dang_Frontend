@@ -12,30 +12,29 @@ const PrivateRoute = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!loggedIn) {
-      const checkLogin = async () => {
-        try {
-          const res = await loginCheck();
-          setLoggedIn(res.login);
-          setRole(res.role);
-          setNotificationEnabled(res.notificationEnabled);
-          setUserId(res.userId);
-          setLoading(false);
+    // if (!loggedIn) {
+    const checkLogin = async () => {
+      try {
+        const res = await loginCheck();
+        setLoggedIn(res.login);
+        setRole(res.role);
+        setNotificationEnabled(res.notificationEnabled);
+        setUserId(res.userId);
+        setLoading(false);
 
-      const notificationOn = localStorage.getItem('notificationOn');
+        const notificationOn = localStorage.getItem('notificationOn');
 
-      if (res.login && notificationOn !== 'true') {
-        await handleEnableNotifications();
-        localStorage.setItem('notificationOn', 'true');
+        if (res.login && notificationOn !== 'true') {
+          await handleEnableNotifications();
+          localStorage.setItem('notificationOn', 'true');
+        }
+      } catch (error) {
+        console.error('로그인 체크에 실패했습니다:', error);
+        setLoggedIn(false);
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('로그인 체크에 실패했습니다:', error);
-      setLoggedIn(false);
-      setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
     checkLogin();
   }, []);
 
