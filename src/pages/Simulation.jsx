@@ -22,11 +22,11 @@ const Simulation = () => {
 
   const handleSubmit = async () => {
     if (!inputValue) {
-      toast.error('Please enter something before submitting!');
+      toast.error('어떤 스타일을 원하는지 적어주세요.');
       return;
     }
     if (!file) {
-      toast.error('Please select a dog image before submitting!');
+      toast.error('강아지의 사진을 선택해주세요.');
       return;
     }
 
