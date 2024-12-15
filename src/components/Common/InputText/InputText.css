@@ -1,5 +1,10 @@
-.input-text {
+.input-text-wrapper {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-text {
   height: 60px;
   background-color: #ffffff;
   border: none;
@@ -22,4 +27,19 @@
 
 .input-text:disabled {
   cursor: not-allowed;
+}
+
+.clickable-input {
+  cursor: pointer;
+}
+
+.input-text.error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 8px;
 }

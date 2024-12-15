@@ -15,6 +15,7 @@ import {
   postGroomerProfile,
 } from '@/api/groomerProfile';
 import paths from '@/routes/paths';
+import { validPhoneNum } from '@/utils/toastUtils';
 
 function AddSalonProfile() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function AddSalonProfile() {
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
-        return groomerInfo.phone.trim() !== '';
+        return validPhoneNum(groomerInfo.phone.trim());
       case 4:
         return groomerInfo.contactHours.trim() !== '';
       case 5:
@@ -76,12 +77,7 @@ function AddSalonProfile() {
         {step === 7 && <Step7 />}
         <Box
           sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            pb: 15,
-            bgcolor: 'white',
+            mt: 5,
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -110,6 +106,7 @@ function AddSalonProfile() {
           ) : (
             <Button
               size="large"
+              disabled={!isStepValid()}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label={step === 7 ? '프로필 저장하기' : '다음으로'}

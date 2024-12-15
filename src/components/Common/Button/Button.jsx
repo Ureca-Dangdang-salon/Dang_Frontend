@@ -15,8 +15,11 @@ const Button = ({ size, backgroundColor, onClick, label, disabled, style }) => {
         fontSize: 16,
         ...(size === 'large'
           ? { width: '326px', height: '60px' }
-          : { width: '167px', height: '48px' }),
+          : { width: '180px', height: '48px' }),
         '&:hover': { backgroundColor: `${backgroundColor}.main` },
+        '@media (max-width: 326px)': {
+          width: '100%',
+        },
       }}
     >
       {label}

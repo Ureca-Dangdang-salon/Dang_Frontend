@@ -4,7 +4,6 @@ self.importScripts(
 self.importScripts(
   'https://www.gstatic.com/firebasejs/9.20.0/firebase-messaging-compat.js'
 );
-
 const firebaseConfig = {
   apiKey: 'AIzaSyDV1rn-AOUbRKnUrlZTWxs7DRmpLd7ZfY0',
   authDomain: 'dangdangsalon-50432.firebaseapp.com',
@@ -19,14 +18,24 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  console.log('Background message received:', payload);
+if (!self.firebaseMessagingInitialized) {
+  self.firebaseMessagingInitialized = true;
 
-  const notificationTitle = payload.notification.title || 'Default Title';
-  const notificationOptions = {
-    body: payload.notification.body || 'Default Body',
-    icon: payload.notification.icon || '/default-icon.png',
-  };
+  messaging.onBackgroundMessage((payload) => {
+    console.log('[Service Worker] Background message received:', payload);
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+    if (payload.data) {
+      const notificationTitle = payload.data.title || 'Default Title';
+      const notificationOptions = {
+        body: payload.data.body || 'Default Body',
+        icon: payload.data.icon || '/default-icon.png',
+        data: payload.data,
+      };
+
+      self.registration.showNotification(
+        notificationTitle,
+        notificationOptions
+      );
+    }
+  });
+}

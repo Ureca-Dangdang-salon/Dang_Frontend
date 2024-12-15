@@ -11,10 +11,12 @@ import ProfileSelector from '@components/Features/ProfileSelector';
 import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
 import { useNavigate } from 'react-router-dom';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 import {
   validPhoneNum,
   stringNotEmpty,
   listNotEmpty,
+  noEmptyString,
 } from '@/utils/toastUtils';
 
 const EditSalonProfile = () => {
@@ -71,11 +73,12 @@ const EditSalonProfile = () => {
 
   const isValid = () => {
     return (
-      stringNotEmpty(putData.name.trim(), '서비스 이름') &&
+      stringNotEmpty(putData.name.trim(), '닉네임') &&
       validPhoneNum(putData.phone) &&
       stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
       listNotEmpty(putData.servicesDistrictIds) &&
-      stringNotEmpty(putData.serviceType, '서비스 형태')
+      stringNotEmpty(putData.serviceType, '서비스 형태') &&
+      noEmptyString(certifications, '자격증')
     );
   };
 
@@ -114,9 +117,13 @@ const EditSalonProfile = () => {
           />
 
           {[
-            { name: '서비스 이름', var: 'name' },
-            { name: '전화번호', var: 'phone' },
-            { name: '연락 가능 시간', var: 'contactHours' },
+            { name: '닉네임 / 활동명', placeholder: '댕댕살롱', var: 'name' },
+            { name: '전화번호', placeholder: '010-0000-0000', var: 'phone' },
+            {
+              name: '연락 가능 시간',
+              placeholder: '평일 오전 9시 ~ 오후 6시',
+              var: 'contactHours',
+            },
           ].map((item, index) => (
             <Box mt={2} key={index}>
               <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
@@ -126,7 +133,10 @@ const EditSalonProfile = () => {
                 <InputText
                   value={data[item.var]}
                   onChange={(e) => handleChange(item.var, e.target.value)}
-                  placeholder={item.name}
+                  placeholder={item.placeholder}
+                  errorMessage={
+                    !data[item.var].trim() ? '필수 항목입니다.' : ''
+                  }
                 />
               </Box>
             </Box>
@@ -153,13 +163,21 @@ const EditSalonProfile = () => {
             />
           ))}
 
-          <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5} mt={2}>
-            제공 서비스 *
-          </Typography>
+          <Box display="flex" alignItems="center" mt={2} mb={0.5}>
+            <Typography fontSize={14} fontWeight={600} ml={1}>
+              제공 서비스 *
+            </Typography>
+            {servicesOffered.length == 0 && (
+              <Typography fontSize={12} color="red" ml={2}>
+                최소 1개의 서비스를 선택해주세요.
+              </Typography>
+            )}
+          </Box>
+
           {serviceKeys.map((service, index) => {
             return (
               <Box key={index}>
-                <RadioButton
+                <Checkbox
                   label={service}
                   size="large"
                   selected={servicesOffered.includes(service)}

@@ -36,7 +36,8 @@ export const Navbar = ({ page }) => {
     <footer>
       <Box
         sx={{
-          width: '500px',
+          maxWidth: '500px',
+          width: '100%',
           position: 'fixed',
           bottom: 0,
           left: 0,

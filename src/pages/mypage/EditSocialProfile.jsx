@@ -3,8 +3,8 @@ import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import Button from '@components/Common/Button/Button';
 import InputText from '@components/Common/InputText/InputText';
 import { useState, useEffect } from 'react';
-import SelectRegion from '@components/NewRequest/modules/SelectRegion';
-import SubTitle from '@components/NewRequest/atoms/SubTitle';
+import SelectRegion from '@components/Request/modules/SelectRegion';
+import SubTitle from '@components/Request/atoms/SubTitle';
 import { socialProfile, updateSocialProfile } from '@/api/socialProfile';
 import ProfileSelector from '@components/Features/ProfileSelector';
 import { useNavigate } from 'react-router-dom';
@@ -35,7 +35,7 @@ const EditSocialProfile = () => {
   };
 
   const handleSubmit = () => {
-    updateSocialProfile(data.imageKey, districtId);
+    updateSocialProfile(data.imageKey, data.email, districtId);
     navigate(-1);
   };
 

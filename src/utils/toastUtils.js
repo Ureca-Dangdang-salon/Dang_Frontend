@@ -27,7 +27,7 @@ export const validFeatures = () => {};
 
 export const isNotZero = (value, field) => {
   if (value == 0) {
-    toast.error(`${field} 이/가 0일 수 없습니다.`);
+    toast.error(`${field}: 0보다 큰 수를 작성해주세요.`);
     return false;
   } else return true;
 };
@@ -71,4 +71,12 @@ export const postDeleteError = () => {
 
 export const noWinnerInfo = () => {
   toast.info('우승자 정보가 없습니다.');
+};
+
+export const noEmptyString = (list, field) => {
+  if (list.every((e) => e !== '')) return true;
+  else {
+    toast.error(`${field} 작성을 완료해주세요.`);
+    return false;
+  }
 };

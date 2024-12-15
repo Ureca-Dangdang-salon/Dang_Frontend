@@ -1,5 +1,5 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
-import { Box, Typography, Badge, Switch } from '@mui/material';
+import { Box, Typography, Switch } from '@mui/material';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import { useNavigate } from 'react-router-dom';
 import EmptyContent from '@components/Layout/EmptyContent';
@@ -11,10 +11,6 @@ import {
   updateSetting,
 } from '@/api/notification';
 import { Modal } from '@components/Common/Modal/Modal';
-import {
-  handleEnableNotifications,
-  notificationServiceInstance,
-} from '@/utils/NotificationService';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
 
@@ -30,19 +26,6 @@ const Notification = () => {
     };
 
     getList();
-
-    const handleIncomingNotification = (newNotification) => {
-      setNotifications((prev) => [newNotification, ...prev]);
-    };
-
-    notificationServiceInstance.listenForMessages(handleIncomingNotification);
-
-    return () => {
-      notificationServiceInstance.callbacks =
-        notificationServiceInstance.callbacks.filter(
-          (cb) => cb !== handleIncomingNotification
-        );
-    };
   }, []);
 
   const handleDeleteAll = async () => {
@@ -53,14 +36,6 @@ const Notification = () => {
   const handleNotificationChange = async () => {
     if (await updateSetting(!notificationEnabled))
       setNotificationEnabled(!notificationEnabled);
-
-    if (!notificationEnabled) {
-      await notificationServiceInstance.registerServiceWorker();
-      await handleEnableNotifications();
-    } else {
-      await notificationServiceInstance.unsubscribeFromNotifications();
-      await notificationServiceInstance.unregisterServiceWorker();
-    }
   };
 
   return (

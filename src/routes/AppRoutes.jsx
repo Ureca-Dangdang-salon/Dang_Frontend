@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { Navbar } from '@components/Common/Navbar/Navbar';
 import { Toaster } from 'react-hot-toast';
 import paths from '@/routes/paths';
+import { FCMListener } from '@/firebase/FCMListener';
 
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -53,15 +54,16 @@ const AppContent = () => {
 
   return (
     <Box
-      width="500px"
-      minHeight="100vh"
-      m="auto"
-      borderColor="n4.main"
       sx={{
+        maxWidth: '500px',
+        minHeight: '100vh',
+        width: '100%',
+        margin: '0 auto',
         boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.05)',
       }}
     >
       <Toaster />
+      <FCMListener />
       <Box paddingBottom="80px" height="100%">
         <Routes>
           <Route path={paths.login} element={<Login />} />

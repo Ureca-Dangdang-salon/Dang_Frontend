@@ -16,7 +16,6 @@ import {
 } from '@/api/groomerProfile';
 import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
-import { handleEnableNotifications } from '@/utils/NotificationService';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
@@ -52,7 +51,6 @@ function SurveyGroomer() {
     if (!isStepValid()) return '';
     if (step === 7) {
       if (await postAddGroomerProfile(businessInfo)) {
-        handleEnableNotifications();
         navigate(paths.home);
       }
     } else setStep(step + 1);
@@ -97,7 +95,7 @@ function SurveyGroomer() {
             >
               <Button
                 size="large"
-                disabled={isStepValid() ? false : true}
+                disabled={!isStepValid()}
                 backgroundColor={isStepValid() ? 'primary' : 'n3'}
                 onClick={async () => {
                   if (!isStepValid()) return '';
@@ -108,7 +106,7 @@ function SurveyGroomer() {
               <Button
                 size="large"
                 backgroundColor="primary"
-                disabled={isStepValid() ? false : true}
+                disabled={!isStepValid()}
                 onClick={async () => {
                   if (!isStepValid()) return '';
                   if (await handleSaveProfile()) handleNextStep();
@@ -119,7 +117,7 @@ function SurveyGroomer() {
           ) : (
             <Button
               size="large"
-              disabled={isStepValid() ? false : true}
+              disabled={!isStepValid()}
               backgroundColor={isStepValid() ? 'primary' : 'n3'}
               onClick={handleNextStep}
               label={step === 7 ? '프로필 저장하기' : '다음으로'}

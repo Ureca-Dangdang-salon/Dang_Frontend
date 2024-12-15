@@ -1,17 +1,17 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import InputText from '@components/Common/InputText/InputText';
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@components/Common/Button/Button';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
 import { Selector } from '@components/Common/Selector/Selector';
 import RadioButton from '@components/Common/RadioButton/RadioButton';
 import { breeds } from '@/constants/breeds';
 import ProfileSelector from '@components/Features/ProfileSelector';
-import { useEffect } from 'react';
 import { dogProfile, updateDogProfile } from '@/api/dogProfile';
 import { characteristics } from '@/constants/features';
 import { useNavigate } from 'react-router-dom';
+import Checkbox from '@components/Common/Checkbox/Checkbox';
 import paths from '@/routes/paths';
 import {
   isNotNull,
@@ -38,13 +38,16 @@ const DogProfile = () => {
       const featList = res.features.map((item) => item.description);
       const addFeat = featList.find((item) => !(item in characteristics));
 
-      if (addFeat != '') {
+      if (addFeat) {
         setAdditionalFeature(addFeat);
-        setFeatures([...features.filter((item) => item !== addFeat), '기타']);
+        setFeatures((prev) => [
+          ...prev.filter((item) => item !== addFeat),
+          '기타',
+        ]);
       }
 
       setData(res);
-      setFeatures(featList);
+      setFeatures(featList.length === 0 ? ['없음'] : featList);
       setLoading(false);
     };
 
@@ -65,7 +68,6 @@ const DogProfile = () => {
         setAdditionalFeature(null);
         return ['없음'];
       } else {
-        console.log(prevFeatures);
         if (prevFeatures.includes(trait)) {
           if (trait === '기타') {
             setAdditionalFeature(null);
@@ -90,9 +92,9 @@ const DogProfile = () => {
     return (
       stringNotEmpty(data.name.trim(), '반려견 이름') &&
       validDogAge(data.ageYear, data.ageMonth) &&
-      isNotZero(data.weight, '반려견의 몸무게') &&
+      isNotZero(data.weight, '몸무게') &&
       stringNotEmpty(data.species, '견종') &&
-      isNotNull(data.species) &&
+      isNotNull(data.species, '견종') &&
       featuresValid
     );
   };
@@ -101,7 +103,11 @@ const DogProfile = () => {
     if (isValid()) {
       const featureIds = features
         .filter((feat) => feat !== '기타' && feat !== '없음')
-        .map((feat) => Object.keys(characteristics).indexOf(feat) + 1);
+        .map((feat) => {
+          const index = Object.keys(characteristics).indexOf(feat);
+          return index !== -1 ? index + 1 : null;
+        })
+        .filter((id) => id !== null);
 
       await updateDogProfile(data, id, featureIds, additionalFeature);
       navigate(paths.mypage);
@@ -128,7 +134,9 @@ const DogProfile = () => {
         <Box width="100%" display="flex" flexDirection="column">
           <InputText
             value={data.name}
+            placeholder="댕댕이"
             onChange={(e) => handleChange('name', e.target.value)}
+            errorMessage={!data.name.trim() ? '이름을 입력해주세요' : ''}
           />
         </Box>
 
@@ -153,7 +161,7 @@ const DogProfile = () => {
           견종 *
         </Typography>
         <Selector
-          label="견종을 선택해주세요"
+          label="골든 리트리버"
           value={data.species}
           choices={breeds}
           onChange={handleChange}
@@ -209,13 +217,17 @@ const DogProfile = () => {
         </Typography>
         {Object.entries(characteristics).map(([trait, checked]) => (
           <Box key={trait}>
-            <RadioButton
+            <Checkbox
               size="large"
               label={trait}
-              selected={features.includes(trait)}
+              selected={
+                features.includes(trait) ||
+                (trait === '기타' && additionalFeature)
+              }
               onChange={() => handleFeatureChange(trait)}
             />
-            {trait === '기타' && features.includes(trait) && (
+            {((trait === '기타' && features.includes('기타')) ||
+              (trait === '기타' && additionalFeature != null)) && (
               <Box sx={{ mt: 2, mb: 2 }}>
                 <InputText
                   size="large"

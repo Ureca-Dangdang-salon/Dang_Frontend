@@ -4,7 +4,7 @@ import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
 import Button from '@/components/Common/Button/Button';
 import { join } from '@/api/auth';
 import { RegionModal } from '@components/Common/RegionModal/RegionModal';
-import { Selector2 } from '@components/NewRequest/atoms/Selector2';
+import { Selector2 } from '@components/Request/atoms/Selector2';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
@@ -38,7 +38,7 @@ function Survey() {
     <>
       <DetailHeader label="회원가입" totalPage={2} currPage={1} />
       <Box px={4} py={8}>
-        <Box>
+        <Box mt={10}>
           <Typography
             variant="h5"
             sx={{
@@ -62,21 +62,21 @@ function Survey() {
             gap: 1,
             position: 'fixed',
             left: '50%',
-            bottom: '10%',
+            mt: 15,
             transform: ' translateX(-50%)',
           }}
         >
           <Button
             size="large"
-            disabled={location ? false : true}
-            backgroundColor={location ? 'primary' : 'n3'}
+            disabled={!location}
+            backgroundColor="primary"
             onClick={handleHairstylistSignup}
             label="미용사로 가입하기"
           />
           <Button
             size="large"
-            disabled={location ? false : true}
-            backgroundColor={location ? 'secondary' : 'n3'}
+            disabled={!location}
+            backgroundColor="secondary"
             onClick={handleUserSignup}
             label="사용자로 가입하기"
           />
