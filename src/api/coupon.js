@@ -4,7 +4,6 @@ import { CouponController } from './requestUrls';
 export const getValidCoupons = async () => {
   try {
     const { data } = await apiClient.get(CouponController.validCoupons);
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
@@ -17,7 +16,6 @@ export const getCouponDetail = async (eventId) => {
     const { data } = await apiClient.get(
       `${CouponController.couponDetail}/${eventId}`
     );
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
@@ -28,7 +26,6 @@ export const getCouponDetail = async (eventId) => {
 export const getMyCoupons = async () => {
   try {
     const { data } = await apiClient.get(CouponController.myCoupons);
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);

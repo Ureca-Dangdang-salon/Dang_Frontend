@@ -6,14 +6,12 @@ import {
   DialogTitle,
   DialogActions,
   DialogContent,
-  Button as MuiButton,
   LinearProgress,
 } from '@mui/material';
 import Button from '@/components/Common/Button/Button';
 import { useEffect, useState } from 'react';
 import { getCouponDetail, issueCoupon } from '@/api/coupon';
 import { useLocation } from 'react-router-dom';
-import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
 import paths from '@/routes/paths';
 import CouponImage from './CouponImage';
@@ -56,6 +54,11 @@ const Coupon = () => {
 
   const handleDownload = async () => {
     const res = await issueCoupon(state.eventId);
+    if (res == '이미 쿠폰을 발급받았습니다.') {
+      toast.error(res);
+      setIsDownloaded(true);
+      return;
+    }
     if (res?.includes('대기열에 참여했습니다.')) {
       setOpenModal(true);
       connectSSE();

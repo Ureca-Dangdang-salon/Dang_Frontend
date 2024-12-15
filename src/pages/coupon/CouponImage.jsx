@@ -1,7 +1,6 @@
 import couponImage from '/images/coupon.png';
 import { Box, Typography } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
-import dayjs from 'dayjs';
 
 const CouponImage = ({ data }) => {
   return (
