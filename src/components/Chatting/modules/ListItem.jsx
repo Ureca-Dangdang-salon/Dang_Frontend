@@ -1,10 +1,10 @@
-import { getChatList, rejectEstimate } from '@/api/chat';
+import { rejectEstimate } from '@/api/chat';
 import useUserStore from '@/store/useUserStore';
 import { Modal } from '@components/Common/Modal/Modal';
 import { Avatar, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const ListItem = ({ data, setList }) => {
+const ListItem = ({ data, fetchList }) => {
   const navigate = useNavigate();
   const { role } = useUserStore();
   const isUser = role === 'ROLE_USER';
@@ -128,10 +128,7 @@ const ListItem = ({ data, setList }) => {
               primaryButton="거절"
               title="견적을 거절하시겠습니까?"
               action={async () => {
-                if (await rejectEstimate(data.estimateId)) {
-                  const res = await getChatList();
-                  setList(res);
-                }
+                if (await rejectEstimate(data.estimateId)) await fetchList();
               }}
             />
           )}
