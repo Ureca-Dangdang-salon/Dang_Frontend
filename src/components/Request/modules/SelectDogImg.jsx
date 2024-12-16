@@ -5,7 +5,14 @@ import { useRef } from 'react';
 import { uploadImage } from '@/api/image';
 import useRequestStore from '@/store/useRequestStore';
 
-const DogImg = ({ text, border, handelChange, field, img }) => {
+export const DogImg = ({
+  text,
+  border,
+  handleChange,
+  field,
+  img,
+  returnFile,
+}) => {
   const fileInputRef = useRef(null);
 
   const handleOpenFileInput = () => {
@@ -14,9 +21,11 @@ const DogImg = ({ text, border, handelChange, field, img }) => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
+
     if (file) {
       const res = await uploadImage(file);
-      handelChange(field, res);
+      if (returnFile) handleChange(file, res);
+      else handleChange(field, res);
     }
   };
 
@@ -74,7 +83,7 @@ const SelectDogImg = () => {
   const { requestInfo, setRequestInfo, dogIndex } = useRequestStore();
   const dogInfo = requestInfo.dogEstimateRequestList[dogIndex];
 
-  const handelImgChange = (field, imageKey) => {
+  const handleImgChange = (field, imageKey) => {
     const updatedList = [...requestInfo.dogEstimateRequestList];
     updatedList[dogIndex] = {
       ...updatedList[dogIndex],
@@ -93,7 +102,7 @@ const SelectDogImg = () => {
         <Box display="flex" gap={4} justifyContent="center">
           <DogImg
             text="현재 반려견 사진 *"
-            handelChange={handelImgChange}
+            handleChange={handleImgChange}
             field="currentImageKey"
             img={dogInfo?.currentImageKey}
           />
@@ -101,7 +110,7 @@ const SelectDogImg = () => {
             text="원하는 스타일 (예시)"
             border={true}
             field="styleRefImageKey"
-            handelChange={handelImgChange}
+            handleChange={handleImgChange}
             img={dogInfo?.styleRefImageKey}
           />
         </Box>

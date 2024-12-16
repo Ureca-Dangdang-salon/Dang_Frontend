@@ -31,7 +31,7 @@ Button.propTypes = {
   size: PropTypes.oneOf(['large', 'medium']).isRequired,
   backgroundColor: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   disabled: PropTypes.bool,
 };
 

@@ -11,16 +11,14 @@ const PrivateRoute = () => {
     useUserStore();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // if (!loggedIn) {
-    const checkLogin = async () => {
-      try {
-        const res = await loginCheck();
-        setLoggedIn(res.login);
-        setRole(res.role);
-        setNotificationEnabled(res.notificationEnabled);
-        setUserId(res.userId);
-        setLoading(false);
+  const checkLogin = async () => {
+    try {
+      const res = await loginCheck();
+      setLoggedIn(res.login);
+      setRole(res.role);
+      setUserId(res.userId);
+      setNotificationEnabled(res.notificationEnabled);
+      setLoading(false);
 
         const notificationOn = localStorage.getItem('notificationOn');
 

@@ -11,6 +11,7 @@ const paths = {
   contest: '/contest',
   entry: '/contest/entry',
   coupon: '/coupon',
+  simulation: '/simulation',
   chat: '/chat',
   chatRoom: '/chat/:id',
   myRequest: '/chat/myrequest',
@@ -29,7 +30,7 @@ const paths = {
   myCoupons: '/mypage/coupons',
   paymentHistory: '/mypage/paymenthistory',
   myReviews: '/mypage/myreviews',
-  requestHistory: '/mypage/requesthistory',
+  requestHistory: '/requesthistory',
   requestHistoryDetail: '/mypage/requesthistorydetail',
 
   salonProfile: '/salonprofile/:id',
