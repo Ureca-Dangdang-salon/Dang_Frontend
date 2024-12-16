@@ -3,9 +3,11 @@ import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import Button from '@components/Common/Button/Button';
 import TextArea from '@components/Common/TextArea/TextArea';
-import { Toaster } from 'react-hot-toast';
 import ImageSelector from '@components/Features/ImageSelector';
 import { postReview } from '@/api/review';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const NewReview = () => {
   const [data, setData] = useState({
@@ -18,6 +20,14 @@ const NewReview = () => {
   const TOTAL_STARS = 5;
   const [userRating, setUserRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const location = useLocation();
+  const groomerProfile = location.state.groomerProfile || null;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(groomerProfile);
+    if (!groomerProfile) navigate(-1);
+  }, []);
 
   const handleStarClick = (rating) => {
     setUserRating(rating);
@@ -50,8 +60,11 @@ const NewReview = () => {
   };
 
   const handleSubmit = async () => {
-    const groomerId = 4; //TODO: 변수로 대체하기
-    await postReview(data, groomerId);
+    const res = await postReview(data, groomerProfile.groomerProfileId);
+    if (res) {
+      toast.success('리뷰가 등록되었습니다.');
+      navigate(-1);
+    }
   };
 
   return (
@@ -59,7 +72,7 @@ const NewReview = () => {
       <DetailHeader label="리뷰 작성" />
       <Box p={4}>
         <Box display="flex">
-          <Typography fontWeight={700}>댕댕살롱</Typography>
+          <Typography fontWeight={700}>{groomerProfile.serviceName}</Typography>
           <Typography>에 대한 리뷰를 작성해주세요.</Typography>
         </Box>
 

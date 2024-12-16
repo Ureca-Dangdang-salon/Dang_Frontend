@@ -1,6 +1,6 @@
-import { Avatar, Box } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 
-const ChattingItem = ({ isOwn, message }) => {
+const ChattingItem = ({ isOwn, estimate, image, message, otherProfile }) => {
   return (
     <Box
       sx={{
@@ -13,7 +13,10 @@ const ChattingItem = ({ isOwn, message }) => {
     >
       {!isOwn && (
         <Avatar
-          src="/images/default-groomer-profile.png"
+          src={
+            otherProfile?.profileImageUrl ||
+            '/images/default-groomer-profile.png'
+          }
           sx={{
             width: 60,
             height: 60,
@@ -31,8 +34,66 @@ const ChattingItem = ({ isOwn, message }) => {
           wordBreak: 'break-word',
         }}
       >
+        {estimate && (
+          <Box width="250px">
+            <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+              견적서
+            </Typography>
+            {estimate.dogProfileList.map((e, idx) => (
+              <Box key={idx}>
+                <br />
+                <Typography sx={{ fontWeight: 'bold' }}>{e.dogName}</Typography>
+                {e.servicePriceList.map((service, idx) => (
+                  <PriceTag
+                    key={idx}
+                    field={service.description}
+                    value={service.price}
+                  />
+                ))}
+                {e.aggressionCharge !== 0 && (
+                  <PriceTag field="공격성" value={e.aggressionCharge} />
+                )}
+                {e.healthIssueCharge !== 0 && (
+                  <PriceTag field="질병" value={e.healthIssueCharge} />
+                )}
+              </Box>
+            ))}
+            <br />
+            <Typography
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '18px',
+                color: 'secondary.main',
+              }}
+            >
+              총 금액 : {estimate.totalAmount.toLocaleString()} 원
+            </Typography>
+          </Box>
+        )}
+        {image && (
+          <Box width="100%">
+            <img
+              src={image}
+              alt={image}
+              style={{
+                maxWidth: '100%',
+                minHeight: '100px',
+                objectFit: 'cover',
+                borderRadius: '10px',
+              }}
+            />
+          </Box>
+        )}
         {message}
       </Box>
+    </Box>
+  );
+};
+
+const PriceTag = ({ field, value }) => {
+  return (
+    <Box sx={{ fontWeight: 'bold' }}>
+      {field + ' : ' + value.toLocaleString() + ' 원'}
     </Box>
   );
 };

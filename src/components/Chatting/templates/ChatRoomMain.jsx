@@ -1,16 +1,28 @@
 import { Box } from '@mui/material';
 import ChattingItem from '../atoms/ChattingItem';
+import useChatStore from '@/store/useChatStore';
 
-const ChatRoomMain = () => {
+const ChatRoomMain = ({ messageData, role }) => {
+  const { otherProfile } = useChatStore();
+
   return (
     <Box
       sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
     >
-      <ChattingItem isOwn={false} message="안녕하세요! 어떻게 도와드릴까요?" />
-      <ChattingItem
-        isOwn={true}
-        message="네, 반려동물 케어에 대해 상담받고 싶어요."
-      />
+      {messageData?.map((e, idx) => {
+        const isMessage = e.estimateInfo || e.imageUrl || e.messageText;
+        if (!isMessage) return null;
+        return (
+          <ChattingItem
+            key={idx}
+            isOwn={e.senderRole === role}
+            estimate={e.estimateInfo}
+            image={e.imageUrl}
+            message={e.messageText}
+            otherProfile={otherProfile}
+          />
+        );
+      })}
     </Box>
   );
 };

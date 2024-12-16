@@ -53,6 +53,13 @@ export const NotificationController = {
 
 export const PaymentController = {
   paymentHistory: '/api/payments',
+  paymentApprove: '/api/payments/approve',
+  paymentCancel: '/api/payments/cancel',
+};
+
+export const ChatController = {
+  chat: '/api/chatrooms',
+  chatServer: '/ws/chat',
 };
 
 export const SimulationController = {

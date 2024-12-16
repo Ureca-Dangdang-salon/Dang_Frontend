@@ -9,6 +9,7 @@ import useEstimateStore from '@/store/useEstimateStore';
 import { groomerProfile } from '@/api/groomerProfile';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
+import { createChatRoom } from '@/api/chat';
 
 const FirstStep = ({ requestId }) => {
   const [dogList, setDogList] = useState();
@@ -23,18 +24,19 @@ const FirstStep = ({ requestId }) => {
     };
     const fetchIds = async () => {
       setEstimateInfo({ requestId: requestId });
-      groomerProfile().then((res) => {
-        setEstimateInfo({ groomerProfileId: res.profileId });
-      });
+      const res = await groomerProfile();
+      if (res) setEstimateInfo({ groomerProfileId: res.profileId });
     };
     fetchDog();
     fetchIds();
   }, []);
 
   const submitEstimate = async () => {
-    if (await postEstimate(estimateInfo)) {
+    const estimateId = await postEstimate(estimateInfo);
+    if (estimateId) {
       resetEstimateInfo();
-      navigate(paths.requestHistory);
+      const res = await createChatRoom(estimateId);
+      if (res.roomId) navigate(paths.chatRoom.replace(':id', res.roomId));
     }
   };
 
@@ -56,8 +58,9 @@ const FirstStep = ({ requestId }) => {
         label="견적서 보내기"
         size="large"
         backgroundColor={isValid() ? 'primary' : 'n3'}
-        onClick={() => {
-          if (isValid()) submitEstimate();
+        onClick={async (e) => {
+          if (isValid()) await submitEstimate();
+          e.stopPropagation();
         }}
       />
     </>

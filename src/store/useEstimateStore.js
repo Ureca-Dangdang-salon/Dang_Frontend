@@ -5,7 +5,7 @@ const initialEstimateInfo = {
   groomerProfileId: null,
   dogPriceList: [],
   totalAmount: 0,
-  description: '',
+  description: null,
   imageKey: null,
 };
 
@@ -122,7 +122,6 @@ const useEstimateStore = create((set) => ({
     set((state) => {
       const updatedList = [...state.priceValidList];
       updatedList[index] = true;
-      console.log('valid update');
 
       return { priceValidList: updatedList };
     });
