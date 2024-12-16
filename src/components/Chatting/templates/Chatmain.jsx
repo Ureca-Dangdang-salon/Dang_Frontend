@@ -15,6 +15,14 @@ const Chatmain = () => {
 
   useEffect(() => {
     fetchList();
+
+    const intervalId = setInterval(() => {
+      fetchList();
+    }, 2000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const sortedList = [...list].sort((a, b) =>
