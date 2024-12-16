@@ -168,7 +168,7 @@ const Contest = () => {
       <Header />
       <Box p={4} mb={3}>
         <Box>
-          <Typography fontWeight={900} fontSize={16} mb={0.5}>
+          <Typography fontWeight={700} fontSize={16} mb={0.5}>
             이달의 최고의 작품은?
           </Typography>
           <Box component="div" fontSize={12} mb={3}>

@@ -47,7 +47,7 @@ const WinnerProfile = ({
         alt="winner background"
       />
       <Typography
-        fontWeight={900}
+        fontWeight={700}
         fontSize={25}
         color="black"
         position="absolute"

@@ -24,7 +24,7 @@ const CouponImage = ({ data }) => {
         }}
       >
         <Typography
-          fontWeight={900}
+          fontWeight={700}
           color="white"
           sx={{
             fontSize: { xs: 'clamp(16px, 4vw, 23px)', sm: '23px' },
