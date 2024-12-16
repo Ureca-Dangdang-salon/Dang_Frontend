@@ -4,7 +4,6 @@ import { loginCheck } from '@/api/auth';
 import useUserStore from '@/store/useUserStore';
 import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 import paths from './paths';
-import { Typography } from '@mui/material';
 import Loading from '@components/Layout/Loading';
 
 const PrivateRoute = () => {
