@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-const Card = ({ title, subtitle }) => {
+const Card = ({ title, subtitle, onClick, imageUrl, defaultImage }) => {
   return (
     <Box
       my={1}
@@ -11,14 +11,23 @@ const Card = ({ title, subtitle }) => {
       sx={{
         textAlign: 'center !important',
         display: 'flex !important',
+        cursor: onClick ? 'pointer' : 'default',
       }}
+      onClick={onClick}
     >
-      <Box
-        width="80px"
-        height="80px"
-        bgcolor="primary.main"
-        borderRadius="10px"
-      ></Box>
+      <img
+        src={imageUrl || defaultImage}
+        alt={title}
+        onError={(e) => {
+          e.target.src = defaultImage;
+        }}
+        style={{
+          width: '80px',
+          height: '80px',
+          objectFit: 'cover',
+          borderRadius: '50%',
+        }}
+      />
       <Box
         ml={3}
         display="flex"
