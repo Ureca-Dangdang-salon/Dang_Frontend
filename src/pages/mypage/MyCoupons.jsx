@@ -1,9 +1,7 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { useEffect, useState } from 'react';
 import { getMyCoupons } from '@/api/coupon';
-import couponImage from '/images/coupon.png';
-import dayjs from 'dayjs';
 import CouponImage from '../coupon/CouponImage';
 
 const MyCoupons = () => {
