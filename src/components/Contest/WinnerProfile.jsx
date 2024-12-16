@@ -1,12 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-const WinnerProfile = ({
-  name,
-  votes,
-  profileImage,
-  // profileImage = 'images/default-dog-profile.png',
-  showVotes = true,
-}) => {
+const WinnerProfile = ({ name, votes, profileImage, showVotes = true }) => {
   return (
     <Box
       textAlign="center"

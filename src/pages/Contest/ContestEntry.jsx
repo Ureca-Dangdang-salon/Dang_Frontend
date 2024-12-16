@@ -6,6 +6,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import InputText from '@/components/Common/InputText/InputText';
 import { fetchContestPayments, postContestEntry } from '@/api/contest';
 import ImageSelector from '@components/Features/ImageSelector';
+import {
+  selectPaymentHistory,
+  contestParticipationSuccess,
+  contestParticipationError,
+} from '@/utils/toastUtils';
 
 const ContestEntry = () => {
   const navigate = useNavigate();
@@ -50,7 +55,7 @@ const ContestEntry = () => {
   const handleContestSubmit = async () => {
     try {
       if (!selectedGroomer) {
-        alert('결제내역을 선택해주세요');
+        selectPaymentHistory();
         return;
       }
       const participationInfo = {
@@ -64,14 +69,14 @@ const ContestEntry = () => {
       const response = await postContestEntry(participationInfo);
       console.log(response);
       if (response === '콘테스트 참여에 성공했습니다!') {
-        alert('콘테스트 참여가 완료되었습니다!');
+        contestParticipationSuccess();
         navigate('/contest');
       } else {
-        alert('참여 중 문제가 발생했습니다. 다시 시도해주세요!');
+        contestParticipationError();
       }
     } catch (error) {
       console.error(error);
-      alert('참여 중 문제가 발생했습니다. 다시 시도해주세요!');
+      contestParticipationError();
     }
   };
 

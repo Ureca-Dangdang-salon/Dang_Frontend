@@ -13,7 +13,7 @@ export const getContestRanking = async () => {
 
 export const fetchCurrentContest = async () => {
   try {
-    const { data } = await apiClient.get(ContestController.current);
+    const { data } = await apiClient.get(ContestController.contests);
     return data.response;
   } catch (error) {
     console.error(error);
@@ -24,7 +24,7 @@ export const fetchCurrentContest = async () => {
 export const fetchContestDetails = async (contestId) => {
   try {
     const { data } = await apiClient.get(
-      `${ContestController.details}${contestId}`
+      `${ContestController.contests}/${contestId}`
     );
     return data.response;
   } catch (error) {
@@ -48,7 +48,7 @@ export const fetchContestPayments = async (startDate, endDate) => {
 
 export const postContestEntry = async (info) => {
   try {
-    const { data } = await apiClient.post(ContestController.entry, info);
+    const { data } = await apiClient.post(ContestController.posts, info);
     return data.response;
   } catch (error) {
     console.error(error);
@@ -59,7 +59,7 @@ export const postContestEntry = async (info) => {
 export const checkContestParticipation = async (contestId) => {
   try {
     const { data } = await apiClient.get(
-      `${ContestController.check}${contestId}/check`
+      `${ContestController.contests}/${contestId}/check`
     );
     return data.response;
   } catch (error) {
@@ -71,7 +71,7 @@ export const checkContestParticipation = async (contestId) => {
 export const getContestPosts = async (contestId, page, size) => {
   try {
     const { data } = await apiClient.get(
-      `${ContestController.posts}${contestId}/posts`,
+      `${ContestController.contests}/${contestId}/posts`,
       {
         params: { page, size },
       }
@@ -86,7 +86,7 @@ export const getContestPosts = async (contestId, page, size) => {
 export const deletePost = async (postId) => {
   try {
     const { data } = await apiClient.delete(
-      `${ContestController.deletePost}${postId}`
+      `${ContestController.posts}/${postId}`
     );
     return data.response;
   } catch (error) {
@@ -97,14 +97,14 @@ export const deletePost = async (postId) => {
 
 export const likePost = async (postId) => {
   const { data } = await apiClient.post(
-    `${ContestController.like}${postId}/like`
+    `${ContestController.posts}/${postId}/like`
   );
   return data.response;
 };
 
 export const unlikePost = async (postId) => {
   const { data } = await apiClient.delete(
-    `${ContestController.like}${postId}/like`
+    `${ContestController.posts}/${postId}/like`
   );
   return data.response;
 };

@@ -96,6 +96,11 @@ const Home = () => {
               title={groomer.name}
               subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
+              onClick={() =>
+                navigate(paths.salonProfile.replace(':id', groomer.profileId))
+              }
+              imageUrl={groomer.imageKey}
+              defaultImage="/images/default-groomer-profile.png"
             />
           ))}
         </Slider>
@@ -137,6 +142,11 @@ const Home = () => {
               title={groomer.name}
               subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
+              onClick={() =>
+                navigate(paths.salonProfile.replace(':id', groomer.profileId))
+              }
+              imageUrl={groomer.imageKey}
+              defaultImage="/images/default-groomer-profile.png"
             />
           ))}
         </Slider>

@@ -80,3 +80,15 @@ export const noEmptyString = (list, field) => {
     return false;
   }
 };
+
+export const selectPaymentHistory = () => {
+  toast.error('결제내역을 선택해주세요');
+};
+
+export const contestParticipationSuccess = () => {
+  toast.success('콘테스트 참여가 완료되었습니다!');
+};
+
+export const contestParticipationError = () => {
+  toast.error('참여 중 문제가 발생했습니다. 다시 시도해주세요!');
+};

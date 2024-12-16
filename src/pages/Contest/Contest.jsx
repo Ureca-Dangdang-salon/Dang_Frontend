@@ -220,7 +220,6 @@ const Contest = () => {
   };
 
   const handleSubscribe = () => {
-    // 구독 로직 추가 예정
     alert('구독하기 버튼 클릭');
   };
 
@@ -265,7 +264,6 @@ const Contest = () => {
           ) : (
             <Typography>우승자 정보가 없습니다.</Typography>
           )}
-          {/* 참여 버튼 */}
           <Box display="flex" justifyContent="center" mt={5}>
             {participatedGroomers.length > 0 ? (
               <Modal
@@ -304,21 +302,19 @@ const Contest = () => {
               />
             )}
           </Box>
-          {/* 구독하기 버튼 추가 */}
           <Box display="flex" justifyContent="center" mt={2} mb={5}>
             <Button
-              label="구독하기"
+              label="새 글 알림"
               backgroundColor="primary"
               size="large"
               onClick={handleSubscribe}
             />
           </Box>
-          {/* 참여 안내 */}
           <Box mt={3}>
-            <Typography fontSize={16} fontWeight="bold">
-              이달의 베스트 미용 댕댕이! 🏆️
+            <Typography fontSize={18} fontWeight="bold">
+              🏆️ 이달의 베스트 댕댕이!
             </Typography>
-            <Typography fontSize={16} fontWeight="bold">
+            <Typography fontSize={14} fontWeight="bold">
               여러분의 소중한 한 표로 이달의 미용 스타를 선정해주세요!
             </Typography>
           </Box>
