@@ -67,7 +67,11 @@ const ReviewAccordion = ({ review, role }) => {
           <Box>
             <Box mb={2} display="flex" alignItems="center">
               <img
-                src={review.groomerImageKey || review.userImageKey}
+                src={
+                  review.groomerImageKey ||
+                  review.userImageKey ||
+                  '/images/default-groomer-profile.png'
+                }
                 width="60px"
                 style={{ borderRadius: '50%' }}
               />
