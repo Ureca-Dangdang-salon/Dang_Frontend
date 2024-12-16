@@ -56,3 +56,15 @@ export const ChatController = {
   chat: '/api/chatrooms',
   chatServer: '/ws/chat',
 };
+
+export const SimulationController = {
+  generateImage: '/api/gpt/generate',
+};
+
+export const CouponController = {
+  validCoupons: '/api/coupons/main', //mainpage
+  couponDetail: '/api/coupons',
+  myCoupons: '/api/coupons/users',
+  issueCoupons: '/api/coupons/issued',
+  queue: '/api/coupons/queue/updates',
+};
