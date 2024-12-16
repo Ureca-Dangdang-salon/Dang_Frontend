@@ -52,6 +52,10 @@ export const PaymentController = {
   paymentHistory: '/api/payments',
 };
 
+export const SimulationController = {
+  generateImage: '/api/gpt/generate',
+};
+
 export const CouponController = {
   validCoupons: '/api/coupons/main', //mainpage
   couponDetail: '/api/coupons',
