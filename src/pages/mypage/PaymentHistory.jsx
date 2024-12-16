@@ -41,10 +41,10 @@ const PaymentHistory = () => {
     getPaymentHistory();
   }, []);
 
-  const handelCancel = async (paymentKey, reason) => {
+  const handelCancel = async (paymentKey, reason, couponId) => {
     if (cancelReason.trim() === '')
       return toast.error(`취소 사유를 입력해주세요.`);
-    const res = await cancelPay(paymentKey, reason);
+    const res = await cancelPay(paymentKey, reason, couponId);
     if (res) {
       setCancelReason('');
       getPaymentHistory();
@@ -139,7 +139,11 @@ const PaymentHistory = () => {
                           openModalButton="예약 취소"
                           buttonColor="delete"
                           action={() =>
-                            handelCancel(payment.paymentKey, cancelReason)
+                            handelCancel(
+                              payment.paymentKey,
+                              cancelReason,
+                              payment.couponId
+                            )
                           }
                           onClose={() => setCancelReason('')}
                         >

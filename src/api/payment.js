@@ -43,11 +43,12 @@ export const approvePay = async (requestData) => {
   }
 };
 
-export const cancelPay = async (paymentKey, cancelReason) => {
+export const cancelPay = async (paymentKey, cancelReason, couponId) => {
   try {
     const { data } = await apiClient.post(PaymentController.paymentCancel, {
       paymentKey: paymentKey,
       cancelReason: cancelReason,
+      couponId: couponId,
     });
     return data.response;
   } catch (e) {
