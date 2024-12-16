@@ -101,7 +101,7 @@ const Coupon = () => {
         toast(
           result ? (
             <span>
-              🎉 쿠폰이 발급되었습니다!{' '}
+              🎉 쿠폰이 발급되었습니다!
               <a
                 href={paths.myCoupons}
                 style={{ color: '#9747FF', textDecoration: 'underline' }}
@@ -110,7 +110,7 @@ const Coupon = () => {
               </a>
             </span>
           ) : (
-            '❌ 쿠폰 발급에 실패했습니다.'
+            '😞 쿠폰이 모두 소진되었습니다.'
           ),
           {
             duration: 4000,
@@ -124,6 +124,7 @@ const Coupon = () => {
         closeModal();
         source.close();
       } catch (error) {
+        toast.error('❌ 쿠폰 발급에 실패했습니다. 다시 시도해주세요.');
         console.error('Error handling coupon issue result:', error);
       }
     });
