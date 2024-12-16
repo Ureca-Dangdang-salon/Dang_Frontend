@@ -32,11 +32,11 @@ const EditSocialProfile = () => {
   };
 
   const handleImageChange = (image) => {
-    handleChange('imageKey', image);
+    handleChange('profileImage', image);
   };
 
   const handleSubmit = () => {
-    updateSocialProfile(data.imageKey, data.email, districtId);
+    updateSocialProfile(data.profileImage, data.email, districtId);
     navigate(-1);
   };
 
@@ -49,7 +49,7 @@ const EditSocialProfile = () => {
         <Box textAlign="center" sx={{ cursor: 'pointer' }}>
           <ProfileSelector
             defaultImage="human"
-            image={data?.imageKey}
+            image={data?.profileImage}
             onChange={handleImageChange}
           />
         </Box>

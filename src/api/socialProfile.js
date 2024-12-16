@@ -14,7 +14,7 @@ export const socialProfile = async () => {
 export const updateSocialProfile = async (image_key, email, district_id) => {
   try {
     const { data } = await apiClient.put(ProfileController.socialProfile, {
-      imageKey: image_key,
+      profileImage: image_key,
       email: email,
       districtId: district_id,
     });
