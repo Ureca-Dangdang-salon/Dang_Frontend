@@ -139,7 +139,13 @@ const ChatNavbar = ({ onSend }) => {
           }
         }}
       />
-      <CircleButton icon={SendIcon} onClick={() => handelSend()} />
+      <CircleButton
+        icon={SendIcon}
+        onClick={(e) => {
+          e.preventDefault();
+          handelSend();
+        }}
+      />
       <input
         ref={fileInputRef}
         accept="image/*"

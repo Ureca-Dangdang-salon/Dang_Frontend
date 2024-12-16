@@ -7,15 +7,16 @@ import Button from '@components/Common/Button/Button';
 import paths from '@/routes/paths';
 import useChatStore from '@/store/useChatStore';
 import useUserStore from '@/store/useUserStore';
-import { exitChatRoom } from '@/api/chat';
+import { beautyComplete, exitChatRoom } from '@/api/chat';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const ChatRoomHeader = ({ userName }) => {
   const navigate = useNavigate();
   const { otherProfile, roomInfo } = useChatStore();
   const { role } = useUserStore();
   const location = useLocation();
-  const amount = location.state?.amount || 0;
+  const { amount, estimateStatus } = location.state || {};
   const isUser = role === 'ROLE_USER';
 
   useEffect(() => {
@@ -97,24 +98,42 @@ const ChatRoomHeader = ({ userName }) => {
               size="medium"
               style={{ width: '100%' }}
               backgroundColor="primary"
+              disabled={estimateStatus !== 'SEND'}
               onClick={() => {
                 navigate(
                   paths.pay +
-                    `?amount=${amount}&estimateId=${roomInfo.estimateId}`
+                    `?amount=${amount}&estimateId=${roomInfo.estimateId}&requestId=${roomInfo.estimateRequestId}`
                 );
               }}
             />
             <Button
-              label="견적 요청서 보기"
+              label="견적서 보기"
               size="medium"
-              style={{ width: '100%', padding: '0 12px' }}
+              style={{ width: '100%' }}
               backgroundColor="primary"
+              onClick={() => {
+                navigate(paths.viewEstimate, {
+                  state: {
+                    estimateId: roomInfo.estimateId,
+                    requestId: roomInfo.estimateRequestId,
+                    roomId: roomInfo.roomId,
+                  },
+                });
+              }}
             />
             <Button
               label="리뷰 작성"
               size="medium"
               style={{ width: '100%' }}
-              backgroundColor="n3"
+              backgroundColor="primary"
+              disabled={estimateStatus !== 'ACCEPTED'}
+              onClick={() => {
+                navigate(paths.newReview, {
+                  state: {
+                    groomerProfile: otherProfile,
+                  },
+                });
+              }}
             />
           </>
         ) : (
@@ -130,22 +149,36 @@ const ChatRoomHeader = ({ userName }) => {
                   state: {
                     estimateId: roomInfo.estimateId,
                     requestId: roomInfo.estimateRequestId,
+                    roomId: roomInfo.roomId,
                   },
                 });
                 window.location.href = paths.editEstimate;
               }}
             />
             <Button
-              label="견적 요청서 보기"
+              label="견적서 보기"
               size="medium"
-              style={{ width: '100%', padding: '0 12px' }}
+              style={{ width: '100%' }}
               backgroundColor="primary"
+              onClick={() => {
+                navigate(paths.viewEstimate, {
+                  state: {
+                    estimateId: roomInfo.estimateId,
+                    requestId: roomInfo.estimateRequestId,
+                    roomId: roomInfo.roomId,
+                  },
+                });
+              }}
             />
             <Button
               label="미용 완료"
               size="medium"
               style={{ width: '100%' }}
               backgroundColor="n3"
+              onClick={async () => {
+                const res = await beautyComplete(roomInfo.estimateId);
+                if (res) toast.success('미용이 완료 되었습니다.');
+              }}
             />
           </>
         )}

@@ -29,7 +29,12 @@ const ListItem = ({ data, fetchList }) => {
           cursor: 'pointer',
         }}
         onClick={() =>
-          navigate(`${data.roomId}`, { state: { amount: data.totalAmount } })
+          navigate(`${data.roomId}`, {
+            state: {
+              amount: data.totalAmount,
+              estimateStatus: data.estimateStatus,
+            },
+          })
         }
       >
         {isUser ? (
@@ -120,7 +125,7 @@ const ListItem = ({ data, fetchList }) => {
           <Typography fontSize="14px" fontWeight="bold">
             견적 가격 {data.totalAmount.toLocaleString()}원
           </Typography>
-          {data.estimateStatus === 'SEND' && (
+          {data.estimateStatus === 'SEND' ? (
             <Modal
               buttonColor="delete"
               openModalButton="거절하기"
@@ -131,24 +136,22 @@ const ListItem = ({ data, fetchList }) => {
                 if (await rejectEstimate(data.estimateId)) await fetchList();
               }}
             />
-          )}
-          {data.estimateStatus === 'ACCEPTED' && (
-            <Typography
-              variant="body2"
-              color="secondary"
-              sx={{ px: '8px', py: '6px' }}
+          ) : (
+            <Box
+              sx={{
+                px: '8px',
+                py: '6px',
+                fontSize: '14px',
+                color: 'secondary.main',
+              }}
             >
-              결제완료
-            </Typography>
-          )}
-          {data.estimateStatus === 'REJECTED' && (
-            <Typography
-              variant="body2"
-              color="delete"
-              sx={{ px: '8px', py: '6px' }}
-            >
-              거절됨
-            </Typography>
+              {data.estimateStatus === 'PAID' && '결제 완료'}
+              {data.estimateStatus === 'ACCEPTED' && '미용 완료'}
+              <Box color="text.main">
+                {data.estimateStatus === 'REJECTED' && '거절'}
+                {data.estimateStatus === 'REFUND' && '결제 취소'}
+              </Box>
+            </Box>
           )}
         </Box>
       )}
