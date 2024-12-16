@@ -23,6 +23,7 @@ const paths = {
   editReview: '/editreview/:id',
   estimate: '/estimate',
   editEstimate: '/estimate/edit',
+  viewEstimate: '/estimate/view',
 
   editSocialProfile: '/mypage/editsocialprofile',
   editSalonProfile: '/mypage/editsalonprofile',

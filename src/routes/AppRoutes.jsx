@@ -41,6 +41,7 @@ import EditReview from '@/pages/mypage/EditReview';
 import SalonReviews from '@/pages/SalonReviews';
 import Simulation from '@/pages/Simulation';
 import useUserStore from '@/store/useUserStore';
+import ViewEstimate from '@/pages/estimate/ViewEstimate';
 
 const AppRoutes = () => {
   return (
@@ -89,6 +90,7 @@ const AppContent = () => {
               path={paths.editSocialProfile}
               element={<EditSocialProfile />}
             />
+            <Route path={paths.viewEstimate} element={<ViewEstimate />} />
 
             {role !== 'ROLE_SALON' && (
               <>
