@@ -4,6 +4,7 @@ import { Header } from '@components/Common/Header/Header';
 import Card from '@components/Common/Card';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import { getContestRanking } from '@/api/contest';
+import Loading from '@components/Layout/Loading';
 
 const ContestResult = () => {
   const [rankingData, setRankingData] = useState(null);
@@ -30,7 +31,7 @@ const ContestResult = () => {
     fetchRankingData();
   }, []);
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
 
   const winnerPost = rankingData?.winnerPost;

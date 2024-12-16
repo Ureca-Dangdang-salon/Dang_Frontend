@@ -1,6 +1,7 @@
 import { deleteEstimate } from '@/api/estimate';
 import { groomerProfile } from '@/api/groomerProfile';
 import { getRequest } from '@/api/request';
+import paths from '@/routes/paths';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Modal } from '@components/Common/Modal/Modal';
 import { Box, Typography } from '@mui/material';
@@ -32,7 +33,7 @@ const RequestHistory = () => {
             <Box
               key={index}
               onClick={() =>
-                navigate('/mypage/requesthistorydetail', {
+                navigate(paths.requestHistoryDetail, {
                   state: {
                     estimateData: data,
                     estimateStatus: data.estimateStatus,

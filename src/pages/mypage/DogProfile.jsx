@@ -1,6 +1,6 @@
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import InputText from '@components/Common/InputText/InputText';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, CircularProgress } from '@mui/material';
 import { useState, useEffect } from 'react';
 import Button from '@components/Common/Button/Button';
 import NumberPicker from '@components/Common/NumberPicker/NumberPicker';
@@ -19,6 +19,7 @@ import {
   stringNotEmpty,
   validDogAge,
 } from '@/utils/toastUtils';
+import Loading from '@components/Layout/Loading';
 
 const DogProfile = () => {
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ const DogProfile = () => {
     }
   };
 
-  if (loading) return <Typography>LOADING</Typography>;
+  if (loading) return <Loading />;
 
   return (
     <Box>

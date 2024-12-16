@@ -1,4 +1,4 @@
-import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
+import { Header } from '@/components/Common/Header/Header';
 import { Box, Typography } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useNavigate } from 'react-router-dom';
@@ -165,7 +165,7 @@ const Contest = () => {
 
   return (
     <div>
-      <DetailHeader label="콘테스트" />
+      <Header />
       <Box p={4} mb={3}>
         <Box>
           <Typography fontWeight={900} fontSize={16} mb={0.5}>

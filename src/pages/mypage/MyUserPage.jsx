@@ -103,10 +103,9 @@ const MyUserPage = () => {
 
       <Box
         display="flex"
+        flexWrap="wrap"
         mt={3}
-        gap={6}
         textAlign="center"
-        justifyContent="center"
         border={1}
         borderColor="n4.main"
         borderRadius="10px"
@@ -115,9 +114,12 @@ const MyUserPage = () => {
         {statButton.map((stat, index) => (
           <React.Fragment key={stat.label}>
             <Box
-              flexDirection="column"
+              flex="1 1 30%"
               sx={{
+                display: 'flex',
+                flexDirection: 'column',
                 cursor: 'pointer',
+                alignItems: 'center',
                 '&:hover': { color: 'secondary.main' },
               }}
               onClick={() => navigate(stat.route)}

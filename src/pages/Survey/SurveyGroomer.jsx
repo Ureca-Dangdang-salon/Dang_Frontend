@@ -57,7 +57,7 @@ function SurveyGroomer() {
   };
 
   const handleBack = () => {
-    if (step > 1) setStep(step - 1);
+    if (step > 1 && step < 7) setStep(step - 1);
     else cantGoBack();
   };
 
