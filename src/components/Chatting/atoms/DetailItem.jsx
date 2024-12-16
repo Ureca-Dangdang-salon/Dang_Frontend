@@ -1,6 +1,14 @@
 import { Box, Card, Typography, Avatar } from '@mui/material';
 
-const DetailItem = () => {
+const DetailItem = ({ data }) => {
+  const desc = [
+    data.healthIssue ? '질병' : '',
+    data.aggression ? '공격성' : '',
+    data.description,
+  ]
+    .filter(Boolean)
+    .join(', ');
+
   return (
     <Box width="100%">
       <Card
@@ -29,19 +37,22 @@ const DetailItem = () => {
             }}
           >
             <Avatar
-              src="/images/default-dog-profile.png"
+              src={data.imageKey || '/images/default-dog-profile.png'}
               sx={{
                 bgcolor: 'p4.main',
                 width: 100,
                 height: 100,
               }}
             />
-            <Typography variant="body2">댕댕이</Typography>
+            <Typography variant="body2">{data.dogName}</Typography>
           </Box>
 
           <Box>
-            <Typography variant="body1">서비스 선택: 목욕, 털 미용</Typography>
-            <Typography variant="body1">특이사항: 없음</Typography>
+            <Typography variant="body1">
+              서비스 선택:{' '}
+              {data.serviceList.map((e) => e.description).join(', ')}
+            </Typography>
+            <Typography variant="body1">특이사항: {desc || '없음'}</Typography>
           </Box>
         </Box>
       </Card>

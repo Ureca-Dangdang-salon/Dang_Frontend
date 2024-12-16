@@ -66,8 +66,9 @@ const Coupon = () => {
   };
 
   const connectSSE = () => {
+    const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:8080';
     const source = new EventSource(
-      `http://localhost:8080/api/coupons/queue/updates?eventId=${state.eventId}`,
+      `${baseUrl}/api/coupons/queue/updates?eventId=${state.eventId}`,
       { withCredentials: true }
     );
 

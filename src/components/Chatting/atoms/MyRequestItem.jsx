@@ -1,8 +1,10 @@
 import { Modal } from '@components/Common/Modal/Modal';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { stopEstimate } from '@/api/chat';
 
-const MyRequestItem = ({ deadline }) => {
+const MyRequestItem = ({ data, fetchList }) => {
   const navigation = useNavigate();
 
   return (
@@ -19,7 +21,7 @@ const MyRequestItem = ({ deadline }) => {
         borderRadius: '10px',
         cursor: 'pointer',
       }}
-      onClick={() => navigation('1')}
+      onClick={() => navigation(data.requestId.toString())}
     >
       <Box
         sx={{
@@ -29,19 +31,35 @@ const MyRequestItem = ({ deadline }) => {
           alignItems: 'center',
         }}
       >
-        <Typography>댕댕1, 흰둥1 견적</Typography>
-        <Typography>2024년 11월 16일</Typography>
+        <Typography>
+          {data.dogList.map((e) => e.dogName).join(', ')} 견적
+        </Typography>
+        <Typography>{dayjs(data.date).format('YYYY-MM-DD')}</Typography>
       </Box>
       <Box onClick={(e) => e.stopPropagation()}>
-        {deadline ? (
+        {data.status === 'CANCEL' && (
           <Typography variant="body2">마감</Typography>
+        )}
+        {data.status === 'REFUND' && (
+          <Typography variant="body2">결제 취소</Typography>
+        )}
+        {data.estimateStatus === 'ACCEPTED' ? (
+          <Typography variant="body2">미용 완료</Typography>
         ) : (
+          data.status === 'PAID' && (
+            <Typography variant="body2">결제 완료</Typography>
+          )
+        )}
+        {data.status === 'COMPLETED' && (
           <Modal
             buttonColor="delete"
             openModalButton="견적 그만 받기"
             secondaryButton="취소"
             primaryButton="그만 받기"
             title="견적을 그만 받으시겠습니까?"
+            action={async () => {
+              if (await stopEstimate(data.requestId)) await fetchList();
+            }}
           />
         )}
       </Box>

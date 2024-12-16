@@ -13,6 +13,7 @@ export const Modal = ({
   buttonSx,
   onClose,
   onGoHome,
+  children,
   isSimpleModal, // 새로 추가된 prop
 }) => {
   const [open, setOpen] = useState(false);
@@ -60,6 +61,7 @@ export const Modal = ({
         >
           {title}
         </DialogTitle>
+        {children}
         <DialogActions>
           <Box width="100%" textAlign="center" mb={2} mx={2}>
             {/* isSimpleModal이 아닐 때만 secondaryButton 표시 */}

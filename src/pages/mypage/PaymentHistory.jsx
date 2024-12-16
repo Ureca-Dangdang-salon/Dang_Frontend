@@ -9,40 +9,54 @@ import {
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { ExpandMoreRounded } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
-import { getPayments } from '@/api/payment';
+import { cancelPay, getPayments } from '@/api/payment';
 import { Modal } from '@components/Common/Modal/Modal';
 import EmptyContent from '@components/Layout/EmptyContent';
+import InputText from '@components/Common/InputText/InputText';
+import toast from 'react-hot-toast';
 import Loading from '@components/Layout/Loading';
 
 const PaymentHistory = () => {
   const [payments, setPayments] = useState([]);
   const [serviceList, setServiceList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cancelReason, setCancelReason] = useState('');
+
+  const getPaymentHistory = async () => {
+    const res = await getPayments();
+    setPayments(res);
+    setServiceList([
+      ...new Set(
+        res.flatMap((payment) =>
+          payment.dogProfileList.flatMap((dogProfile) =>
+            dogProfile.servicePriceList.map((service) => service.description)
+          )
+        )
+      ),
+    ]);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const getPaymentHistory = async () => {
-      const res = await getPayments();
-      setPayments(res);
-      setServiceList([
-        ...new Set(
-          res.flatMap((payment) =>
-            payment.dogProfileList.flatMap((dogProfile) =>
-              dogProfile.servicePriceList.map((service) => service.description)
-            )
-          )
-        ),
-      ]);
-      setLoading(false);
-    };
-
     getPaymentHistory();
   }, []);
+
+  const handelCancel = async (paymentKey, reason, couponId) => {
+    if (cancelReason.trim() === '')
+      return toast.error(`취소 사유를 입력해주세요.`);
+    const res = await cancelPay(paymentKey, reason, couponId);
+    if (res) {
+      setCancelReason('');
+      getPaymentHistory();
+      toast.success('취소되었습니다.');
+    }
+  };
 
   if (loading) return <Loading />;
 
   return (
     <Box>
-      <DetailHeader label="결제내역" />
+      <DetailHeader label="결제 내역" />
       {!payments.length ? (
         <EmptyContent title="결제한 내역이 없습니다" />
       ) : (
@@ -70,7 +84,10 @@ const PaymentHistory = () => {
                 <Box>
                   <Box display="flex" alignItems="center">
                     <img
-                      src={payment?.groomerImage}
+                      src={
+                        payment?.groomerImage ||
+                        '/images/default-groomer-profile.png'
+                      }
                       width="100px"
                       style={{ borderRadius: '50%' }}
                     />
@@ -114,13 +131,36 @@ const PaymentHistory = () => {
                         e.stopPropagation();
                       }}
                     >
-                      <Modal
-                        title="예약을 정말 취소하시겠습니까?"
-                        secondaryButton="뒤로"
-                        primaryButton="예약취소"
-                        openModalButton="예약취소"
-                        buttonColor="delete"
-                      />
+                      {payment.estimateStatus === 'PAID' ? (
+                        <Modal
+                          title="예약을 정말 취소하시겠습니까?"
+                          secondaryButton="뒤로"
+                          primaryButton="예약 취소"
+                          openModalButton="예약 취소"
+                          buttonColor="delete"
+                          action={() =>
+                            handelCancel(
+                              payment.paymentKey,
+                              cancelReason,
+                              payment.couponId
+                            )
+                          }
+                          onClose={() => setCancelReason('')}
+                        >
+                          <Box sx={{ px: 3, pb: 1, textAlign: 'center' }}>
+                            <InputText
+                              placeholder="취소 사유를 입력해주세요."
+                              value={cancelReason}
+                              onChange={(e) => setCancelReason(e.target.value)}
+                            />
+                          </Box>
+                        </Modal>
+                      ) : (
+                        <Box fontSize={14} py="6px" px="8px">
+                          {payment.status === 'CANCELED' && '결제 취소'}
+                          {payment.estimateStatus === 'ACCEPTED' && '미용 완료'}
+                        </Box>
+                      )}
                     </Box>
                   </Box>
                 </Box>
