@@ -6,6 +6,7 @@ import { postRequest } from '@/api/request';
 import usePageStore from '@/store/usePageStore';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
+import toast from 'react-hot-toast';
 
 const SecondStep = () => {
   const {
@@ -50,6 +51,7 @@ const SecondStep = () => {
               setDistrict(null);
               setNewRequestStep(1);
             }
+            toast('✅ 견적이 성공적으로 전송되었습니다.');
             navigate(paths.myRequest);
           }
         }}

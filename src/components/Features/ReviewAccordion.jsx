@@ -65,18 +65,27 @@ const ReviewAccordion = ({ review, role }) => {
           sx={{ paddingX: 3, paddingY: 1 }}
         >
           <Box>
-            <Box mb={2} display="flex" alignItems="center">
+            <Box
+              mb={2}
+              display="flex"
+              alignItems="center"
+              onClick={(e) => {
+                navigate(paths.salonProfile.replace(':id', review.profileId));
+                e.stopPropagation();
+              }}
+              sx={{ '&:hover': { color: 'secondary.main' } }}
+            >
               <img
                 src={review.groomerImageKey || review.userImageKey}
                 width="60px"
                 style={{ borderRadius: '50%' }}
               />
               <Box ml={3}>
-                <Typography fontWeight={700}>
-                  {review.groomerName || review.userName}
+                <Typography fontWeight={700} color="inherit">
+                  {review?.groomerName || review?.userName}
                 </Typography>
-                <Typography fontSize={14}>
-                  {review.address || `${review.city} ${review.district}`}
+                <Typography fontSize={14} color="inherit">
+                  {review?.address || `${review?.city} ${review?.district}`}
                 </Typography>
               </Box>
             </Box>

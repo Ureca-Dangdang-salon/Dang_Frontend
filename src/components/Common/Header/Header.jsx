@@ -24,7 +24,7 @@ export const Header = () => {
       <a href={paths.home}>
         <img
           src="../headerLogo.png"
-          width="150px"
+          width="130px"
           alt="header-logo"
           style={{ marginTop: '5px' }}
         />

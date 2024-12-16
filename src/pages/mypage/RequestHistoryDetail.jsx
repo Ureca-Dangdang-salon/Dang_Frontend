@@ -27,7 +27,6 @@ const RequestHistoryDetail = () => {
       const res = await getRequestDetail(estimateData.requestId);
       setData(res);
       setDogCount(res.length);
-      console.log(res.length);
     };
     fetchData();
   }, []);
@@ -63,6 +62,7 @@ const RequestHistoryDetail = () => {
           <img
             src={estimateData.imageKey || '/images/default-groomer-profile.png'}
             width="80px"
+            height="80px"
             style={{ borderRadius: '50%' }}
           />
           <Box ml={3} fontSize={14}>
@@ -159,20 +159,28 @@ const RequestHistoryDetail = () => {
           <Box bgcolor="p4.main" fontWeight={700} py={1.5} mt={3} mb={1}>
             요청시 특이사항
           </Box>
-          <Typography>
-            공격성: {currentDog?.aggression ? '있음' : '없음'}
-          </Typography>
-          <Typography>
-            질병: {currentDog?.healthIssue ? '있음' : '없음'}
-          </Typography>
-          <Typography>{currentDog?.description}</Typography>
+          {currentDog?.aggression ||
+          currentDog?.healthIssue ||
+          currentDog?.description ? (
+            <>
+              {currentDog?.aggression && <Typography>공격성 있음</Typography>}
+              {currentDog?.healthIssue && <Typography>질병 있음</Typography>}
+              <Typography>{currentDog?.description}</Typography>
+            </>
+          ) : (
+            <Typography>없음</Typography>
+          )}
 
           <Box bgcolor="p4.main" fontWeight={700} py={1.5} mt={3} mb={1}>
             특징
           </Box>
-          {currentDog?.featureList.map((e, index) => (
-            <Typography key={index}>{e.description}</Typography>
-          ))}
+          {currentDog?.featureList.length > 0 ? (
+            currentDog?.featureList.map((e, index) => (
+              <Typography key={index}>{e.description}</Typography>
+            ))
+          ) : (
+            <Typography>없음</Typography>
+          )}
         </Box>
 
         {dogCount > 1 && (

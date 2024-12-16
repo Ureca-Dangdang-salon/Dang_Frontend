@@ -59,7 +59,7 @@ function Survey() {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 1,
+            gap: 2,
             position: 'fixed',
             left: '50%',
             mt: 15,

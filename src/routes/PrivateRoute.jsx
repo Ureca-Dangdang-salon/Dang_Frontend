@@ -5,6 +5,7 @@ import useUserStore from '@/store/useUserStore';
 import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 import paths from './paths';
 import { Typography } from '@mui/material';
+import Loading from '@components/Layout/Loading';
 
 const PrivateRoute = () => {
   const { setRole, loggedIn, setLoggedIn, setNotificationEnabled, setUserId } =
@@ -36,7 +37,7 @@ const PrivateRoute = () => {
     checkLogin();
   }, []);
 
-  if (loading) return <Typography>Loading...</Typography>;
+  if (loading) return <Loading />;
 
   return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;
 };

@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import InputText from '@/components/Common/InputText/InputText';
-import RadioButton from '@/components/Common/RadioButton/RadioButton';
 import SurveySection from '@/components/Survey/Common/SurveySection';
 import useSurveyUserStore from '@/store/useSurveyUserStore';
 import Checkbox from '@components/Common/Checkbox/Checkbox';
