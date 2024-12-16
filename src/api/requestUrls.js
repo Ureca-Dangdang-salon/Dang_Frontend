@@ -36,7 +36,7 @@ export const RequestController = {
   estimate: '/api/estimate',
   estimateDog: '/api/estimate/dogrequest',
 };
-  
+
 export const NotificationController = {
   fcmToken: '/api/notification/fcm-token',
   getNotification: '/api/notification/list',
@@ -50,4 +50,12 @@ export const NotificationController = {
 
 export const PaymentController = {
   paymentHistory: '/api/payments',
+};
+
+export const CouponController = {
+  validCoupons: '/api/coupons/main', //mainpage
+  couponDetail: '/api/coupons',
+  myCoupons: '/api/coupons/users',
+  issueCoupons: '/api/coupons/issued',
+  queue: '/api/coupons/queue/updates',
 };

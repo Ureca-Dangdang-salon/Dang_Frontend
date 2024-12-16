@@ -10,8 +10,10 @@ import {
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
+import useUserStore from '@/store/useUserStore';
 
 export const Navbar = ({ page }) => {
+  const { role } = useUserStore();
   const navigate = useNavigate();
   const navItems = [
     { key: 'home', label: '홈', icon: HomeIcon, path: paths.home },
@@ -22,10 +24,10 @@ export const Navbar = ({ page }) => {
       path: paths.contest,
     },
     {
-      key: 'newrequest',
-      label: '견적요청',
+      key: role === 'ROLE_USER' ? 'newrequest' : 'requesthistory',
+      label: role === 'ROLE_USER' ? '견적요청' : '견적요청내역',
       icon: RequestIcon,
-      path: paths.newRequest,
+      path: role === 'ROLE_USER' ? paths.newRequest : paths.requestHistory,
       isRequest: true,
     },
     { key: 'chat', label: '채팅', icon: ChatIcon, path: paths.chat },
@@ -60,7 +62,16 @@ export const Navbar = ({ page }) => {
             <Box
               key={key}
               className="nav-button"
-              color={page.includes(key) ? 'secondary.main' : 'n2.main'}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '10%',
+                color: page.includes(key) ? 'secondary.main' : 'n2.main',
+                textAlign: 'center',
+                px: 1,
+              }}
               onClick={() => navigate(path)}
             >
               {isRequest ? (
@@ -71,22 +82,22 @@ export const Navbar = ({ page }) => {
                   borderRadius="50%"
                   bgcolor="secondary.main"
                   mt={-4}
+                  pr="1px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
                 >
-                  <Icon
-                    color="white"
-                    fontSize="large"
-                    sx={{ ml: 1.5, mt: 1.5 }}
-                  />
+                  <Icon color="white" fontSize="large" />
                 </Box>
               ) : (
                 <Icon fontSize="large" />
               )}
-
               <Typography
                 fontSize={14}
                 fontWeight={700}
                 color="inherit"
                 mt={isRequest ? 1 : 0}
+                sx={{ whiteSpace: 'nowrap' }}
               >
                 {label}
               </Typography>

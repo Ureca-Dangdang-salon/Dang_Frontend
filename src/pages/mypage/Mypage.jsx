@@ -7,6 +7,7 @@ import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
 import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
+import paths from '@/routes/paths';
 
 const Mypage = () => {
   const { setLoggedIn, setRole, setNotificationEnabled } = useUserStore();
@@ -68,7 +69,7 @@ const Mypage = () => {
           <Button
             color="n2"
             sx={{ p: 0, borderRadius: '10px', minWidth: '40px' }}
-            href="/mypage/editsocialprofile"
+            href={paths.editSocialProfile}
           >
             수정
           </Button>

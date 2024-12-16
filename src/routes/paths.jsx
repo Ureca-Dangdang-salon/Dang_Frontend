@@ -29,7 +29,7 @@ const paths = {
   myCoupons: '/mypage/coupons',
   paymentHistory: '/mypage/paymenthistory',
   myReviews: '/mypage/myreviews',
-  requestHistory: '/mypage/requesthistory',
+  requestHistory: '/requesthistory',
   requestHistoryDetail: '/mypage/requesthistorydetail',
 
   salonProfile: '/salonprofile/:id',

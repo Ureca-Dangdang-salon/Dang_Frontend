@@ -9,6 +9,9 @@ const useUserStore = create((set) => ({
 
   notificationEnabled: false,
   setNotificationEnabled: (bool) => set({ notificationEnabled: bool }),
+
+  userId: null,
+  setUserId: (id) => set({ userId: id }),
 }));
 
 export default useUserStore;
