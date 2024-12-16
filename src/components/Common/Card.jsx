@@ -15,25 +15,19 @@ const Card = ({ title, subtitle, onClick, imageUrl, defaultImage }) => {
       }}
       onClick={onClick}
     >
-      <Box
-        width="80px"
-        height="80px"
-        bgcolor="primary.main"
-        borderRadius="10px"
-      >
-        <img
-          src={imageUrl || defaultImage}
-          alt={title}
-          onError={(e) => {
-            e.target.src = defaultImage;
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-        />
-      </Box>
+      <img
+        src={imageUrl || defaultImage}
+        alt={title}
+        onError={(e) => {
+          e.target.src = defaultImage;
+        }}
+        style={{
+          width: '80px',
+          height: '80px',
+          objectFit: 'cover',
+          borderRadius: '50%',
+        }}
+      />
       <Box
         ml={3}
         display="flex"
