@@ -5,7 +5,7 @@ const initialEstimateInfo = {
   groomerProfileId: null,
   dogPriceList: [],
   totalAmount: 0,
-  description: '',
+  description: null,
   imageKey: null,
 };
 
