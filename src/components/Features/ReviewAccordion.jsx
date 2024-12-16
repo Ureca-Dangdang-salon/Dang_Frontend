@@ -27,8 +27,6 @@ const ReviewAccordion = ({ review, role }) => {
   const hasHalfStar = reviewStars % 1 !== 0;
   const emptyStars = TOTAL_STARS - fullStars - (hasHalfStar ? 1 : 0);
 
-  console.log(review);
-
   const handleOpen = () => {
     setOpen(!open);
   };
