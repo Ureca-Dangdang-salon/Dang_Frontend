@@ -29,7 +29,7 @@ const MyRequestDetail = () => {
     <Box>
       <DetailHeader label={title + ' 견적'} />
       <Box p={4}>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
           {data?.length > 0 &&
             data.map((e, idx) => <DetailItem key={idx} data={e} />)}
         </Box>

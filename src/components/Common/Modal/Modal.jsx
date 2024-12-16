@@ -13,6 +13,7 @@ export const Modal = ({
   buttonSx,
   onClose,
   onGoHome,
+  children,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -59,6 +60,7 @@ export const Modal = ({
         >
           {title}
         </DialogTitle>
+        {children}
         <DialogActions>
           <Box width="100%" textAlign="center" mb={2} mx={2}>
             <Button
