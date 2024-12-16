@@ -40,8 +40,15 @@ const MyRequestItem = ({ data, fetchList }) => {
         {data.status === 'CANCEL' && (
           <Typography variant="body2">마감</Typography>
         )}
-        {data.status === 'PAID' && (
-          <Typography variant="body2">결제됨</Typography>
+        {data.status === 'REFUND' && (
+          <Typography variant="body2">결제 취소</Typography>
+        )}
+        {data.estimateStatus === 'ACCEPTED' ? (
+          <Typography variant="body2">미용 완료</Typography>
+        ) : (
+          data.status === 'PAID' && (
+            <Typography variant="body2">결제 완료</Typography>
+          )
         )}
         {data.status === 'COMPLETED' && (
           <Modal
