@@ -95,10 +95,7 @@ const AppContent = () => {
                 <Route path={paths.myReviews} element={<MyReviews />} />
 
                 <Route path={paths.entry} element={<Entry />} />
-                <Route
-                  path={paths.requestHistory}
-                  element={<RequestHistory />}
-                />
+
                 <Route
                   path={paths.requestHistoryDetail}
                   element={<RequestHistoryDetail />}
@@ -123,7 +120,10 @@ const AppContent = () => {
               <>
                 <Route path={paths.estimate} element={<NewEstimate />} />
                 <Route path={paths.editEstimate} element={<EditEstimate />} />
-
+                <Route
+                  path={paths.requestHistory}
+                  element={<RequestHistory />}
+                />
                 <Route
                   path={paths.editSalonProfile}
                   element={<EditSalonProfile />}

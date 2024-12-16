@@ -10,8 +10,10 @@ import {
 import './Navbar.css';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
+import useUserStore from '@/store/useUserStore';
 
 export const Navbar = ({ page }) => {
+  const { role } = useUserStore();
   const navigate = useNavigate();
   const navItems = [
     { key: 'home', label: '홈', icon: HomeIcon, path: paths.home },
@@ -22,10 +24,10 @@ export const Navbar = ({ page }) => {
       path: paths.contest,
     },
     {
-      key: 'newrequest',
-      label: '견적요청',
+      key: role === 'ROLE_USER' ? 'newrequest' : 'requesthistory',
+      label: role === 'ROLE_USER' ? '견적요청' : '견적요청내역',
       icon: RequestIcon,
-      path: paths.newRequest,
+      path: role === 'ROLE_USER' ? paths.newRequest : paths.requestHistory,
       isRequest: true,
     },
     { key: 'chat', label: '채팅', icon: ChatIcon, path: paths.chat },
@@ -80,6 +82,7 @@ export const Navbar = ({ page }) => {
                   borderRadius="50%"
                   bgcolor="secondary.main"
                   mt={-4}
+                  pr="1px"
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
