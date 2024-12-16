@@ -2,15 +2,18 @@ import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Box, Typography, Divider, Button } from '@mui/material';
 import ReviewStars from '@components/Features/ReviewStars';
 import { useNavigate } from 'react-router-dom';
-import Grid from '@mui/material/Grid2';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { groomerPublicProfile } from '@/api/groomerProfile';
 import paths from '@/routes/paths';
 import BadgeDisplay from '@components/Features/BadgeDisplay';
+import SalonDetail from './SalonDetail';
+import useUserStore from '@/store/useUserStore';
+import toast from 'react-hot-toast';
 
 const SalonProfile = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({});
+  const { role } = useUserStore();
   const [detail, setDetail] = useState({});
   const [badges, setBadges] = useState([]);
 
@@ -58,11 +61,9 @@ const SalonProfile = () => {
           <>
             <ReviewStars starScore={detail?.starScore} />
             <Box textAlign="center">
-              <Button color="n3" sx={{ p: 0, borderRadius: '10px' }}>
-                <Typography fontWeight={700} fontSize={14} color="n2">
-                  (리뷰 {detail?.reviewCount}개)
-                </Typography>
-              </Button>
+              <Typography fontWeight={700} fontSize={14} color="n2">
+                (리뷰 {detail?.reviewCount}개)
+              </Typography>
             </Box>
           </>
         )}
@@ -111,6 +112,13 @@ const SalonProfile = () => {
               fontSize: 16,
               lineHeight: 1.2,
             }}
+            onClick={() => {
+              if (role === 'ROLE_USER')
+                navigate(paths.newRequest, {
+                  state: { groomerProfileId: data.profileId },
+                });
+              else toast.error('미용사는 견적요청을 할 수 없습니다.');
+            }}
           >
             견적 <br />
             요청
@@ -139,78 +147,7 @@ const SalonProfile = () => {
           </Box>
         </Box>
 
-        <Box textAlign="left" mt={3}>
-          <Typography mt={3} lineHeight={2}>
-            {data?.experience}
-          </Typography>
-          <Grid container spacing={1}>
-            <Grid size={4}>📞전화번호:</Grid>
-            <Grid size={8}>{data?.phone}</Grid>
-            <Grid size={4}>🧑연락 가능 시간:</Grid>
-            <Grid size={8}>{data?.contactHours}</Grid>
-            <Grid size={4}>📍서비스 지역: </Grid>
-            <Grid size={8}>
-              {detail?.servicesDistricts?.map((item, index) => (
-                <Typography key={index} fontSize="inherit">
-                  {item.city} {item.district}
-                </Typography>
-              ))}
-            </Grid>
-            <Grid size={4}>🚙서비스 형태:</Grid>
-            <Grid size={8}>
-              {data?.serviceType == 'VISIT'
-                ? '방문'
-                : data?.serviceType == 'SHOP'
-                  ? '매장'
-                  : '방문, 매장'}
-            </Grid>
-            <Grid size={4}>✂제공 서비스:</Grid>
-            <Grid size={8}>
-              {detail?.servicesOffered?.map((item, index) => (
-                <React.Fragment key={index}>
-                  {item}
-                  {index < detail.servicesOffered.length - 1 && ', '}
-                </React.Fragment>
-              ))}
-            </Grid>
-
-            {detail?.certifications?.length > 0 && (
-              <>
-                <Grid size={4}>🪪자격증:</Grid>
-                <Grid size={8}>
-                  {detail.certifications.map((cert, index) => (
-                    <li key={index}>{cert}</li>
-                  ))}
-                </Grid>
-              </>
-            )}
-
-            {data?.businessNumber && (
-              <>
-                <Grid size={4}>💼사업자 번호:</Grid>
-                <Grid size={8}>{data.businessNumber}</Grid>
-              </>
-            )}
-
-            {data?.address && (
-              <>
-                <Grid size={4}>📍가게 위치 정보:</Grid>
-                <Grid size={8}>{data.address}</Grid>
-              </>
-            )}
-          </Grid>
-
-          {data?.faq && (
-            <>
-              <Typography mt={3} fontWeight={700}>
-                FAQ
-              </Typography>
-              <Typography lineHeight={2} mt={1} sx={{ whiteSpace: 'pre-line' }}>
-                {data.faq}
-              </Typography>
-            </>
-          )}
-        </Box>
+        <SalonDetail data={data} detail={detail} />
       </Box>
     </Box>
   );

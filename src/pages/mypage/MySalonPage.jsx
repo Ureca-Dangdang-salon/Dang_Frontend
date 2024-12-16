@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid2';
 import { deleteGroomerProfile, groomerProfile } from '@/api/groomerProfile';
 import ControlPointTwoToneIcon from '@mui/icons-material/ControlPointTwoTone';
 import paths from '@/routes/paths';
+import Loading from '@components/Layout/Loading';
 
 const MySalonPage = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const MySalonPage = () => {
     borderColor: '#FDD94E',
   };
 
-  if (loading) return <Typography>LOADING</Typography>;
+  if (loading) return <Loading />;
 
   return (
     <Box>
@@ -137,11 +138,9 @@ const MySalonPage = () => {
 
             <ReviewStars starScore={detail?.starScore} />
             <Box textAlign="center">
-              <Button color="n3" sx={{ p: 0, borderRadius: '10px' }}>
-                <Typography fontWeight={700} fontSize={14} color="n2">
-                  (리뷰 {detail?.reviewCount}개)
-                </Typography>
-              </Button>
+              <Typography fontWeight={700} fontSize={14} color="n2">
+                (리뷰 {detail?.reviewCount}개)
+              </Typography>
             </Box>
 
             <Box

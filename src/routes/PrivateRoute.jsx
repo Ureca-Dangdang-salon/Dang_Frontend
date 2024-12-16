@@ -5,9 +5,10 @@ import useUserStore from '@/store/useUserStore';
 import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 import paths from './paths';
 import { Typography } from '@mui/material';
+import Loading from '@components/Layout/Loading';
 
 const PrivateRoute = () => {
-  const { setRole, setUserId, loggedIn, setLoggedIn, setNotificationEnabled } =
+  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled, setUserId } =
     useUserStore();
   const [loading, setLoading] = useState(true);
 
@@ -20,24 +21,23 @@ const PrivateRoute = () => {
       setNotificationEnabled(res.notificationEnabled);
       setLoading(false);
 
-      const notificationOn = localStorage.getItem('notificationOn');
+        const notificationOn = localStorage.getItem('notificationOn');
 
-      if (res.login && notificationOn !== 'true') {
-        await handleEnableNotifications();
-        localStorage.setItem('notificationOn', 'true');
+        if (res.login && notificationOn !== 'true') {
+          await handleEnableNotifications();
+          localStorage.setItem('notificationOn', 'true');
+        }
+      } catch (error) {
+        console.error('로그인 체크에 실패했습니다:', error);
+        setLoggedIn(false);
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('로그인 체크에 실패했습니다:', error);
-      setLoggedIn(false);
-      setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
     checkLogin();
   }, []);
 
-  if (loading) return <Typography>Loading...</Typography>;
+  if (loading) return <Loading />;
 
   return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;
 };

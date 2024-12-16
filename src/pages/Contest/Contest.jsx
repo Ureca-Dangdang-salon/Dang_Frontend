@@ -1,4 +1,4 @@
-import { DetailHeader } from '@/components/Common/DetailHeader/DetailHeader';
+import { Header } from '@/components/Common/Header/Header';
 import { Box, Typography } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,18 @@ import {
   getContestPosts,
   likePost,
   unlikePost,
-} from '@/api/contestApi.js';
+  fetchContestPayments,
+} from '@/api/contest';
+import {
+  alreadyParticipatedInContest,
+  contestCheckError,
+  postDeleted,
+  postDeleteError,
+  noWinnerInfo,
+} from '@/utils/toastUtils';
+import dayjs from 'dayjs';
+import useUserStore from '@/store/useUserStore';
+import useLikeStore from '@/store/useLikeStore';
 
 const Contest = () => {
   const navigate = useNavigate();
@@ -25,8 +36,24 @@ const Contest = () => {
   const [page, setPage] = useState(0);
   const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasPayment, setHasPayment] = useState(false);
 
-  const tempLoginUserId = 1;
+  const { userId } = useUserStore();
+  const { likedPosts, setLikedPost } = useLikeStore();
+
+  const syncLikedPosts = useCallback(
+    (serverPosts) => {
+      const updatedPosts = serverPosts.map((post) => ({
+        ...post,
+        liked:
+          likedPosts[post.postId] !== undefined
+            ? likedPosts[post.postId]
+            : post.liked,
+      }));
+      return updatedPosts;
+    },
+    [likedPosts]
+  );
 
   useEffect(() => {
     const loadContestInfo = async () => {
@@ -51,6 +78,25 @@ const Contest = () => {
     loadContestInfo();
   }, []);
 
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      try {
+        const today = dayjs();
+        const startDate = today
+          .subtract(1, 'month')
+          .format('YYYY-MM-DDT00:00:00');
+        const endDate = today.format('YYYY-MM-DDT00:00:00');
+
+        const payments = await fetchContestPayments(startDate, endDate);
+        setHasPayment(payments.length > 0);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    checkPaymentStatus();
+  }, []);
+
   const handleDelete = () => {
     localStorage.setItem('participatedGroomers', JSON.stringify([]));
     setParticipatedGroomers([]);
@@ -62,7 +108,8 @@ const Contest = () => {
     setIsLoading(true);
     try {
       const data = await getContestPosts(currentContest.contestId, page, 3);
-      setPosts((prevPosts) => [...prevPosts, ...data.content]);
+      const syncedPosts = syncLikedPosts(data.content);
+      setPosts((prevPosts) => [...prevPosts, ...syncedPosts]);
       setIsLastPage(data.last);
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
@@ -70,7 +117,7 @@ const Contest = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, isLastPage, currentContest, page]);
+  }, [isLoading, isLastPage, currentContest, page, syncLikedPosts]);
 
   useEffect(() => {
     if (currentContest && page === 0) {
@@ -83,21 +130,21 @@ const Contest = () => {
       const response = await checkContestParticipation(
         currentContest.contestId
       );
-
       if (response.already_participated) {
-        alert('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+        alreadyParticipatedInContest(3);
       } else {
         navigate('/contest/entry', {
           state: {
             startedAt: currentContest.startedAt,
             endAt: currentContest.endAt,
             contestId: currentContest.contestId,
+            payments: response.payments,
           },
         });
       }
     } catch (error) {
       console.error(error);
-      alert('참여 여부 확인 중 문제가 발생했습니다. 다시 시도해주세요.');
+      contestCheckError(3);
     }
   };
 
@@ -105,16 +152,16 @@ const Contest = () => {
     try {
       const response = await deletePost(postId);
       if (response === '포스트 삭제가 완료되었습니다.') {
-        alert('포스트가 삭제되었습니다.');
+        postDeleted(3);
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post.postId !== postId)
         );
       } else {
-        alert('포스트 삭제 중 문제가 발생했습니다.');
+        postDeleteError(3);
       }
     } catch (error) {
       console.error(error);
-      alert('포스트 삭제 중 문제가 발생했습니다.');
+      postDeleteError(3);
     }
   };
 
@@ -122,7 +169,7 @@ const Contest = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
     if (
-      scrollTop + clientHeight >= scrollHeight &&
+      scrollTop + clientHeight >= scrollHeight - 100 &&
       !isLoading &&
       !isLastPage &&
       currentContest
@@ -147,28 +194,41 @@ const Contest = () => {
 
   const handleLikeToggle = async (postId, isLiked) => {
     try {
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.postId === postId ? { ...post, liked: !isLiked } : post
+        )
+      );
+
       if (isLiked) {
         await unlikePost(postId);
       } else {
         await likePost(postId);
       }
 
+      setLikedPost(postId, !isLiked);
+    } catch (error) {
+      console.error('좋아요 토글 실패:', error);
+
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
-          post.postId === postId ? { ...post, liked: !isLiked } : post
+          post.postId === postId ? { ...post, liked: isLiked } : post
         )
       );
-    } catch (error) {
-      console.error(error);
+      setLikedPost(postId, isLiked);
     }
+  };
+
+  const handleSubscribe = () => {
+    alert('구독하기 버튼 클릭');
   };
 
   return (
     <div>
-      <DetailHeader label="콘테스트" />
+      <Header />
       <Box p={4} mb={3}>
         <Box>
-          <Typography fontWeight={900} fontSize={16} mb={0.5}>
+          <Typography fontWeight={700} fontSize={16} mb={0.5}>
             이달의 최고의 작품은?
           </Typography>
           <Box component="div" fontSize={12} mb={3}>
@@ -180,7 +240,7 @@ const Contest = () => {
                   ? navigate(
                       `/salonprofile/${contestDetails.recentWinner.groomerProfileId}`
                     )
-                  : alert('우승자 정보가 없습니다.')
+                  : noWinnerInfo(3)
               }
               sx={{
                 cursor: 'pointer',
@@ -204,8 +264,7 @@ const Contest = () => {
           ) : (
             <Typography>우승자 정보가 없습니다.</Typography>
           )}
-          {/* 참여 버튼 */}
-          <Box display="flex" justifyContent="center" mt={5} mb={5}>
+          <Box display="flex" justifyContent="center" mt={5}>
             {participatedGroomers.length > 0 ? (
               <Modal
                 openModalButton="삭제하기"
@@ -216,21 +275,46 @@ const Contest = () => {
                 action={handleDelete}
                 onClose={() => {}}
               />
-            ) : (
+            ) : hasPayment ? (
               <Button
                 label="참여하기"
                 backgroundColor="primary"
                 size="large"
                 onClick={handleParticipation}
               />
+            ) : (
+              <Modal
+                openModalButton="참여하기"
+                buttonColor="primary"
+                variant="contained"
+                buttonSx={{
+                  width: '326px',
+                  height: '60px',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  backgroundColor: '#FDD94E',
+                }}
+                title="결제 내역이 필요해요! 콘테스트 참여는 최근 한 달 내 결제 내역이 필요합니다."
+                primaryButton="확인"
+                action={() => {}}
+                onClose={() => {}}
+                isSimpleModal={true}
+              />
             )}
           </Box>
-          {/* 참여 안내 */}
+          <Box display="flex" justifyContent="center" mt={2} mb={5}>
+            <Button
+              label="새 글 알림"
+              backgroundColor="primary"
+              size="large"
+              onClick={handleSubscribe}
+            />
+          </Box>
           <Box mt={3}>
-            <Typography fontSize={16} fontWeight="bold">
-              이달의 베스트 미용 댕댕이! 🏆️
+            <Typography fontSize={18} fontWeight="bold">
+              🏆️ 이달의 베스트 댕댕이!
             </Typography>
-            <Typography fontSize={16} fontWeight="bold">
+            <Typography fontSize={14} fontWeight="bold">
               여러분의 소중한 한 표로 이달의 미용 스타를 선정해주세요!
             </Typography>
           </Box>
@@ -247,21 +331,25 @@ const Contest = () => {
                 gap: 4,
               }}
             >
-              {posts.map((post) => (
-                <Feed
-                  key={post.postId}
-                  imageUrl={post.imageUrl}
-                  nickname={post.dogName}
-                  explanation={post.description}
-                  isLiked={post.liked}
-                  deleteButton={
-                    post.userId === tempLoginUserId
-                      ? () => handleDeletePost(post.postId)
-                      : null
-                  }
-                  onLikeToggle={() => handleLikeToggle(post.postId, post.liked)}
-                />
-              ))}
+              {posts.map((post) => {
+                return (
+                  <Feed
+                    key={post.postId}
+                    imageUrl={post.imageUrl}
+                    nickname={post.dogName}
+                    explanation={post.description}
+                    isLiked={post.liked}
+                    deleteButton={
+                      post.userId === userId
+                        ? () => handleDeletePost(post.postId)
+                        : null
+                    }
+                    onLikeToggle={() =>
+                      handleLikeToggle(post.postId, post.liked)
+                    }
+                  />
+                );
+              })}
               {isLoading && <Typography>로딩 중...</Typography>}
               {isLastPage && (
                 <Typography>더 이상 게시물이 없습니다.</Typography>

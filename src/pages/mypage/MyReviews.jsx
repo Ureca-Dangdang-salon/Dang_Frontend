@@ -3,6 +3,7 @@ import useUserStore from '@/store/useUserStore';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import ReviewAccordion from '@components/Features/ReviewAccordion';
 import EmptyContent from '@components/Layout/EmptyContent';
+import Loading from '@components/Layout/Loading';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -26,7 +27,7 @@ const MyReviews = () => {
     getMyReviews();
   }, []);
 
-  if (loading) return <Typography>LOADING</Typography>;
+  if (loading) return <Loading />;
 
   return (
     <Box>

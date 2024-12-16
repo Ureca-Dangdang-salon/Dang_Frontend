@@ -69,7 +69,7 @@ const Home = () => {
       <Box p={4} mb={3}>
         <Box textAlign="center">
           <Box textAlign="center" position="relative">
-            <Typography fontWeight={900} fontSize={20} mb={0.5}>
+            <Typography fontWeight={700} fontSize={20} mb={0.5}>
               11월 콘테스트 우승자
             </Typography>
             <WinnerProfile
@@ -111,6 +111,11 @@ const Home = () => {
               title={groomer.name}
               subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
+              onClick={() =>
+                navigate(paths.salonProfile.replace(':id', groomer.profileId))
+              }
+              imageUrl={groomer.imageKey}
+              defaultImage="/images/default-groomer-profile.png"
             />
           ))}
         </Slider>
@@ -123,7 +128,7 @@ const Home = () => {
                 <Typography color="n2.main" fontSize={14} fontWeight="bold">
                   놓치지 마세요!
                 </Typography>
-                <Typography color="white" fontSize={20} fontWeight={900}>
+                <Typography color="white" fontSize={20} fontWeight={700}>
                   {eventName} 드려요~!
                 </Typography>
               </Box>
@@ -156,6 +161,11 @@ const Home = () => {
               title={groomer.name}
               subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
+              onClick={() =>
+                navigate(paths.salonProfile.replace(':id', groomer.profileId))
+              }
+              imageUrl={groomer.imageKey}
+              defaultImage="/images/default-groomer-profile.png"
             />
           ))}
         </Slider>
