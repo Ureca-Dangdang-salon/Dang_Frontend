@@ -25,9 +25,14 @@ const useSurveyUserStore = create((set) => ({
       petInfo: { ...state.petInfo, ...updates },
     })),
 
-  resetPetInfo: () => set({ petInfo: initialPetInfo, step: 1 }),
+  resetPetInfo: () =>
+    set({
+      petInfo: initialPetInfo,
+      step: 1,
+      characteristics: { ...characteristics },
+    }),
 
-  characteristics: characteristics,
+  characteristics: { ...characteristics },
   updateCharacteristic: (trait, value) =>
     set((state) => {
       const featureIndex = Object.keys(characteristics).indexOf(trait) + 1;

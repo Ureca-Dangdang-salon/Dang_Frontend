@@ -14,6 +14,7 @@ export const Modal = ({
   onClose,
   onGoHome,
   children,
+  isSimpleModal, // 새로 추가된 prop
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -63,20 +64,23 @@ export const Modal = ({
         {children}
         <DialogActions>
           <Box width="100%" textAlign="center" mb={2} mx={2}>
-            <Button
-              onClick={handleClose}
-              color="n3"
-              variant="contained"
-              sx={{
-                borderRadius: '10px',
-                minWidth: '100px',
-                minHeight: '48px',
-                fontWeight: 700,
-                mr: 1,
-              }}
-            >
-              {secondaryButton}
-            </Button>
+            {/* isSimpleModal이 아닐 때만 secondaryButton 표시 */}
+            {secondaryButton && !isSimpleModal && (
+              <Button
+                onClick={handleClose}
+                sx={{
+                  borderRadius: '10px',
+                  bgcolor: 'n3.main',
+                  color: 'n2.main',
+                  minWidth: '100px',
+                  minHeight: '48px',
+                  fontWeight: 700,
+                  mr: 1,
+                }}
+              >
+                {secondaryButton}
+              </Button>
+            )}
             <Button
               onClick={handleAction}
               autoFocus
@@ -87,6 +91,8 @@ export const Modal = ({
                 minWidth: '100px',
                 minHeight: '48px',
                 fontWeight: 700,
+                // isSimpleModal일 때는 버튼을 중앙에 위치
+                ...(isSimpleModal && { mx: 'auto' }),
               }}
             >
               {primaryButton}
@@ -99,7 +105,7 @@ export const Modal = ({
 };
 
 Modal.propTypes = {
-  openModalButton: PropTypes.string,
+  openModalButton: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   buttonColor: PropTypes.string,
   title: PropTypes.string.isRequired,
   secondaryButton: PropTypes.string,
@@ -109,4 +115,5 @@ Modal.propTypes = {
   buttonSx: PropTypes.object,
   onClose: PropTypes.func,
   onGoHome: PropTypes.func,
+  isSimpleModal: PropTypes.bool,
 };

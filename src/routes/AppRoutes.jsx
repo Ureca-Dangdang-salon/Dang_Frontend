@@ -23,7 +23,7 @@ import EditSocialProfile from '@/pages/mypage/EditSocialProfile';
 import DogProfile from '@/pages/mypage/DogProfile';
 import EditSalonProfile from '@/pages/mypage/EditSalonProfile';
 import PaymentHistory from '@/pages/mypage/PaymentHistory';
-import SalonProfile from '@/pages/SalonProfile';
+import SalonProfile from '@/pages/SalonPublicProfile/SalonProfile';
 import NewReview from '@/pages/NewReview';
 import MyCoupons from '@/pages/mypage/MyCoupons';
 import MyReviews from '@/pages/mypage/MyReviews';
@@ -79,6 +79,7 @@ const AppContent = () => {
             <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
             <Route path={paths.survey.user} element={<SurveyUser />} />
             <Route path={paths.home} element={<Home />} />
+            <Route path={paths.myReviews} element={<MyReviews />} />
             <Route path={paths.simulation} element={<Simulation />} />
             <Route path={paths.notification} element={<Notification />} />
             <Route path={paths.chat} element={<Chat role={role} />} />
@@ -97,25 +98,15 @@ const AppContent = () => {
             <Route path={paths.paySuccess} element={<PaySuccess />} />
             <Route path={paths.payFail} element={<PayFail />} />
             <Route path={paths.viewEstimate} element={<ViewEstimate />} />
+            <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
 
             {role !== 'ROLE_SALON' && (
               <>
                 <Route path={paths.coupon} element={<Coupon />} />
                 <Route path={paths.myCoupons} element={<MyCoupons />} />
-                <Route path={paths.myReviews} element={<MyReviews />} />
-
                 <Route path={paths.entry} element={<Entry />} />
-
-                <Route
-                  path={paths.requestHistoryDetail}
-                  element={<RequestHistoryDetail />}
-                />
                 <Route path={paths.newRequest} element={<NewRequest />} />
                 <Route path={paths.myRequest} element={<MyRequest />} />
-                <Route
-                  path={paths.myRequestDetail}
-                  element={<MyRequestDetail />}
-                />
                 <Route path={paths.editDogProfile} element={<DogProfile />} />
                 <Route
                   path={paths.survey.dogProfile}
@@ -133,6 +124,10 @@ const AppContent = () => {
                 <Route
                   path={paths.requestHistory}
                   element={<RequestHistory />}
+                />
+                <Route
+                  path={paths.requestHistoryDetail}
+                  element={<RequestHistoryDetail />}
                 />
                 <Route
                   path={paths.editSalonProfile}

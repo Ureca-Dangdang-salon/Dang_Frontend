@@ -53,10 +53,42 @@ export const listNotEmpty = (list, field) => {
   } else return true;
 };
 
+export const alreadyParticipatedInContest = () => {
+  toast.error('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+};
+
+export const contestCheckError = () => {
+  toast.error('참여 여부 확인 중 문제가 발생했습니다. 다시 시도해주세요.');
+};
+
+export const postDeleted = () => {
+  toast.success('포스트가 삭제되었습니다.');
+};
+
+export const postDeleteError = () => {
+  toast.error('포스트 삭제 중 문제가 발생했습니다.');
+};
+
+export const noWinnerInfo = () => {
+  toast.info('우승자 정보가 없습니다.');
+};
+
 export const noEmptyString = (list, field) => {
   if (list.every((e) => e !== '')) return true;
   else {
     toast.error(`${field} 작성을 완료해주세요.`);
     return false;
   }
+};
+
+export const selectPaymentHistory = () => {
+  toast.error('결제내역을 선택해주세요');
+};
+
+export const contestParticipationSuccess = () => {
+  toast.success('콘테스트 참여가 완료되었습니다!');
+};
+
+export const contestParticipationError = () => {
+  toast.error('참여 중 문제가 발생했습니다. 다시 시도해주세요!');
 };

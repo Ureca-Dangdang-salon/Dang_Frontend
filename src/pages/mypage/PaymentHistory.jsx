@@ -14,6 +14,7 @@ import { Modal } from '@components/Common/Modal/Modal';
 import EmptyContent from '@components/Layout/EmptyContent';
 import InputText from '@components/Common/InputText/InputText';
 import toast from 'react-hot-toast';
+import Loading from '@components/Layout/Loading';
 
 const PaymentHistory = () => {
   const [payments, setPayments] = useState([]);
@@ -51,7 +52,7 @@ const PaymentHistory = () => {
     }
   };
 
-  if (loading) return <Typography>LOADING</Typography>;
+  if (loading) return <Loading />;
 
   return (
     <Box>
@@ -84,7 +85,7 @@ const PaymentHistory = () => {
                   <Box display="flex" alignItems="center">
                     <img
                       src={
-                        payment.groomerImage ||
+                        payment?.groomerImage ||
                         '/images/default-groomer-profile.png'
                       }
                       width="100px"
@@ -92,20 +93,20 @@ const PaymentHistory = () => {
                     />
                     <Box mx={3}>
                       <Typography fontWeight={700}>
-                        {payment.groomerName}
+                        {payment?.groomerName}
                       </Typography>
                       <Typography fontSize={14} mt={1}>
-                        결제일: {payment.paymentDate.substring(0, 10)}
+                        결제일: {payment?.paymentDate?.substring(0, 10)}
                       </Typography>
                       <Typography fontSize={14}>
-                        예약일: {payment.reservationDate.substring(0, 10)}
+                        예약일: {payment?.reservationDate?.substring(0, 10)}
                       </Typography>
                       <Typography fontSize={14}>
                         서비스:{' '}
-                        {serviceList.map((service, index) => (
+                        {serviceList?.map((service, index) => (
                           <React.Fragment key={index}>
                             {service}
-                            {index < serviceList.length - 1 && ', '}
+                            {index < serviceList?.length - 1 && ', '}
                           </React.Fragment>
                         ))}
                       </Typography>
@@ -115,7 +116,7 @@ const PaymentHistory = () => {
                         fontSize={18}
                         mt={1}
                       >
-                        {payment.totalAmount.toLocaleString()} 원
+                        {payment?.totalAmount.toLocaleString()} 원
                       </Typography>
                     </Box>
                     <Box
@@ -162,7 +163,7 @@ const PaymentHistory = () => {
               </AccordionSummary>
 
               <AccordionDetails sx={{ paddingX: 4 }}>
-                {payment.dogProfileList.map((dog, index) => (
+                {payment?.dogProfileList.map((dog, index) => (
                   <Box key={dog.dogName}>
                     <Typography fontWeight={700} fontSize={14}>
                       {index + 1}. {dog.dogName}
@@ -171,7 +172,7 @@ const PaymentHistory = () => {
                       요청 서비스
                     </Typography>
 
-                    {dog.servicePriceList.map((service) => (
+                    {dog?.servicePriceList.map((service) => (
                       <Box
                         key={service.serviceId}
                         display="flex"
@@ -179,9 +180,9 @@ const PaymentHistory = () => {
                         ml={3}
                         mt={1}
                       >
-                        <Typography>{service.description}</Typography>
+                        <Typography>{service?.description}</Typography>
                         <Typography>
-                          {service.price.toLocaleString()} 원
+                          {service?.price.toLocaleString()} 원
                         </Typography>
                       </Box>
                     ))}
@@ -197,7 +198,7 @@ const PaymentHistory = () => {
                     >
                       <Typography>공격성</Typography>
                       <Typography>
-                        {dog.aggressionCharge.toLocaleString()} 원
+                        {dog?.aggressionCharge.toLocaleString()} 원
                       </Typography>
                     </Box>
                     <Box
@@ -208,7 +209,7 @@ const PaymentHistory = () => {
                     >
                       <Typography>질병</Typography>
                       <Typography>
-                        {dog.healthIssueCharge.toLocaleString()} 원
+                        {dog?.healthIssueCharge.toLocaleString()} 원
                       </Typography>
                     </Box>
                     <Divider sx={{ my: 2 }} />
@@ -228,7 +229,7 @@ const PaymentHistory = () => {
                     color="secondary.main"
                     fontSize={18}
                   >
-                    {payment.totalAmount.toLocaleString()} 원
+                    {payment?.totalAmount.toLocaleString()} 원
                   </Typography>
                 </Box>
               </AccordionDetails>

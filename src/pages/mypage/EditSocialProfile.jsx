@@ -8,6 +8,7 @@ import SubTitle from '@components/Request/atoms/SubTitle';
 import { socialProfile, updateSocialProfile } from '@/api/socialProfile';
 import ProfileSelector from '@components/Features/ProfileSelector';
 import { useNavigate } from 'react-router-dom';
+import Loading from '@components/Layout/Loading';
 
 const EditSocialProfile = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const EditSocialProfile = () => {
     navigate(-1);
   };
 
-  if (loading) return <Typography>LOADING</Typography>;
+  if (loading) return <Loading />;
 
   return (
     <Box>

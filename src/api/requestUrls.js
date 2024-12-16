@@ -20,6 +20,9 @@ export const ImageController = {
 
 export const ContestController = {
   rank: '/api/contests/winner/rank',
+  contests: '/api/contests',
+  payments: '/api/contests/payment',
+  posts: '/api/posts',
 };
 
 export const HomeController = {
