@@ -19,15 +19,9 @@ const MyCoupons = () => {
   }, []);
 
   return (
-    <Box
-      textAlign="center"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
+    <Box>
       <DetailHeader label="쿠폰함" />
-      <Box mt={5} width="85%" gap={2}>
+      <Box margin="auto" mt={5} width="85%" gap={2}>
         {coupons.map((coupon, index) => (
           <CouponImage data={coupon} key={index} />
         ))}
