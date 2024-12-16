@@ -62,6 +62,7 @@ const RequestHistoryDetail = () => {
           <img
             src={estimateData.imageKey || '/images/default-groomer-profile.png'}
             width="80px"
+            height="80px"
             style={{ borderRadius: '50%' }}
           />
           <Box ml={3} fontSize={14}>
