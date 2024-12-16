@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 const FirstStep = () => {
   const { setNewRequestStep } = usePageStore();
   const { selectDogs } = useRequestStore();
-  const vaild = selectDogs.length;
+  const valid = selectDogs.length;
 
   return (
     <Box
@@ -21,15 +21,16 @@ const FirstStep = () => {
       }}
     >
       <div>
-        <SubTitle title="요청할 반려견 선택(다중 선택 가능)" />
+        <SubTitle title="요청할 반려견 선택 (다중 선택 가능)" />
         <PetList />
       </div>
       <Button
         label="다음으로"
         size="large"
-        backgroundColor={vaild ? 'primary' : 'n3'}
+        disabled={valid ? false : true}
+        backgroundColor={valid ? 'primary' : 'n3'}
         onClick={() => {
-          if (!vaild) return '';
+          if (!valid) return '';
           setNewRequestStep(2);
         }}
       />

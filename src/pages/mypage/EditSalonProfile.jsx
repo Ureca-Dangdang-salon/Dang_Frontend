@@ -16,6 +16,7 @@ import {
   validPhoneNum,
   stringNotEmpty,
   listNotEmpty,
+  noEmptyString,
 } from '@/utils/toastUtils';
 
 const EditSalonProfile = () => {
@@ -76,7 +77,8 @@ const EditSalonProfile = () => {
       validPhoneNum(putData.phone) &&
       stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
       listNotEmpty(putData.servicesDistrictIds) &&
-      stringNotEmpty(putData.serviceType, '서비스 형태')
+      stringNotEmpty(putData.serviceType, '서비스 형태') &&
+      noEmptyString(certifications, '자격증')
     );
   };
 

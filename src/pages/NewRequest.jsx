@@ -16,8 +16,8 @@ const NewRequestPage = () => {
   return (
     <Box>
       <SurveyHeader
-        totalPage={2}
-        currPage={dogStep ? dogStep : newRequestStep}
+        totalPage={3}
+        currPage={newRequestStep}
         label="견적 요청"
         delBack={newRequestStep === 1}
         backHandler={PrevStep}

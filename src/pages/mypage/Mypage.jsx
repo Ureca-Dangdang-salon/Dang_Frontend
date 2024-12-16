@@ -7,8 +7,10 @@ import { socialProfile } from '@/api/socialProfile';
 import { useEffect, useState } from 'react';
 import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
+import paths from '@/routes/paths';
 
 const Mypage = () => {
+  const { setLoggedIn, setRole, setNotificationEnabled } = useUserStore();
   const defaultImgPath = '/images/default-groomer-profile.png';
   const [data, setData] = useState({});
   const { role } = useUserStore();
@@ -32,6 +34,12 @@ const Mypage = () => {
   const handleLogout = async () => {
     try {
       await logout();
+
+      setLoggedIn(false);
+      setRole(null);
+      setNotificationEnabled(false);
+      localStorage.removeItem('notificationOn');
+
       window.location.reload();
     } catch (error) {
       console.error('로그아웃에 실패했습니다:', error);
@@ -61,7 +69,7 @@ const Mypage = () => {
           <Button
             color="n2"
             sx={{ p: 0, borderRadius: '10px', minWidth: '40px' }}
-            href="/mypage/editsocialprofile"
+            href={paths.editSocialProfile}
           >
             수정
           </Button>

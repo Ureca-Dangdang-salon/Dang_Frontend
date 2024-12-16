@@ -57,7 +57,7 @@ const RequestHistory = () => {
                 <Box display="flex" alignItems="center">
                   <img
                     src={data.imageKey || '/images/default-groomer-profile.png'}
-                    width="100px"
+                    width="80px"
                     style={{ borderRadius: '50%' }}
                   />
                   <Box ml={2} fontSize={14}>
@@ -87,8 +87,8 @@ const RequestHistory = () => {
                     sx={{
                       position: 'relative',
                       float: 'right',
-                      top: -110,
-                      right: -10,
+                      top: -105,
+                      right: -20,
                     }}
                     onClick={(e) => {
                       e.stopPropagation();

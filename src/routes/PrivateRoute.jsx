@@ -7,7 +7,7 @@ import paths from './paths';
 import { Typography } from '@mui/material';
 
 const PrivateRoute = () => {
-  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled } =
+  const { setRole, setUserId, loggedIn, setLoggedIn, setNotificationEnabled } =
     useUserStore();
   const [loading, setLoading] = useState(true);
 
@@ -16,10 +16,16 @@ const PrivateRoute = () => {
       const res = await loginCheck();
       setLoggedIn(res.login);
       setRole(res.role);
+      setUserId(res.userId);
       setNotificationEnabled(res.notificationEnabled);
       setLoading(false);
 
-      await handleEnableNotifications();
+      const notificationOn = localStorage.getItem('notificationOn');
+
+      if (res.login && notificationOn !== 'true') {
+        await handleEnableNotifications();
+        localStorage.setItem('notificationOn', 'true');
+      }
     } catch (error) {
       console.error('로그인 체크에 실패했습니다:', error);
       setLoggedIn(false);
@@ -28,10 +34,11 @@ const PrivateRoute = () => {
   };
 
   useEffect(() => {
-    if (!loggedIn) checkLogin();
-  }, [loggedIn]);
+    checkLogin();
+  }, []);
 
-  if (loading) return <Typography>Loading</Typography>;
+  if (loading) return <Typography>Loading...</Typography>;
+
   return loggedIn ? <Outlet /> : <Navigate to={paths.login} />;
 };
 

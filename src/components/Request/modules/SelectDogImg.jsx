@@ -5,7 +5,14 @@ import { useRef } from 'react';
 import { uploadImage } from '@/api/image';
 import useRequestStore from '@/store/useRequestStore';
 
-const DogImg = ({ text, border, handelChange, field, img }) => {
+export const DogImg = ({
+  text,
+  border,
+  handleChange,
+  field,
+  img,
+  returnFile,
+}) => {
   const fileInputRef = useRef(null);
 
   const handleOpenFileInput = () => {
@@ -14,9 +21,11 @@ const DogImg = ({ text, border, handelChange, field, img }) => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
+
     if (file) {
       const res = await uploadImage(file);
-      handelChange(field, res);
+      if (returnFile) handleChange(file, res);
+      else handleChange(field, res);
     }
   };
 
@@ -74,7 +83,7 @@ const SelectDogImg = () => {
   const { requestInfo, setRequestInfo, dogIndex } = useRequestStore();
   const dogInfo = requestInfo.dogEstimateRequestList[dogIndex];
 
-  const handelImgChange = (field, imageKey) => {
+  const handleImgChange = (field, imageKey) => {
     const updatedList = [...requestInfo.dogEstimateRequestList];
     updatedList[dogIndex] = {
       ...updatedList[dogIndex],
@@ -92,21 +101,21 @@ const SelectDogImg = () => {
       <Box>
         <Box display="flex" gap={4} justifyContent="center">
           <DogImg
-            text="현재 반려견 사진"
-            handelChange={handelImgChange}
+            text="현재 반려견 사진 *"
+            handleChange={handleImgChange}
             field="currentImageKey"
             img={dogInfo?.currentImageKey}
           />
           <DogImg
-            text="원하는 스타일(예시)"
+            text="원하는 스타일 (예시)"
             border={true}
             field="styleRefImageKey"
-            handelChange={handelImgChange}
+            handleChange={handleImgChange}
             img={dogInfo?.styleRefImageKey}
           />
         </Box>
-        <Typography fontSize="10px" textAlign="center" mt={2}>
-          반려견 미용 시 현재 사진과 다를 경우 불이익이 발생할 수 있습니다.
+        <Typography fontSize={14} textAlign="center" mt={2} color="red">
+          ❗현재 사진과 다를 경우 불이익이 발생할 수 있습니다.
         </Typography>
       </Box>
     </div>

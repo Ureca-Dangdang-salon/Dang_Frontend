@@ -1,9 +1,13 @@
 import { Box, Typography } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
 const PetItem = ({ isSelected, onSelect, data }) => {
   return (
-    <Box textAlign="center" onClick={onSelect}>
+    <Box
+      textAlign="center"
+      onClick={onSelect}
+      sx={{ '&:hover': { cursor: 'pointer' } }}
+    >
       <Box
         sx={{
           position: 'relative',
@@ -32,11 +36,12 @@ const PetItem = ({ isSelected, onSelect, data }) => {
           }}
         />
         {isSelected && (
-          <CheckIcon
+          <CheckRoundedIcon
             sx={{
               position: 'absolute',
               color: 'white.main',
               fontSize: 40,
+              stroke: 'white',
             }}
           />
         )}
