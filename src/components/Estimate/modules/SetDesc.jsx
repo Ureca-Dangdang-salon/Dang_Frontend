@@ -23,7 +23,7 @@ const SetDesc = ({ info, set }) => {
         <TextArea
           placeholder="설명을 작성해주세요."
           rows={5}
-          value={info?.description}
+          value={info?.description || ''}
           onChange={(e) => {
             const field = 'description';
             set(field, e.target.value);

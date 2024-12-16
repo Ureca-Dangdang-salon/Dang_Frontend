@@ -7,6 +7,7 @@ import usePageStore from '@/store/usePageStore';
 import EditDetailStep from '@components/Estimate/templates/EditDetailStep';
 import { SurveyHeader } from '@components/Common/SurveyHeader/SurveyHeader';
 import { useLocation, useNavigate } from 'react-router-dom';
+import paths from '@/routes/paths';
 
 const EditEstimate = () => {
   const {
@@ -19,7 +20,7 @@ const EditEstimate = () => {
   const { estimateEditStep, setEstimateEditStep } = usePageStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const { estimateId, requestId } = location.state || {};
+  const { estimateId, requestId, roomId } = location.state || {};
 
   useEffect(() => {
     if (estimateEdit) {
@@ -63,7 +64,7 @@ const EditEstimate = () => {
 
   const PrevStep = () => {
     if (estimateEditStep > 1) setEstimateEditStep(estimateEditStep - 1);
-    else navigate(-1);
+    else navigate(paths.chatRoom.replace(':id', roomId));
   };
 
   const isValid = (dogIndex) => {
@@ -98,7 +99,11 @@ const EditEstimate = () => {
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {estimateEditStep === 1 ? (
-            <EditFristStep isValid={isValid} estimateId={estimateId} />
+            <EditFristStep
+              isValid={isValid}
+              estimateId={estimateId}
+              roomId={roomId}
+            />
           ) : (
             <EditDetailStep isValid={isValid} />
           )}

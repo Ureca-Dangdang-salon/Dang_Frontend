@@ -6,8 +6,9 @@ import EditSelectDogList from '../modules/EditSelectDogList';
 import useEstimateEditStore from '@/store/useEstimateEditStore';
 import { putEditEstimateDog } from '@/api/estimate';
 import { useNavigate } from 'react-router-dom';
+import paths from '@/routes/paths';
 
-const EditFristStep = ({ isValid, estimateId }) => {
+const EditFristStep = ({ isValid, estimateId, roomId }) => {
   const { estimateEdit, setEstimateEdit, estimateDogPrice } =
     useEstimateEditStore();
   const navigate = useNavigate();
@@ -58,14 +59,12 @@ const EditFristStep = ({ isValid, estimateId }) => {
         backgroundColor={isAllValid() ? 'primary' : 'n3'}
         onClick={async () => {
           if (isAllValid()) {
-            if (
-              await putEditEstimateDog(
-                estimateId,
-                estimateEdit,
-                transDogPriceList()
-              )
-            )
-              navigate(-1);
+            const res = await putEditEstimateDog(
+              estimateId,
+              estimateEdit,
+              transDogPriceList()
+            );
+            if (res) navigate(paths.chatRoom.replace(':id', roomId));
           }
         }}
       />

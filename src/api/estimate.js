@@ -85,7 +85,7 @@ export const putEditEstimateDog = async (
       {
         estimateId: estimateId,
         totalAmount: estimateEdit.totalAmount,
-        description: estimateEdit.comment,
+        description: estimateEdit.description,
         imageKey: estimateEdit.imageKey,
         date: estimateEdit.date,
         dogPriceList: estimateDogPrice,
