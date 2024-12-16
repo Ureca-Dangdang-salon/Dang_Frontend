@@ -37,6 +37,10 @@ const paths = {
   salonProfile: '/salonprofile/:id',
   salonReviews: '/salonreviews',
   contestResult: '/contestresult',
+
+  pay: '/pay',
+  paySuccess: '/pay/success',
+  payFail: '/pay/fail',
 };
 
 export default paths;
