@@ -16,6 +16,7 @@ const PaySuccess = () => {
         orderId: searchParams.get('orderId'),
         amount: searchParams.get('amount'),
         paymentKey: searchParams.get('paymentKey'),
+        couponId: searchParams.get('couponId'),
       };
 
       const res = await approvePay(requestData);
