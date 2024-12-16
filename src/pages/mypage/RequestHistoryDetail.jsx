@@ -27,7 +27,6 @@ const RequestHistoryDetail = () => {
       const res = await getRequestDetail(estimateData.requestId);
       setData(res);
       setDogCount(res.length);
-      console.log(res.length);
     };
     fetchData();
   }, []);
