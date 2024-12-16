@@ -35,8 +35,8 @@ const EditSocialProfile = () => {
     handleChange('imageKey', image);
   };
 
-  const handleSubmit = () => {
-    updateSocialProfile(data.imageKey, data.email, districtId);
+  const handleSubmit = async () => {
+    await updateSocialProfile(data.imageKey, data.email, districtId);
     navigate(-1);
   };
 
