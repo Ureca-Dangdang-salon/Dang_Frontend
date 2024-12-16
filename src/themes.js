@@ -47,5 +47,6 @@ export const mainTheme = createTheme({
     allVariants: {
       color: '#3B3B3B', // Default color for all typography variants
     },
+    fontFamily: `'Noto Sans KR', sans-serif`,
   },
 });

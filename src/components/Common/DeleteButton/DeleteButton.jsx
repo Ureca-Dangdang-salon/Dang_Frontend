@@ -10,7 +10,6 @@ const StyledButton = styled(Button)(({ size }) => ({
   borderRadius: '12px',
   border: '1px solid #ff9b9b',
   backgroundColor: '#fff5f5',
-  fontFamily: '"Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
   fontWeight: 'bold',
   color: '#3b3b3b',
   transition: 'all 0.3s ease-in-out',
