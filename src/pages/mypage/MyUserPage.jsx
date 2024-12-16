@@ -27,7 +27,7 @@ const MyUserPage = () => {
       route: paths.paymentHistory,
       value: data?.paymentCount,
     },
-    { label: '쿠폰함', route: paths.coupon, value: data?.couponCount },
+    { label: '쿠폰함', route: paths.myCoupons, value: data?.couponCount },
 
     {
       label: '나의 리뷰',
@@ -53,7 +53,7 @@ const MyUserPage = () => {
           </IconButton>
         </Box>
 
-        {!data?.dogProfiles.length && (
+        {!data?.dogProfiles?.length && (
           <Typography textAlign="center">반려견을 등록해주세요.</Typography>
         )}
 

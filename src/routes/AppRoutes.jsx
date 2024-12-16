@@ -8,7 +8,7 @@ import { FCMListener } from '@/firebase/FCMListener';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Survey from '../pages/Survey/Survey';
-import Coupon from '@/pages/Coupon';
+import Coupon from '@/pages/coupon/Coupon';
 import SurveyGroomer from '@/pages/Survey/SurveyGroomer';
 import SurveyUser from '@/pages/Survey/SurveyUser';
 import Notification from '@/pages/Notification';
@@ -40,6 +40,7 @@ import AddSalonProfile from '@/pages/Survey/AddSalonProfile';
 import EditReview from '@/pages/mypage/EditReview';
 import SalonReviews from '@/pages/SalonReviews';
 import Simulation from '@/pages/Simulation';
+import useUserStore from '@/store/useUserStore';
 
 const AppRoutes = () => {
   return (
@@ -51,7 +52,7 @@ const AppRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  const role = 'salon'; //TODO: remove
+  const { role } = useUserStore();
 
   return (
     <Box
@@ -74,47 +75,67 @@ const AppContent = () => {
             <Route path={paths.survey.groomer} element={<SurveyGroomer />} />
             <Route path={paths.survey.user} element={<SurveyUser />} />
             <Route path={paths.home} element={<Home />} />
-            <Route path={paths.contest} element={<Contest />} />
-            <Route path={paths.entry} element={<Entry />} />
-            <Route path={paths.coupon} element={<Coupon />} />
             <Route path={paths.simulation} element={<Simulation />} />
             <Route path={paths.notification} element={<Notification />} />
             <Route path={paths.chat} element={<Chat role={role} />} />
             <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
-            <Route path={paths.myRequest} element={<MyRequest />} />
-            <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
             <Route path={paths.mypage} element={<Mypage />} />
-            <Route path={paths.newRequest} element={<NewRequest />} />
-            <Route path={paths.newReview} element={<NewReview />} />
-            <Route path={paths.editReview} element={<EditReview />} />
-            <Route path={paths.estimate} element={<NewEstimate />} />
-            <Route path={paths.editEstimate} element={<EditEstimate />} />
             <Route path={paths.contestResult} element={<ContestResult />} />
-
+            <Route path={paths.salonProfile} element={<SalonProfile />} />
+            <Route path={paths.salonReviews} element={<SalonReviews />} />
+            <Route path={paths.paymentHistory} element={<PaymentHistory />} />
+            <Route path={paths.contest} element={<Contest />} />
             <Route
               path={paths.editSocialProfile}
               element={<EditSocialProfile />}
             />
-            <Route
-              path={paths.editSalonProfile}
-              element={<EditSalonProfile />}
-            />
-            <Route path={paths.editDogProfile} element={<DogProfile />} />
-            <Route path={paths.survey.dogProfile} element={<AddDogProfile />} />
-            <Route path={paths.salonProfile} element={<SalonProfile />} />
-            <Route path={paths.salonReviews} element={<SalonReviews />} />
-            <Route
-              path={paths.survey.groomerProfile}
-              element={<AddSalonProfile />}
-            />
-            <Route path={paths.paymentHistory} element={<PaymentHistory />} />
-            <Route path={paths.myCoupons} element={<MyCoupons />} />
-            <Route path={paths.myReviews} element={<MyReviews />} />
-            <Route path={paths.requestHistory} element={<RequestHistory />} />
-            <Route
-              path={paths.requestHistoryDetail}
-              element={<RequestHistoryDetail />}
-            />
+
+            {role !== 'ROLE_SALON' && (
+              <>
+                <Route path={paths.coupon} element={<Coupon />} />
+                <Route path={paths.myCoupons} element={<MyCoupons />} />
+                <Route path={paths.myReviews} element={<MyReviews />} />
+
+                <Route path={paths.entry} element={<Entry />} />
+
+                <Route
+                  path={paths.requestHistoryDetail}
+                  element={<RequestHistoryDetail />}
+                />
+                <Route path={paths.newRequest} element={<NewRequest />} />
+                <Route path={paths.myRequest} element={<MyRequest />} />
+                <Route
+                  path={paths.myRequestDetail}
+                  element={<MyRequestDetail />}
+                />
+                <Route path={paths.editDogProfile} element={<DogProfile />} />
+                <Route
+                  path={paths.survey.dogProfile}
+                  element={<AddDogProfile />}
+                />
+                <Route path={paths.newReview} element={<NewReview />} />
+                <Route path={paths.editReview} element={<EditReview />} />
+              </>
+            )}
+
+            {role !== 'ROLE_USER' && (
+              <>
+                <Route path={paths.estimate} element={<NewEstimate />} />
+                <Route path={paths.editEstimate} element={<EditEstimate />} />
+                <Route
+                  path={paths.requestHistory}
+                  element={<RequestHistory />}
+                />
+                <Route
+                  path={paths.editSalonProfile}
+                  element={<EditSalonProfile />}
+                />
+                <Route
+                  path={paths.survey.groomerProfile}
+                  element={<AddSalonProfile />}
+                />
+              </>
+            )}
           </Route>
         </Routes>
       </Box>
