@@ -139,7 +139,7 @@ const Pay = () => {
         if (coupon?.discountType === 'FIXED') {
           const sale = coupon?.discountAmount;
           if (amount.value - sale < 0) setSaleValue(amount.value);
-          else setSaleValue(amount.value - sale);
+          else setSaleValue(sale);
         } else if (coupon?.discountType === 'RATE') {
           const sale = amount.value * (coupon?.discountAmount * 0.01);
           setSaleValue(sale);
