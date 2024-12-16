@@ -62,7 +62,7 @@ const ContestEntry = () => {
       };
 
       const response = await postContestEntry(participationInfo);
-
+      console.log(response);
       if (response === '콘테스트 참여에 성공했습니다!') {
         alert('콘테스트 참여가 완료되었습니다!');
         navigate('/contest');

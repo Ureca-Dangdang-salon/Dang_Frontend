@@ -46,10 +46,10 @@ export const fetchContestPayments = async (startDate, endDate) => {
   }
 };
 
-export const postContestEntry = async (data) => {
+export const postContestEntry = async (info) => {
   try {
-    const res = await apiClient.post(ContestController.entry, data);
-    return res.response;
+    const { data } = await apiClient.post(ContestController.entry, info);
+    return data.response;
   } catch (error) {
     console.error(error);
     throw error;
