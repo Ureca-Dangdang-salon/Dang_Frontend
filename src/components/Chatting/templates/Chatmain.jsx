@@ -6,7 +6,7 @@ import EmptyContent from '@components/Layout/EmptyContent';
 
 const Chatmain = () => {
   const [list, setList] = useState([]);
-  const [order, setOrder] = useState(true);
+  const [sortState, setSortState] = useState('default');
 
   const fetchList = async () => {
     const res = await getChatList();
@@ -25,13 +25,15 @@ const Chatmain = () => {
     };
   }, []);
 
-  const sortedList = [...list].sort((a, b) =>
-    order ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount
-  );
+  const sortedList = [...list].sort((a, b) => {
+    if (sortState === 'asc') return a.totalAmount - b.totalAmount;
+    if (sortState === 'desc') return b.totalAmount - a.totalAmount;
+    return 0;
+  });
 
   return (
     <>
-      <ChatHeader order={order} setOrder={setOrder} />
+      <ChatHeader sortState={sortState} setSortState={setSortState} />
       {sortedList.length > 0 ? (
         sortedList.map((e, idx) => (
           <ListItem key={idx} data={e} fetchList={fetchList} />

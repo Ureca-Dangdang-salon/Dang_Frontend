@@ -64,7 +64,7 @@ const PaySuccess = () => {
           }}
         >
           <Button
-            label="결재 내역 보기"
+            label="결제 내역 보기"
             size="medium"
             backgroundColor="primary"
             onClick={() => navigate(paths.paymentHistory)}

@@ -17,6 +17,7 @@ import { getEditEstimate, getEditEstimateDog } from '@/api/estimate';
 import { getMyCoupons } from '@/api/coupon';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import CouponImage from '../coupon/CouponImage';
+import toast from 'react-hot-toast';
 
 const clientKey = import.meta.env.VITE_TOSS_CLIENT_KEY;
 const customerKey = generateRandomString();
@@ -32,7 +33,7 @@ const Pay = () => {
   // eslint-disable-next-line no-unused-vars
   const [amount, setAmount] = useState({
     currency: 'KRW',
-    value: Number(searchParams.get('amount')) || 0,
+    value: 0,
   });
   const estimateId = searchParams.get('estimateId');
   const requestId = searchParams.get('requestId');
@@ -46,7 +47,13 @@ const Pay = () => {
   useEffect(() => {
     const fetchEstimate = async () => {
       const res = await getEditEstimate(estimateId);
-      if (res) setEstimate(res);
+      if (res) {
+        setEstimate(res);
+        setAmount((prev) => ({
+          ...prev,
+          value: res.totalAmount,
+        }));
+      }
       res.estimateList.map(async (dog) => {
         const dogDetail = await getEditEstimateDog(
           requestId,
@@ -190,7 +197,10 @@ const Pay = () => {
               justifyContent: 'space-between',
               cursor: 'pointer',
             }}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              if (coupon?.length > 0) setOpen(true);
+              else toast.error('쿠폰이 없습니다.');
+            }}
           >
             할인쿠폰
             <Box

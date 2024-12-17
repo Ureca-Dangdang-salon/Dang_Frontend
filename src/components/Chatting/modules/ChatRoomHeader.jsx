@@ -8,7 +8,6 @@ import paths from '@/routes/paths';
 import useChatStore from '@/store/useChatStore';
 import useUserStore from '@/store/useUserStore';
 import { beautyComplete, exitChatRoom } from '@/api/chat';
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const ChatRoomHeader = ({ userName }) => {
@@ -16,12 +15,8 @@ const ChatRoomHeader = ({ userName }) => {
   const { otherProfile, roomInfo } = useChatStore();
   const { role } = useUserStore();
   const location = useLocation();
-  const { amount, estimateStatus } = location.state || {};
+  const { estimateStatus } = location.state || {};
   const isUser = role === 'ROLE_USER';
-
-  useEffect(() => {
-    if (!amount && isUser) navigate(-1);
-  }, []);
 
   return (
     <Box
@@ -102,7 +97,7 @@ const ChatRoomHeader = ({ userName }) => {
               onClick={() => {
                 navigate(
                   paths.pay +
-                    `?amount=${amount}&estimateId=${roomInfo.estimateId}&requestId=${roomInfo.estimateRequestId}`
+                    `?estimateId=${roomInfo.estimateId}&requestId=${roomInfo.estimateRequestId}`
                 );
               }}
             />
