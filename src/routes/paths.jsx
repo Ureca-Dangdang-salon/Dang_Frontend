@@ -31,7 +31,7 @@ const paths = {
   paymentHistory: '/mypage/paymenthistory',
   myReviews: '/mypage/myreviews',
   requestHistory: '/requesthistory',
-  requestHistoryDetail: '/mypage/requesthistorydetail',
+  requestHistoryDetail: '/requesthistorydetail',
 
   salonProfile: '/salonprofile/:id',
   salonReviews: '/salonreviews',

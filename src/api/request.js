@@ -44,6 +44,7 @@ export const getRequestDetail = async (requestId) => {
     const { data } = await apiClient.get(
       RequestController.estimateRequest + `/detail/${requestId}`
     );
+    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);

@@ -12,21 +12,26 @@ import { Modal } from '@components/Common/Modal/Modal';
 import paths from '@/routes/paths';
 import useEstimateStore from '@/store/useEstimateStore';
 import { deleteEstimate } from '@/api/estimate';
+import Loading from '@components/Layout/Loading';
 
 const RequestHistoryDetail = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+  const [data, setData] = useState({});
   const [dogCount, setDogCount] = useState(0);
   const location = useLocation();
-  const { estimateData, estimateStatus } = location.state || null;
+  const { requestId, estimateStatus } = location.state || null;
   const navigate = useNavigate();
   const { resetEstimateInfo } = useEstimateStore();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getRequestDetail(estimateData.requestId);
+      const res = await getRequestDetail(requestId);
       setData(res);
       setDogCount(res.length);
+      setUser(res[0].userProfile);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -49,10 +54,12 @@ const RequestHistoryDetail = () => {
   };
 
   const delEstimate = async () => {
-    await deleteEstimate(estimateData.requestId);
+    await deleteEstimate(requestId);
   };
 
   const currentDog = data && data[currentIndex];
+
+  if (loading) return <Loading />;
 
   return (
     <Box>
@@ -60,13 +67,13 @@ const RequestHistoryDetail = () => {
       <Box p={4} color="text.main">
         <Box display="flex" alignItems="center" justifyContent="center" mb={5}>
           <img
-            src={estimateData.imageKey || '/images/default-groomer-profile.png'}
+            src={user?.imageKey || '/images/default-groomer-profile.png'}
             width="80px"
             height="80px"
             style={{ borderRadius: '50%' }}
           />
           <Box ml={3} fontSize={14}>
-            <Typography fontWeight={700}>{estimateData.name}</Typography>
+            <Typography fontWeight={700}>{user?.name}</Typography>
             <Box display="flex">
               <Box>
                 <Typography>희망날짜:</Typography>
@@ -74,12 +81,12 @@ const RequestHistoryDetail = () => {
                 <Typography>서비스 형태:</Typography>
               </Box>
               <Box ml={2}>
-                <Typography>{estimateData.date}</Typography>
-                <Typography>{estimateData.region}</Typography>
+                <Typography>{user?.date}</Typography>
+                <Typography>{user?.region}</Typography>
                 <Typography>
-                  {estimateData.serviceType == 'VISIT'
+                  {user?.serviceType == 'VISIT'
                     ? '방문'
-                    : estimateData.serviceType == 'SHOP'
+                    : user?.serviceType == 'SHOP'
                       ? '매장'
                       : '방문, 매장'}
                 </Typography>
@@ -220,7 +227,7 @@ const RequestHistoryDetail = () => {
                 onClick={() =>
                   navigate(paths.estimate, {
                     state: {
-                      requestId: estimateData.requestId,
+                      requestId: data.requestId,
                     },
                   })
                 }
