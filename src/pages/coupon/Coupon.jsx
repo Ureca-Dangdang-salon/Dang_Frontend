@@ -226,7 +226,7 @@ const Coupon = () => {
           color="text.main"
           mt={2}
         >
-          접속 대기 중입니다.
+          발급에 대기 중입니다.
         </DialogTitle>
         <DialogContent>
           <Typography>
@@ -247,7 +247,13 @@ const Coupon = () => {
             />
           </Box>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '16px',
+          }}
+        >
           <Box textAlign="center" mb={2} mx={2}>
             <Button
               onClick={() => setOpenModal(false)}
@@ -257,10 +263,8 @@ const Coupon = () => {
               variant="contained"
               label="중지"
               style={{
-                borderRadius: '10px',
                 minWidth: '100px',
                 minHeight: '48px',
-                fontWeight: 700,
               }}
             />
           </Box>
