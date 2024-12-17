@@ -17,9 +17,9 @@ const PrivateRoute = () => {
       const res = await loginCheck();
       setLoggedIn(res.login);
       setRole(res.role);
-      setUserId(res.userId);
       setNotificationEnabled(res.notificationEnabled);
       setLoading(false);
+      setUserId(res.userId);
 
       const notificationOn = localStorage.getItem('notificationOn');
 

@@ -201,8 +201,8 @@ const RequestHistoryDetail = () => {
           </Box>
         )}
 
-        <Box display="flex" justifyContent="center" gap={3} my={5}>
-          {estimateStatus !== 'SEND' && (
+        <Box display="flex" justifyContent="center" gap={3} mt={3}>
+          {estimateStatus === null && (
             <>
               <Modal
                 openModalButton="요청 삭제"
@@ -219,7 +219,6 @@ const RequestHistoryDetail = () => {
                   fontWeight: 'bold',
                 }}
               />
-
               <Button
                 size="medium"
                 backgroundColor="primary"

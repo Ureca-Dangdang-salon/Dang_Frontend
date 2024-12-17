@@ -76,7 +76,11 @@ const ReviewAccordion = ({ review, role }) => {
               sx={{ '&:hover': { color: 'secondary.main' } }}
             >
               <img
-                src={review.groomerImageKey || review.userImageKey}
+                src={
+                  review.groomerImageKey ||
+                  review.userImageKey ||
+                  '/images/default-groomer-profile.png'
+                }
                 width="60px"
                 style={{ borderRadius: '50%' }}
               />

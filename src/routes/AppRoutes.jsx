@@ -41,6 +41,10 @@ import EditReview from '@/pages/mypage/EditReview';
 import SalonReviews from '@/pages/SalonReviews';
 import Simulation from '@/pages/Simulation';
 import useUserStore from '@/store/useUserStore';
+import Pay from '@/pages/chat/Pay';
+import PaySuccess from '@/pages/chat/PaySuccess';
+import PayFail from '@/pages/chat/PayFail';
+import ViewEstimate from '@/pages/estimate/ViewEstimate';
 
 const AppRoutes = () => {
   return (
@@ -90,6 +94,10 @@ const AppContent = () => {
               path={paths.editSocialProfile}
               element={<EditSocialProfile />}
             />
+            <Route path={paths.pay} element={<Pay />} />
+            <Route path={paths.paySuccess} element={<PaySuccess />} />
+            <Route path={paths.payFail} element={<PayFail />} />
+            <Route path={paths.viewEstimate} element={<ViewEstimate />} />
             <Route path={paths.myRequestDetail} element={<MyRequestDetail />} />
 
             {role !== 'ROLE_SALON' && (

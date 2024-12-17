@@ -6,7 +6,8 @@ import useEstimateEditStore from '@/store/useEstimateEditStore';
 import usePageStore from '@/store/usePageStore';
 import EditDetailStep from '@components/Estimate/templates/EditDetailStep';
 import { SurveyHeader } from '@components/Common/SurveyHeader/SurveyHeader';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import paths from '@/routes/paths';
 
 const EditEstimate = () => {
   const {
@@ -15,10 +16,11 @@ const EditEstimate = () => {
     estimateDogPrice,
     setEstimateDogPrice,
     setPriceValidList,
-    priceValidList,
   } = useEstimateEditStore();
   const { estimateEditStep, setEstimateEditStep } = usePageStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { estimateId, requestId, roomId } = location.state || {};
 
   useEffect(() => {
     if (estimateEdit) {
@@ -26,12 +28,17 @@ const EditEstimate = () => {
     }
 
     const fetch = async () => {
-      const res = await getEditEstimate(10);
-      console.log(res);
-      setEstimateEdit(res);
+      const res = await getEditEstimate(estimateId);
+      const updatedRes = {
+        ...res,
+        description: res.comment,
+      };
+      delete updatedRes.comment;
+      setEstimateEdit(updatedRes);
     };
-
-    fetch();
+    if (estimateId) {
+      fetch();
+    }
   }, []);
 
   useEffect(() => {
@@ -43,12 +50,10 @@ const EditEstimate = () => {
       const fetchDogPrices = async () => {
         for (const e of estimateEdit.estimateList) {
           const dogId = e.dogProfileResponseDto.dogProfileId;
-          const res = await getEditEstimateDog(4, dogId);
+          const res = await getEditEstimateDog(requestId, dogId);
           const updatedRes = { ...res, dogProfileId: dogId };
           setEstimateDogPrice(updatedRes);
         }
-
-        console.log('Dog fetched.');
       };
       fetchDogPrices();
       setPriceValidList(
@@ -59,7 +64,7 @@ const EditEstimate = () => {
 
   const PrevStep = () => {
     if (estimateEditStep > 1) setEstimateEditStep(estimateEditStep - 1);
-    else navigate(-1);
+    else navigate(paths.chatRoom.replace(':id', roomId));
   };
 
   const isValid = (dogIndex) => {
@@ -91,19 +96,14 @@ const EditEstimate = () => {
         currPage={estimateEditStep}
         backHandler={PrevStep}
       />
-      <Box
-        onClick={() => {
-          console.log('esti', estimateEdit);
-          console.log('dogs', estimateDogPrice);
-          console.log('valid', priceValidList);
-        }}
-      >
-        adf
-      </Box>
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {estimateEditStep === 1 ? (
-            <EditFristStep isValid={isValid} />
+            <EditFristStep
+              isValid={isValid}
+              estimateId={estimateId}
+              roomId={roomId}
+            />
           ) : (
             <EditDetailStep isValid={isValid} />
           )}

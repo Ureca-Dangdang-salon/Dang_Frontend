@@ -6,7 +6,9 @@ import useEstimateEditStore from '@/store/useEstimateEditStore';
 
 const EditSelectDogList = ({ title, selectDogList }) => {
   const { setEstimateEditStep } = usePageStore();
-  const { setCurrentDogId, setCurrentDogIndex } = useEstimateEditStore();
+  const { setCurrentDogId, setCurrentDogIndex, estimateDogPrice } =
+    useEstimateEditStore();
+
   return (
     <div>
       <SubTitle title={title} />
@@ -29,7 +31,10 @@ const EditSelectDogList = ({ title, selectDogList }) => {
                 data={e.dogProfileResponseDto}
                 selectedServices={selectedServices}
                 description={e.description}
-                price={e.dogPrice}
+                price={estimateDogPrice[idx]?.serviceList.reduce(
+                  (sum, service) => sum + service.price,
+                  0
+                )}
               />
             </Box>
           );
