@@ -157,7 +157,7 @@ const PaymentHistory = () => {
                         </Modal>
                       ) : (
                         <Box fontSize={14} py="6px" px="8px">
-                          {payment.status === 'CANCELED' && '결제 취소'}
+                          {payment.status === 'CANCELED' && '결제 취소 완료'}
                           {payment.estimateStatus === 'ACCEPTED' && '미용 완료'}
                         </Box>
                       )}

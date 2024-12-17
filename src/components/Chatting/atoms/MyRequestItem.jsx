@@ -41,7 +41,7 @@ const MyRequestItem = ({ data, fetchList }) => {
           <Typography variant="body2">마감</Typography>
         )}
         {data.status === 'REFUND' && (
-          <Typography variant="body2">결제 취소</Typography>
+          <Typography variant="body2">결제 취소 완료</Typography>
         )}
         {data.estimateStatus === 'ACCEPTED' ? (
           <Typography variant="body2">미용 완료</Typography>

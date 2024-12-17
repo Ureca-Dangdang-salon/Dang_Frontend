@@ -148,8 +148,8 @@ const ListItem = ({ data, fetchList }) => {
               {data.estimateStatus === 'PAID' && '결제 완료'}
               {data.estimateStatus === 'ACCEPTED' && '미용 완료'}
               <Box color="text.main">
-                {data.estimateStatus === 'REJECTED' && '거절'}
-                {data.estimateStatus === 'REFUND' && '결제 취소'}
+                {data.estimateStatus === 'REJECTED' && '거절 완료'}
+                {data.estimateStatus === 'REFUND' && '결제 취소 완료'}
               </Box>
             </Box>
           )}

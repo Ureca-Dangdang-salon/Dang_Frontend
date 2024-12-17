@@ -126,7 +126,7 @@ const RequestHistory = () => {
                       {data.estimateStatus === 'SEND' && '요청 전송 완료'}
                       {data.estimateStatus === 'PAID' && '결제 완료'}
                       {data.estimateStatus === 'REFUND' && (
-                        <Box color="text.main">결제 취소</Box>
+                        <Box color="text.main">결제 취소 완료</Box>
                       )}
                       {data.estimateStatus === 'ACCEPTED' && '미용 완료'}
                     </Box>
