@@ -14,7 +14,7 @@ export const Modal = ({
   onClose,
   onGoHome,
   children,
-  isSimpleModal, // 새로 추가된 prop
+  isSimpleModal,
 }) => {
   const [open, setOpen] = useState(false);
 

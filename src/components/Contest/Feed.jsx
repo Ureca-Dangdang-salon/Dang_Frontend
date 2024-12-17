@@ -41,22 +41,25 @@ const Feed = ({
       <Box
         display="flex"
         alignItems="center"
+        justifyContent="space-between"
         my={1.5}
-        ml={2}
+        mx={2}
         position="relative"
       >
-        <img
-          src={userProfile || '/images/default-dog-profile.png'}
-          alt="user profile"
-          style={{
-            width: '35px',
-            height: '35px',
-          }}
-        />
-        <Typography fontSize={14} ml={1} fontWeight={500}>
-          {nickname}
-        </Typography>
-        {/* 삭제 버튼 */}
+        <Box display="flex" alignItems="center">
+          <img
+            src={userProfile || '/images/default-dog-profile.png'}
+            alt="user profile"
+            style={{
+              width: '35px',
+              height: '35px',
+            }}
+          />
+          <Typography fontSize={14} ml={1} fontWeight={500}>
+            {nickname}
+          </Typography>
+        </Box>
+
         {deleteButton && (
           <Modal
             openModalButton={<CloseIcon />}
@@ -65,14 +68,15 @@ const Feed = ({
               '&:hover': { backgroundColor: 'delete.main', color: 'white' },
             }}
             buttonColor="delete"
-            title="삭제하면 콘테스트에서 더 이상 볼 수 없어요. 그래도 진행할까요?"
-            secondaryButton="뒤로 가기"
+            title="삭제하면 콘테스트에서 더 이상 볼 수 없습니다."
+            secondaryButton="취소"
             primaryButton="삭제하기"
             action={deleteButton}
             onClose={() => {}}
           />
         )}
       </Box>
+
       {/* 이미지 컨테이너 */}
       <Box
         sx={{

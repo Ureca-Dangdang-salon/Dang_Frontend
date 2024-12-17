@@ -20,13 +20,17 @@ import useLikeStore from '@/store/useLikeStore';
 import paths from '@/routes/paths';
 import ContestPosts from './ContestPosts';
 import { getExistingToken } from '@/firebase/firebaseMessaging';
-import { subscribeContest, unsubscribeContest } from '@/api/notification';
+import {
+  isSubscribed,
+  subscribeTopic,
+  unsubscribeTopic,
+} from '@/api/notification';
 import useUserStore from '@/store/useUserStore';
+import toast from 'react-hot-toast';
 
 const Contest = () => {
   const navigate = useNavigate();
   const { contestSubscribed, setContestSubscribed } = useUserStore();
-  const [participatedGroomers, setParticipatedGroomers] = useState([]);
   const [currentContest, setCurrentContest] = useState(null);
   const [contestDetails, setContestDetails] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -52,20 +56,25 @@ const Contest = () => {
   );
 
   useEffect(() => {
-    const loadContestInfo = async () => {
-      try {
-        const contest = await fetchCurrentContest();
-        if (contest) {
-          setCurrentContest(contest);
-          setPosts([]);
-          setPage(0);
-          setIsLastPage(false);
+    const getSubscribed = async () => {
+      const res = await isSubscribed('contest');
+      setContestSubscribed(res);
+    };
 
-          const details = await fetchContestDetails(contest.contestId);
-          setContestDetails(details);
-        }
-      } catch (error) {
-        console.error(error);
+    getSubscribed();
+  }, []);
+
+  useEffect(() => {
+    const loadContestInfo = async () => {
+      const contest = await fetchCurrentContest();
+      if (contest) {
+        setCurrentContest(contest);
+        setPosts([]);
+        setPage(0);
+        setIsLastPage(false);
+
+        const details = await fetchContestDetails(contest.contestId);
+        setContestDetails(details);
       }
     };
 
@@ -87,11 +96,6 @@ const Contest = () => {
 
     checkPaymentStatus();
   }, [currentContest]);
-
-  const handleDelete = () => {
-    localStorage.setItem('participatedGroomers', JSON.stringify([]));
-    setParticipatedGroomers([]);
-  };
 
   const fetchPosts = useCallback(async () => {
     if (isLoading || isLastPage || !currentContest) return;
@@ -124,7 +128,7 @@ const Contest = () => {
       if (response.already_participated) {
         alreadyParticipatedInContest(3);
       } else {
-        navigate('/contest/entry', {
+        navigate(paths.entry, {
           state: {
             startedAt: currentContest.startedAt,
             endAt: currentContest.endAt,
@@ -169,8 +173,13 @@ const Contest = () => {
   const handleSubscriptionChange = async () => {
     const fcmToken = await getExistingToken();
 
-    if (contestSubscribed) await unsubscribeContest(fcmToken);
-    else await subscribeContest(fcmToken);
+    if (contestSubscribed) {
+      if (await unsubscribeTopic(fcmToken, 'contest'))
+        toast('🔕 새 글 알림이 해제되었습니다.');
+    } else {
+      if (await subscribeTopic(fcmToken, 'contest'))
+        toast('🔔 새 글 알림을 받기 시작합니다!');
+    }
 
     setContestSubscribed(!contestSubscribed);
   };
@@ -179,17 +188,17 @@ const Contest = () => {
     <div>
       <Header />
       <Box p={4} mb={3}>
-        {/* <Box display="flex" alignItems="center" justifyContent="end">
+        <Box display="flex" alignItems="center" justifyContent="end">
           <Typography>새 글 알림 🔔</Typography>
           <Switch
             checked={contestSubscribed}
             onChange={handleSubscriptionChange}
           />
-        </Box> */}
+        </Box>
         <Box textAlign="center" mt={1}>
           {contestDetails?.recentWinner && (
             <>
-              <Typography fontSize={18} fontWeight="bold">
+              <Typography fontSize={20} fontWeight="bold">
                 {`🏆️${lastMonth}월의 베스트 댕댕이🏆️`}
               </Typography>
               <Typography component="div" fontSize={14} mb={1}>
@@ -236,17 +245,6 @@ const Contest = () => {
             </>
           )}
           <Box display="flex" justifyContent="center" mt={2}>
-            {participatedGroomers.length > 0 && (
-              <Modal
-                openModalButton="삭제하기"
-                buttonColor="delete"
-                title="삭제하면 콘테스트에서 더 이상 볼 수 없습니다?"
-                secondaryButton="뒤로 가기"
-                primaryButton="삭제하기"
-                action={handleDelete}
-                onClose={() => {}}
-              />
-            )}
             {hasPayment ? (
               <Button
                 label="콘테스트 참여하기"

@@ -103,9 +103,11 @@ const Home = () => {
           />
         </Box>
 
-        <Typography fontWeight="bold" mt={3}>
-          우리 동네 추천 반려견 미용사
-        </Typography>
+        {localGroomers.length > 0 && (
+          <Typography fontWeight="bold" mt={3}>
+            우리 동네 추천 반려견 미용사
+          </Typography>
+        )}
         <Slider {...sliderSettings}>
           {localGroomers.map((groomer, index) => (
             <Card
@@ -153,9 +155,11 @@ const Home = () => {
           </Box>
         )}
 
-        <Typography fontWeight="bold" mt={3}>
-          전국 인기 반려견 미용사
-        </Typography>
+        {popularGroomers.length > 0 && (
+          <Typography fontWeight="bold" mt={3}>
+            전국 인기 반려견 미용사
+          </Typography>
+        )}
         <Slider {...sliderSettings}>
           {popularGroomers.map((groomer, index) => (
             <Card

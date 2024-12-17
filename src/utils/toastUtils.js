@@ -54,7 +54,7 @@ export const listNotEmpty = (list, field) => {
 };
 
 export const alreadyParticipatedInContest = () => {
-  toast.error('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+  toast.error('이미 참여한 콘테스트입니다!');
 };
 
 export const contestCheckError = () => {

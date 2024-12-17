@@ -73,11 +73,11 @@ const ContestResult = () => {
               }}
             />
             <Typography fontWeight={500} fontSize={20}>
-              {dog.dogName}
               <span style={{ fontSize: '30px' }}>
                 {index == 0 && '🥈'}
                 {index == 1 && '🥉'}
               </span>
+              {dog.dogName}
             </Typography>
             <Typography>{`${dog.likeCount}표`}</Typography>
           </Box>
