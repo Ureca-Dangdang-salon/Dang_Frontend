@@ -51,8 +51,7 @@ export const logout = async () => {
 export const deleteAccount = async () => {
   try {
     const { data } = await apiClient.delete(AuthController.deleteAccount);
-    if (data.response === '회원탈퇴에 성공했습니다.') return true;
-    else return false;
+    return data.response === '회원탈퇴에 성공했습니다.';
   } catch (e) {
     console.log(e);
     return false;

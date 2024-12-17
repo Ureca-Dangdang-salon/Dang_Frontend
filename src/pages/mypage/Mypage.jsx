@@ -8,12 +8,15 @@ import { useEffect, useState } from 'react';
 import useUserStore from '@/store/useUserStore';
 import { logout, deleteAccount } from '@/api/auth';
 import paths from '@/routes/paths';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Mypage = () => {
   const { setLoggedIn, setRole, setNotificationEnabled } = useUserStore();
   const defaultImgPath = '/images/default-groomer-profile.png';
   const [data, setData] = useState({});
   const { role } = useUserStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getSocialProfile = async () => {
@@ -96,7 +99,12 @@ const Mypage = () => {
             secondaryButton="취소"
             primaryButton="탈퇴"
             title="정말 계정을 지우시겠습니까? 이 과정은 돌이킬 수 없습니다."
-            action={() => deleteAccount()}
+            action={async () => {
+              if (await deleteAccount()) {
+                toast.success('회원탈퇴가 완료되었습니다.');
+                navigate('/');
+              }
+            }}
           />
         </Box>
       </Box>
