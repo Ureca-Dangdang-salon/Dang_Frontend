@@ -96,9 +96,9 @@ const EditSalonProfile = () => {
     handleChange('imageKey', image);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isValid()) {
-      updateGroomerProfile(putData);
+      await updateGroomerProfile(putData);
       navigate(-1);
     }
   };
