@@ -9,21 +9,17 @@ const Step3 = () => {
   const [error, setError] = useState(false);
 
   const handleInputChange = (e) => {
-    const value = e.target.value;
-    setGroomerInfo({ phone: value });
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
 
-    const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;
-    const validCharsRegex = /^[\d-]*$/;
-
-    if (
-      value.trim() === '' ||
-      !validCharsRegex.test(value) ||
-      (!phoneRegex.test(value.trim()) && value.length >= 13)
-    ) {
-      setError(true);
-    } else {
-      setError(false);
+    if (value.length > 3 && value.length <= 7) {
+      value = `${value.slice(0, 3)}-${value.slice(3)}`;
+    } else if (value.length > 7) {
+      value = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7, 11)}`;
     }
+
+    setGroomerInfo({ phone: value });
+    setError(value.length !== 13);
   };
 
   return (
@@ -35,9 +31,7 @@ const Step3 = () => {
           value={groomerInfo.phone}
           onChange={handleInputChange}
           errorMessage={
-            error
-              ? '유효한 전화번호를 입력해주세요 (숫자와 - 만 입력 가능)'
-              : ''
+            error ? '유효한 전화번호를 입력해주세요 (숫자만 입력 가능)' : ''
           }
         />
       </SurveySection>

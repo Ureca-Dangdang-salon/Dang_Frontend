@@ -68,6 +68,13 @@ export const getFCMToken = async () => {
   }
 };
 
+export const getExistingToken = async () => {
+  const token = await getToken(messaging, {
+    vapidKey: vapidKey,
+  });
+  if (token) return token;
+};
+
 export const handleEnableNotifications = async () => {
   await requestNotificationPermission();
   const token = await getFCMToken();

@@ -185,7 +185,7 @@ const Coupon = () => {
           <Button
             label={isDownloaded ? '발급완료' : '쿠폰 다운받기'}
             backgroundColor={isDownloaded ? 'n3' : 'primary'}
-            size="large"
+            size="medium"
             disabled={isDownloaded}
             onClick={handleDownload}
           />
@@ -226,18 +226,23 @@ const Coupon = () => {
           color="text.main"
           mt={2}
         >
-          접속 대기 중입니다.
+          발급 대기 중입니다.
         </DialogTitle>
         <DialogContent>
-          <Typography>
+          <Typography
+            textAlign="center"
+            fontSize={40}
+            fontWeight={600}
+            color="secondary"
+          >
+            {formatTime(queue.estimatedTime)}
+          </Typography>
+          <Typography textAlign="center">
             총 대기 인원: <strong>{queue.queueLength}</strong> 명
           </Typography>
-          <Typography>
+          <Typography textAlign="center">
             앞에 <strong>{queue.aheadCount}</strong> 명, 뒤에{' '}
             <strong>{queue.behindCount}</strong> 명
-          </Typography>
-          <Typography>
-            예상시간: <strong>{formatTime(queue.estimatedTime)}</strong>
           </Typography>
           <Box mt={3} sx={{ width: '100%' }}>
             <LinearProgress
@@ -247,20 +252,24 @@ const Coupon = () => {
             />
           </Box>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '16px',
+          }}
+        >
           <Box textAlign="center" mb={2} mx={2}>
             <Button
               onClick={() => setOpenModal(false)}
               autoFocus
-              size="large"
+              size="medium"
               backgroundColor="delete"
               variant="contained"
               label="중지"
               style={{
-                borderRadius: '10px',
                 minWidth: '100px',
                 minHeight: '48px',
-                fontWeight: 700,
               }}
             />
           </Box>

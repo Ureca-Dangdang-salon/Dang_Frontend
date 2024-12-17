@@ -20,6 +20,7 @@ const Home = () => {
   const [popularGroomers, setPopularGroomers] = useState([]);
   const [eventName, setEventName] = useState('');
   const [eventId, setEventId] = useState(0);
+  const lastMonth = (new Date().getMonth() || 12).toString().padStart(2, '0');
   const [winner, setWinner] = useState({
     name: '',
     profileImage: '',
@@ -81,7 +82,7 @@ const Home = () => {
         <Box textAlign="center">
           <Box textAlign="center" position="relative">
             <Typography fontWeight={700} fontSize={20} mb={0.5}>
-              11월 콘테스트 우승자
+              {`🏆️${lastMonth}월 콘테스트 우승자🏆️`}
             </Typography>
             <WinnerProfile
               name={winner.name}
@@ -89,18 +90,18 @@ const Home = () => {
               showVotes={false}
             />
           </Box>
-          <MuiButton
+          <Typography
             fontSize={14}
             mb={1}
-            color="text"
             sx={{
               borderRadius: '10px',
+              textDecoration: 'underline',
+              '&:hover': { cursor: 'pointer', color: 'secondary.main' },
             }}
-            href="/contestresult"
+            onClick={() => navigate(paths.contestResult)}
           >
             기타 순위 보러가기
-          </MuiButton>
-          <br />
+          </Typography>
           <Button
             label="우승 미용사 프로필"
             backgroundColor="primary"
@@ -113,9 +114,11 @@ const Home = () => {
           />
         </Box>
 
-        <Typography fontWeight="bold" mt={3}>
-          우리 동네 추천 반려견 미용사
-        </Typography>
+        {localGroomers.length > 0 && (
+          <Typography fontWeight="bold" mt={3}>
+            우리 동네 추천 반려견 미용사
+          </Typography>
+        )}
         <Slider ref={localGroomersSliderRef} {...sliderSettings}>
           {localGroomers.map((groomer, index) => (
             <GroomerCard
@@ -166,9 +169,11 @@ const Home = () => {
           </Box>
         )}
 
-        <Typography fontWeight="bold" mt={3}>
-          전국 인기 반려견 미용사
-        </Typography>
+        {popularGroomers.length > 0 && (
+          <Typography fontWeight="bold" mt={3}>
+            전국 인기 반려견 미용사
+          </Typography>
+        )}
         <Slider ref={popularGroomersSliderRef} {...sliderSettings}>
           {popularGroomers.map((groomer, index) => (
             <GroomerCard

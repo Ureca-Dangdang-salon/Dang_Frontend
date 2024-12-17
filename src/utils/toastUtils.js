@@ -54,7 +54,7 @@ export const listNotEmpty = (list, field) => {
 };
 
 export const alreadyParticipatedInContest = () => {
-  toast.error('이미 참여한 콘테스트입니다! 중복 참여는 불가능합니다.');
+  toast.error('이미 참여한 콘테스트입니다!');
 };
 
 export const contestCheckError = () => {
@@ -67,10 +67,6 @@ export const postDeleted = () => {
 
 export const postDeleteError = () => {
   toast.error('포스트 삭제 중 문제가 발생했습니다.');
-};
-
-export const noWinnerInfo = () => {
-  toast.info('우승자 정보가 없습니다.');
 };
 
 export const noEmptyString = (list, field) => {

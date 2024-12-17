@@ -58,11 +58,19 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
           display: 'flex',
           justifyContent: 'space-between',
           p: 2,
-          overflowY: 'auto',
+          overflow: 'hidden',
           maxHeight: '600px',
         }}
       >
-        <Box width={150}>
+        <Box
+          width={150}
+          sx={{
+            overflowY: 'auto',
+            maxHeight: '100%',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
           <List>
             {cities.map((city) => (
               <ListItem
@@ -92,7 +100,15 @@ export const RegionModal = ({ setLocation, open, setOpen }) => {
             top: 0,
           }}
         />
-        <Box width={200}>
+        <Box
+          width={200}
+          sx={{
+            overflowY: 'auto',
+            maxHeight: '100%',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
           {selectedCity ? (
             <List>
               {koreaRegions[selectedCity].map((region) => (

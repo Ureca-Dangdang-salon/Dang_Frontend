@@ -49,6 +49,7 @@ export const NotificationController = {
   updateSetting: '/api/notification/update',
   subscribe: '/api/notification/subscribe',
   unsubscribe: '/api/notification/unsubscribe',
+  isSubscribed: '/api/notification/is-subscribed?topicName=',
 };
 
 export const PaymentController = {

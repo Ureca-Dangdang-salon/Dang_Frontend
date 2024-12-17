@@ -10,24 +10,26 @@ const SalonDetail = ({ data, detail }) => {
         <Grid size={8}>{data?.phone}</Grid>
         <Grid size={4}>🧑연락 가능 시간:</Grid>
         <Grid size={8}>{data?.contactHours}</Grid>
-        <Grid size={4}>📍서비스 지역: </Grid>
         {detail?.servicesDistricts?.length > 0 && (
-          <Grid size={8}>
-            {detail.servicesDistricts.length === 1 ? (
-              <span>
-                {detail.servicesDistricts[0].city}{' '}
-                {detail.servicesDistricts[0].district}
-              </span>
-            ) : (
-              <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-                {detail.servicesDistricts.map((item, index) => (
-                  <li key={index}>
-                    {item.city} {item.district}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Grid>
+          <>
+            <Grid size={4}>📍서비스 지역: </Grid>
+            <Grid size={8}>
+              {detail.servicesDistricts.length === 1 ? (
+                <span>
+                  {detail.servicesDistricts[0].city}{' '}
+                  {detail.servicesDistricts[0].district}
+                </span>
+              ) : (
+                <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+                  {detail.servicesDistricts.map((item, index) => (
+                    <li key={index}>
+                      {item.city} {item.district}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </Grid>
+          </>
         )}
         <Grid size={4}>🚙서비스 형태:</Grid>
         <Grid size={8}>
