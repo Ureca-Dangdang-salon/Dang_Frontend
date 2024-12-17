@@ -81,11 +81,20 @@ const Contest = () => {
   useEffect(() => {
     const checkPaymentStatus = async () => {
       try {
-        const today = dayjs();
-        const startDate = today
-          .subtract(1, 'month')
-          .format('YYYY-MM-DDT00:00:00');
-        const endDate = today.format('YYYY-MM-DDT00:00:00');
+        if (!currentContest) return;
+        const startDate = dayjs(currentContest.response.startedAt).format(
+          'YYYY-MM-DDT00:00:00'
+        );
+        const endDate = dayjs(currentContest.response.endAt).format(
+          'YYYY-MM-DDT23:59:59'
+        );
+        console.log(startDate, endDate);
+        // 여기 수정 날짜가 고정되어 있어서 안되는 것 같음 -> 콘테스트 날짜에 맞춰서 수정 필요
+        // const today = dayjs();
+        // const startDate = today
+        //   .subtract(1, 'month')
+        //   .format('YYYY-MM-DDT00:00:00');
+        // const endDate = today.format('YYYY-MM-DDT00:00:00');
 
         const payments = await fetchContestPayments(startDate, endDate);
         setHasPayment(payments.length > 0);
