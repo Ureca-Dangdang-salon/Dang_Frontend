@@ -23,7 +23,6 @@ import {
   postDeleteError,
   noWinnerInfo,
 } from '@/utils/toastUtils';
-import dayjs from 'dayjs';
 import useUserStore from '@/store/useUserStore';
 import useLikeStore from '@/store/useLikeStore';
 
@@ -82,13 +81,11 @@ const Contest = () => {
     const checkPaymentStatus = async () => {
       try {
         if (!currentContest) return;
-        const startDate = dayjs(currentContest.response.startedAt).format(
-          'YYYY-MM-DDT00:00:00'
-        );
-        const endDate = dayjs(currentContest.response.endAt).format(
-          'YYYY-MM-DDT23:59:59'
-        );
-        console.log(startDate, endDate);
+        const startDate = currentContest.startedAt;
+        const endDate = currentContest.endAt;
+
+        console.log('콘테스트 시작일:', startDate);
+        console.log('콘테스트 종료일:', endDate);
         // 여기 수정 날짜가 고정되어 있어서 안되는 것 같음 -> 콘테스트 날짜에 맞춰서 수정 필요
         // const today = dayjs();
         // const startDate = today
@@ -104,7 +101,7 @@ const Contest = () => {
     };
 
     checkPaymentStatus();
-  }, []);
+  }, [currentContest]);
 
   const handleDelete = () => {
     localStorage.setItem('participatedGroomers', JSON.stringify([]));
