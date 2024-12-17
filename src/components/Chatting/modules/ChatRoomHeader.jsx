@@ -102,7 +102,7 @@ const ChatRoomHeader = ({ userName }) => {
               onClick={() => {
                 navigate(
                   paths.pay +
-                    `?amount=${amount}&estimateId=${roomInfo.estimateId}&requestId=${roomInfo.estimateRequestId}`
+                    `?estimateId=${roomInfo.estimateId}&requestId=${roomInfo.estimateRequestId}`
                 );
               }}
             />

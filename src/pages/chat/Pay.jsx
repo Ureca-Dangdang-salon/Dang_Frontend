@@ -32,7 +32,7 @@ const Pay = () => {
   // eslint-disable-next-line no-unused-vars
   const [amount, setAmount] = useState({
     currency: 'KRW',
-    value: Number(searchParams.get('amount')) || 0,
+    value: 0,
   });
   const estimateId = searchParams.get('estimateId');
   const requestId = searchParams.get('requestId');
@@ -46,7 +46,13 @@ const Pay = () => {
   useEffect(() => {
     const fetchEstimate = async () => {
       const res = await getEditEstimate(estimateId);
-      if (res) setEstimate(res);
+      if (res) {
+        setEstimate(res);
+        setAmount((prev) => ({
+          ...prev,
+          value: res.totalAmount,
+        }));
+      }
       res.estimateList.map(async (dog) => {
         const dogDetail = await getEditEstimateDog(
           requestId,
