@@ -9,6 +9,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useNavigate } from 'react-router-dom';
 import paths from '@/routes/paths';
 import useUserStore from '@/store/useUserStore';
+import { useEffect } from 'react';
 
 function Survey() {
   const [location, setLocation] = useState(null);
@@ -16,6 +17,10 @@ function Survey() {
   const { role, setRole } = useUserStore();
   const [id, setId] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (role !== 'ROLE_PENDING') navigate(paths.home);
+  }, []);
 
   const handleAction = (selectedCity, selectedRegion, regionId) => {
     setLocation(selectedCity + ' ' + selectedRegion);
