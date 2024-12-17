@@ -15,11 +15,15 @@ import {
   postGroomerProfile,
 } from '@/api/groomerProfile';
 import paths from '@/routes/paths';
-import { validPhoneNum } from '@/utils/toastUtils';
 
 function AddSalonProfile() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const regex = /^\d{3}-\d{4}-\d{4}$/;
+    return regex.test(phoneNumber);
+  };
 
   const isStepValid = () => {
     switch (step) {
@@ -28,7 +32,7 @@ function AddSalonProfile() {
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
-        return validPhoneNum(groomerInfo.phone.trim());
+        return validatePhoneNumber(groomerInfo.phone);
       case 4:
         return groomerInfo.contactHours.trim() !== '';
       case 5:
@@ -45,7 +49,10 @@ function AddSalonProfile() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) navigate(paths.home);
+      if (await handleSaveProfile())
+        if (await postAddGroomerProfile(businessInfo)) {
+          navigate(paths.home);
+        }
     } else setStep(step + 1);
   };
 
@@ -95,12 +102,13 @@ function AddSalonProfile() {
               />
               <Button
                 size="large"
-                backgroundColor={'n3'}
+                backgroundColor={isStepValid() ? 'primary' : 'n3'}
+                disabled={!isStepValid()}
                 onClick={async () => {
                   if (!isStepValid()) return '';
-                  if (await handleSaveProfile()) handleNextStep();
+                  handleNextStep();
                 }}
-                label="상세 정보 작성하기"
+                label="상세 정보 작성하기 (선택)"
               />
             </Box>
           ) : (

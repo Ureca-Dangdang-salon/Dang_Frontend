@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@components/Common/Header/Header';
 import { Box, Typography, Button as MuiButton } from '@mui/material';
@@ -6,7 +6,7 @@ import Button from '@components/Common/Button/Button';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Card from '@components/Common/Card';
+import GroomerCard from '@components/Common/Card/GroomerCard';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
 import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
@@ -33,6 +33,17 @@ const Home = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+  };
+
+  const localGroomersSliderRef = useRef(null);
+  const popularGroomersSliderRef = useRef(null);
+
+  const handlePrevSlide = (sliderRef) => {
+    sliderRef.current.slickPrev();
+  };
+
+  const handleNextSlide = (sliderRef) => {
+    sliderRef.current.slickNext();
   };
 
   useEffect(() => {
@@ -108,9 +119,9 @@ const Home = () => {
             우리 동네 추천 반려견 미용사
           </Typography>
         )}
-        <Slider {...sliderSettings}>
+        <Slider ref={localGroomersSliderRef} {...sliderSettings}>
           {localGroomers.map((groomer, index) => (
-            <Card
+            <GroomerCard
               title={groomer.name}
               subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
@@ -119,6 +130,9 @@ const Home = () => {
               }
               imageUrl={groomer.imageKey}
               defaultImage="/images/default-groomer-profile.png"
+              withSliderArrows={true}
+              onPrevClick={() => handlePrevSlide(localGroomersSliderRef)}
+              onNextClick={() => handleNextSlide(localGroomersSliderRef)}
             />
           ))}
         </Slider>
@@ -160,9 +174,9 @@ const Home = () => {
             전국 인기 반려견 미용사
           </Typography>
         )}
-        <Slider {...sliderSettings}>
+        <Slider ref={popularGroomersSliderRef} {...sliderSettings}>
           {popularGroomers.map((groomer, index) => (
-            <Card
+            <GroomerCard
               title={groomer.name}
               subtitle={`${groomer.city} ${groomer.district}`}
               key={index}
@@ -171,6 +185,9 @@ const Home = () => {
               }
               imageUrl={groomer.imageKey}
               defaultImage="/images/default-groomer-profile.png"
+              withSliderArrows={true}
+              onPrevClick={() => handlePrevSlide(popularGroomersSliderRef)}
+              onNextClick={() => handleNextSlide(popularGroomersSliderRef)}
             />
           ))}
         </Slider>
