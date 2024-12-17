@@ -10,7 +10,7 @@ const SetDesc = ({ info, set }) => {
       <div>
         <SubTitle title="총 금액" />
         <InputText
-          value={info?.totalAmount + ' 원'}
+          value={info?.totalAmount.toLocaleString() + ' 원'}
           disabled={true}
           onChange={() => ''}
         />

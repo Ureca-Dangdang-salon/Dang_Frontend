@@ -17,6 +17,7 @@ import { getEditEstimate, getEditEstimateDog } from '@/api/estimate';
 import { getMyCoupons } from '@/api/coupon';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import CouponImage from '../coupon/CouponImage';
+import toast from 'react-hot-toast';
 
 const clientKey = import.meta.env.VITE_TOSS_CLIENT_KEY;
 const customerKey = generateRandomString();
@@ -196,7 +197,10 @@ const Pay = () => {
               justifyContent: 'space-between',
               cursor: 'pointer',
             }}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              if (coupon?.length > 0) setOpen(true);
+              else toast.error('쿠폰이 없습니다.');
+            }}
           >
             할인쿠폰
             <Box

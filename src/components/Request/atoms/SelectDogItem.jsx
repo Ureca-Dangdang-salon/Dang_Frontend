@@ -50,7 +50,7 @@ const SelectDogItem = ({ data, selectedServices, description, price }) => {
           {price && (
             <TextBox
               title="금액"
-              content={price && price + ' 원'}
+              content={price && price.toLocaleString() + ' 원'}
               placeholder="견적서를 작성해주세요."
             />
           )}
