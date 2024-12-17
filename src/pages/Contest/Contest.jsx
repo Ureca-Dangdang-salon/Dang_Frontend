@@ -1,33 +1,31 @@
 import { Header } from '@/components/Common/Header/Header';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Switch } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
-import Feed from '@components/Contest/Feed';
 import { Modal } from '@/components/Common/Modal/Modal';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import {
   checkContestParticipation,
-  deletePost,
   fetchContestDetails,
   fetchCurrentContest,
   getContestPosts,
-  likePost,
-  unlikePost,
   fetchContestPayments,
 } from '@/api/contest';
 import {
   alreadyParticipatedInContest,
   contestCheckError,
-  postDeleted,
-  postDeleteError,
-  noWinnerInfo,
 } from '@/utils/toastUtils';
-import useUserStore from '@/store/useUserStore';
 import useLikeStore from '@/store/useLikeStore';
+import paths from '@/routes/paths';
+import ContestPosts from './ContestPosts';
+import { getExistingToken } from '@/firebase/firebaseMessaging';
+import { subscribeContest, unsubscribeContest } from '@/api/notification';
+import useUserStore from '@/store/useUserStore';
 
 const Contest = () => {
   const navigate = useNavigate();
+  const { contestSubscribed, setContestSubscribed } = useUserStore();
   const [participatedGroomers, setParticipatedGroomers] = useState([]);
   const [currentContest, setCurrentContest] = useState(null);
   const [contestDetails, setContestDetails] = useState(null);
@@ -36,9 +34,8 @@ const Contest = () => {
   const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasPayment, setHasPayment] = useState(false);
-
-  const { userId } = useUserStore();
   const { likedPosts, setLikedPost } = useLikeStore();
+  const lastMonth = (new Date().getMonth() || 12).toString().padStart(2, '0');
 
   const syncLikedPosts = useCallback(
     (serverPosts) => {
@@ -58,7 +55,6 @@ const Contest = () => {
     const loadContestInfo = async () => {
       try {
         const contest = await fetchCurrentContest();
-        console.log('contestInfo:', contest);
         if (contest) {
           setCurrentContest(contest);
           setPosts([]);
@@ -66,7 +62,6 @@ const Contest = () => {
           setIsLastPage(false);
 
           const details = await fetchContestDetails(contest.contestId);
-          console.log('details:', details);
           setContestDetails(details);
         }
       } catch (error) {
@@ -83,16 +78,6 @@ const Contest = () => {
         if (!currentContest) return;
         const startDate = currentContest.startedAt;
         const endDate = currentContest.endAt;
-
-        console.log('콘테스트 시작일:', startDate);
-        console.log('콘테스트 종료일:', endDate);
-        // 여기 수정 날짜가 고정되어 있어서 안되는 것 같음 -> 콘테스트 날짜에 맞춰서 수정 필요
-        // const today = dayjs();
-        // const startDate = today
-        //   .subtract(1, 'month')
-        //   .format('YYYY-MM-DDT00:00:00');
-        // const endDate = today.format('YYYY-MM-DDT00:00:00');
-
         const payments = await fetchContestPayments(startDate, endDate);
         setHasPayment(payments.length > 0);
       } catch (error) {
@@ -154,23 +139,6 @@ const Contest = () => {
     }
   };
 
-  const handleDeletePost = async (postId) => {
-    try {
-      const response = await deletePost(postId);
-      if (response === '포스트 삭제가 완료되었습니다.') {
-        postDeleted(3);
-        setPosts((prevPosts) =>
-          prevPosts.filter((post) => post.postId !== postId)
-        );
-      } else {
-        postDeleteError(3);
-      }
-    } catch (error) {
-      console.error(error);
-      postDeleteError(3);
-    }
-  };
-
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
@@ -198,99 +166,97 @@ const Contest = () => {
     };
   }, [handleScroll]);
 
-  const handleLikeToggle = async (postId, isLiked) => {
-    try {
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.postId === postId ? { ...post, liked: !isLiked } : post
-        )
-      );
+  const handleSubscriptionChange = async () => {
+    const fcmToken = await getExistingToken();
 
-      if (isLiked) {
-        await unlikePost(postId);
-      } else {
-        await likePost(postId);
-      }
+    if (contestSubscribed) await unsubscribeContest(fcmToken);
+    else await subscribeContest(fcmToken);
 
-      setLikedPost(postId, !isLiked);
-    } catch (error) {
-      console.error('좋아요 토글 실패:', error);
-
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.postId === postId ? { ...post, liked: isLiked } : post
-        )
-      );
-      setLikedPost(postId, isLiked);
-    }
-  };
-
-  const handleSubscribe = () => {
-    alert('구독하기 버튼 클릭');
+    setContestSubscribed(!contestSubscribed);
   };
 
   return (
     <div>
       <Header />
       <Box p={4} mb={3}>
-        <Box>
-          <Typography fontWeight={700} fontSize={16} mb={0.5}>
-            이달의 최고의 작품은?
-          </Typography>
-          <Box component="div" fontSize={12} mb={3}>
-            강아지의 변신을 책임진 미용사님은 누구?{' '}
-            <Box
-              component="span"
-              onClick={() =>
-                contestDetails?.recentWinner?.groomerProfileId
-                  ? navigate(
+        {/* <Box display="flex" alignItems="center" justifyContent="end">
+          <Typography>새 글 알림 🔔</Typography>
+          <Switch
+            checked={contestSubscribed}
+            onChange={handleSubscriptionChange}
+          />
+        </Box> */}
+        <Box textAlign="center" mt={1}>
+          {contestDetails?.recentWinner && (
+            <>
+              <Typography fontSize={18} fontWeight="bold">
+                {`🏆️${lastMonth}월의 베스트 댕댕이🏆️`}
+              </Typography>
+              <Typography component="div" fontSize={14} mb={1}>
+                강아지의 변신을 책임진 미용사 프로필{' '}
+                <Box
+                  component="span"
+                  onClick={() =>
+                    navigate(
                       `/salonprofile/${contestDetails.recentWinner.groomerProfileId}`
                     )
-                  : noWinnerInfo(3)
-              }
-              sx={{
-                cursor: 'pointer',
-                '&:hover': { textDecoration: 'underline' },
-              }}
-            >
-              프로필 보러 가기
-            </Box>
-          </Box>
-          {contestDetails?.recentWinner ? (
-            <WinnerProfile
-              name={
-                contestDetails.recentWinner.dogName || '알 수 없는 강아지 이름'
-              }
-              profileImage={
-                contestDetails.recentWinner.imageUrl ||
-                '/images/default-image.jpg'
-              }
-              showVotes={false}
-            />
-          ) : (
-            <Typography>우승자 정보가 없습니다.</Typography>
+                  }
+                  sx={{
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    '&:hover': { color: 'secondary.main' },
+                  }}
+                >
+                  보러 가기
+                </Box>
+              </Typography>
+              <WinnerProfile
+                name={
+                  contestDetails.recentWinner.dogName ||
+                  '알 수 없는 강아지 이름'
+                }
+                profileImage={
+                  contestDetails.recentWinner.imageUrl ||
+                  '/images/default-image.jpg'
+                }
+                showVotes={false}
+              />
+              <Typography
+                fontSize={14}
+                mb={1}
+                sx={{
+                  borderRadius: '10px',
+                  textDecoration: 'underline',
+                  '&:hover': { cursor: 'pointer', color: 'secondary.main' },
+                }}
+                onClick={() => navigate(paths.contestResult)}
+              >
+                기타 순위 보러가기
+              </Typography>
+            </>
           )}
-          <Box display="flex" justifyContent="center" mt={5}>
-            {participatedGroomers.length > 0 ? (
+          <Box display="flex" justifyContent="center" mt={2}>
+            {participatedGroomers.length > 0 && (
               <Modal
                 openModalButton="삭제하기"
                 buttonColor="delete"
-                title="삭제하면 콘테스트에서 더 이상 볼 수 없어요. 그래도 진행할까요?"
+                title="삭제하면 콘테스트에서 더 이상 볼 수 없습니다?"
                 secondaryButton="뒤로 가기"
                 primaryButton="삭제하기"
                 action={handleDelete}
                 onClose={() => {}}
               />
-            ) : hasPayment ? (
+            )}
+            {hasPayment ? (
               <Button
-                label="참여하기"
+                label="콘테스트 참여하기"
                 backgroundColor="primary"
                 size="large"
                 onClick={handleParticipation}
               />
             ) : (
               <Modal
-                openModalButton="참여하기"
+                openModalButton="콘테스트 참여하기"
                 buttonColor="primary"
                 variant="contained"
                 buttonSx={{
@@ -300,7 +266,7 @@ const Contest = () => {
                   fontWeight: 700,
                   backgroundColor: '#FDD94E',
                 }}
-                title="결제 내역이 필요해요! 콘테스트 참여는 최근 한 달 내 결제 내역이 필요합니다."
+                title="콘테스트 참여는 최근 한 달 내 결제 내역이 필요합니다."
                 primaryButton="확인"
                 action={() => {}}
                 onClose={() => {}}
@@ -308,60 +274,19 @@ const Contest = () => {
               />
             )}
           </Box>
-          <Box display="flex" justifyContent="center" mt={2} mb={5}>
-            <Button
-              label="새 글 알림"
-              backgroundColor="primary"
-              size="large"
-              onClick={handleSubscribe}
-            />
-          </Box>
-          <Box mt={3}>
-            <Typography fontSize={18} fontWeight="bold">
-              🏆️ 이달의 베스트 댕댕이!
-            </Typography>
-            <Typography fontSize={14} fontWeight="bold">
+          <Box my={3} textAlign="center">
+            <Typography fontSize={14} fontWeight={500}>
               여러분의 소중한 한 표로 이달의 미용 스타를 선정해주세요!
             </Typography>
           </Box>
-          <Box
-            sx={{
-              mt: 4,
-              width: '100%',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 4,
-              }}
-            >
-              {posts.map((post) => {
-                return (
-                  <Feed
-                    key={post.postId}
-                    imageUrl={post.imageUrl}
-                    nickname={post.dogName}
-                    explanation={post.description}
-                    isLiked={post.liked}
-                    deleteButton={
-                      post.userId === userId
-                        ? () => handleDeletePost(post.postId)
-                        : null
-                    }
-                    onLikeToggle={() =>
-                      handleLikeToggle(post.postId, post.liked)
-                    }
-                  />
-                );
-              })}
-              {isLoading && <Typography>로딩 중...</Typography>}
-              {isLastPage && (
-                <Typography>더 이상 게시물이 없습니다.</Typography>
-              )}
-            </Box>
-          </Box>{' '}
+
+          <ContestPosts
+            posts={posts}
+            setPosts={setPosts}
+            setLikedPost={setLikedPost}
+            isLastPage={isLastPage}
+            isLoading={isLoading}
+          />
         </Box>
       </Box>
     </div>

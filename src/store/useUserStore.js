@@ -10,6 +10,9 @@ const useUserStore = create((set) => ({
   notificationEnabled: false,
   setNotificationEnabled: (bool) => set({ notificationEnabled: bool }),
 
+  contestSubscribed: false,
+  setContestSubscribed: (bool) => set({ contestSubscribed: bool }),
+
   userId: null,
   setUserId: (id) => set({ userId: id }),
 }));

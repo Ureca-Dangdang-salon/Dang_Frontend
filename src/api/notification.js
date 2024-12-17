@@ -68,3 +68,31 @@ export const deleteAll = async () => {
     return false;
   }
 };
+
+export const subscribeContest = async (token) => {
+  try {
+    const { data } = await apiClient.post(NotificationController.subscribe, {
+      fcmToken: token,
+      topic: 'contest',
+    });
+    console.log(data.response);
+    return data.response === '성공적으로 구독되었습니다.';
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
+export const unsubscribeContest = async (token) => {
+  try {
+    const { data } = await apiClient.post(NotificationController.unsubscribe, {
+      fcmToken: token,
+      topic: 'contest',
+    });
+    console.log(data.response);
+    return data.response === '구독이 해제되었습니다.';
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};

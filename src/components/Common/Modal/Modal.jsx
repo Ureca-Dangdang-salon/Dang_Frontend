@@ -54,7 +54,7 @@ export const Modal = ({
         <DialogTitle
           id="alert-dialog-title"
           fontSize={16}
-          fontWeight={600}
+          fontWeight={500}
           textAlign="center"
           color="text.main"
           mt={2}
