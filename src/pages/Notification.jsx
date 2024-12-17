@@ -17,7 +17,7 @@ import paths from '@/routes/paths';
 const Notification = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
-  const { notificationEnabled, setNotificationEnabled } = useUserStore();
+  const { notificationEnabled, setNotificationEnabled, role } = useUserStore();
 
   useEffect(() => {
     const getList = async () => {
@@ -78,7 +78,18 @@ const Notification = () => {
                 sx={{ '&:hover': { cursor: 'pointer' } }}
                 onClick={async () => {
                   if (await markAsRead(notification.id)) {
-                    navigate(paths.chat); //TODO: link to chatroom
+                    {
+                      role === 'ROLE_USER'
+                        ? navigate(
+                            `${paths.chatRoom}/${notification.referenceId}`
+                          )
+                        : navigate(paths.requestHistoryDetail, {
+                            state: {
+                              requestId: notification.referenceId,
+                              estimateStatus: null,
+                            },
+                          });
+                    }
                   }
                 }}
               >

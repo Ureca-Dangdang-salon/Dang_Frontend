@@ -35,7 +35,7 @@ const RequestHistory = () => {
               onClick={() =>
                 navigate(paths.requestHistoryDetail, {
                   state: {
-                    estimateData: data,
+                    requestId: data.requestId,
                     estimateStatus: data.estimateStatus,
                   },
                 })

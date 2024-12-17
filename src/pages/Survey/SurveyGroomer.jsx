@@ -16,6 +16,7 @@ import {
 } from '@/api/groomerProfile';
 import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
+import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
