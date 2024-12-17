@@ -82,8 +82,8 @@ const AppContent = () => {
             <Route path={paths.myReviews} element={<MyReviews />} />
             <Route path={paths.simulation} element={<Simulation />} />
             <Route path={paths.notification} element={<Notification />} />
-            <Route path={paths.chat} element={<Chat role={role} />} />
-            <Route path={paths.chatRoom} element={<ChatRoom role={role} />} />
+            <Route path={paths.chat} element={<Chat />} />
+            <Route path={paths.chatRoom} element={<ChatRoom />} />
             <Route path={paths.mypage} element={<Mypage />} />
             <Route path={paths.contestResult} element={<ContestResult />} />
             <Route path={paths.salonProfile} element={<SalonProfile />} />

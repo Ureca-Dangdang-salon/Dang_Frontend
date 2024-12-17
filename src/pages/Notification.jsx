@@ -81,7 +81,10 @@ const Notification = () => {
                     {
                       role === 'ROLE_USER'
                         ? navigate(
-                            `${paths.chatRoom}/${notification.referenceId}`
+                            paths.chatRoom.replace(
+                              ':id',
+                              notification.referenceId
+                            )
                           )
                         : navigate(paths.requestHistoryDetail, {
                             state: {
