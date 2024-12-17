@@ -1,9 +1,24 @@
 import { Box, Button, Typography } from '@mui/material';
 import NorthRoundedIcon from '@mui/icons-material/NorthRounded';
+import SwapVertRoundedIcon from '@mui/icons-material/SwapVertRounded';
 import useUserStore from '@/store/useUserStore';
+import paths from '@/routes/paths';
 
-const ChatHeader = ({ order, setOrder }) => {
+const ChatHeader = ({ sortState, setSortState }) => {
   const { role } = useUserStore();
+
+  const handleSortChange = () => {
+    setSortState((prev) => {
+      if (prev === 'default') return 'asc';
+      if (prev === 'asc') return 'desc';
+      return 'default';
+    });
+  };
+
+  const getSortLabel = () => {
+    if (sortState === 'default') return '기본';
+    return sortState === 'asc' ? '오름차순' : '내림차순';
+  };
 
   return (
     <Box
@@ -17,16 +32,23 @@ const ChatHeader = ({ order, setOrder }) => {
         <>
           <Box
             sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-            onClick={() => setOrder((e) => !e)}
+            onClick={handleSortChange}
           >
-            <NorthRoundedIcon
-              sx={{
-                fontSize: '24px',
-                transform: `rotate(${order ? 0 : 180}deg)`,
-              }}
-            />
+            {sortState === 'default' ? (
+              <SwapVertRoundedIcon sx={{ fontSize: '24px', opacity: 0.8 }} />
+            ) : (
+              <NorthRoundedIcon
+                sx={{
+                  fontSize: '24px',
+                  transform:
+                    sortState === 'asc' ? 'rotate(0deg)' : 'rotate(180deg)',
+                }}
+              />
+            )}
             <Typography variant="body1" fontWeight="bold">
-              가격 {order ? '오름차순' : '내림차순'}
+              {sortState === 'default'
+                ? getSortLabel()
+                : `가격 ${getSortLabel()}`}
             </Typography>
           </Box>
           <Button
@@ -38,7 +60,7 @@ const ChatHeader = ({ order, setOrder }) => {
               fontWeight: 'bold',
               fontSize: '16px',
             }}
-            href="/chat/myrequest"
+            href={paths.myRequest}
           >
             내 요청 보기
           </Button>
