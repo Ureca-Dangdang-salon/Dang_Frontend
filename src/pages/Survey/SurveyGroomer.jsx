@@ -16,7 +16,6 @@ import {
 } from '@/api/groomerProfile';
 import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
-import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
@@ -51,14 +50,15 @@ function SurveyGroomer() {
   const handleNextStep = async () => {
     if (!isStepValid()) return '';
     if (step === 7) {
-      if (await postAddGroomerProfile(businessInfo)) {
-        navigate(paths.home);
-      }
+      if (await handleSaveProfile())
+        if (await postAddGroomerProfile(businessInfo)) {
+          navigate(paths.home);
+        }
     } else setStep(step + 1);
   };
 
   const handleBack = () => {
-    if (step > 1 && step < 7) setStep(step - 1);
+    if (step > 1) setStep(step - 1);
     else cantGoBack();
   };
 
@@ -106,11 +106,11 @@ function SurveyGroomer() {
               />
               <Button
                 size="large"
-                backgroundColor="primary"
+                backgroundColor={isStepValid() ? 'primary' : 'n3'}
                 disabled={!isStepValid()}
                 onClick={async () => {
                   if (!isStepValid()) return '';
-                  if (await handleSaveProfile()) handleNextStep();
+                  handleNextStep();
                 }}
                 label="상세 정보 작성하기 (선택)"
               />
