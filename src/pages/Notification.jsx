@@ -86,7 +86,7 @@ const Notification = () => {
                         : navigate(paths.requestHistoryDetail, {
                             state: {
                               requestId: notification.referenceId,
-                              estimateStatus: 'null',
+                              estimateStatus: null,
                             },
                           });
                     }

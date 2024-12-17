@@ -18,7 +18,6 @@ export const getNotification = async () => {
     const { data } = await apiClient.get(
       NotificationController.getNotification
     );
-
     return data.response;
   } catch (e) {
     console.log(e);

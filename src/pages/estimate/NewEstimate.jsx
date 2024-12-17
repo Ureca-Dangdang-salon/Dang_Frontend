@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const NewEstimatePage = () => {
   const { estimateStep, setEstimateStep } = usePageStore();
   const location = useLocation();
-  const { requestId } = location.state;
+  const { requestId } = location.state || null;
   const navigate = useNavigate();
 
   const PrevStep = () => {
