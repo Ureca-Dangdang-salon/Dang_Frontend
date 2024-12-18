@@ -65,7 +65,7 @@ const ChatRoom = () => {
         imageUrl: image,
       };
       stompClient.current.send(
-        `/pub/chat/send/${roomId}`,
+        `/chat/send/${roomId}`,
         {},
         JSON.stringify(message)
       );
