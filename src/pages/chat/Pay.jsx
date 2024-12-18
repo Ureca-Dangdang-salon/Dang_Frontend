@@ -311,7 +311,7 @@ const Pay = () => {
           </Box>
         </Box>
 
-        <Box mt={5}>
+        <Box my={5}>
           <Button
             label="결제하기"
             size="large"
@@ -369,7 +369,7 @@ const CouponModal = ({ open, setOpen, couponList, action }) => {
                 px: 2,
                 borderRadius: '10px',
                 boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 7px 1px',
-                border: `2px solid ${isSelected ? 'gray' : 'transparent'}`,
+                border: `2px solid ${isSelected ? '#9747FF' : 'transparent'}`,
               }}
               onClick={() => setSelect(isSelected ? null : coupon.couponId)}
             >

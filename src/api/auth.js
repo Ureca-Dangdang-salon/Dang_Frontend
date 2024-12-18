@@ -39,7 +39,6 @@ export const logout = async () => {
   try {
     const { data } = await apiClient.post(AuthController.logout);
     if (data.response === '로그아웃에 성공했습니다.') {
-      localStorage.clear();
       return true;
     } else return false;
   } catch (e) {

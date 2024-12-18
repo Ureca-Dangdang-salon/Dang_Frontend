@@ -18,7 +18,7 @@ const ListItem = ({ data, fetchList }) => {
         flexDirection: 'column',
         borderRadius: '12px',
         boxShadow: '0px 1px 5px 0px rgba(51, 51, 51, 0.08)',
-        marginBottom: 2,
+        marginBottom: 4,
       }}
     >
       <Box
@@ -50,8 +50,8 @@ const ListItem = ({ data, fetchList }) => {
                 '/images/default-groomer-profile.png'
               }
               sx={{
-                width: 64,
-                height: 64,
+                width: 50,
+                height: 50,
               }}
             />
             <Box>
@@ -77,8 +77,8 @@ const ListItem = ({ data, fetchList }) => {
                 '/images/default-groomer-profile.png'
               }
               sx={{
-                width: 64,
-                height: 64,
+                width: 50,
+                height: 50,
               }}
             />
             <Box>
@@ -90,7 +90,9 @@ const ListItem = ({ data, fetchList }) => {
         )}
 
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography fontSize="14px">{data.lastMessage}</Typography>
+          <Typography fontSize="14px" mb={1}>
+            {data.lastMessage}
+          </Typography>
           {!!data.unreadCount && (
             <Box
               width="20px"
@@ -118,8 +120,8 @@ const ListItem = ({ data, fetchList }) => {
           justifyContent="space-between"
           borderTop="1px solid"
           borderColor="n3.main"
-          pt={2}
-          mt={2}
+          pt={1}
+          mt={1}
         >
           <Typography fontSize="14px" fontWeight="bold">
             견적 가격 {data.totalAmount.toLocaleString()}원
@@ -161,8 +163,8 @@ const ListItem = ({ data, fetchList }) => {
           justifyContent="space-between"
           borderTop="1px solid"
           borderColor="n3.main"
-          pt={2}
-          mt={2}
+          pt={1}
+          mt={1}
         >
           <Box />
           <Box

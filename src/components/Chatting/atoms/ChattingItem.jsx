@@ -29,20 +29,22 @@ const ChattingItem = ({ isOwn, estimate, image, message, otherProfile }) => {
           p: 1.5,
           mt: 1,
           borderRadius: '10px',
-          backgroundColor: isOwn ? 'primary.main' : 'white.main',
+          backgroundColor: isOwn ? '#FEE06D' : 'white.main',
           boxShadow: '0px 1px 5px 0px rgba(51, 51, 51, 0.08)',
           wordBreak: 'break-word',
         }}
       >
         {estimate && (
-          <Box width="250px">
+          <Box width="200px">
             <Typography sx={{ fontWeight: 'bold', fontSize: '18px' }}>
               견적서
             </Typography>
             {estimate.dogProfileList.map((e, idx) => (
               <Box key={idx}>
                 <br />
-                <Typography sx={{ fontWeight: 'bold' }}>{e.dogName}</Typography>
+                <Typography fontWeight={600} fontSize={16} mb={1}>
+                  {e.dogName} 🐶
+                </Typography>
                 {e.servicePriceList.map((service, idx) => (
                   <PriceTag
                     key={idx}
@@ -84,7 +86,9 @@ const ChattingItem = ({ isOwn, estimate, image, message, otherProfile }) => {
             />
           </Box>
         )}
-        {message}
+        <Typography fontSize={15} fontWeight={500}>
+          {message}
+        </Typography>
       </Box>
     </Box>
   );
@@ -92,9 +96,9 @@ const ChattingItem = ({ isOwn, estimate, image, message, otherProfile }) => {
 
 const PriceTag = ({ field, value }) => {
   return (
-    <Box sx={{ fontWeight: 'bold' }}>
+    <Typography fontSize={14} fontWeight={500}>
       {field + ' : ' + value.toLocaleString() + ' 원'}
-    </Box>
+    </Typography>
   );
 };
 

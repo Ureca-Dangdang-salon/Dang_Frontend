@@ -41,7 +41,7 @@ const Mypage = () => {
       setLoggedIn(false);
       setRole(null);
       setNotificationEnabled(false);
-      localStorage.removeItem('notificationOn');
+      localStorage.clear();
 
       window.location.reload();
     } catch (error) {

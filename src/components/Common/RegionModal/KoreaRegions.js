@@ -134,7 +134,6 @@ export const koreaRegions = {
     { id: 116, name: '고성군' },
     { id: 117, name: '동해시' },
     { id: 118, name: '대관령' },
-    { id: 119, name: '동해시' },
     { id: 120, name: '속초시' },
     { id: 121, name: '삼척시' },
     { id: 122, name: '영월군' },

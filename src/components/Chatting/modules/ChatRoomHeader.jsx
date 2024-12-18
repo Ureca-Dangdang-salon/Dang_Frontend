@@ -9,8 +9,7 @@ import useChatStore from '@/store/useChatStore';
 import useUserStore from '@/store/useUserStore';
 import { beautyComplete, exitChatRoom } from '@/api/chat';
 import toast from 'react-hot-toast';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getEditEstimate } from '@/api/estimate';
 
 const ChatRoomHeader = ({ userName }) => {
@@ -62,7 +61,7 @@ const ChatRoomHeader = ({ userName }) => {
             <ArrowBackRoundedIcon color="n2" />
           </IconButton>
           <Box
-            color="text"
+            color="text.main"
             display="flex"
             alignItems="center"
             sx={{
@@ -186,7 +185,7 @@ const ChatRoomHeader = ({ userName }) => {
             />
             <Button
               label={
-                estimateStatus === 'ACCEPTED' ? '미용 완료' : '미용 완료 하기'
+                estimateStatus === 'ACCEPTED' ? '미용 완료' : '미용 완료하기'
               }
               size="medium"
               style={{ width: '100%' }}
