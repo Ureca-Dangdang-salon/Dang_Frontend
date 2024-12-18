@@ -101,7 +101,19 @@ const ChatRoomHeader = ({ userName }) => {
           }}
         />
       </Box>
-      <Box display="flex" width="100%" justifyContent="space-between" gap={2}>
+      <Box
+        display="flex"
+        width="100%"
+        gap={2}
+        sx={{
+          '@media (max-width: 410px)': {
+            '& .MuiButton-root': {
+              fontSize: '12px',
+              padding: '4px 8px',
+            },
+          },
+        }}
+      >
         {isUser ? (
           <>
             <Button
@@ -186,10 +198,13 @@ const ChatRoomHeader = ({ userName }) => {
             />
             <Button
               label={
-                estimateStatus === 'ACCEPTED' ? '미용 완료' : '미용 완료 하기'
+                estimateStatus === 'ACCEPTED' ? '미용 완료' : '미용완료하기'
               }
               size="medium"
-              style={{ width: '100%' }}
+              style={{
+                width: '100%',
+                padding: window.innerWidth <= 440 && '0 4px',
+              }}
               backgroundColor="primary"
               disabled={estimateStatus !== 'PAID' || !isComplate}
               onClick={async () => {
