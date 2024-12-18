@@ -127,7 +127,7 @@ const EditFristStep = ({ isValid, estimateId, roomId }) => {
       <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
         <SelectDate value={estimateEdit?.date} set={setDate} />
         <EditSelectDogList
-          title="반려견 요청 목록"
+          title="반려견 요청 목록 *"
           selectDogList={estimateEdit?.estimateList}
         />
         <SetDesc info={estimateEdit} set={setDesc} />

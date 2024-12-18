@@ -1,10 +1,21 @@
 import { Box, Input, Typography } from '@mui/material';
+import toast from 'react-hot-toast';
 
 const ChargeInput = ({ label, placeholder, value, onChange }) => {
   const handleChange = (e) => {
     const input = e.target.value;
     const numericValue = input.replace(/[^0-9]/g, '');
-    onChange(parseInt(numericValue));
+
+    if (numericValue == '') {
+      onChange(0);
+      return;
+    }
+
+    if (numericValue <= 1000000) {
+      onChange(parseInt(numericValue));
+    } else {
+      toast.error('입력할 수 있는 최대 금액을 초과하셨습니다.');
+    }
   };
 
   return (

@@ -9,8 +9,8 @@ const SelectDate = ({ value, set }) => {
   const [open, setOpen] = useState(false);
 
   const setDateTime = (date) => {
-    const displayDate = dayjs(date).format('YYYY-MM-DD HH:mm');
-    set(displayDate);
+    // const displayDate = dayjs(date).format('YYYY-MM-DD HH:mm');
+    set(date);
   };
 
   return (
@@ -18,7 +18,7 @@ const SelectDate = ({ value, set }) => {
       <SubTitle title="원하는 날짜와 시간 *" />
 
       <Selector2
-        label="날짜 선택"
+        label="날짜 & 시간 선택"
         content={value}
         icon={CalendarMonthIcon}
         setOpen={setOpen}

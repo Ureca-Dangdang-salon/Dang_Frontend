@@ -13,6 +13,7 @@ import paths from '@/routes/paths';
 import useEstimateStore from '@/store/useEstimateStore';
 import { deleteEstimate } from '@/api/estimate';
 import Loading from '@components/Layout/Loading';
+import dayjs from 'dayjs';
 
 const RequestHistoryDetail = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -57,6 +58,10 @@ const RequestHistoryDetail = () => {
     await deleteEstimate(requestId);
   };
 
+  const formattedDateTime = (datetime) => {
+    return dayjs(datetime).format('YYYY-MM-DD HH:mm');
+  };
+
   const currentDog = data && data[currentIndex];
 
   if (loading) return <Loading />;
@@ -76,12 +81,12 @@ const RequestHistoryDetail = () => {
             <Typography fontWeight={700}>{user?.name}</Typography>
             <Box display="flex">
               <Box>
-                <Typography>희망날짜:</Typography>
+                <Typography>희망일시:</Typography>
                 <Typography>지역:</Typography>
                 <Typography>서비스 형태:</Typography>
               </Box>
               <Box ml={2}>
-                <Typography>{user?.date}</Typography>
+                <Typography>{formattedDateTime(user?.date)}</Typography>
                 <Typography>{user?.region}</Typography>
                 <Typography>
                   {user?.serviceType == 'VISIT'

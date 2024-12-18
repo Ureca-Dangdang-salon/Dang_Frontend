@@ -8,6 +8,7 @@ import EmptyContent from '@components/Layout/EmptyContent';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const RequestHistory = () => {
   const [dataList, setListData] = useState();
@@ -23,6 +24,10 @@ const RequestHistory = () => {
     };
     getGroomerProfile();
   }, []);
+
+  const formattedDateTime = (datetime) => {
+    return dayjs(datetime).format('YYYY-MM-DD HH:mm');
+  };
 
   return (
     <Box>
@@ -69,12 +74,12 @@ const RequestHistory = () => {
                       <Typography fontWeight={700}>{data.name}</Typography>
                       <Box display="flex">
                         <Box spacing={0.5}>
-                          <span>희망날짜:</span> <br />
+                          <span>희망일시:</span> <br />
                           <span>지역:</span> <br />
                           <span>서비스 형태:</span>
                         </Box>
                         <Box ml={2}>
-                          <span>{data.date}</span> <br />
+                          <span>{formattedDateTime(data.date)}</span> <br />
                           <span>{data.region}</span> <br />
                           <span>
                             {data.serviceType == 'VISIT'
