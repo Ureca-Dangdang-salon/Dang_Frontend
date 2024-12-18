@@ -9,6 +9,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Button from '@components/Common/Button/Button';
 import TextArea from '@components/Common/TextArea/TextArea';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import dayjs from 'dayjs';
 
 const ViewEstimate = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const ViewEstimate = () => {
               <SubTitle title="선택 일시" />
               <Selector2
                 label="날짜 & 시간 선택"
-                content={estimate.date.format('YYYY-MM-DD HH:mm')}
+                content={dayjs(estimate.date).format('YYYY-MM-DD HH:mm')}
                 icon={CalendarMonthIcon}
                 setOpen={() => ''}
               />
