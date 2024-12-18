@@ -133,7 +133,7 @@ const ChatNavbar = ({ onSend }) => {
         value={message || ''}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
             e.preventDefault();
             handelSend();
           }
