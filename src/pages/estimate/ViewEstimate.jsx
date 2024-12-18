@@ -3,8 +3,7 @@ import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Selector2 } from '@components/Request/atoms/Selector2';
 import SubTitle from '@components/Request/atoms/SubTitle';
 import { Box, Divider, IconButton, Modal, Typography } from '@mui/material';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Button from '@components/Common/Button/Button';
@@ -61,10 +60,10 @@ const ViewEstimate = () => {
             pb={8}
           >
             <Box>
-              <SubTitle title="선택 날짜" />
+              <SubTitle title="선택 일시" />
               <Selector2
-                label="날짜 선택"
-                content={estimate.date.split('T')[0] || ''}
+                label="날짜 & 시간 선택"
+                content={estimate.date.format('YYYY-MM-DD HH:mm')}
                 icon={CalendarMonthIcon}
                 setOpen={() => ''}
               />

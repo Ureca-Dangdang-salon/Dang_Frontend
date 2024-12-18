@@ -19,8 +19,7 @@ export const postRequest = async (requestInfo) => {
       RequestController.estimateRequest,
       requestInfo
     );
-    if (data.response === '견적 요청 등록에 성공하였습니다.') return true;
-    else return false;
+    return data.response === '견적 요청 등록에 성공하였습니다.';
   } catch (e) {
     console.log(e);
     return false;

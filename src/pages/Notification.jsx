@@ -13,11 +13,12 @@ import {
 import { Modal } from '@components/Common/Modal/Modal';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
+import toast from 'react-hot-toast';
 
 const Notification = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
-  const { notificationEnabled, setNotificationEnabled, role } = useUserStore();
+  const { notificationEnabled, setNotificationEnabled } = useUserStore();
 
   useEffect(() => {
     const getList = async () => {
@@ -36,6 +37,13 @@ const Notification = () => {
   const handleNotificationChange = async () => {
     if (await updateSetting(!notificationEnabled))
       setNotificationEnabled(!notificationEnabled);
+
+    if (notificationEnabled) {
+      toast('🔕 알림이 해제되었습니다.');
+      localStorage.setItem('notificationOn', 'false');
+    } else {
+      toast('🔔 알림을 받기 시작합니다!');
+    }
   };
 
   return (
@@ -78,20 +86,19 @@ const Notification = () => {
                 sx={{ '&:hover': { cursor: 'pointer' } }}
                 onClick={async () => {
                   if (await markAsRead(notification.id)) {
-                    {
-                      role === 'ROLE_USER'
-                        ? navigate(
-                            paths.chatRoom.replace(
-                              ':id',
-                              notification.referenceId
-                            )
-                          )
-                        : navigate(paths.requestHistoryDetail, {
-                            state: {
-                              requestId: notification.referenceId,
-                              estimateStatus: null,
-                            },
-                          });
+                    if (notification.type === '결제')
+                      navigate(paths.requestHistoryDetail);
+                    else if (notification.type === '견적 요청') {
+                      navigate(paths.requestHistoryDetail, {
+                        state: {
+                          requestId: notification.referenceId,
+                          estimateStatus: null,
+                        },
+                      });
+                    } else if (notification.type === '견적서') {
+                      navigate(
+                        paths.chatRoom.replace(':id', notification.referenceId)
+                      );
                     }
                   }
                 }}

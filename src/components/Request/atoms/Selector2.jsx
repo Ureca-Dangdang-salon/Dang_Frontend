@@ -1,6 +1,12 @@
 import { Box, Typography } from '@mui/material';
+import dayjs from 'dayjs';
 
 export const Selector2 = ({ label, content, icon: Icon, setOpen }) => {
+  const formattedContent =
+    content && dayjs(content).isValid()
+      ? dayjs(content).format('YYYY-MM-DD HH:mm')
+      : content;
+
   return (
     <Box
       display="flex"
@@ -19,9 +25,9 @@ export const Selector2 = ({ label, content, icon: Icon, setOpen }) => {
       <Typography
         fontSize={16}
         fontWeight="bold"
-        sx={{ color: content ? 'text.main' : 'n2.main' }}
+        sx={{ color: formattedContent ? 'text.main' : 'n2.main' }}
       >
-        {content ? content : label}
+        {formattedContent ? formattedContent : label}
       </Typography>
       {Icon && <Icon sx={{ color: 'n2.main' }} />}
     </Box>

@@ -91,6 +91,19 @@ const EditSalonProfile = () => {
     });
   };
 
+  const handlePhoneNumChange = (e) => {
+    let value = e.target.value;
+    value = value.replace(/\D/g, '');
+
+    if (value.length > 3 && value.length <= 7) {
+      value = `${value.slice(0, 3)}-${value.slice(3)}`;
+    } else if (value.length > 7) {
+      value = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7, 11)}`;
+    }
+
+    handleChange('phone', value);
+  };
+
   const handleImageChange = (image) => {
     setProfileImage(image);
     handleChange('imageKey', image);
@@ -132,7 +145,10 @@ const EditSalonProfile = () => {
               <Box width="100%" display="flex" flexDirection="column">
                 <InputText
                   value={data[item.var]}
-                  onChange={(e) => handleChange(item.var, e.target.value)}
+                  onChange={(e) => {
+                    if (item.var === 'phone') handlePhoneNumChange(e);
+                    else handleChange(item.var, e.target.value);
+                  }}
                   placeholder={item.placeholder}
                   errorMessage={
                     !data[item.var].trim() ? '필수 항목입니다.' : ''
