@@ -31,15 +31,11 @@ const DateModal = ({ setDateTime, open, setOpen }) => {
 
   const isToday = selectDate.isSame(dayjs(), 'day');
 
-  // New validateTime function: always checks if time is before current time, adjust to one hour ahead if needed
   const validateTime = (newValue) => {
     const now = dayjs();
 
     if (isToday && newValue.isBefore(now, 'minute')) {
-      // Show toast notification only if the time is corrected
       toast.error('유효하지 않은 시간입니다. \n 1시간 후로 설정됩니다.');
-
-      // Return one hour ahead from the current time
       return now.add(1, 'hour').startOf('minute');
     }
 
