@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@components/Common/Header/Header';
-import { Box, Typography, Button as MuiButton } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -10,9 +10,9 @@ import CarouselCard from '@components/Common/Carousel';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
 import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
-import { getValidCoupons } from '@/api/coupon';
 import useUserStore from '@/store/useUserStore';
 import Loading from '@components/Layout/Loading';
+import HomeCouponBanner from './coupon/HomeCouponBanner';
 
 const Home = () => {
   const { role } = useUserStore();
@@ -20,8 +20,6 @@ const Home = () => {
   const [localGroomers, setLocalGroomers] = useState([]);
   const [popularGroomers, setPopularGroomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [eventName, setEventName] = useState('');
-  const [eventId, setEventId] = useState(0);
   const lastMonth = (new Date().getMonth() || 12).toString().padStart(2, '0');
   const [winner, setWinner] = useState({
     name: '',
@@ -48,16 +46,6 @@ const Home = () => {
   const handleNextSlide = (sliderRef) => {
     sliderRef.current.slickNext();
   };
-
-  useEffect(() => {
-    const getValidEvents = async () => {
-      const events = await getValidCoupons();
-      setEventName(events[0].eventName);
-      setEventId(events[0].eventId);
-    };
-
-    getValidEvents();
-  }, []);
 
   useEffect(() => {
     getGroomerProfileMainPage().then((data) => {
@@ -124,7 +112,7 @@ const Home = () => {
         <Typography fontWeight="bold" mt={3} mb={1}>
           우리 동네 추천 반려견 미용사
         </Typography>
-        <Box sx={{ position: 'relative', mb: 5 }}>
+        <Box sx={{ position: 'relative', mb: 6 }}>
           <Box
             sx={{
               '& .slick-list': {
@@ -171,42 +159,12 @@ const Home = () => {
           </Box>
         </Box>
 
-        {role === 'ROLE_USER' && (
-          <Box bgcolor="n1.main" p={3} mt={5} borderRadius="10px">
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <img src="icons/coupon.png" />
-              <Box ml={2}>
-                <Typography color="n2.main" fontSize={14} fontWeight="bold">
-                  놓치지 마세요!
-                </Typography>
-                <Typography color="white" fontSize={20} fontWeight={700}>
-                  {eventName} 드려요~!
-                </Typography>
-              </Box>
-            </Box>
-
-            <MuiButton
-              onClick={() =>
-                navigate(paths.coupon, { state: { eventId: eventId } })
-              }
-              sx={{
-                backgroundColor: 'primary.main',
-                color: 'text.main',
-                fontWeight: 'bold',
-                width: '100%',
-                borderRadius: '20px',
-                mt: 1,
-              }}
-            >
-              쿠폰 받으러 가기
-            </MuiButton>
-          </Box>
-        )}
+        {role === 'ROLE_USER' && <HomeCouponBanner />}
 
         <Typography fontWeight="bold" mt={3} mb={1}>
           전국 인기 반려견 미용사
         </Typography>
-        <Box sx={{ position: 'relative', mb: 5 }}>
+        <Box sx={{ position: 'relative', mb: 2 }}>
           <Box
             sx={{
               '& .slick-list': {

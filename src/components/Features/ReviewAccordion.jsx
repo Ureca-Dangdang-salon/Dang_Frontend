@@ -45,6 +45,9 @@ const ReviewAccordion = ({ review, role }) => {
   const profileClickable =
     role === 'ROLE_USER' && location.pathname.includes(paths.myReviews);
 
+  const editable =
+    role === 'ROLE_USER' && location.pathname.includes(paths.myReviews);
+
   return (
     <>
       <Accordion
@@ -107,7 +110,7 @@ const ReviewAccordion = ({ review, role }) => {
               </Box>
             </Box>
 
-            {role === 'ROLE_USER' && (
+            {editable && (
               <Box
                 sx={{
                   position: 'absolute',

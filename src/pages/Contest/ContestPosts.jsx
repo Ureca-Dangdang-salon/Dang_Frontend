@@ -67,12 +67,14 @@ const ContestPosts = ({
         }}
       >
         {posts.map((post) => {
+          console.log(post);
           return (
             <Feed
               key={post.postId}
+              userProfile={post.userProfileImage}
               imageUrl={post.imageUrl}
-              nickname={post.dogName}
-              explanation={post.description}
+              dogName={post.dogName}
+              description={post.description}
               isLiked={post.liked}
               deleteButton={
                 post.userId === userId

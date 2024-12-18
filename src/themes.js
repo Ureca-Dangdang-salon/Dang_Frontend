@@ -1,9 +1,14 @@
 import { createTheme } from '@mui/material';
 
 export const mainTheme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 500,
+    },
+  },
   palette: {
     primary: {
-      //yellow palettes
       main: '#FDD94E', //p1
       contrastText: '#3B3B3B', //text
     },
@@ -24,7 +29,6 @@ export const mainTheme = createTheme({
       main: '#B8B8B8',
     },
     n3: {
-      //gray button
       main: '#DCDBDC',
       contrastText: '#B8B8B8',
     },

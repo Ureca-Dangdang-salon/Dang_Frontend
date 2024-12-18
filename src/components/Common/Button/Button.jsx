@@ -12,12 +12,12 @@ const Button = ({ size, backgroundColor, onClick, label, disabled, style }) => {
       sx={{
         borderRadius: '12px',
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: { xs: 14, sm: 16 },
         ...(size === 'large'
           ? { width: '326px', height: '60px' }
           : { width: '180px', height: '48px' }),
         '&:hover': { backgroundColor: `${backgroundColor}.main` },
-        '@media (max-width: 326px)': {
+        '@media (max-width: 500px)': {
           width: '100%',
         },
       }}

@@ -61,7 +61,13 @@ const RequestHistory = () => {
                     data.estimateStatus === 'REJECTED' && e.stopPropagation();
                   }}
                 >
-                  <Box display="flex" alignItems="center">
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    sx={{
+                      flexDirection: { xs: 'column', sm: 'row' },
+                    }}
+                  >
                     <img
                       src={
                         data.imageKey || '/images/default-groomer-profile.png'
@@ -70,8 +76,18 @@ const RequestHistory = () => {
                       height="80px"
                       style={{ borderRadius: '50%' }}
                     />
-                    <Box ml={2} fontSize={14}>
-                      <Typography fontWeight={700}>{data.name}</Typography>
+                    <Box
+                      sx={{ ml: { xs: 0, sm: 2 }, mt: { xs: 1, sm: 0 } }}
+                      fontSize={14}
+                    >
+                      <Typography
+                        fontWeight={700}
+                        sx={{
+                          textAlign: { xs: 'center', sm: 'left' },
+                        }}
+                      >
+                        {data.name}
+                      </Typography>
                       <Box display="flex">
                         <Box spacing={0.5}>
                           <span>희망일시:</span> <br />
@@ -100,7 +116,7 @@ const RequestHistory = () => {
                             sx={{
                               position: 'relative',
                               float: 'right',
-                              top: -105,
+                              top: { xs: -190, sm: -105 },
                               right: -15,
                             }}
                             onClick={(e) => {
@@ -128,7 +144,7 @@ const RequestHistory = () => {
                         sx={{
                           position: 'relative',
                           float: 'right',
-                          top: -100,
+                          top: { xs: -185, sm: -100 },
                           right: -10,
                         }}
                       >

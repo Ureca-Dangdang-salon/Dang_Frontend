@@ -51,6 +51,7 @@ export const Navbar = ({ page }) => {
           right: 0,
           margin: 'auto',
           bgcolor: 'white.main',
+          zIndex: 100,
         }}
       >
         <Box

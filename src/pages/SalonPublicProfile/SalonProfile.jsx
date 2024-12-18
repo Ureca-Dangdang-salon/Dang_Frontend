@@ -83,6 +83,7 @@ const SalonProfile = () => {
 
         <Box
           display="flex"
+          flexWrap="wrap"
           mt={3}
           gap={6}
           textAlign="center"

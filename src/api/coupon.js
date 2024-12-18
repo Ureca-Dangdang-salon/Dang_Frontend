@@ -16,6 +16,7 @@ export const getCouponDetail = async (eventId) => {
     const { data } = await apiClient.get(
       `${CouponController.couponDetail}/${eventId}`
     );
+
     return data.response;
   } catch (e) {
     console.log(e);
