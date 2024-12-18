@@ -1,8 +1,22 @@
 import { Box } from '@mui/material';
 import logo from '../components/Common/assets/logo.svg';
 import LoginButton from '@components/login/LoginButton';
+import { useEffect } from 'react';
+import { loginCheck } from '@/api/auth';
+import { useNavigate } from 'react-router-dom';
+import paths from '@/routes/paths';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const check = async () => {
+      const res = await loginCheck();
+      if (!res) return;
+      if (res.login) navigate(paths.home);
+    };
+    check();
+  }, []);
+
   return (
     <Box>
       <Box

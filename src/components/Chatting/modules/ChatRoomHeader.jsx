@@ -9,6 +9,9 @@ import useChatStore from '@/store/useChatStore';
 import useUserStore from '@/store/useUserStore';
 import { beautyComplete, exitChatRoom } from '@/api/chat';
 import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { getEditEstimate } from '@/api/estimate';
 
 const ChatRoomHeader = ({ userName }) => {
   const navigate = useNavigate();
@@ -17,6 +20,19 @@ const ChatRoomHeader = ({ userName }) => {
   const location = useLocation();
   const { estimateStatus } = location.state || {};
   const isUser = role === 'ROLE_USER';
+  const [isComplate, setIsComplate] = useState(null);
+
+  useEffect(() => {
+    const fetchDate = async () => {
+      const res = await getEditEstimate(roomInfo?.estimateId);
+      if (res.date) {
+        const now = new Date();
+        const reserveDate = new Date(res.date);
+        setIsComplate(now > reserveDate);
+      }
+    };
+    if (!isUser) fetchDate();
+  }, [roomInfo]);
 
   return (
     <Box
@@ -138,6 +154,9 @@ const ChatRoomHeader = ({ userName }) => {
               size="medium"
               style={{ width: '100%' }}
               backgroundColor="primary"
+              disabled={
+                estimateStatus === 'PAID' || estimateStatus === 'ACCEPTED'
+              }
               onClick={() => {
                 navigate(paths.editEstimate, {
                   replace: true,
@@ -166,10 +185,13 @@ const ChatRoomHeader = ({ userName }) => {
               }}
             />
             <Button
-              label="미용 완료"
+              label={
+                estimateStatus === 'ACCEPTED' ? '미용 완료' : '미용 완료 하기'
+              }
               size="medium"
               style={{ width: '100%' }}
-              backgroundColor="n3"
+              backgroundColor="primary"
+              disabled={estimateStatus !== 'PAID' || !isComplate}
               onClick={async () => {
                 const res = await beautyComplete(roomInfo.estimateId);
                 if (res) toast.success('미용이 완료 되었습니다.');

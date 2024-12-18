@@ -240,21 +240,38 @@ const Pay = () => {
                   <Typography>{service.price.toLocaleString()} 원</Typography>
                 </Box>
               ))}
-              <Typography fontWeight={700} fontSize={14} mt={1}>
-                추가비용
-              </Typography>
-              <Box display="flex" justifyContent="space-between" ml={3} mt={1}>
-                <Typography>공격성</Typography>
-                <Typography>
-                  {estimateDog[idx]?.aggressionCharge.toLocaleString()} 원
+              {(!!estimateDog[idx]?.aggressionCharge ||
+                !!estimateDog[idx]?.healthIssueCharge) && (
+                <Typography fontWeight={700} fontSize={14} mt={1}>
+                  추가비용
                 </Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between" ml={3} mt={1}>
-                <Typography>질병</Typography>
-                <Typography>
-                  {estimateDog[idx]?.healthIssueCharge.toLocaleString()} 원
-                </Typography>
-              </Box>
+              )}
+              {!!estimateDog[idx]?.aggressionCharge && (
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  ml={3}
+                  mt={1}
+                >
+                  <Typography>공격성</Typography>
+                  <Typography>
+                    {estimateDog[idx]?.aggressionCharge.toLocaleString()} 원
+                  </Typography>
+                </Box>
+              )}
+              {!!estimateDog[idx]?.healthIssueCharge && (
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  ml={3}
+                  mt={1}
+                >
+                  <Typography>질병</Typography>
+                  <Typography>
+                    {estimateDog[idx]?.healthIssueCharge.toLocaleString()} 원
+                  </Typography>
+                </Box>
+              )}
               <Divider sx={{ my: 2 }} />
             </Box>
           ))}

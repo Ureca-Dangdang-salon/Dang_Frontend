@@ -91,7 +91,7 @@ const ChatRoom = () => {
   const chatFetch = async () => {
     const res = await fetchChatMessages(roomId);
     setMessageData((prev) => [...res, ...prev]);
-    if (res.length < 5) setHasMorePrevious(false);
+    if (res?.length < 5) setHasMorePrevious(false);
     return res;
   };
 
