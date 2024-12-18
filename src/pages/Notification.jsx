@@ -22,6 +22,7 @@ const Notification = () => {
   useEffect(() => {
     const getList = async () => {
       const res = await getNotification();
+      console.log(res);
       setNotifications(res);
     };
 
@@ -78,20 +79,19 @@ const Notification = () => {
                 sx={{ '&:hover': { cursor: 'pointer' } }}
                 onClick={async () => {
                   if (await markAsRead(notification.id)) {
-                    {
-                      role === 'ROLE_USER'
-                        ? navigate(
-                            paths.chatRoom.replace(
-                              ':id',
-                              notification.referenceId
-                            )
-                          )
-                        : navigate(paths.requestHistoryDetail, {
-                            state: {
-                              requestId: notification.referenceId,
-                              estimateStatus: null,
-                            },
-                          });
+                    if (notification.type === '결제')
+                      navigate(paths.requestHistoryDetail);
+                    else if (notification.type === '견적 요청') {
+                      navigate(paths.requestHistoryDetail, {
+                        state: {
+                          requestId: notification.referenceId,
+                          estimateStatus: null,
+                        },
+                      });
+                    } else if (notification.type === '견적서') {
+                      navigate(
+                        paths.chatRoom.replace(':id', notification.referenceId)
+                      );
                     }
                   }
                 }}
