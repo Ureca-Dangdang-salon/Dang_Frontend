@@ -7,14 +7,8 @@ import paths from './paths';
 import Loading from '@components/Layout/Loading';
 
 const PrivateRoute = () => {
-  const {
-    setRole,
-    loggedIn,
-    setLoggedIn,
-    notificationEnabled,
-    setNotificationEnabled,
-    setUserId,
-  } = useUserStore();
+  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled, setUserId } =
+    useUserStore();
   const [loading, setLoading] = useState(true);
 
   const checkLogin = async () => {

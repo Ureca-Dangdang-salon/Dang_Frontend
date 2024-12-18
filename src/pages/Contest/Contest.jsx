@@ -30,12 +30,8 @@ import toast from 'react-hot-toast';
 
 const Contest = () => {
   const navigate = useNavigate();
-  const {
-    notificationEnabled,
-    setNotificationEnabled,
-    contestSubscribed,
-    setContestSubscribed,
-  } = useUserStore();
+  const { notificationEnabled, contestSubscribed, setContestSubscribed } =
+    useUserStore();
   const [currentContest, setCurrentContest] = useState(null);
   const [contestDetails, setContestDetails] = useState(null);
   const [posts, setPosts] = useState([]);

@@ -31,7 +31,6 @@ export const getRequest = async (groomerProfileId) => {
     const { data } = await apiClient.get(
       RequestController.estimateRequest + `/${groomerProfileId}`
     );
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
