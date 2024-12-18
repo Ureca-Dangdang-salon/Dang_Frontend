@@ -13,6 +13,7 @@ import {
 import { Modal } from '@components/Common/Modal/Modal';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
+import toast from 'react-hot-toast';
 
 const Notification = () => {
   const navigate = useNavigate();
@@ -36,6 +37,13 @@ const Notification = () => {
   const handleNotificationChange = async () => {
     if (await updateSetting(!notificationEnabled))
       setNotificationEnabled(!notificationEnabled);
+
+    if (notificationEnabled) {
+      toast('🔕 알림이 해제되었습니다.');
+      localStorage.setItem('notificationOn', 'false');
+    } else {
+      toast('🔔 알림을 받기 시작합니다!');
+    }
   };
 
   return (

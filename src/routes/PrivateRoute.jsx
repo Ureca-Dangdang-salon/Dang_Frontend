@@ -4,12 +4,17 @@ import { loginCheck } from '@/api/auth';
 import useUserStore from '@/store/useUserStore';
 import { handleEnableNotifications } from '@/firebase/firebaseMessaging';
 import paths from './paths';
-import { Typography } from '@mui/material';
 import Loading from '@components/Layout/Loading';
 
 const PrivateRoute = () => {
-  const { setRole, loggedIn, setLoggedIn, setNotificationEnabled, setUserId } =
-    useUserStore();
+  const {
+    setRole,
+    loggedIn,
+    setLoggedIn,
+    notificationEnabled,
+    setNotificationEnabled,
+    setUserId,
+  } = useUserStore();
   const [loading, setLoading] = useState(true);
 
   const checkLogin = async () => {
@@ -23,7 +28,7 @@ const PrivateRoute = () => {
 
       const notificationOn = localStorage.getItem('notificationOn');
 
-      if (res.login && notificationOn !== 'true') {
+      if (res.login && notificationOn !== 'true' && res.notificationEnabled) {
         await handleEnableNotifications();
         localStorage.setItem('notificationOn', 'true');
       }

@@ -30,7 +30,12 @@ import toast from 'react-hot-toast';
 
 const Contest = () => {
   const navigate = useNavigate();
-  const { contestSubscribed, setContestSubscribed } = useUserStore();
+  const {
+    notificationEnabled,
+    setNotificationEnabled,
+    contestSubscribed,
+    setContestSubscribed,
+  } = useUserStore();
   const [currentContest, setCurrentContest] = useState(null);
   const [contestDetails, setContestDetails] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -175,10 +180,22 @@ const Contest = () => {
 
     if (contestSubscribed) {
       if (await unsubscribeTopic(fcmToken, 'contest'))
-        toast('🔕 새 글 알림이 해제되었습니다.');
+        toast('🔕 콘테스트 새 글 알림이 해제되었습니다.');
     } else {
-      if (await subscribeTopic(fcmToken, 'contest'))
-        toast('🔔 새 글 알림을 받기 시작합니다!');
+      if (!notificationEnabled) {
+        toast.error(
+          <span>
+            <a
+              href={paths.notification}
+              style={{ color: '#9747FF', textDecoration: 'underline' }}
+            >
+              전체 알림 허용
+            </a>
+            한 후 시도해주세요.
+          </span>
+        );
+      } else if (await subscribeTopic(fcmToken, 'contest'))
+        toast('🔔 콘테스트 새 글 알림을 받기 시작합니다!');
     }
 
     setContestSubscribed(!contestSubscribed);

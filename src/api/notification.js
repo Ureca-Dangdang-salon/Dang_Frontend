@@ -75,7 +75,6 @@ export const subscribeTopic = async (token, topic) => {
       fcmToken: token,
       topic: topic,
     });
-    console.log(data.response);
     return data.response === '성공적으로 구독되었습니다.';
   } catch (e) {
     console.log(e);
@@ -102,7 +101,6 @@ export const isSubscribed = async (topic) => {
     const { data } = await apiClient.get(
       `${NotificationController.isSubscribed}${topic}`
     );
-    console.log(data.response);
     return data.response;
   } catch (e) {
     console.log(e);
