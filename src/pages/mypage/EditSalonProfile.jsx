@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button as MuiButton } from '@mui/material';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import Button from '@components/Common/Button/Button';
 import InputText from '@components/Common/InputText/InputText';
@@ -8,7 +8,11 @@ import TextArea from '@components/Common/TextArea/TextArea';
 import ServiceRegionForm from '@components/Features/ServiceRegionForm';
 import CertificationsForm from '@components/Features/CertificationsForm';
 import ProfileSelector from '@components/Features/ProfileSelector';
-import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
+import {
+  checkNickname,
+  groomerProfile,
+  updateGroomerProfile,
+} from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '@components/Common/Checkbox/Checkbox';
@@ -18,6 +22,7 @@ import {
   listNotEmpty,
   noEmptyString,
 } from '@/utils/toastUtils';
+import toast from 'react-hot-toast';
 
 const EditSalonProfile = () => {
   const navigate = useNavigate();
@@ -91,6 +96,26 @@ const EditSalonProfile = () => {
     });
   };
 
+  const [validNickname, setValidNickname] = useState(false);
+
+  // const handleInputChange = (e) => {
+  //   setValidNickname(false);
+  //   const value = e.target.value;
+  //   setGroomerInfo({ name: value });
+  //   setError(value.trim() === '');
+  // };
+
+  const handleCheckNickname = async (e) => {
+    const isValid = await checkNickname(e.target.value);
+    if (!isValid) {
+      setValidNickname(false);
+      toast.error('이미 사용중인 닉네임입니다.');
+    } else {
+      setValidNickname(true);
+      toast.success('사용 가능한 닉네임입니다.');
+    }
+  };
+
   const handlePhoneNumChange = (e) => {
     let value = e.target.value;
     value = value.replace(/\D/g, '');
@@ -154,6 +179,10 @@ const EditSalonProfile = () => {
                     !data[item.var].trim() ? '필수 항목입니다.' : ''
                   }
                 />
+
+                {item.var == 'name' && (
+                  <MuiButton variant="contained">중복확인</MuiButton>
+                )}
               </Box>
             </Box>
           ))}
@@ -215,7 +244,7 @@ const EditSalonProfile = () => {
           </Typography>
           <Box width="100%" display="flex" flexDirection="column">
             <InputText
-              value={data.businessNumber}
+              value={data.businessNumber || ''}
               onChange={(e) => handleChange('businessNumber', e.target.value)}
               placeholder="123-45-67890"
             />
@@ -226,7 +255,7 @@ const EditSalonProfile = () => {
           </Typography>
           <Box width="100%" display="flex" flexDirection="column">
             <InputText
-              value={data.address}
+              value={data.address || ''}
               onChange={(e) => handleChange('address', e.target.value)}
               placeholder="댕댕로 000-00"
             />
@@ -237,7 +266,7 @@ const EditSalonProfile = () => {
           </Typography>
           <InputText
             onChange={(e) => handleChange('experience', e.target.value)}
-            value={data.experience}
+            value={data.experience || ''}
             placeholder="15년 경력 반려동물 미용사"
             label="년"
           />
@@ -262,7 +291,7 @@ const EditSalonProfile = () => {
                 {item.label}
               </Typography>
               <TextArea
-                value={data[item.var]}
+                value={data[item.var] || ''}
                 onChange={(e) => handleChange(item.var, e.target.value)}
               />
             </Box>

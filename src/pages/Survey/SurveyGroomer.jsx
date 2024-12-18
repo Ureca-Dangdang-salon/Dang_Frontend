@@ -16,10 +16,12 @@ import {
 } from '@/api/groomerProfile';
 import { cantGoBack } from '@/utils/toastUtils';
 import paths from '@/routes/paths';
+import { useState } from 'react';
 
 function SurveyGroomer() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
+  const [validNickname, setValidNickname] = useState(false);
 
   const validatePhoneNumber = (phoneNumber) => {
     const regex = /^\d{3}-\d{4}-\d{4}$/;
@@ -29,7 +31,7 @@ function SurveyGroomer() {
   const isStepValid = () => {
     switch (step) {
       case 1:
-        return groomerInfo.name.trim() !== '';
+        return groomerInfo.name.trim() !== '' && validNickname;
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
@@ -76,7 +78,7 @@ function SurveyGroomer() {
         backHandler={handleBack}
       />
       <Box sx={{ px: 4 }}>
-        {step === 1 && <Step1 />}
+        {step === 1 && <Step1 setValidNickname={setValidNickname} />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}
         {step === 4 && <Step4 />}
