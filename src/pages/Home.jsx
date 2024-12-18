@@ -12,12 +12,14 @@ import paths from '@/routes/paths';
 import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
 import { getValidCoupons } from '@/api/coupon';
 import useUserStore from '@/store/useUserStore';
+import Loading from '@components/Layout/Loading';
 
 const Home = () => {
   const { role } = useUserStore();
   const navigate = useNavigate();
   const [localGroomers, setLocalGroomers] = useState([]);
   const [popularGroomers, setPopularGroomers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [eventName, setEventName] = useState('');
   const [eventId, setEventId] = useState(0);
   const lastMonth = (new Date().getMonth() || 12).toString().padStart(2, '0');
@@ -74,7 +76,11 @@ const Home = () => {
         });
       }
     });
+
+    setLoading(false);
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <div>
