@@ -191,31 +191,35 @@ const PaymentHistory = () => {
                       </Box>
                     ))}
 
-                    <Typography fontWeight={700} fontSize={14} mt={1}>
-                      추가비용
-                    </Typography>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      ml={3}
-                      mt={1}
-                    >
-                      <Typography>공격성</Typography>
-                      <Typography>
-                        {dog?.aggressionCharge.toLocaleString()} 원
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      ml={3}
-                      mt={1}
-                    >
-                      <Typography>질병</Typography>
-                      <Typography>
-                        {dog?.healthIssueCharge.toLocaleString()} 원
-                      </Typography>
-                    </Box>
+                    {(!!dog?.aggressionCharge || !!dog?.healthIssueCharge) && (
+                      <>
+                        <Typography fontWeight={700} fontSize={14} mt={1}>
+                          추가비용
+                        </Typography>
+                        {['aggressionCharge', 'healthIssueCharge'].map(
+                          (key) => {
+                            if (!dog?.[key]) return null;
+
+                            const label =
+                              key === 'aggressionCharge' ? '공격성' : '질병';
+                            const value = dog[key].toLocaleString();
+
+                            return (
+                              <Box
+                                key={key}
+                                display="flex"
+                                justifyContent="space-between"
+                                ml={3}
+                                mt={1}
+                              >
+                                <Typography>{label}</Typography>
+                                <Typography>{value} 원</Typography>
+                              </Box>
+                            );
+                          }
+                        )}
+                      </>
+                    )}
                     <Divider sx={{ my: 2 }} />
                   </Box>
                 ))}
