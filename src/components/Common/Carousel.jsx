@@ -25,7 +25,7 @@ const CarouselCard = ({
             aria-label="이전 슬라이드"
             sx={{
               position: 'absolute',
-              left: 0,
+              left: -4,
               top: '50%',
               transform: 'translateY(-50%)',
               backgroundColor: 'white',
@@ -47,7 +47,7 @@ const CarouselCard = ({
             aria-label="다음 슬라이드"
             sx={{
               position: 'absolute',
-              right: 0,
+              right: -4,
               top: '50%',
               transform: 'translateY(-50%)',
               backgroundColor: 'white',

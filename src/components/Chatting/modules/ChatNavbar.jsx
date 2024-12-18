@@ -22,7 +22,7 @@ const CircleButton = ({ icon: Icon, onClick }) => {
       }}
       onClick={onClick}
     >
-      <Icon sx={{ color: 'primary.main' }} />
+      <Icon sx={{ color: 'primary.main', ml: 0.2 }} />
     </IconButton>
   );
 };
@@ -127,7 +127,7 @@ const ChatNavbar = ({ onSend }) => {
           borderRadius: '50px',
           padding: '8px 16px',
           margin: '0 8px',
-          color: 'n1.main',
+          color: 'text.main',
           fontSize: '16px',
           fontWeight: 'medium',
         }}

@@ -35,27 +35,40 @@ const WinnerProfile = ({ name, votes, profileImage, showVotes = true }) => {
           }}
         />
       </Box>
-      <img
-        src="images/winner.png"
-        style={{
-          width: '100%',
-          height: 'auto',
-          display: 'block',
-        }}
-        alt="winner background"
-      />
-      <Typography
-        fontWeight={700}
-        fontSize={25}
-        color="black"
-        position="absolute"
-        left="50%"
+      <Box
         sx={{
-          transform: 'translate(-50%, -185%)',
+          position: 'relative',
+          width: '100%', // Ensures the container takes the full width
         }}
       >
-        {name}
-      </Typography>
+        <img
+          src="images/winner.png"
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+          }}
+          alt="winner background"
+        />
+        <Typography
+          fontWeight={700}
+          color="black"
+          sx={{
+            position: 'absolute',
+            top: '86%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: {
+              xs: '18px',
+              sm: '25px',
+            },
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {name}
+        </Typography>
+      </Box>
       {showVotes && (
         <Typography
           fontWeight="bold"

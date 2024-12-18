@@ -15,10 +15,12 @@ import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import paths from '@/routes/paths';
 import CouponImage from './CouponImage';
+import Loading from '@components/Layout/Loading';
 
 const Coupon = () => {
   const location = useLocation();
   const state = location.state;
+  const [loading, setLoading] = useState(true);
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [data, setData] = useState({});
   const [openModal, setOpenModal] = useState(false);
@@ -31,11 +33,22 @@ const Coupon = () => {
   });
   const [progress, setProgress] = useState(0);
   const [eventSource, setEventSource] = useState(null);
+  const [start, setStart] = useState(null);
+  const [isEventOpen, setIsEventOpen] = useState(false);
+  const [countdown, setCountdown] = useState('');
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+
+  const formatCountdown = (timeDifference) => {
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+    const seconds = Math.floor((timeDifference / 1000) % 60);
+    return `${days}일 ${hours}h ${minutes}m ${seconds}s`;
   };
 
   useEffect(() => {
@@ -47,10 +60,31 @@ const Coupon = () => {
     const getCoupon = async () => {
       const res = await getCouponDetail(state.eventId);
       setData(res);
+      setStart(new Date(res.startedAt));
+      setLoading(false);
     };
 
     getCoupon();
   }, []);
+
+  useEffect(() => {
+    if (start) {
+      const interval = setInterval(() => {
+        const now = new Date();
+        const timeDifference = start - now;
+
+        if (timeDifference <= 0) {
+          clearInterval(interval);
+          setCountdown('이벤트 진행중!!');
+          setIsEventOpen(true);
+        } else {
+          setCountdown(formatCountdown(timeDifference));
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [start]);
 
   const handleDownload = async () => {
     const res = await issueCoupon(state.eventId);
@@ -146,9 +180,12 @@ const Coupon = () => {
     }
   };
 
+  if (loading) return <Loading />;
+
   return (
     <div>
       <DetailHeader label="쿠폰 이벤트" />
+
       <Box p={4} textAlign="center">
         <Typography
           fontSize={20}
@@ -158,19 +195,16 @@ const Coupon = () => {
         >
           {data?.name}
         </Typography>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          gap={1}
-          mb={1}
-        >
-          <Typography color="delete.main" fontSize={28} fontWeight="bold">
-            선착순 {data?.totalQuantity}명!
-          </Typography>
-        </Box>
-        <Typography fontSize={18} fontWeight="bold" mb={4}>
-          지금 바로 참여하세요!
+        <Typography color="delete.main" fontSize={28} fontWeight="bold">
+          선착순 {data?.totalQuantity}명!
+        </Typography>
+        <Typography fontSize={18} fontWeight="bold" mb={4} mt={1}>
+          {isEventOpen
+            ? '지금 바로 참여하세요!'
+            : '이벤트 시작날을 확인해주세요!'}
+
+          <br />
+          {!isEventOpen && start.toLocaleString()}
         </Typography>
 
         <Box
@@ -178,17 +212,52 @@ const Coupon = () => {
             backgroundColor: 'n4.main',
             borderRadius: '10px',
             p: 3,
+            position: 'relative',
           }}
         >
           <CouponImage data={data} />
 
-          <Button
-            label={isDownloaded ? '발급완료' : '쿠폰 다운받기'}
-            backgroundColor={isDownloaded ? 'n3' : 'primary'}
-            size="medium"
-            disabled={isDownloaded}
-            onClick={handleDownload}
-          />
+          {!isEventOpen && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: '10px',
+                p: 3,
+              }}
+            >
+              <Typography
+                sx={{
+                  color: 'white.main',
+                  fontSize: '35px',
+                  fontWeight: 700,
+                  animation:
+                    'neonGlow 1.5s ease-in-out infinite, neonBlink 1s step-start infinite',
+                }}
+              >
+                이벤트 시작까지 <br />
+                {countdown}
+              </Typography>
+            </Box>
+          )}
+
+          {isEventOpen && (
+            <Button
+              label={isDownloaded ? '발급완료' : '쿠폰 다운받기'}
+              backgroundColor={isDownloaded ? 'n3' : 'primary'}
+              size="medium"
+              disabled={isDownloaded}
+              onClick={handleDownload}
+            />
+          )}
 
           <Box
             mt={3}

@@ -20,8 +20,8 @@ const scaleAnimation = keyframes`
 const Feed = ({
   imageUrl,
   userProfile,
-  nickname,
-  explanation,
+  dogName,
+  description,
   isLiked,
   onClick,
   deleteButton,
@@ -56,7 +56,7 @@ const Feed = ({
             }}
           />
           <Typography fontSize={14} ml={1} fontWeight={500}>
-            {nickname}
+            {dogName}
           </Typography>
         </Box>
 
@@ -110,7 +110,7 @@ const Feed = ({
         mr={1}
       >
         <Typography fontSize={14} textAlign="left" my={2}>
-          {explanation}
+          {description}
         </Typography>
         <IconButton
           onClick={(e) => {

@@ -9,9 +9,17 @@ const Card = ({ title, subtitle, onClick, imageUrl, defaultImage }) => {
       borderRadius="10px"
       boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
       sx={{
-        textAlign: 'center !important',
-        display: 'flex !important',
+        display: 'flex',
+        flexDirection: {
+          xs: 'column',
+          sm: 'row',
+        },
+        alignItems: 'center',
         cursor: onClick ? 'pointer' : 'default',
+        textAlign: {
+          xs: 'center',
+          sm: 'left',
+        },
       }}
       onClick={onClick}
     >
@@ -29,11 +37,11 @@ const Card = ({ title, subtitle, onClick, imageUrl, defaultImage }) => {
         }}
       />
       <Box
-        ml={3}
+        mt={{ xs: 2, sm: 0 }}
+        ml={{ xs: 0, sm: 3 }}
         display="flex"
         flexDirection="column"
         justifyContent="center"
-        textAlign="left"
         gap={1}
       >
         <Typography fontWeight="bold">{title}</Typography>

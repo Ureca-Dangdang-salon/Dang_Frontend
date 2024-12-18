@@ -1,0 +1,30 @@
+@keyframes neonGlow {
+  0% {
+    text-shadow:
+      0 0 10px #ffcc00,
+      /* darker neon yellow */ 0 0 20px #ffcc00,
+      /* darker neon yellow */ 0 0 30px #ffcc00; /* darker neon yellow */
+  }
+  50% {
+    text-shadow:
+      0 0 20px #ffcc00,
+      /* darker neon yellow */ 0 0 40px #ffcc00,
+      /* darker neon yellow */ 0 0 60px #ffcc00; /* darker neon yellow */
+  }
+  100% {
+    text-shadow:
+      0 0 10px #ffcc00,
+      /* darker neon yellow */ 0 0 20px #ffcc00,
+      /* darker neon yellow */ 0 0 30px #ffcc00; /* darker neon yellow */
+  }
+}
+
+@keyframes neonBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
