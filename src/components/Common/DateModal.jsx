@@ -5,10 +5,11 @@ import { Button, Dialog, DialogActions, Box } from '@mui/material';
 import 'dayjs/locale/ko';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 const DateModal = ({ setDateTime, open, setOpen }) => {
   const [selectDate, setSelectDate] = useState(dayjs());
-  const [selectTime, setSelectTime] = useState(dayjs().startOf('day'));
+  const [selectTime, setSelectTime] = useState(dayjs().startOf('hour'));
 
   const handleClose = () => {
     setOpen(false);
@@ -19,13 +20,30 @@ const DateModal = ({ setDateTime, open, setOpen }) => {
       const combinedDateTime = selectDate
         .set('hour', selectTime.hour())
         .set('minute', selectTime.minute())
-        .set('second', selectTime.second())
+        .set('second', 0)
         .set('millisecond', 0);
 
       const formattedDateTime = combinedDateTime.format('YYYY-MM-DDTHH:mm:ss');
       setDateTime(formattedDateTime);
     }
     handleClose();
+  };
+
+  const isToday = selectDate.isSame(dayjs(), 'day');
+
+  // New validateTime function: always checks if time is before current time, adjust to one hour ahead if needed
+  const validateTime = (newValue) => {
+    const now = dayjs();
+
+    if (isToday && newValue.isBefore(now, 'minute')) {
+      // Show toast notification only if the time is corrected
+      toast.error('유효하지 않은 시간입니다. \n 1시간 후로 설정됩니다.');
+
+      // Return one hour ahead from the current time
+      return now.add(1, 'hour').startOf('minute');
+    }
+
+    return newValue;
   };
 
   return (
@@ -50,8 +68,12 @@ const DateModal = ({ setDateTime, open, setOpen }) => {
           />
           <TimePicker
             value={selectTime}
-            onChange={(newValue) => setSelectTime(newValue)}
-            disablePast
+            onChange={(newValue) => {
+              if (dayjs(newValue).isValid())
+                setSelectTime(validateTime(dayjs(newValue)));
+            }}
+            onBlur={() => setSelectTime(validateTime(selectTime))}
+            disablePast={isToday}
             slotProps={{
               textField: {
                 sx: {
@@ -63,6 +85,7 @@ const DateModal = ({ setDateTime, open, setOpen }) => {
                     },
                   },
                 },
+                onBlur: () => setSelectTime(validateTime(selectTime)),
               },
             }}
           />
