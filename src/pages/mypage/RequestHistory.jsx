@@ -5,6 +5,7 @@ import paths from '@/routes/paths';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Modal } from '@components/Common/Modal/Modal';
 import EmptyContent from '@components/Layout/EmptyContent';
+import Loading from '@components/Layout/Loading';
 import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ const RequestHistory = () => {
   const [dataList, setListData] = useState();
   const [groomerId, setGroomerId] = useState();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getGroomerProfile = async () => {
@@ -21,9 +23,12 @@ const RequestHistory = () => {
       setGroomerId(res.profileId);
       const estimateList = await getRequest(res.profileId);
       setListData(estimateList);
+      setLoading(false);
     };
     getGroomerProfile();
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <Box>

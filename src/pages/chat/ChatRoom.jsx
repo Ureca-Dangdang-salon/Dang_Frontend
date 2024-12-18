@@ -21,6 +21,7 @@ const ChatRoom = () => {
   const scrollRef = useRef();
   const [hasMorePrevious, setHasMorePrevious] = useState(true);
   const [shouldScrollBottom, setShouldScrollBottom] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) setRoomId(id);
@@ -92,6 +93,7 @@ const ChatRoom = () => {
     const res = await fetchChatMessages(roomId);
     setMessageData((prev) => [...res, ...prev]);
     if (res?.length < 5) setHasMorePrevious(false);
+    setLoading(false);
     return res;
   };
 
@@ -147,7 +149,11 @@ const ChatRoom = () => {
         }}
       >
         <Box display="flex" flexDirection="column" alignItems="center">
-          <ChatRoomMain messageData={messageData} role={role} />
+          <ChatRoomMain
+            messageData={messageData}
+            role={role}
+            loading={loading}
+          />
         </Box>
         <div ref={scrollRef} />
       </Box>
