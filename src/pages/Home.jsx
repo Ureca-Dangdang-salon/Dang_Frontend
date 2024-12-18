@@ -33,6 +33,7 @@ const Home = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    accessibility: true,
   };
 
   const localGroomersSliderRef = useRef(null);

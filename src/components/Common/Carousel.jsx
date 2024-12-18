@@ -22,6 +22,7 @@ const CarouselCard = ({
               e.stopPropagation();
               onPrevClick();
             }}
+            aria-label="이전 슬라이드"
             sx={{
               position: 'absolute',
               left: 0,
@@ -43,6 +44,7 @@ const CarouselCard = ({
               e.stopPropagation();
               onNextClick();
             }}
+            aria-label="다음 슬라이드"
             sx={{
               position: 'absolute',
               right: 0,
