@@ -74,6 +74,7 @@ const ChatNavbar = ({ onSend }) => {
   return (
     <Box
       sx={{
+        maxWidth: '500px',
         width: '100%',
         height: '80px',
         display: 'flex',

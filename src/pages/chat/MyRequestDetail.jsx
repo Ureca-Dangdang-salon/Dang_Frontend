@@ -4,16 +4,19 @@ import DetailItem from '@components/Chatting/atoms/DetailItem';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRequestMyDetail } from '@/api/chat';
+import Loading from '@components/Layout/Loading';
 
 const MyRequestDetail = () => {
   const { id } = useParams();
   const [data, setData] = useState();
   const [title, setTitle] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await getRequestMyDetail(id);
       setData(res);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -24,6 +27,8 @@ const MyRequestDetail = () => {
       setTitle(combinedTitle);
     }
   }, [data]);
+
+  if (loading) return <Loading />;
 
   return (
     <Box>

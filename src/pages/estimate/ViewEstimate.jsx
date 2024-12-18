@@ -9,6 +9,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Button from '@components/Common/Button/Button';
 import TextArea from '@components/Common/TextArea/TextArea';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import dayjs from 'dayjs';
 
 const ViewEstimate = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const ViewEstimate = () => {
               <SubTitle title="선택 일시" />
               <Selector2
                 label="날짜 & 시간 선택"
-                content={estimate.date.format('YYYY-MM-DD HH:mm')}
+                content={dayjs(estimate.date).format('YYYY-MM-DD HH:mm')}
                 icon={CalendarMonthIcon}
                 setOpen={() => ''}
               />
@@ -102,32 +103,37 @@ const ViewEstimate = () => {
                         </Typography>
                       </Box>
                     ))}
-                    <Typography fontWeight={700} fontSize={14} mt={1}>
-                      추가비용
-                    </Typography>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      ml={3}
-                      mt={1}
-                    >
-                      <Typography>공격성</Typography>
-                      <Typography>
-                        {estimateDog[idx]?.aggressionCharge.toLocaleString()} 원
-                      </Typography>
-                    </Box>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      ml={3}
-                      mt={1}
-                    >
-                      <Typography>질병</Typography>
-                      <Typography>
-                        {estimateDog[idx]?.healthIssueCharge.toLocaleString()}{' '}
-                        원
-                      </Typography>
-                    </Box>
+                    {(!!estimateDog[idx]?.aggressionCharge ||
+                      !!estimateDog[idx]?.healthIssueCharge) && (
+                      <>
+                        <Typography fontWeight={700} fontSize={14} mt={1}>
+                          추가비용
+                        </Typography>
+                        {['aggressionCharge', 'healthIssueCharge'].map(
+                          (key) => {
+                            if (!estimateDog[idx]?.[key]) return null;
+
+                            const label =
+                              key === 'aggressionCharge' ? '공격성' : '질병';
+                            const value =
+                              estimateDog[idx][key].toLocaleString();
+
+                            return (
+                              <Box
+                                key={key}
+                                display="flex"
+                                justifyContent="space-between"
+                                ml={3}
+                                mt={1}
+                              >
+                                <Typography>{label}</Typography>
+                                <Typography>{value} 원</Typography>
+                              </Box>
+                            );
+                          }
+                        )}
+                      </>
+                    )}
                     <Divider sx={{ my: 2 }} />
                   </Box>
                 ))}

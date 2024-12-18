@@ -1,9 +1,12 @@
 import { Box } from '@mui/material';
 import ChattingItem from '../atoms/ChattingItem';
 import useChatStore from '@/store/useChatStore';
+import Loading from '@components/Layout/Loading';
 
-const ChatRoomMain = ({ messageData, role }) => {
+const ChatRoomMain = ({ messageData, role, loading }) => {
   const { otherProfile } = useChatStore();
+
+  if (loading) return <Loading />;
 
   return (
     <Box
