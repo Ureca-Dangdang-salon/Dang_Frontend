@@ -206,7 +206,7 @@ const Pay = () => {
             <Box
               sx={{ display: 'flex', alignItems: 'center', fontSize: '14px' }}
             >
-              {coupon?.length}개 보유
+              {coupon?.length || 0}개 보유
               <ArrowForwardIosRoundedIcon sx={{ color: 'n3.main' }} />
             </Box>
           </Box>
