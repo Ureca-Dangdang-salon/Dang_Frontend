@@ -61,7 +61,6 @@ const Coupon = () => {
       const res = await getCouponDetail(state.eventId);
       setData(res);
       setStart(new Date(res.startedAt));
-      setLoading(false);
     };
 
     getCoupon();
@@ -75,10 +74,11 @@ const Coupon = () => {
 
         if (timeDifference <= 0) {
           clearInterval(interval);
-          setCountdown('이벤트 진행중!!');
           setIsEventOpen(true);
+          setLoading(false);
         } else {
           setCountdown(formatCountdown(timeDifference));
+          setLoading(false);
         }
       }, 1000);
 
