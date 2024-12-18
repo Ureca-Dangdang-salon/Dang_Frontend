@@ -6,8 +6,7 @@ import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Modal } from '@components/Common/Modal/Modal';
 import EmptyContent from '@components/Layout/EmptyContent';
 import { Box, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RequestHistory = () => {
