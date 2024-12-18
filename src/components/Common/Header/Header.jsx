@@ -14,7 +14,6 @@ export const Header = () => {
   useEffect(() => {
     const getUnreadCount = async () => {
       const res = await unreadCount();
-      console.log(res);
       setUnreadNotification(res);
     };
     getUnreadCount();

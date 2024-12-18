@@ -17,12 +17,11 @@ import paths from '@/routes/paths';
 const Notification = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
-  const { notificationEnabled, setNotificationEnabled, role } = useUserStore();
+  const { notificationEnabled, setNotificationEnabled } = useUserStore();
 
   useEffect(() => {
     const getList = async () => {
       const res = await getNotification();
-      console.log(res);
       setNotifications(res);
     };
 
