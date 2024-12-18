@@ -6,7 +6,7 @@ import Button from '@components/Common/Button/Button';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import GroomerCard from '@components/Common/Card/GroomerCard';
+import CarouselCard from '@components/Common/Carousel';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
 import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
@@ -143,7 +143,7 @@ const Home = () => {
           >
             <Slider ref={localGroomersSliderRef} {...sliderSettings}>
               {localGroomers.map((groomer, index) => (
-                <GroomerCard
+                <CarouselCard
                   title={groomer.name}
                   subtitle={`${groomer.city} ${groomer.district}`}
                   key={index}
@@ -225,7 +225,7 @@ const Home = () => {
           >
             <Slider ref={popularGroomersSliderRef} {...sliderSettings}>
               {popularGroomers.map((groomer, index) => (
-                <GroomerCard
+                <CarouselCard
                   title={groomer.name}
                   subtitle={`${groomer.city} ${groomer.district}`}
                   key={index}

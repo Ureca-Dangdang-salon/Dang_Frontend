@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { Header } from '@components/Common/Header/Header';
-import Card from '@components/Common/Card/Card';
+import Card from '@components/Common/Card';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import { getContestRanking } from '@/api/contest';
 import Loading from '@components/Layout/Loading';
