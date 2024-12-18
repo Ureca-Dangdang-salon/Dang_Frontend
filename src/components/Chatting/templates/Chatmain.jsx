@@ -3,14 +3,17 @@ import ChatHeader from '../modules/ChatHeader';
 import ListItem from '../modules/ListItem';
 import { getChatList } from '@/api/chat';
 import EmptyContent from '@components/Layout/EmptyContent';
+import Loading from '@components/Layout/Loading';
 
 const Chatmain = () => {
   const [list, setList] = useState([]);
   const [sortState, setSortState] = useState('default');
+  const [loading, setLoading] = useState(true);
 
   const fetchList = async () => {
     const res = await getChatList();
     setList(res);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -30,6 +33,8 @@ const Chatmain = () => {
     if (sortState === 'desc') return b.totalAmount - a.totalAmount;
     return 0;
   });
+
+  if (loading) return <Loading />;
 
   return (
     <>

@@ -5,6 +5,7 @@ import paths from '@/routes/paths';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import { Modal } from '@components/Common/Modal/Modal';
 import EmptyContent from '@components/Layout/EmptyContent';
+import Loading from '@components/Layout/Loading';
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,7 @@ const RequestHistory = () => {
   const [dataList, setListData] = useState();
   const [groomerId, setGroomerId] = useState();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getGroomerProfile = async () => {
@@ -21,6 +23,7 @@ const RequestHistory = () => {
       setGroomerId(res.profileId);
       const estimateList = await getRequest(res.profileId);
       setListData(estimateList);
+      setLoading(false);
     };
     getGroomerProfile();
   }, []);
@@ -28,13 +31,15 @@ const RequestHistory = () => {
   const formattedDateTime = (datetime) => {
     return dayjs(datetime).format('YYYY-MM-DD HH:mm');
   };
+  
+  if (loading) return <Loading />;
 
   return (
     <Box>
       <DetailHeader label="견적 요청 내역" />
       <Box p={4} color="span.main">
         {dataList?.length > 0 ? (
-          dataList.map((data, index) => {
+          [...dataList].reverse().map((data, index) => {
             return (
               <Box
                 key={index}
