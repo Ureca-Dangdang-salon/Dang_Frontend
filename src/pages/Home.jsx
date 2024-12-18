@@ -6,7 +6,7 @@ import Button from '@components/Common/Button/Button';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import GroomerCard from '@components/Common/Card/GroomerCard';
+import CarouselCard from '@components/Common/Carousel';
 import WinnerProfile from '@components/Contest/WinnerProfile';
 import paths from '@/routes/paths';
 import { getGroomerProfileMainPage, getContestWinner } from '@/api/home';
@@ -33,6 +33,7 @@ const Home = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    accessibility: true,
   };
 
   const localGroomersSliderRef = useRef(null);
@@ -114,28 +115,55 @@ const Home = () => {
           />
         </Box>
 
-        {localGroomers.length > 0 && (
-          <Typography fontWeight="bold" mt={3}>
-            우리 동네 추천 반려견 미용사
-          </Typography>
-        )}
-        <Slider ref={localGroomersSliderRef} {...sliderSettings}>
-          {localGroomers.map((groomer, index) => (
-            <GroomerCard
-              title={groomer.name}
-              subtitle={`${groomer.city} ${groomer.district}`}
-              key={index}
-              onClick={() =>
-                navigate(paths.salonProfile.replace(':id', groomer.profileId))
-              }
-              imageUrl={groomer.imageKey}
-              defaultImage="/images/default-groomer-profile.png"
-              withSliderArrows={true}
-              onPrevClick={() => handlePrevSlide(localGroomersSliderRef)}
-              onNextClick={() => handleNextSlide(localGroomersSliderRef)}
-            />
-          ))}
-        </Slider>
+        <Typography fontWeight="bold" mt={3} mb={1}>
+          우리 동네 추천 반려견 미용사
+        </Typography>
+        <Box sx={{ position: 'relative', mb: 5 }}>
+          <Box
+            sx={{
+              '& .slick-list': {
+                overflow: 'hidden !important',
+                padding: '5px',
+              },
+              '& .slick-slide': {
+                padding: '0 12px',
+              },
+              '& .slick-dots': {
+                position: 'absolute',
+                bottom: '-30px',
+                '& li': {
+                  '& button:before': {
+                    fontSize: 8,
+                    color: '#n1.main',
+                  },
+                },
+                '& li.slick-active button:before': {
+                  color: 'primary.main',
+                },
+              },
+            }}
+          >
+            <Slider ref={localGroomersSliderRef} {...sliderSettings}>
+              {localGroomers.map((groomer, index) => (
+                <CarouselCard
+                  title={groomer.name}
+                  subtitle={`${groomer.city} ${groomer.district}`}
+                  key={index}
+                  onClick={() =>
+                    navigate(
+                      paths.salonProfile.replace(':id', groomer.profileId)
+                    )
+                  }
+                  imageUrl={groomer.imageKey}
+                  defaultImage="/images/default-groomer-profile.png"
+                  withSliderArrows={true}
+                  onPrevClick={() => handlePrevSlide(localGroomersSliderRef)}
+                  onNextClick={() => handleNextSlide(localGroomersSliderRef)}
+                />
+              ))}
+            </Slider>
+          </Box>
+        </Box>
 
         {role === 'ROLE_USER' && (
           <Box bgcolor="n1.main" p={3} mt={5} borderRadius="10px">
@@ -169,28 +197,55 @@ const Home = () => {
           </Box>
         )}
 
-        {popularGroomers.length > 0 && (
-          <Typography fontWeight="bold" mt={3}>
-            전국 인기 반려견 미용사
-          </Typography>
-        )}
-        <Slider ref={popularGroomersSliderRef} {...sliderSettings}>
-          {popularGroomers.map((groomer, index) => (
-            <GroomerCard
-              title={groomer.name}
-              subtitle={`${groomer.city} ${groomer.district}`}
-              key={index}
-              onClick={() =>
-                navigate(paths.salonProfile.replace(':id', groomer.profileId))
-              }
-              imageUrl={groomer.imageKey}
-              defaultImage="/images/default-groomer-profile.png"
-              withSliderArrows={true}
-              onPrevClick={() => handlePrevSlide(popularGroomersSliderRef)}
-              onNextClick={() => handleNextSlide(popularGroomersSliderRef)}
-            />
-          ))}
-        </Slider>
+        <Typography fontWeight="bold" mt={3} mb={1}>
+          전국 인기 반려견 미용사
+        </Typography>
+        <Box sx={{ position: 'relative', mb: 5 }}>
+          <Box
+            sx={{
+              '& .slick-list': {
+                overflow: 'hidden !important',
+                padding: '5px',
+              },
+              '& .slick-slide': {
+                padding: '0 12px',
+              },
+              '& .slick-dots': {
+                position: 'absolute',
+                bottom: '-30px',
+                '& li': {
+                  '& button:before': {
+                    fontSize: 8,
+                    color: '#n1.main',
+                  },
+                },
+                '& li.slick-active button:before': {
+                  color: 'primary.main',
+                },
+              },
+            }}
+          >
+            <Slider ref={popularGroomersSliderRef} {...sliderSettings}>
+              {popularGroomers.map((groomer, index) => (
+                <CarouselCard
+                  title={groomer.name}
+                  subtitle={`${groomer.city} ${groomer.district}`}
+                  key={index}
+                  onClick={() =>
+                    navigate(
+                      paths.salonProfile.replace(':id', groomer.profileId)
+                    )
+                  }
+                  imageUrl={groomer.imageKey}
+                  defaultImage="/images/default-groomer-profile.png"
+                  withSliderArrows={true}
+                  onPrevClick={() => handlePrevSlide(popularGroomersSliderRef)}
+                  onNextClick={() => handleNextSlide(popularGroomersSliderRef)}
+                />
+              ))}
+            </Slider>
+          </Box>
+        </Box>
       </Box>
     </div>
   );

@@ -1,8 +1,9 @@
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Card from '@components/Common/Card';
 
-const GroomerCard = ({
+const CarouselCard = ({
   title,
   subtitle,
   onClick,
@@ -13,7 +14,7 @@ const GroomerCard = ({
   onNextClick,
 }) => {
   return (
-    <Box position="relative">
+    <Box position="relative" sx={{ padding: '0 40px' }}>
       {withSliderArrows && (
         <>
           <IconButton
@@ -21,9 +22,10 @@ const GroomerCard = ({
               e.stopPropagation();
               onPrevClick();
             }}
+            aria-label="이전 슬라이드"
             sx={{
               position: 'absolute',
-              right: -32,
+              left: 0,
               top: '50%',
               transform: 'translateY(-50%)',
               backgroundColor: 'white',
@@ -42,9 +44,10 @@ const GroomerCard = ({
               e.stopPropagation();
               onNextClick();
             }}
+            aria-label="다음 슬라이드"
             sx={{
               position: 'absolute',
-              left: -32,
+              right: 0,
               top: '50%',
               transform: 'translateY(-50%)',
               backgroundColor: 'white',
@@ -60,49 +63,17 @@ const GroomerCard = ({
           </IconButton>
         </>
       )}
-      <Box
-        my={1}
-        mx={2}
-        p={2}
-        borderRadius="10px"
-        boxShadow="rgba(0, 0, 0, 0.05) 0px 0px 7px 1px"
-        sx={{
-          textAlign: 'center !important',
-          display: 'flex !important',
-          flexDirection: 'column',
-          alignItems: 'center',
-          cursor: onClick ? 'pointer' : 'default',
-          maxWidth: '280px',
-          margin: '0 auto',
-        }}
-        onClick={onClick}
-      >
-        <img
-          src={imageUrl || defaultImage}
-          alt={title}
-          onError={(e) => {
-            e.target.src = defaultImage;
-          }}
-          style={{
-            width: '80px',
-            height: '80px',
-            objectFit: 'cover',
-            borderRadius: '50%',
-            marginBottom: '8px',
-          }}
+      <Box sx={{ maxWidth: '350px', margin: '0 auto' }}>
+        <Card
+          title={title}
+          subtitle={subtitle}
+          onClick={onClick}
+          imageUrl={imageUrl}
+          defaultImage={defaultImage}
         />
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap={0.5}
-        >
-          <Typography fontWeight="bold">{title}</Typography>
-          <Typography>{subtitle}</Typography>
-        </Box>
       </Box>
     </Box>
   );
 };
 
-export default GroomerCard;
+export default CarouselCard;
