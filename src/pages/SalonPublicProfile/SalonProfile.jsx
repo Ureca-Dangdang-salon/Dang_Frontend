@@ -9,6 +9,7 @@ import BadgeDisplay from '@components/Features/BadgeDisplay';
 import SalonDetail from './SalonDetail';
 import useUserStore from '@/store/useUserStore';
 import toast from 'react-hot-toast';
+import Loading from '@components/Layout/Loading';
 
 const SalonProfile = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const SalonProfile = () => {
   const { role } = useUserStore();
   const [detail, setDetail] = useState({});
   const [badges, setBadges] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const defaultImgPath = '/images/default-groomer-profile.png';
   const imageSrc = data.imageKey ? data.imageKey : defaultImgPath;
@@ -37,10 +39,13 @@ const SalonProfile = () => {
       setData(res);
       setDetail(res.groomerProfileDetailsInfoResponseDto);
       setBadges(res.groomerProfileDetailsInfoResponseDto.badges);
+      setLoading(false);
     };
 
     getGroomerProfile();
   }, []);
+
+  if (loading) return <Loading />;
 
   return (
     <Box>
@@ -51,6 +56,10 @@ const SalonProfile = () => {
           alt="profile_img"
           width="120px"
           style={imageStyle}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = defaultImgPath;
+          }}
         />
         <Box display="flex" justifyContent="center" alignItems="center" mt={2}>
           <Typography fontWeight={700}>{data?.name}</Typography>
@@ -142,7 +151,7 @@ const SalonProfile = () => {
               리뷰
             </Typography>
             <Typography fontSize={20} fontWeight={600} color="secondary.main">
-              {data?.reviewCount || 0}
+              {detail?.reviewCount || 0}
             </Typography>
           </Box>
         </Box>

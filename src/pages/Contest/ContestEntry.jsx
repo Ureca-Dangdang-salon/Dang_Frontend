@@ -1,5 +1,5 @@
 import { SurveyHeader } from '@/components/Common/SurveyHeader/SurveyHeader';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Button from '@components/Common/Button/Button';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -23,8 +23,6 @@ const ContestEntry = () => {
   const [step, setStep] = useState(1);
   const [selectedGroomer, setSelectedGroomer] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-
-  const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
     const loadPayments = async () => {
@@ -67,7 +65,6 @@ const ContestEntry = () => {
       };
 
       const response = await postContestEntry(participationInfo);
-      console.log(response);
       if (response === '콘테스트 참여에 성공했습니다!') {
         contestParticipationSuccess();
         navigate('/contest');
@@ -87,10 +84,20 @@ const ContestEntry = () => {
       setSelectedGroomer(groomer);
     }
   };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   };
+
+  const isValid = () => {
+    if (petName.trim() === '') return false;
+    if (explanation.trim() === '') return false;
+    if (!selectedImage) return false;
+
+    return true;
+  };
+
   const renderStep1 = () => {
     return (
       <Box>
@@ -107,10 +114,7 @@ const ContestEntry = () => {
             sx={{
               p: 2,
               mb: 2,
-              border:
-                selectedGroomer?.groomerProfileId === payment.groomerProfileId
-                  ? '1px solid'
-                  : '1px solid',
+              border: '2px solid',
               borderColor:
                 selectedGroomer?.groomerProfileId === payment.groomerProfileId
                   ? 'secondary.main'
@@ -126,7 +130,7 @@ const ContestEntry = () => {
               })
             }
           >
-            <Box display="flex" alignItems="center">
+            <Box display="flex" alignItems="center" px={2}>
               <img
                 src={
                   payment.groomerImage || '/images/default-groomer-profile.png'
@@ -134,7 +138,9 @@ const ContestEntry = () => {
                 alt="groomer"
                 style={{
                   width: '100px',
+                  height: '100px',
                   marginRight: '12px',
+                  borderRadius: '50%',
                 }}
               />
               <Box mx={3}>
@@ -170,22 +176,22 @@ const ContestEntry = () => {
         자랑 문구와 사진을 등록해주세요.
       </Typography>
 
-      <Typography fontSize={14} fontWeight="bold" mb={2}>
-        반려견 이름
+      <Typography fontSize={14} fontWeight="bold" mb={1}>
+        반려견 이름 *
       </Typography>
       <InputText
         size="large"
-        placeholder="반려견 이름을 작성해주세요"
+        placeholder="댕댕이"
         value={petName}
         onChange={(e) => setPetName(e.target.value)}
       />
 
-      <Typography fontSize={14} fontWeight="bold" mt={2} mb={2}>
-        자랑 문구
+      <Typography fontSize={14} fontWeight="bold" mt={2} mb={1}>
+        자랑 문구 *
       </Typography>
       <InputText
         size="large"
-        placeholder="자랑 문구를 작성해주세요"
+        placeholder="우리 댕댕이 미용하고 나서 미모 폭팔"
         value={explanation}
         onChange={(e) => setExplanation(e.target.value)}
       />
@@ -193,9 +199,9 @@ const ContestEntry = () => {
         <ImageSelector
           maxImages={1}
           images={selectedImage ? [selectedImage] : []}
+          isOption={false}
           onChange={(images) => {
             setSelectedImage(images[0]);
-            setPreviewImage(images[0]);
           }}
         />
       </Box>
@@ -210,14 +216,13 @@ const ContestEntry = () => {
         currPage={step}
         backHandler={handleBack}
       />
-      <Container maxWidth="sm" sx={{ px: 2, pb: 10 }}>
+      <Box p={4}>
         {step === 1 ? renderStep1() : renderStep2()}
 
         <Box
           sx={{
             mt: 4,
             p: 2,
-            bgcolor: 'white',
             display: 'flex',
             justifyContent: 'center',
           }}
@@ -236,11 +241,11 @@ const ContestEntry = () => {
               backgroundColor={selectedImage ? 'primary' : 'n3'}
               onClick={handleContestSubmit}
               label="저장 후 참여하기"
-              disabled={!selectedImage}
+              disabled={!isValid()}
             />
           )}
         </Box>
-      </Container>
+      </Box>
     </div>
   );
 };

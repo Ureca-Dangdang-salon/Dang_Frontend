@@ -31,7 +31,6 @@ const ListItem = ({ data, fetchList }) => {
         onClick={() =>
           navigate(`${data.roomId}`, {
             state: {
-              amount: data.totalAmount,
               estimateStatus: data.estimateStatus,
             },
           })

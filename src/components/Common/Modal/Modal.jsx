@@ -14,7 +14,7 @@ export const Modal = ({
   onClose,
   onGoHome,
   children,
-  isSimpleModal, // 새로 추가된 prop
+  isSimpleModal,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -54,7 +54,7 @@ export const Modal = ({
         <DialogTitle
           id="alert-dialog-title"
           fontSize={16}
-          fontWeight={600}
+          fontWeight={500}
           textAlign="center"
           color="text.main"
           mt={2}

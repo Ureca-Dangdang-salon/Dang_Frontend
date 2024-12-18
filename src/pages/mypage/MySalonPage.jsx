@@ -15,18 +15,18 @@ const MySalonPage = () => {
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const getGroomerProfile = async () => {
+    const res = await groomerProfile();
+    setData(res);
+    setDetail(res.groomerProfileDetailsInfoResponseDto);
+    setLoading(false);
+  };
   useEffect(() => {
-    const getGroomerProfile = async () => {
-      const res = await groomerProfile();
-      setData(res);
-      setDetail(res.groomerProfileDetailsInfoResponseDto);
-      setLoading(false);
-    };
     getGroomerProfile();
   }, []);
 
-  const handleDeleteProfile = () => {
-    deleteGroomerProfile(data.profileId);
+  const handleDeleteProfile = async () => {
+    if (await deleteGroomerProfile(data.profileId)) await getGroomerProfile();
   };
 
   const info = [

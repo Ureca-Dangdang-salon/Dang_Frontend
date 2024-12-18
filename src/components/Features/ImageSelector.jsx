@@ -6,7 +6,7 @@ import SubTitle from '@components/Request/atoms/SubTitle';
 import { uploadImage } from '@/api/image';
 import { maxImagesReached } from '@/utils/toastUtils';
 
-const ImageSelector = ({ maxImages, images, onChange }) => {
+const ImageSelector = ({ maxImages, images, onChange, isOption = true }) => {
   const fileInputRef = useRef(null);
 
   const handleOpenFileInput = () => {
@@ -21,7 +21,7 @@ const ImageSelector = ({ maxImages, images, onChange }) => {
       const fileArray = Array.from(files);
 
       if (images.length + fileArray.length > maxImages) {
-        maxImagesReached(3);
+        maxImagesReached(maxImages);
         return;
       }
 
@@ -44,9 +44,9 @@ const ImageSelector = ({ maxImages, images, onChange }) => {
   return (
     <Box>
       <SubTitle
-        title={`사진 첨부 ${images.length} / ${maxImages}`}
-        isOption={true}
+        title={`사진 첨부 ${!isOption ? ' *' : ''} ${images.length} / ${maxImages}`}
       />
+
       <Box display="flex" alignItems="start">
         {images.map((image, index) => (
           <Box display="flex" alignItems="start" key={index}>
