@@ -50,7 +50,7 @@ const FirstStep = ({ requestId }) => {
 
   return (
     <>
-      <Box display="flex" flexDirection="column" gap={3} width="100%" pb={8}>
+      <Box display="flex" flexDirection="column" gap={3} width="100%" pb={4}>
         <SelectDogList title="반려견 요청 목록 *" selectDogList={dogList} />
         <SetDesc info={estimateInfo} set={setDesc} />
       </Box>

@@ -3,13 +3,11 @@ import { useState } from 'react';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { Selector2 } from '../atoms/Selector2';
 import DateModal from '@components/Common/DateModal';
-import dayjs from 'dayjs';
 
 const SelectDate = ({ value, set }) => {
   const [open, setOpen] = useState(false);
 
   const setDateTime = (date) => {
-    // const displayDate = dayjs(date).format('YYYY-MM-DD HH:mm');
     set(date);
   };
 

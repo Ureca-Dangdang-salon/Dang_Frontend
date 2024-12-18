@@ -15,12 +15,10 @@ export const getDogProfiles = async () => {
 
 export const postRequest = async (requestInfo) => {
   try {
-    console.log(requestInfo);
     const { data } = await apiClient.post(
       RequestController.estimateRequest,
       requestInfo
     );
-    console.log(data);
     return data.response === '견적 요청 등록에 성공하였습니다.';
   } catch (e) {
     console.log(e);
