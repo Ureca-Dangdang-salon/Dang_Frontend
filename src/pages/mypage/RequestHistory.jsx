@@ -35,7 +35,7 @@ const RequestHistory = () => {
       <DetailHeader label="견적 요청 내역" />
       <Box p={4} color="span.main">
         {dataList?.length > 0 ? (
-          dataList.map((data, index) => {
+          [...dataList].reverse().map((data, index) => {
             return (
               <Box
                 key={index}

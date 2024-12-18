@@ -28,9 +28,11 @@ const MyRequest = () => {
       <Box p={4}>
         <Box display="flex" flexDirection="column" alignItems="center">
           {list?.length > 0 ? (
-            list.map((e, idx) => (
-              <MyRequestItem key={idx} data={e} fetchList={fetchList} />
-            ))
+            [...list]
+              .reverse()
+              .map((e, idx) => (
+                <MyRequestItem key={idx} data={e} fetchList={fetchList} />
+              ))
           ) : (
             <EmptyContent title="요청 내역이 없습니다." />
           )}
