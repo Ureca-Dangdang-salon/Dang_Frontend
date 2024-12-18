@@ -65,7 +65,7 @@ const ChatRoom = () => {
         imageUrl: image,
       };
       stompClient.current.send(
-        `/pub/chat/send/${roomId}`,
+        `/chat/send/${roomId}`,
         {},
         JSON.stringify(message)
       );
@@ -91,7 +91,7 @@ const ChatRoom = () => {
   const chatFetch = async () => {
     const res = await fetchChatMessages(roomId);
     setMessageData((prev) => [...res, ...prev]);
-    if (res.length < 5) setHasMorePrevious(false);
+    if (res?.length < 5) setHasMorePrevious(false);
     return res;
   };
 

@@ -154,6 +154,35 @@ const ListItem = ({ data, fetchList }) => {
           )}
         </Box>
       )}
+      {!isUser && (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          borderTop="1px solid"
+          borderColor="n3.main"
+          pt={2}
+          mt={2}
+        >
+          <Box />
+          <Box
+            sx={{
+              px: '8px',
+              py: '6px',
+              fontSize: '14px',
+              color: 'secondary.main',
+            }}
+          >
+            {data.estimateStatus === 'SEND' && '대기중'}
+            {data.estimateStatus === 'PAID' && '결제됨'}
+            {data.estimateStatus === 'ACCEPTED' && '미용 완료'}
+            <Box color="text.main">
+              {data.estimateStatus === 'REJECTED' && '거절됨'}
+              {data.estimateStatus === 'REFUND' && '결제 취소됨'}
+            </Box>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };
