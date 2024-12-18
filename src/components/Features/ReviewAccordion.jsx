@@ -11,13 +11,13 @@ import {
   Modal as MuiModal,
   IconButton,
 } from '@mui/material';
-
 import { deleteReview } from '@/api/review';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import paths from '@/routes/paths';
 
 const ReviewAccordion = ({ review, role }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -41,6 +41,9 @@ const ReviewAccordion = ({ review, role }) => {
     setOpen(true);
     setSelectedImage(null);
   };
+
+  const profileClickable =
+    role === 'ROLE_USER' && location.pathname.includes(paths.myReviews);
 
   return (
     <>
@@ -69,11 +72,21 @@ const ReviewAccordion = ({ review, role }) => {
               mb={2}
               display="flex"
               alignItems="center"
-              onClick={(e) => {
-                navigate(paths.salonProfile.replace(':id', review.profileId));
-                e.stopPropagation();
+              onClick={
+                profileClickable
+                  ? (e) => {
+                      navigate(
+                        paths.salonProfile.replace(':id', review.profileId)
+                      );
+                      e.stopPropagation();
+                    }
+                  : undefined
+              }
+              sx={{
+                '&:hover': profileClickable
+                  ? { color: 'secondary.main' }
+                  : undefined,
               }}
-              sx={{ '&:hover': { color: 'secondary.main' } }}
             >
               <img
                 src={

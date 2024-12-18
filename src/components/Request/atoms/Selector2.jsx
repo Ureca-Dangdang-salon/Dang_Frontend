@@ -27,7 +27,7 @@ export const Selector2 = ({ label, content, icon: Icon, setOpen }) => {
         fontWeight="bold"
         sx={{ color: formattedContent ? 'text.main' : 'n2.main' }}
       >
-        {formattedContent ? formattedContent : label}
+        {formattedContent || label}
       </Typography>
       {Icon && <Icon sx={{ color: 'n2.main' }} />}
     </Box>

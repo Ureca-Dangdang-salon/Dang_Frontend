@@ -1,10 +1,10 @@
-import { myReviews, receivedReviews } from '@/api/review';
+import { receivedReviews } from '@/api/review';
 import useUserStore from '@/store/useUserStore';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import ReviewAccordion from '@components/Features/ReviewAccordion';
 import EmptyContent from '@components/Layout/EmptyContent';
 import Loading from '@components/Layout/Loading';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ const SalonReviews = () => {
   const [id, setId] = useState(location.state?.profileId);
   const [allReviews, setAllReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { role } = useUserStore();
 
   useEffect(() => {
     const getReviews = async () => {
@@ -37,7 +38,7 @@ const SalonReviews = () => {
             <ReviewAccordion
               key={review.reviewId}
               review={review}
-              role="ROLE_SALON"
+              role={role}
             />
           ))}
         </Box>

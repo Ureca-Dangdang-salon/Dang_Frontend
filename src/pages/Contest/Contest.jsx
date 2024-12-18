@@ -27,6 +27,7 @@ import {
 } from '@/api/notification';
 import useUserStore from '@/store/useUserStore';
 import toast from 'react-hot-toast';
+import Loading from '@components/Layout/Loading';
 
 const Contest = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const Contest = () => {
   const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasPayment, setHasPayment] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { likedPosts, setLikedPost } = useLikeStore();
   const lastMonth = (new Date().getMonth() || 12).toString().padStart(2, '0');
 
@@ -73,6 +75,7 @@ const Contest = () => {
         setPosts([]);
         setPage(0);
         setIsLastPage(false);
+        setLoading(false);
 
         const details = await fetchContestDetails(contest.contestId);
         setContestDetails(details);
@@ -196,6 +199,8 @@ const Contest = () => {
 
     setContestSubscribed(!contestSubscribed);
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div>

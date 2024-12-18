@@ -57,8 +57,8 @@ const ChatHeader = ({ sortState, setSortState }) => {
               paddingX: 1,
               borderRadius: '10px',
               minWidth: '40px',
-              fontWeight: 'bold',
-              fontSize: '16px',
+              fontWeight: '600',
+              fontSize: '14px',
             }}
             href={paths.myRequest}
           >

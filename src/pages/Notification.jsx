@@ -14,16 +14,19 @@ import { Modal } from '@components/Common/Modal/Modal';
 import useUserStore from '@/store/useUserStore';
 import paths from '@/routes/paths';
 import toast from 'react-hot-toast';
+import Loading from '@components/Layout/Loading';
 
 const Notification = () => {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const { notificationEnabled, setNotificationEnabled } = useUserStore();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getList = async () => {
       const res = await getNotification();
       setNotifications(res);
+      setLoading(false);
     };
 
     getList();
@@ -45,6 +48,8 @@ const Notification = () => {
       toast('🔔 알림을 받기 시작합니다!');
     }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <Box>

@@ -10,11 +10,13 @@ import { logout, deleteAccount } from '@/api/auth';
 import paths from '@/routes/paths';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import Loading from '@components/Layout/Loading';
 
 const Mypage = () => {
   const { setLoggedIn, setRole, setNotificationEnabled } = useUserStore();
   const defaultImgPath = '/images/default-groomer-profile.png';
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   const { role } = useUserStore();
   const navigate = useNavigate();
 
@@ -22,6 +24,7 @@ const Mypage = () => {
     const getSocialProfile = async () => {
       const res = await socialProfile();
       setData(res);
+      setLoading(false);
     };
     getSocialProfile();
   }, []);
@@ -48,6 +51,8 @@ const Mypage = () => {
       console.error('로그아웃에 실패했습니다:', error);
     }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <Box>
