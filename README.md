@@ -21,7 +21,9 @@
 - **Frontend**: Vite, React.js
 - **State Management**: Zustand
 - **UI**: Material UI, Storybook
-- **Deployment**: Vercel
+- **Deployment**: AWS EC2
+- **Real-time Communication**: Websocket
+- **Payment Integration**: Toss Payments SDK
 
 ## 🖥️ Project Setup
 
