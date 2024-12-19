@@ -61,6 +61,7 @@ function SurveyGroomer() {
 
   const handleBack = () => {
     if (step > 1) setStep(step - 1);
+    else if (step === 1) navigate(-1);
     else cantGoBack();
   };
 
