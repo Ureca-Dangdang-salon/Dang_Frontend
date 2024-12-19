@@ -28,7 +28,6 @@ const ServiceRegionForm = ({ regions, setServiceAreas }) => {
           sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}
         >
           <InputText
-            size="large"
             value={`${area.city} ${area.district}`}
             readOnly
             onClick={() => setIsModalOpen(true)}

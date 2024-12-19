@@ -10,6 +10,7 @@ export const ProfileController = {
   socialProfile: '/api/common',
   userProfile: '/api/userprofile',
   groomerProfile: '/api/groomerprofile',
+  checkGroomerNickname: '/api/groomerprofile/check',
   detailGroomerProfile: '/api/groomerprofile/detail',
   dogProfile: '/api/dogprofile',
 };

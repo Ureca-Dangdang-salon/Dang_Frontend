@@ -50,6 +50,17 @@ export const postAddGroomerProfile = async (businessInfo) => {
   }
 };
 
+export const checkNickname = async (name) => {
+  try {
+    const url = `${ProfileController.checkGroomerNickname}/${name}`;
+    const { data } = await apiClient.get(url);
+    return data.response;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};
+
 export const groomerPublicProfile = async (id) => {
   try {
     const url = `${ProfileController.groomerProfile}/${id}`;

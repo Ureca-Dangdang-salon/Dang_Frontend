@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button as MuiButton } from '@mui/material';
 import { DetailHeader } from '@components/Common/DetailHeader/DetailHeader';
 import Button from '@components/Common/Button/Button';
 import InputText from '@components/Common/InputText/InputText';
@@ -8,7 +8,11 @@ import TextArea from '@components/Common/TextArea/TextArea';
 import ServiceRegionForm from '@components/Features/ServiceRegionForm';
 import CertificationsForm from '@components/Features/CertificationsForm';
 import ProfileSelector from '@components/Features/ProfileSelector';
-import { groomerProfile, updateGroomerProfile } from '@/api/groomerProfile';
+import {
+  checkNickname,
+  groomerProfile,
+  updateGroomerProfile,
+} from '@/api/groomerProfile';
 import { services, serviceTypes } from '@/constants/services';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '@components/Common/Checkbox/Checkbox';
@@ -18,6 +22,7 @@ import {
   listNotEmpty,
   noEmptyString,
 } from '@/utils/toastUtils';
+import toast from 'react-hot-toast';
 
 const EditSalonProfile = () => {
   const navigate = useNavigate();
@@ -74,6 +79,7 @@ const EditSalonProfile = () => {
   const isValid = () => {
     return (
       stringNotEmpty(putData.name.trim(), '닉네임') &&
+      validNickname &&
       validPhoneNum(putData.phone) &&
       stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
       listNotEmpty(putData.servicesDistrictIds) &&
@@ -83,12 +89,26 @@ const EditSalonProfile = () => {
   };
 
   const handleChange = (field, value) => {
+    if (field === 'name') setValidNickname(false);
     setData((prev) => {
       return {
         ...prev,
         [field]: value,
       };
     });
+  };
+
+  const [validNickname, setValidNickname] = useState(true);
+
+  const handleCheckNickname = async () => {
+    const isValid = await checkNickname(data.name);
+    if (!isValid) {
+      setValidNickname(false);
+      toast.error('이미 사용중인 닉네임입니다.');
+    } else {
+      setValidNickname(true);
+      toast.success('사용 가능한 닉네임입니다.');
+    }
   };
 
   const handlePhoneNumChange = (e) => {
@@ -110,6 +130,11 @@ const EditSalonProfile = () => {
   };
 
   const handleSubmit = async () => {
+    if (!validNickname) {
+      toast.error('변경된 닉네임은 중복확인 후 저장해주세요.');
+      return;
+    }
+
     if (isValid()) {
       await updateGroomerProfile(putData);
       navigate(-1);
@@ -142,7 +167,12 @@ const EditSalonProfile = () => {
               <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
                 {item.name} *
               </Typography>
-              <Box width="100%" display="flex" flexDirection="column">
+              <Box
+                width="100%"
+                display="flex"
+                flexDirection={item.var === 'name' ? 'row' : 'column'}
+                alignItems="center"
+              >
                 <InputText
                   value={data[item.var]}
                   onChange={(e) => {
@@ -154,6 +184,25 @@ const EditSalonProfile = () => {
                     !data[item.var].trim() ? '필수 항목입니다.' : ''
                   }
                 />
+
+                {item.var === 'name' && (
+                  <MuiButton
+                    variant="contained"
+                    sx={{
+                      borderRadius: '10px',
+                      width: { xs: '60px', sm: '100px' },
+                      height: '60px',
+                      marginLeft: 1.5,
+                      marginBottom: !data[item.var].trim() ? 3 : 0,
+                      '&:hover': {
+                        backgroundColor: 'primary.main',
+                      },
+                    }}
+                    onClick={handleCheckNickname}
+                  >
+                    중복확인
+                  </MuiButton>
+                )}
               </Box>
             </Box>
           ))}
@@ -215,7 +264,7 @@ const EditSalonProfile = () => {
           </Typography>
           <Box width="100%" display="flex" flexDirection="column">
             <InputText
-              value={data.businessNumber}
+              value={data.businessNumber || ''}
               onChange={(e) => handleChange('businessNumber', e.target.value)}
               placeholder="123-45-67890"
             />
@@ -226,7 +275,7 @@ const EditSalonProfile = () => {
           </Typography>
           <Box width="100%" display="flex" flexDirection="column">
             <InputText
-              value={data.address}
+              value={data.address || ''}
               onChange={(e) => handleChange('address', e.target.value)}
               placeholder="댕댕로 000-00"
             />
@@ -237,7 +286,7 @@ const EditSalonProfile = () => {
           </Typography>
           <InputText
             onChange={(e) => handleChange('experience', e.target.value)}
-            value={data.experience}
+            value={data.experience || ''}
             placeholder="15년 경력 반려동물 미용사"
             label="년"
           />
@@ -262,7 +311,7 @@ const EditSalonProfile = () => {
                 {item.label}
               </Typography>
               <TextArea
-                value={data[item.var]}
+                value={data[item.var] || ''}
                 onChange={(e) => handleChange(item.var, e.target.value)}
               />
             </Box>
