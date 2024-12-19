@@ -66,25 +66,25 @@ const Coupon = () => {
     getCoupon();
   }, []);
 
-  // useEffect(() => {
-  //   if (start) {
-  //     const interval = setInterval(() => {
-  //       const now = new Date();
-  //       const timeDifference = start - now;
+  useEffect(() => {
+    if (start) {
+      const interval = setInterval(() => {
+        const now = new Date();
+        const timeDifference = start - now;
 
-  //       if (timeDifference <= 0) {
-  //         clearInterval(interval);
-  //         setIsEventOpen(true);
-  //         setLoading(false);
-  //       } else {
-  //         setCountdown(formatCountdown(timeDifference));
-  //         setLoading(false);
-  //       }
-  //     }, 1000);
+        if (timeDifference <= 0) {
+          clearInterval(interval);
+          setIsEventOpen(true);
+          setLoading(false);
+        } else {
+          setCountdown(formatCountdown(timeDifference));
+          setLoading(false);
+        }
+      }, 1000);
 
-  //     return () => clearInterval(interval);
-  //   }
-  // }, [start]);
+      return () => clearInterval(interval);
+    }
+  }, [start]);
 
   const handleDownload = async () => {
     const res = await issueCoupon(state.eventId);
@@ -217,7 +217,7 @@ const Coupon = () => {
         >
           <CouponImage data={data} />
 
-          {/* {!isEventOpen && (
+          {!isEventOpen && (
             <Box
               sx={{
                 position: 'absolute',
@@ -249,15 +249,15 @@ const Coupon = () => {
             </Box>
           )}
 
-          {isEventOpen && ( */}
-          <Button
-            label={isDownloaded ? '발급완료' : '쿠폰 다운받기'}
-            backgroundColor={isDownloaded ? 'n3' : 'primary'}
-            size="medium"
-            disabled={isDownloaded}
-            onClick={handleDownload}
-          />
-          {/* )} */}
+          {isEventOpen && (
+            <Button
+              label={isDownloaded ? '발급완료' : '쿠폰 다운받기'}
+              backgroundColor={isDownloaded ? 'n3' : 'primary'}
+              size="medium"
+              disabled={isDownloaded}
+              onClick={handleDownload}
+            />
+          )}
 
           <Box
             mt={3}
