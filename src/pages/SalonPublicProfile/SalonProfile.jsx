@@ -85,7 +85,6 @@ const SalonProfile = () => {
           display="flex"
           flexWrap="wrap"
           mt={3}
-          gap={6}
           textAlign="center"
           justifyContent="center"
           alignItems="center"
@@ -93,9 +92,11 @@ const SalonProfile = () => {
           borderColor="n4.main"
           borderRadius="10px"
           py={2}
+          sx={{
+            gap: { xs: 4, sm: 6 }, // Responsive gap defined inside the sx prop
+          }}
         >
           <Box
-            flexDirection="column"
             sx={{
               cursor: 'pointer',
               '&:hover': { color: 'secondary.main' },
