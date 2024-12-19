@@ -57,10 +57,28 @@ const MyUserPage = () => {
           <Typography textAlign="center">반려견을 등록해주세요.</Typography>
         )}
 
-        <Box display="flex" gap={7} flexWrap="wrap" mt={1}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap={4}
+          flexWrap="wrap"
+          mt={1}
+        >
           {data?.dogProfiles.map((dog) => {
             return (
-              <Box key={dog.name} justifyItems="center">
+              <Box
+                key={dog.name}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                sx={{
+                  cursor: 'pointer',
+                  width: '120px',
+                  textAlign: 'center',
+                }}
+              >
                 <Box
                   justifyItems="center"
                   sx={{ cursor: 'pointer' }}
