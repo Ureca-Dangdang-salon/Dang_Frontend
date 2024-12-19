@@ -193,6 +193,7 @@ const EditSalonProfile = () => {
                       width: { xs: '60px', sm: '100px' },
                       height: '60px',
                       marginLeft: 1.5,
+                      marginBottom: !data[item.var].trim() ? 3 : 0,
                       '&:hover': {
                         backgroundColor: 'primary.main',
                       },
