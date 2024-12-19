@@ -15,10 +15,12 @@ import {
   postGroomerProfile,
 } from '@/api/groomerProfile';
 import paths from '@/routes/paths';
+import { useState } from 'react';
 
 function AddSalonProfile() {
   const navigate = useNavigate();
   const { groomerInfo, businessInfo, step, setStep } = useSurveyGroomerStore();
+  const [validNickname, setValidNickname] = useState(false);
 
   const validatePhoneNumber = (phoneNumber) => {
     const regex = /^\d{3}-\d{4}-\d{4}$/;
@@ -28,7 +30,7 @@ function AddSalonProfile() {
   const isStepValid = () => {
     switch (step) {
       case 1:
-        return groomerInfo.name.trim() !== '';
+        return groomerInfo.name.trim() !== '' && validNickname;
       case 2:
         return groomerInfo.servicesOfferedId.length > 0;
       case 3:
@@ -75,7 +77,7 @@ function AddSalonProfile() {
         backHandler={handleBack}
       />
       <Container maxWidth="sm" sx={{ px: 2, pb: 8 }}>
-        {step === 1 && <Step1 />}
+        {step === 1 && <Step1 setValidNickname={setValidNickname} />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}
         {step === 4 && <Step4 />}

@@ -92,7 +92,7 @@ const Notification = () => {
                 onClick={async () => {
                   if (await markAsRead(notification.id)) {
                     if (notification.type === '결제')
-                      navigate(paths.requestHistoryDetail);
+                      navigate(paths.requestHistory);
                     else if (notification.type === '견적 요청') {
                       navigate(paths.requestHistoryDetail, {
                         state: {
