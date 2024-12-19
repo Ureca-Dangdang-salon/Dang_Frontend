@@ -90,7 +90,18 @@ const ListItem = ({ data, fetchList }) => {
         )}
 
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <Typography fontSize="14px" mb={1}>
+          <Typography
+            fontSize="14px"
+            mb={1}
+            sx={{
+              flexGrow: 1,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+            }}
+          >
             {data.lastMessage}
           </Typography>
           {!!data.unreadCount && (
@@ -103,6 +114,8 @@ const ListItem = ({ data, fetchList }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                marginLeft: '8px',
+                flexShrink: 0,
               }}
             >
               <Typography fontSize="12px" color="white" fontWeight="bold">
