@@ -93,7 +93,7 @@ const SalonProfile = () => {
           borderRadius="10px"
           py={2}
           sx={{
-            gap: { xs: 4, sm: 6 }, // Responsive gap defined inside the sx prop
+            gap: { xs: 4, sm: 6 },
           }}
         >
           <Box
