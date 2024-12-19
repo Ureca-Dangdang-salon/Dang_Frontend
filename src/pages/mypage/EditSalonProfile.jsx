@@ -79,6 +79,7 @@ const EditSalonProfile = () => {
   const isValid = () => {
     return (
       stringNotEmpty(putData.name.trim(), '닉네임') &&
+      validNickname &&
       validPhoneNum(putData.phone) &&
       stringNotEmpty(putData.contactHours.trim(), '연락 가능 시간') &&
       listNotEmpty(putData.servicesDistrictIds) &&
@@ -88,6 +89,7 @@ const EditSalonProfile = () => {
   };
 
   const handleChange = (field, value) => {
+    if (field === 'name') setValidNickname(false);
     setData((prev) => {
       return {
         ...prev,
@@ -96,17 +98,10 @@ const EditSalonProfile = () => {
     });
   };
 
-  const [validNickname, setValidNickname] = useState(false);
+  const [validNickname, setValidNickname] = useState(true);
 
-  // const handleInputChange = (e) => {
-  //   setValidNickname(false);
-  //   const value = e.target.value;
-  //   setGroomerInfo({ name: value });
-  //   setError(value.trim() === '');
-  // };
-
-  const handleCheckNickname = async (e) => {
-    const isValid = await checkNickname(e.target.value);
+  const handleCheckNickname = async () => {
+    const isValid = await checkNickname(data.name);
     if (!isValid) {
       setValidNickname(false);
       toast.error('이미 사용중인 닉네임입니다.');
@@ -135,6 +130,11 @@ const EditSalonProfile = () => {
   };
 
   const handleSubmit = async () => {
+    if (!validNickname) {
+      toast.error('변경된 닉네임은 중복확인 후 저장해주세요.');
+      return;
+    }
+
     if (isValid()) {
       await updateGroomerProfile(putData);
       navigate(-1);
@@ -167,7 +167,12 @@ const EditSalonProfile = () => {
               <Typography fontSize={14} fontWeight={600} ml={1} mb={0.5}>
                 {item.name} *
               </Typography>
-              <Box width="100%" display="flex" flexDirection="column">
+              <Box
+                width="100%"
+                display="flex"
+                flexDirection={item.var === 'name' ? 'row' : 'column'}
+                alignItems="center"
+              >
                 <InputText
                   value={data[item.var]}
                   onChange={(e) => {
@@ -180,8 +185,22 @@ const EditSalonProfile = () => {
                   }
                 />
 
-                {item.var == 'name' && (
-                  <MuiButton variant="contained">중복확인</MuiButton>
+                {item.var === 'name' && (
+                  <MuiButton
+                    variant="contained"
+                    sx={{
+                      borderRadius: '10px',
+                      width: { xs: '60px', sm: '100px' },
+                      height: '60px',
+                      marginLeft: 1.5,
+                      '&:hover': {
+                        backgroundColor: 'primary.main',
+                      },
+                    }}
+                    onClick={handleCheckNickname}
+                  >
+                    중복확인
+                  </MuiButton>
                 )}
               </Box>
             </Box>
