@@ -91,6 +91,7 @@ const Coupon = () => {
     if (res == '이미 쿠폰을 발급받았습니다.') {
       toast.error(res);
       setIsDownloaded(true);
+      localStorage.setItem('isDownloaded', true);
       return;
     }
     if (res?.includes('대기열에 참여했습니다.')) {
